@@ -5,6 +5,11 @@ Cinema Town
 popis:
 V aplikaci si bude moci uživatel prohlídnout nabídku filmů, které budou promítány v nejbližší době (do 14 dní). Registrovaný uživatel si bude moci rezervovat místo na promítání určitého filmu, zobrazit si rezervace a případně je zrušit (pokud to ještě půjde). Dále budou moci registrovaní uživatelé přidávat k filmům recenze. 
 ------------
+pro analýzu
+https://www.cinemacity.cz/
+https://www.cinestar.cz/
+https://www.kinosvetozor.cz/
+------------
 seznam kin
 kino má nabídku filmů, které aktuálně vysímá 
 kino má určité sály, ve kterých může vysílat film
