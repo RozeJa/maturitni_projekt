@@ -1,7 +1,7 @@
 systém na rezervaci sedadel v kině
 
 Cinema Town
-------------
+------------	
 popis:
 V aplikaci si bude moci uživatel prohlídnout nabídku filmů, které budou promítány v nejbližší době (do 14 dní). Registrovaný uživatel si bude moci rezervovat místo na promítání určitého filmu, zobrazit si rezervace a případně je zrušit (pokud to ještě půjde). Dále budou moci registrovaní uživatelé přidávat k filmům recenze. 
 ------------
@@ -29,21 +29,24 @@ kino
  - ulice
  - č.p.
  - sály
+ - promítání
 ---
 film 
  - název 
  - popis 
- - žánr
+ - žánry
  - herci
  - režisér
  - produkce (kdy vešel)
- - délka filmy
+ - délka filmu
  - datum premiéry
  - promítá se (2D 3D)
  - titulky
+ - dabing
  - původní znění
  - věková hranice
  - adresa fotky
+ - odkaz na trailer
  - cena lístku
 ---
 herci 
@@ -51,10 +54,14 @@ herci
  - prijmeni 
 ---
 sál
+ - sirka
+ - delka
  - sedadla
  - číslo
 ---
 sedadlo
+ - maticova souradnice x
+ - maticova souradnice y
  - číslo 
  - řada
 ---
