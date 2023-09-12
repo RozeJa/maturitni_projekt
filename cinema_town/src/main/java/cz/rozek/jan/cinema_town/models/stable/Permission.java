@@ -7,18 +7,16 @@ import cz.rozek.jan.cinema_town.models.Entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// Instance slouží pro uchování jména a příjmení herce nego režiséra
-@Document("people")
+// Instance představuje oprávnění 
+// pokud role obsahuje oprávnění je uživatel oprávněn k provedení činnosti, která toto oprávnění vyžaduje 
+@Document("permissions")
 @Data
 @NoArgsConstructor
-public class People implements Entity {
+public class Permission implements Entity {
     
     @Id
     private String id;
 
-    // jméno
-    private String name;
-    // přijmení    
-    private String surname;
-
+    // název oprávnění
+    private String permission;
 }
