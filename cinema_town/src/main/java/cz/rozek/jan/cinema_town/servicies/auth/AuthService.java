@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 
+// třída poskytuje služby pro přihlášení, odhlášení a ověření přístupových práv
 @Service
 public class AuthService {
 
@@ -128,50 +129,68 @@ public class AuthService {
      * @throws JoseException chyba při generování tokenu vyvolá tuto vyjímku
      */
     private String generateLoginJWT(User user) throws JoseException {
+        // nastavení parametrů JWT
         JwtClaims claims = new JwtClaims();
-        claims.setIssuer(ISSUER);
-        claims.setAudience(AUDIENCE);
+        claims.setIssuer(ISSUER); // vydavatel
+        claims.setAudience(AUDIENCE); // publikum
         claims.setGeneratedJwtId();
-        claims.setIssuedAtToNow();
-        claims.setSubject(user.getId());
-        claims.setClaim("email", user.getEmail());
+        claims.setIssuedAtToNow(); // kdy byl vydán
+        claims.setSubject(user.getId()); // nastav předmět na id uživatele
+        claims.setClaim("email", user.getEmail()); // nastav email
 
+        // převeď claimy na JWS
         JsonWebSignature jws = new JsonWebSignature();
-
         jws.setPayload(claims.toJson());
 
+        // přidej šifrování 
         jws.setKey(rsaLoginTokenKey.getPrivateKey());
         jws.setKeyIdHeaderValue(rsaLoginTokenKey.getKeyId());
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
 
+        // skompiluj do tokenu
         String jwt = jws.getCompactSerialization();
         return jwt;
     }
 
+    /**
+     * Metoda pro vygenerování access JWT 
+     * @param user uživatel pro, kterého bude token vygenerován
+     * @return login JWT
+     * @throws JoseException chyba při generování tokenu vyvolá tuto vyjímku
+     */
     private String generateAccessToken(User user) throws JoseException {
+        // nastavení parametrů JWT
         JwtClaims claims = new JwtClaims();
-        claims.setIssuer(ISSUER);
-        claims.setAudience(AUDIENCE);
+        claims.setIssuer(ISSUER); // vydavatel
+        claims.setAudience(AUDIENCE); // publikum
         claims.setGeneratedJwtId();
-        claims.setIssuedAtToNow();
+        claims.setIssuedAtToNow(); // kdy byl vydán
         // TODO test zda toto funguje. Cílem je nastavit životnost tokenu na půl minuty
-        claims.setExpirationTimeMinutesInTheFuture((float)0.5);
-        claims.setSubject(user.getId());
-        claims.setClaim("email", user.getEmail());
+        claims.setExpirationTimeMinutesInTheFuture((float)0.5); // jak dlouho bude použitelný
+        claims.setSubject(user.getId()); // nastav předmět na id uživatele
 
+        // převeď claimy na JWS
         JsonWebSignature jws = new JsonWebSignature();
-
         jws.setPayload(claims.toJson());
 
+        // přidej šifrování 
         jws.setKey(rsaAccessTokenKey.getPrivateKey());
         jws.setKeyIdHeaderValue(rsaAccessTokenKey.getKeyId());
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA256);
 
+        // skompiluj do tokenu
         String jwt = jws.getCompactSerialization();
         return jwt;
     }
 
+    /**
+     * Metoda ověří zda je login JWT pravý 
+     * @param loginJWT login JWT, u kterého se ověřuje provost
+     * @return id uživatele, kterému byl token vystaven
+     * @throws SecurityException k vyvolání výjimky dojde pokud je token podvržený, nebo pokud už není platný
+     */
     public String verifyLoginToken(String loginJWT) throws SecurityException {
+        // načti obsah JWT
         JwtConsumer jwtConsumer = new JwtConsumerBuilder()
         .setRequireSubject()
         .setExpectedIssuer(ISSUER)
@@ -181,8 +200,10 @@ public class AuthService {
         .build();
 
         try {
+            // zkus získat claimy
             JwtClaims jwtClaims = jwtConsumer.processToClaims(loginJWT);
 
+            // pokud je token v množině aktivnch vrať id uživatele
             if (loggedIn.contains(loginJWT)) 
                 return jwtClaims.getSubject();
             else 
@@ -193,7 +214,15 @@ public class AuthService {
  
     }
 
+    /**
+     * Metoda ověří zda uživatel s daným access JWT má právo provést určitou operaci
+     * @param accessJWT přístupový JWT
+     * @param requiredPermission požadované oprávnění 
+     * @return pokud uživatel má právo danou operaci provést vrátí je objekt, který ho reprezentuje 
+     * @throws SecurityException pokud je JWT podvržený, nebo je neplatný, případně když uživatel nemá požadované oprávnění
+     */
     public User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException {
+        // načti obsah JWT
         JwtConsumer jwtConsumer = new JwtConsumerBuilder()
         .setRequireSubject()
         .setExpectedIssuer(ISSUER)
@@ -203,21 +232,23 @@ public class AuthService {
         .build();
 
         try {
+            // zkus získat claimy
             JwtClaims jwtClaims = jwtConsumer.processToClaims(accessJWT);
 
+            // získej si uživatele
             String userID = jwtClaims.getSubject();
-
             User user = userRepository.findById(userID).get();
-            
+             
+            // koukni, zda uživatele má požadovné opávnění
             if (user != null) {
                 if (user.getRole().containsPermission(requiredPermission)) {
                     return user;
                 }
             } 
+            throw new SecurityException("Invalid Permition");
         } catch (InvalidJwtException | MalformedClaimException e) {
             throw new SecurityException("Invalid Token");
         }
-        throw new SecurityException("Invalid Permition");
     }
 
     
