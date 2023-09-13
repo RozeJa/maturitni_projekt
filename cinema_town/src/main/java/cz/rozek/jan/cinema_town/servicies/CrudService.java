@@ -6,10 +6,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 
 // abstraktní, defaultní implementace služby pro výměnu dat mezi aplikací a databází  
 // účelem této třídy a tříd, které ji rozšiřují je práce s daty
+// TODO vymyslet jak validovat data
 public abstract class CrudService<E extends Entity, R extends MongoRepository<E, String>> {
     
     // použitý repozitář
@@ -35,13 +38,18 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
     /**
      * metoda získá všechny záznamy
      * @param accessJWT přístupový JWT
+     * @param deviceID id zařízení, ze kterého uživatel odeslal request
      * @return list záznamů
      * @throws SecurityException pokud uživatel nemá oprávnění 
+     * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public List<E> readAll(String accessJWT) throws SecurityException {
+    public List<E> readAll(String accessJWT, String deviceID) {
     
-        // ověř oprávnění 
+        // ověř oprávnění
         verifyAccess(accessJWT, readPermissionRequired());
+
+        // ověř zařízení
+        authService.verifyDevice(accessJWT, deviceID);
 
         // načti záznamy
         List<E> entities = repository.findAll();
@@ -52,13 +60,18 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * metoda pro získání jednoho konkrétního záznamu
      * @param id id záznamu
      * @param accessJWT přístupový JWT
+     * @param deviceID id zařízení, ze kterého uživatel odeslal request
      * @return záznam s pořadovaným id
      * @throws SecurityException pokud uživatel nemá oprávnění 
+     * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public E readById(String id, String accessJWT) throws SecurityException {
+    public E readById(String id, String accessJWT, String deviceID) {
 
-        // ověř oprávnění 
+        // ověř oprávnění
         verifyAccess(accessJWT, readPermissionRequired());
+
+        // ověř zařízení
+        authService.verifyDevice(accessJWT, deviceID);
 
         // načti záznam
         E entity = repository.findById(id).get();
@@ -76,13 +89,18 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * metoda pro vytvoření záznamu
      * @param entity zádnam 
      * @param accessJWT přístupový JWT
+     * @param deviceID id zařízení, ze kterého uživatel odeslal request
      * @return uložený záznam
-     * @throws SecurityException pokud uživatel nemá oprávnění 
+     * @throws SecurityException pokud uživatel nemá oprávnění
+     * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno 
      */
-    public E create(E entity, String accessJWT) throws SecurityException {
+    public E create(E entity, String accessJWT, String deviceID) {
 
-        // ověř oprávnění 
+        // ověř oprávnění
         verifyAccess(accessJWT, createPermissionRequired());
+
+        // ověř zařízení
+        authService.verifyDevice(accessJWT, deviceID);
 
         // vynuluj id
         entity.setId(null);
@@ -98,13 +116,18 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @param id id editovaného záznamu
      * @param entity editovaný záznam 
      * @param accessJWT přístupový JWT
+     * @param deviceID id zařízení, ze kterého uživatel odeslal request
      * @return editovaný záznam
      * @throws SecurityException pokud uživatel nemá oprávnění 
+     * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public E update(String id, E entity, String accessJWT) throws SecurityException {
+    public E update(String id, E entity, String accessJWT, String deviceID) {
         
-        // ověř oprávnění 
+        // ověř oprávnění
         verifyAccess(accessJWT, updatePermissionRequired());
+
+        // ověř zařízení
+        authService.verifyDevice(accessJWT, deviceID);
 
         // nastav id
         entity.setId(id);
@@ -119,13 +142,18 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * metoda pro smazání záznamu 
      * @param id id mazaného záznamu
      * @param accessJWT příístupový JWT
+     * @param deviceID id zařízení, ze kterého uživatel odeslal request
      * @return true pokud byl záznam smazán 
      * @throws SecurityException pokud uživatel nemá oprávnění 
+     * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public boolean delete(String id, String accessJWT) throws SecurityException {
+    public boolean delete(String id, String accessJWT, String deviceID) {
         
-        // ověř oprávnění 
+        // ověř oprávnění
         verifyAccess(accessJWT, deletePermissionRequired());
+
+        // ověř zařízení
+        authService.verifyDevice(accessJWT, deviceID);
 
         // načti záznam 
         E entity = repository.findById(id).get();
@@ -141,19 +169,23 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
     /**
      * matoda pro ověření přístupu 
      * @param accessJWT přístupový JWT
-     * @param permission požadované oprávnění 
+     * @param requiredPermission požadované oprávnění 
+     * @return pokud je uživatel přihlášený vrať objekt, který ho bude reprezentovat, jinak vrať null
      * @throws SecurityException pokud uživatel nemá oprávnění  
+     * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    protected void verifyAccess(String accessJWT, String permission) throws SecurityException {
+    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
         // pokud přístupový JWT je null prověř, zda i přes to může uživatel provést akci
         if (accessJWT == null) {
-            if (!verifyNullToken(permission)) {
-                throw new SecurityException("Access with null token refused");
+            if (!verifyNullToken(requiredPermission)) {
+                throw new AuthRequired("Access with null token refused");
             }
             // pokud oprávnění není null ověř zda uživatel má toto oprávnění 
-        } else if (permission != null) {
-            authService.verifyAccess(accessJWT, permission);
+        } else if (requiredPermission != null) {
+           return authService.verifyAccess(accessJWT, requiredPermission);
         }
+
+        return null;
     }
 
 }

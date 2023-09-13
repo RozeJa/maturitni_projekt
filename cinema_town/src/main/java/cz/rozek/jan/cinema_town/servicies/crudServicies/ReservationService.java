@@ -1,19 +1,19 @@
-package cz.rozek.jan.cinema_town.servicies.crud;
+package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.dynamic.Projection;
-import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
+import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
+import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
-public class ProjectionService extends CrudService<Projection, ProjectionRepository> {
+public class ReservationService extends CrudService<Reservation, ReservationRepository> {
     
     @Autowired
     @Override
-    public void setRepository(ProjectionRepository repository) {
+    public void setRepository(ReservationRepository repository) {
         this.repository = repository;
     }
     @Autowired
@@ -21,21 +21,21 @@ public class ProjectionService extends CrudService<Projection, ProjectionReposit
     public void setAuthService(AuthService authService) {
         this.authService = authService;
     }
- 
+
     @Override
     public String readPermissionRequired() {
-        return "projection-read";
+        return "reservation-read";
     }
     @Override
     public String createPermissionRequired() {
-        return "projection-create";
+        return "reservation-create";
     }
     @Override
     public String updatePermissionRequired() {
-        return "projection-update";
+        return "reservation-update";
     }
     @Override
     public String deletePermissionRequired() {
-        return "projection-delete";
+        return "reservation-delete";
     }
 }

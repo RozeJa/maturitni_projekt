@@ -2,6 +2,8 @@ package cz.rozek.jan.cinema_town.models.stable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -26,8 +28,6 @@ public class User implements Entity {
     // heslo
     private String password;
 
-    // aktivační kód
-    private String activationToken;
     // zda byl účet aktivován
     private boolean active;
 
@@ -37,4 +37,6 @@ public class User implements Entity {
     // rezervace uživatele maované ip => rezervace
     @DBRef
     private Map<String, Reservation> reservations = new HashMap<>();
+
+    private Set<String> trustedDevicesId = new TreeSet<>();
 }

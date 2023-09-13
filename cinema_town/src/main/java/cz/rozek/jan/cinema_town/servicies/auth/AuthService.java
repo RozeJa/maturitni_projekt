@@ -1,6 +1,8 @@
 package cz.rozek.jan.cinema_town.servicies.auth;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.jose4j.jwa.AlgorithmConstraints.ConstraintType;
@@ -38,6 +40,9 @@ public class AuthService {
     // množina vydaných a aktivních JWT, používaných pro login
     private Set<String> loggedIn = new HashSet<>();
 
+    // mapa kde jsou pod aktivačnímy kódy mapováni neaktivovaní uživatelé
+    private Map<String, User> inactiveUsers = new HashMap<>();
+
     // repozitář pro přístup k uživatelúm
     private UserRepository userRepository;
 
@@ -59,6 +64,25 @@ public class AuthService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Metoda zaregistruje uživatele do systému
+     * @param user // nový uživatel
+     * @return true if user was registred and false if there was problem
+    */
+    public boolean register(User user) {
+        // TODO implementovat metodu, která registruj uživatele
+        // zvaliduj email 
+        // zvaliduj passphrase 
+
+        // pokud takový uživatel neexistuje přidej ho do db
+
+        // vygeneruj pro něj jednorázový aktivační kód
+
+        // pošly mu kód na email 
+
+        return true;
     }
 
     /**
@@ -137,6 +161,7 @@ public class AuthService {
         claims.setIssuedAtToNow(); // kdy byl vydán
         claims.setSubject(user.getId()); // nastav předmět na id uživatele
         claims.setClaim("email", user.getEmail()); // nastav email
+        claims.setClaim("active", user.isActive()); // nastav informaci o tom, zda je účet aktivován
 
         // převeď claimy na JWS
         JsonWebSignature jws = new JsonWebSignature();
@@ -168,6 +193,7 @@ public class AuthService {
         // TODO test zda toto funguje. Cílem je nastavit životnost tokenu na půl minuty
         claims.setExpirationTimeMinutesInTheFuture((float)0.5); // jak dlouho bude použitelný
         claims.setSubject(user.getId()); // nastav předmět na id uživatele
+        claims.setClaim("active", user.isActive()); // nastav informaci o tom, zda je účet aktivován
 
         // převeď claimy na JWS
         JsonWebSignature jws = new JsonWebSignature();
@@ -218,10 +244,56 @@ public class AuthService {
      * Metoda ověří zda uživatel s daným access JWT má právo provést určitou operaci
      * @param accessJWT přístupový JWT
      * @param requiredPermission požadované oprávnění 
-     * @return pokud uživatel má právo danou operaci provést vrátí je objekt, který ho reprezentuje 
-     * @throws SecurityException pokud je JWT podvržený, nebo je neplatný, případně když uživatel nemá požadované oprávnění
+     * @return pokud uživatel má právo danou operaci provést vrátí se objekt, který ho reprezentuje 
+     * @throws SecurityException pokud je JWT podvržený, nebo je neplatný, případně když uživatel nemá požadované oprávnění, nebo, pokud uživatel není aktivovaný
      */
     public User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException {
+
+        // získen z přístupového JWT uživatele
+        User user = loadUserFromAccessToken(accessJWT);
+
+        //pokud uživatelský účet není aktovovaný vyvolej výjimku
+        if (!user.isActive())
+            throw new SecurityException("Invalid User");
+
+        // koukni, zda uživatele má požadovné opávnění
+        if (user.getRole().containsPermission(requiredPermission)) {
+            return user;
+        }
+        throw new SecurityException("Invalid Permission");
+    }
+
+    /**
+     * Metoda ověří, zda uživatel přistupuje ze známého zařízení
+     * @param accessJWT přístupový JWT
+     * @param deviceID id zařízení, zekterého přišel dotaz
+     * @return Pokud deviceID je mezi množonou důvěryhodných zařízení vrátí se objekt, který ho reprezentuje. Pokud je accessJWT null metoda vrátí null.
+     * @throws SecurityException pokud je JWT podvržený, nebo je neplatný, případně když id zařízení není mezi důvěryhodnýma zažízeníma
+     */
+    public User verifyDevice(String accessJWT, String deviceID) throws SecurityException {
+
+        // pokud je JWT uživatel není přihlášený, zařízení není důvěryhodné
+        if (accessJWT == null) {
+            return null;
+        }
+
+        // získen z přístupového JWT uživatele
+        User user = loadUserFromAccessToken(accessJWT);
+
+        // koukni, zda je zařízení mezi důvěryhodnými
+        if (user.getTrustedDevicesId().contains(deviceID)) {
+            return user;
+        }
+        throw new SecurityException("Invalid Device");
+    }
+
+    /**
+     * Metoda načte uživatele pomocí id v přístupovém JWT
+     * @param accessJWT přístupový JWT
+     * @return instance třídy User, reprezentující uživatele
+     * @throws SecurityException pokud je JWT podvržený, nebo je neplatný
+     */
+    private User loadUserFromAccessToken(String accessJWT) throws SecurityException {
         // načti obsah JWT
         JwtConsumer jwtConsumer = new JwtConsumerBuilder()
         .setRequireSubject()
@@ -239,17 +311,9 @@ public class AuthService {
             String userID = jwtClaims.getSubject();
             User user = userRepository.findById(userID).get();
              
-            // koukni, zda uživatele má požadovné opávnění
-            if (user != null) {
-                if (user.getRole().containsPermission(requiredPermission)) {
-                    return user;
-                }
-            } 
-            throw new SecurityException("Invalid Permition");
+            return user;
         } catch (InvalidJwtException | MalformedClaimException e) {
             throw new SecurityException("Invalid Token");
         }
     }
-
-    
 }       

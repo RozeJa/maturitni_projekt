@@ -1,19 +1,19 @@
-package cz.rozek.jan.cinema_town.servicies.crud;
+package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.Permission;
-import cz.rozek.jan.cinema_town.repositories.PermissionRepository;
+import cz.rozek.jan.cinema_town.models.stable.People;
+import cz.rozek.jan.cinema_town.repositories.PeopleRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
-public class PermissionService extends CrudService<Permission, PermissionRepository> {
+public class PeopleService extends CrudService<People, PeopleRepository> {
     
     @Autowired
     @Override
-    public void setRepository(PermissionRepository repository) {
+    public void setRepository(PeopleRepository repository) {
         this.repository = repository;
     }
     @Autowired
@@ -24,18 +24,18 @@ public class PermissionService extends CrudService<Permission, PermissionReposit
 
     @Override
     public String readPermissionRequired() {
-        return "permission-read";
+        return "people-read";
     }
     @Override
     public String createPermissionRequired() {
-        return "permission-create";
+        return "people-create";
     }
     @Override
     public String updatePermissionRequired() {
-        return "permission-update";
+        return "people-update";
     }
     @Override
     public String deletePermissionRequired() {
-        return "permission-delete";
+        return "people-delete";
     }
 }

@@ -1,19 +1,19 @@
-package cz.rozek.jan.cinema_town.servicies.crud;
+package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.Hall;
-import cz.rozek.jan.cinema_town.repositories.HallRepository;
+import cz.rozek.jan.cinema_town.models.stable.Cinema;
+import cz.rozek.jan.cinema_town.repositories.CinemaRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
-public class HallService extends CrudService<Hall, HallRepository> {
-
+public class CinemaService extends CrudService<Cinema, CinemaRepository> {
+    
     @Autowired
     @Override
-    public void setRepository(HallRepository repository) {
+    public void setRepository(CinemaRepository repository) {
         this.repository = repository;
     }
     @Autowired
@@ -24,18 +24,18 @@ public class HallService extends CrudService<Hall, HallRepository> {
 
     @Override
     public String readPermissionRequired() {
-        return "hall-read";
+        return "cinema-read";
     }
     @Override
     public String createPermissionRequired() {
-        return "hall-create";
+        return "cinema-create";
     }
     @Override
     public String updatePermissionRequired() {
-        return "hall-update";
+        return "cinema-update";
     }
     @Override
     public String deletePermissionRequired() {
-        return "hall-delete";
+        return "cinema-delete";
     }
 }

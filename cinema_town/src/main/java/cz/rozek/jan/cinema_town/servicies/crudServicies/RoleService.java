@@ -1,22 +1,22 @@
-package cz.rozek.jan.cinema_town.servicies.crud;
+package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.People;
-import cz.rozek.jan.cinema_town.repositories.PeopleRepository;
+import cz.rozek.jan.cinema_town.models.stable.Role;
+import cz.rozek.jan.cinema_town.repositories.RoleRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
-public class PeopleService extends CrudService<People, PeopleRepository> {
+public class RoleService extends CrudService<Role, RoleRepository> {
     
     @Autowired
     @Override
-    public void setRepository(PeopleRepository repository) {
+    public void setRepository(RoleRepository repository) {
         this.repository = repository;
     }
-    @Autowired
+    @Autowired 
     @Override
     public void setAuthService(AuthService authService) {
         this.authService = authService;
@@ -24,18 +24,18 @@ public class PeopleService extends CrudService<People, PeopleRepository> {
 
     @Override
     public String readPermissionRequired() {
-        return "people-read";
+        return "role-read";
     }
     @Override
     public String createPermissionRequired() {
-        return "people-create";
+        return "role-create";
     }
     @Override
     public String updatePermissionRequired() {
-        return "people-update";
+        return "role-update";
     }
     @Override
     public String deletePermissionRequired() {
-        return "people-delete";
+        return "role-delete";
     }
 }

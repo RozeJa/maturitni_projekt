@@ -1,19 +1,19 @@
-package cz.rozek.jan.cinema_town.servicies.crud;
+package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.User;
-import cz.rozek.jan.cinema_town.repositories.UserRepository;
+import cz.rozek.jan.cinema_town.models.stable.Film;
+import cz.rozek.jan.cinema_town.repositories.FilmRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
-public class UserService extends CrudService<User, UserRepository> {
-
+public class FilmService extends CrudService<Film, FilmRepository> {
+    
     @Autowired
     @Override
-    public void setRepository(UserRepository repository) {
+    public void setRepository(FilmRepository repository) {
         this.repository = repository;
     }
     @Autowired
@@ -24,18 +24,18 @@ public class UserService extends CrudService<User, UserRepository> {
 
     @Override
     public String readPermissionRequired() {
-        return "user-read";
+        return "film-read";
     }
     @Override
     public String createPermissionRequired() {
-        return "user-create";
+        return "film-create";
     }
     @Override
     public String updatePermissionRequired() {
-        return "user-update";
+        return "film-update";
     }
     @Override
     public String deletePermissionRequired() {
-        return "user-delete";
+        return "film-delete";
     }
 }
