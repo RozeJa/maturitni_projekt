@@ -21,7 +21,7 @@ funkčnost (5-6)
  - poslání vstupenky na email
  - filtrování filmů
  - dvoufázové ověření 
- - přidat hodnocení filmu 
+ - přihlásit se k odběru novinek -> uživatel bude informován, když se do systému přidá nový film
  - zrušení rezervace, nejpozději do 2 dnů po dni rezervace
 ---
 kino 
