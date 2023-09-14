@@ -19,33 +19,33 @@ import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 @RequestMapping(path = "/auth")
 // TODO implementovat metody
 public class AuthController {
-    
+
     // definice konstanty, pod kterou bude očekávat v headru JWT
     protected static final String authorization = "authorization";
     // definice konstanty, pod kterou bude očekávat v headru id zařízení
     protected static final String deviceID = "deviceID";
 
-
-    // složba pro ověření oprávnění 
+    // složba pro ověření oprávnění
     @Autowired
     private AuthService authService;
     // služba pro práci s uživateli
 
     /**
-     * Metoda pro registraci 
+     * Metoda pro registraci
+     * 
      * @param user objekt představující nového uživatele
-     * @return http responce s http statusem 100 a login JWT 
+     * @return http responce s http statusem 100 a login JWT
      */
-    @PostMapping("/register") 
+    @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         // TODO po dopsání metody register přidat catch výjimek
         try {
 
             // registruj uživatele a vystav mu token
-            String registerJWT = authService.register(user);
+            String tempJWT = authService.register(user);
 
             // vrať login JWT
-            return new ResponseEntity<>(registerJWT, HttpStatus.OK);
+            return new ResponseEntity<>(tempJWT, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,19 +54,22 @@ public class AuthController {
 
     /**
      * Metoda pro aktivaci registrovenéhó účtu
+     * 
      * @param activationCode aktivační kód pro neaktivovaný účet
-     * @param headers hlavička http requestu, která by měla obsahovat login JWT
-     * @return http responce s id zařízení, které bude příjmané jako důvěryhodné 
+     * @param headers        hlavička http requestu, která by měla obsahovat login
+     *                       JWT
+     * @return http responce s id zařízení, které bude příjmané jako důvěryhodné
      */
     @PostMapping("/activate-account")
-    public ResponseEntity<String> activate(@RequestBody String activationCode, @RequestHeader Map<String, String> headers) {
+    public ResponseEntity<String> activate(@RequestBody String activationCode,
+            @RequestHeader Map<String, String> headers) {
         try {
             // zkus ověřit
             String deviceID = authService.activateUser(headers.get(authorization), activationCode);
 
-            if (deviceID != null) 
+            if (deviceID != null)
                 return new ResponseEntity<>(deviceID, HttpStatus.OK);
-             else 
+            else
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -77,16 +80,17 @@ public class AuthController {
     }
 
     /**
-     * Metoda pro vygenerování nového aktivačního kódu 
+     * Metoda pro vygenerování nového aktivačního kódu
+     * 
      * @param headers hlavička http requestu, která by měla obsahovat login JWT
      * @return http responce
      */
     @PostMapping("/reset-activation-code")
     public ResponseEntity<String> resetActivationCode(@RequestHeader Map<String, String> headers) {
         try {
-            if (authService.resetActivationCode(headers.get(authorization))) 
+            if (authService.resetActivationCode(headers.get(authorization)))
                 return new ResponseEntity<>(HttpStatus.OK);
-             else 
+            else
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -98,22 +102,28 @@ public class AuthController {
 
     /**
      * Metoda pro přihlášení
-     * @param user objekt uživatele, s přihlašovacím jménem a heslem
-     * @param deviceID id zařízení, ze kterého se uživatel přihlašuje 
+     * 
+     * @param user     objekt uživatele, s přihlašovacím jménem a heslem
+     * @param deviceID id zařízení, ze kterého se uživatel přihlašuje
      * @return pokud se uživatel přihlašuje ze známého zařízení varátí login JWT
      */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user, @RequestHeader Map<String, String> headers) {
         try {
-            // přihlaš uživatele 
-            String loginJWT = authService.login(user, headers.get(deviceID));
-            
-            // pokud se uživatele přihlašuje ze známého zařízení (metoda login vrátila token) vrať login JWT 
-            if (loginJWT != null) 
-                return new ResponseEntity<>(loginJWT, HttpStatus.OK);
+            // přihlaš uživatele
+            String jwt = authService.login(user, headers.get(deviceID));
+
+            String identification = jwt.split("#")[0];
+
+            String token = jwt.split("#")[1];
+
+            // pokud se uživatele přihlašuje ze známého zařízení (metoda login vrátila
+            // token) vrať login JWT
+            if (identification.equals("login"))
+                return new ResponseEntity<>(token, HttpStatus.OK);
             // pokud ne vrať status 100
-             else 
-                return new ResponseEntity<>(HttpStatus.CONTINUE);
+            else
+                return new ResponseEntity<>(token, HttpStatus.CONTINUE);
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
@@ -124,18 +134,28 @@ public class AuthController {
         }
     }
 
-
     /**
      * Metoda pro zadání ověřovacího tokenu
-     * @param headers hlavička http requestu, která by měla obsahovat login JWT
+     * 
+     * @param headers hlavička http requestu, která by měla obsahovat temp JWT
      * @param verifycationToken token, který byl zaslán na email pro dvou fázové ověření
-     * @return pokud se uživatel 
+     * @return pokud se uživatel prověří, ta vrátí login JWT
      */
+    @PostMapping("/second-verify")
+    public ResponseEntity<String> secondVerify(@RequestHeader Map<String, String> headers, @RequestBody String verifycationToken) {
+        try {
+
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Metoda pro odebrání důvěryhodného zařízení
      */
-
 
     /**
      * Metoda pro odhlášení
