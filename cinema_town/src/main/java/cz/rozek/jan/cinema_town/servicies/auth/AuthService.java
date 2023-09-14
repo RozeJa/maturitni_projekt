@@ -78,12 +78,49 @@ public class AuthService {
     }
 
     /**
+     * 
+     * @param tempToken dočasný JWT
+     * @param verifycationCode kód, kterým se má uživatel prokázat
+     * @return uživatel
+     */
+    public User secondVerification(String tempToken, String verifycationCode) throws NullPointerException, SecurityException {
+
+        // získej si userID
+        String userID = verifyJWT(tempToken, rsaTempTokenKey, Set.of(tempToken));
+
+        // zjisti si jaký aktivační kód k tomuto uživateli patří, pokud je null vyvolej vyjímku
+        if (secondVerification.get(userID) == null) 
+            throw new NullPointerException();
+
+        // zkontroluj zda je ověřovací token správný
+        if (secondVerification.get(userID).equals(verifycationCode)) {
+            // odeber záznam z kolekce
+            secondVerification.remove(userID);
+            User user = userRepository.findById(userID).get();
+            return user;
+        
+        // pokud došlo ke špatnému zadání tokenu vygeneruj jiný  
+        } else if(userID != null) {
+            // vygeneruj přístupový token
+            String token = RandomStringGenerator.generateRandomString("");
+
+            // přidej do mapy pro druhé ověření pod id uživatele token
+            secondVerification.put(userID, token);
+
+            // TODO: poslat na email tento token
+            
+            throw new IllegalStateException();
+        }
+        
+        throw new NullPointerException();
+    }
+
+    /**
      * Metoda pro aktivaci uživatelského účtu
      * 
      * @param tempJWT dočasný JWT
      * @param activationCode kód pro oktivaci uživatele
-     * @return vrátí true pokud uživatel byl aktivován. V opačném řípadě vrátí
-     *         false.
+     * @return vrátí true pokud uživatel byl aktivován. V opačném řípadě vrátí false.
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
      *                           podvržený, nebo neplatný
      */
@@ -124,19 +161,22 @@ public class AuthService {
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken podvržený, nebo neplatný
      */
     public boolean resetActivationCode(String tempJWT) throws SecurityException {
-        // získej si z login tokenu id uživate, který o reser žádá
-        String userID = verifyJWT(tempJWT, rsaTempTokenKey, registered);
+
+        // získej si z tokenu id uživate, který o reser žádá
+        String userID = verifyJWT(tempJWT, rsaTempTokenKey, Set.of(tempJWT));
 
         // pokud účet ještě není aktivovaný, vygeneruj nový token 
-        // TODO prověď kontrolu
+        User loader = userRepository.findById(userID).get();
+        if (loader.isActive()) {
+            return false;
+        }
 
         String oldActivationCode = "";
         String newActivationCode = "";
         User user = null;
         for (String activationCode : inactiveUsers.keySet()) {
             if (inactiveUsers.get(activationCode).getId().equals(userID)) {
-                // TODO vygeneruj nový kód
-                newActivationCode = null; // TODO;
+                newActivationCode = RandomStringGenerator.generateRandomString(""); 
                 oldActivationCode = activationCode;
                 user = inactiveUsers.get(activationCode);
 
@@ -146,12 +186,19 @@ public class AuthService {
         
         // pokud uživatel není v kolekci 
         if (user == null) {
-            // TODO vygeneruj kód a přidej ho do kolekce 
+            newActivationCode = RandomStringGenerator.generateRandomString(""); 
+            user = userRepository.findById(userID).get();
+            
+            inactiveUsers.put(newActivationCode, user);
+
+            // TODO pošly email s novým aktivačním kódem
+
+            return true;
 
             // pokud jsi vygeneroval nový kód, tak ho vyměň s novým
         } else if (!oldActivationCode.equals("")) {
 
-            // TODO pošly email s navým aktivačním kódem
+            // TODO pošly email s novým aktivačním kódem
 
             inactiveUsers.remove(oldActivationCode);
             inactiveUsers.put(newActivationCode, user);
@@ -442,34 +489,6 @@ public class AuthService {
             return user;
         }
         throw new SecurityException("Invalid Permission");
-    }
-
-    /**
-     * Metoda ověří, zda uživatel přistupuje ze známého zařízení
-     * 
-     * @param accessJWT přístupový JWT
-     * @param deviceID  id zařízení, zekterého přišel dotaz
-     * @return Pokud deviceID je mezi množonou důvěryhodných zařízení vrátí se
-     *         objekt, který ho reprezentuje. Pokud je accessJWT null metoda vrátí
-     *         null.
-     * @throws SecurityException pokud je JWT podvržený, nebo je neplatný, případně
-     *                           když id zařízení není mezi důvěryhodnýma zažízeníma
-     */
-    public User verifyDevice(String accessJWT, String deviceID) throws SecurityException {
-
-        // pokud je JWT uživatel není přihlášený, zařízení není důvěryhodné
-        if (accessJWT == null) {
-            return null;
-        }
-
-        // získen z přístupového JWT uživatele
-        User user = loadUserFromAccessToken(accessJWT);
-
-        // koukni, zda je zařízení mezi důvěryhodnými
-        if (user.getTrustedDevicesId().contains(deviceID)) {
-            return user;
-        }
-        throw new SecurityException("Invalid Device");
     }
 
     /**

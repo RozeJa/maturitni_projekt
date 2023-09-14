@@ -48,9 +48,6 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
         // ověř oprávnění
         verifyAccess(accessJWT, readPermissionRequired());
 
-        // ověř zařízení
-        authService.verifyDevice(accessJWT, deviceID);
-
         // načti záznamy
         List<E> entities = repository.findAll();
         return entities;
@@ -69,9 +66,6 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
 
         // ověř oprávnění
         verifyAccess(accessJWT, readPermissionRequired());
-
-        // ověř zařízení
-        authService.verifyDevice(accessJWT, deviceID);
 
         // načti záznam
         E entity = repository.findById(id).get();
@@ -99,9 +93,6 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
         // ověř oprávnění
         verifyAccess(accessJWT, createPermissionRequired());
 
-        // ověř zařízení
-        authService.verifyDevice(accessJWT, deviceID);
-
         // vynuluj id
         entity.setId(null);
 
@@ -126,9 +117,6 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
         // ověř oprávnění
         verifyAccess(accessJWT, updatePermissionRequired());
 
-        // ověř zařízení
-        authService.verifyDevice(accessJWT, deviceID);
-
         // nastav id
         entity.setId(id);
 
@@ -151,9 +139,6 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
         
         // ověř oprávnění
         verifyAccess(accessJWT, deletePermissionRequired());
-
-        // ověř zařízení
-        authService.verifyDevice(accessJWT, deviceID);
 
         // načti záznam 
         E entity = repository.findById(id).get();

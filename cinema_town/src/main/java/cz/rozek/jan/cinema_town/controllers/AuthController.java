@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import cz.rozek.jan.cinema_town.models.dtos.TokenDeviceId;
 import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
+import cz.rozek.jan.cinema_town.servicies.auth.RandomStringGenerator;
 
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin // TODO přidat restrikci
@@ -28,8 +31,14 @@ public class AuthController {
     // složba pro ověření oprávnění
     @Autowired
     private AuthService authService;
-    // služba pro práci s uživateli
+    // repozitář pro přístup k uživatelúm
+    private UserRepository userRepository;
 
+    // metoda pro vložení závislosti na UserRepository
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     /**
      * Metoda pro registraci
      * 
@@ -142,11 +151,27 @@ public class AuthController {
      * @return pokud se uživatel prověří, ta vrátí login JWT
      */
     @PostMapping("/second-verify")
-    public ResponseEntity<String> secondVerify(@RequestHeader Map<String, String> headers, @RequestBody String verifycationToken) {
+    public ResponseEntity<TokenDeviceId> secondVerify(@RequestHeader Map<String, String> headers, @RequestBody String verifycationToken) {
         try {
 
-        } catch (SecurityException e) {
+            // ověř zda je i druhá fáze přihlášení provedena správně
+            User user = authService.secondVerification(headers.get(authorization), verifycationToken);
+
+            // přidej uživateli id d;věryhodného zařízení
+            String trustedDeviceID = RandomStringGenerator.generateRandomString("DV");
+            user.getTrustedDevicesId().add(trustedDeviceID);
+            
+            // uživatele ulož 
+            userRepository.save(user);
+
+            // přihlaš uživatele
+            String loginJWT = authService.login(user, trustedDeviceID);
+
+            return new ResponseEntity<>(new TokenDeviceId(loginJWT, trustedDeviceID), HttpStatus.OK);
+        } catch (IllegalStateException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (SecurityException | NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -156,6 +181,15 @@ public class AuthController {
     /**
      * Metoda pro odebrání důvěryhodného zařízení
      */
+    @PostMapping("/remove-device")
+    public ResponseEntity<String> removeDevice(@RequestHeader Map<String, String> headers, @RequestBody String deviceId) {
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Metoda pro odhlášení
