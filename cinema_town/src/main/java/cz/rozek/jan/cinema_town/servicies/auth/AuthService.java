@@ -330,6 +330,7 @@ public class AuthService {
         claims.setGeneratedJwtId();
         claims.setIssuedAtToNow(); // kdy byl vydán
         claims.setSubject(user.getId()); // nastav předmět na id uživatele
+        claims.setClaim("email", user.getEmail()); // nastav email
 
         // převeď claimy na JWS
         JsonWebSignature jws = new JsonWebSignature();
@@ -430,6 +431,10 @@ public class AuthService {
         return deviceID;
     }
 
+    public String verifyLoginJWT(String loginJWT) {
+        return verifyJWT(loginJWT, rsaLoginTokenKey, loggedIn);
+    }
+
     /**
      * Metoda ověří zda je login JWT pravý
      * 
@@ -438,7 +443,7 @@ public class AuthService {
      * @throws SecurityException k vyvolání výjimky dojde pokud je token podvržený,
      *                           nebo pokud už není platný
      */
-    public String verifyJWT(String JWT, RsaJsonWebKey key, Set<String> availavbleTokens) throws SecurityException {
+    private String verifyJWT(String JWT, RsaJsonWebKey key, Set<String> availavbleTokens) throws SecurityException {
 
         // načti obsah JWT
         JwtConsumer jwtConsumer = new JwtConsumerBuilder()

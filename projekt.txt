@@ -17,7 +17,7 @@ sál má sadadla, uživatel si může rezervovat sedadla
 filmu se dá přidělit datum a čas, kdy ho bude kino vysílat a v jakém sále 
 
 funkčnost (5-6)
- - rezervovní sedadla
+ - rezervovní sedadla na promítání
  - poslání vstupenky na email
  - filtrování filmů
  - dvoufázové ověření 

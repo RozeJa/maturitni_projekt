@@ -2,10 +2,12 @@ package cz.rozek.jan.cinema_town.controllers;
 
 import java.util.Map;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -39,6 +41,7 @@ public class AuthController {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     /**
      * Metoda pro registraci
      * 
@@ -146,12 +149,15 @@ public class AuthController {
     /**
      * Metoda pro zadání ověřovacího tokenu
      * 
-     * @param headers hlavička http requestu, která by měla obsahovat temp JWT
-     * @param verifycationToken token, který byl zaslán na email pro dvou fázové ověření
+     * @param headers           hlavička http requestu, která by měla obsahovat temp
+     *                          JWT
+     * @param verifycationToken token, který byl zaslán na email pro dvou fázové
+     *                          ověření
      * @return pokud se uživatel prověří, ta vrátí login JWT
      */
     @PostMapping("/second-verify")
-    public ResponseEntity<TokenDeviceId> secondVerify(@RequestHeader Map<String, String> headers, @RequestBody String verifycationToken) {
+    public ResponseEntity<TokenDeviceId> secondVerify(@RequestHeader Map<String, String> headers,
+            @RequestBody String verifycationToken) {
         try {
 
             // ověř zda je i druhá fáze přihlášení provedena správně
@@ -160,8 +166,8 @@ public class AuthController {
             // přidej uživateli id d;věryhodného zařízení
             String trustedDeviceID = RandomStringGenerator.generateRandomString("DV");
             user.getTrustedDevicesId().add(trustedDeviceID);
-            
-            // uživatele ulož 
+
+            // uživatele ulož
             userRepository.save(user);
 
             // přihlaš uživatele
@@ -182,9 +188,24 @@ public class AuthController {
      * Metoda pro odebrání důvěryhodného zařízení
      */
     @PostMapping("/remove-device")
-    public ResponseEntity<String> removeDevice(@RequestHeader Map<String, String> headers, @RequestBody String deviceId) {
+    public ResponseEntity<String> removeDevice(@RequestHeader Map<String, String> headers,
+            @RequestBody String deviceId) {
         try {
-            
+
+            // získej si id uživatele
+            String userID = authService.verifyLoginJWT(headers.get(authorization));
+
+            User user = userRepository.findById(userID).get();
+
+            boolean removed = user.getTrustedDevicesId().remove(deviceId);
+
+            if (removed)
+                return new ResponseEntity<String>(HttpStatus.OK);
+            else
+                return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -194,12 +215,72 @@ public class AuthController {
     /**
      * Metoda pro odhlášení
      */
+    @PostMapping("/logoff")
+    public ResponseEntity<String> logoff(@RequestHeader Map<String, String> headers) {
+        try {
+            authService.logout(headers.get(authorization));
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Metoda pro změnu hesla
+     */
+    @PostMapping("/chande-pw")
+    public ResponseEntity<String> chandePw(@RequestBody User user, @RequestHeader Map<String, String> headers) {
+        // TODO dopsat vyjímky pro heslo, které neodpovídá požadavkům
+        try {
+
+            // ověř token
+            String userID = authService.verifyLoginJWT(headers.get(authorization));
+
+            // pokud jsou id stejná změň helo
+            if (user.getId().equals(userID)) {
+
+                // získej si uživatele z db
+                User userFromDB = userRepository.findById(userID).get();
+                // změň mu heslo
+                userFromDB.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+
+                // ulož změnu
+                userRepository.save(userFromDB);
+
+                return new ResponseEntity<String>(HttpStatus.OK);
+            }
+
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Metoda pro zažádání o reset hesla
+     * pošle na email kód, který pošle uživatel spátky s novým heslem
+     * TODO 
+     */
+
+    /**
+     * Metoda která resetuje heslo pokud ho užvatel nezná
+     * TODO 
      */
 
     /**
      * Metoda pro získání přístupového JWT
      */
+    @GetMapping("/token")
+    public ResponseEntity<String> getToken(@RequestHeader Map<String, String> headers) {
+        try {
+            return new ResponseEntity<>(authService.getAccessToken(headers.get(authorization)), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("", HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }
