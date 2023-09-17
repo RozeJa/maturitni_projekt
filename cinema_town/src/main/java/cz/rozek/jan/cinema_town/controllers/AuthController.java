@@ -279,8 +279,11 @@ public class AuthController {
     public ResponseEntity<String> getToken(@RequestHeader Map<String, String> headers) {
         try {
             return new ResponseEntity<>(authService.getAccessToken(headers.get(authorization)), HttpStatus.ACCEPTED);
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {
-            return new ResponseEntity<>("", HttpStatus.NOT_ACCEPTABLE);
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
