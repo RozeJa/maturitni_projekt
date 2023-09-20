@@ -1,0 +1,1 @@
+GET http://localhost:8080/auth/sendEmail?to=rozekja20@zaci.spse.cz&subject=test&message=testMessage HTTP/1.1

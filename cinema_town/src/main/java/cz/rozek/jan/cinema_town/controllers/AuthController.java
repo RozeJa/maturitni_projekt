@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cz.rozek.jan.cinema_town.models.dtos.TokenDeviceId;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 import cz.rozek.jan.cinema_town.servicies.auth.RandomStringGenerator;
+import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin // TODO přidat restrikci
@@ -266,11 +268,13 @@ public class AuthController {
      * pošle na email kód, který pošle uživatel spátky s novým heslem
      * TODO 
      */
-
+    //@PostMapping("/forgotten-password/reset-code")
+    
     /**
      * Metoda která resetuje heslo pokud ho užvatel nezná
      * TODO 
      */
+    //@PostMapping("/forgotten_password/")
 
     /**
      * Metoda pro získání přístupového JWT
@@ -285,5 +289,17 @@ public class AuthController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    // TODO example remove
+
+    @Autowired
+    private EmailService emailService;
+
+    @GetMapping("/sendEmail")
+    public ResponseEntity<String> sendEmail(@RequestParam(name = "to") String to, @RequestParam(name = "subject") String subject, @RequestParam(name = "message") String message) {
+        emailService.sendSimpleMessage(to, subject, message);
+        return new ResponseEntity<String>("Message was send!", HttpStatus.OK);
     }
 }

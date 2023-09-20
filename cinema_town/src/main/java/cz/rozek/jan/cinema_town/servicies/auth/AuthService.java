@@ -46,9 +46,13 @@ public class AuthService {
 
     // mapa kde jsou pod aktivačnímy kódy mapováni neaktivovaní uživatelé
     private Map<String, User> inactiveUsers = new HashMap<>();
+    
     // mapa uživatelů, kteří čekají na zadání druhé fáze přihlášení
     // mapa je ve stylu userID => token
     private Map<String, String> secondVerification = new HashMap<>();
+
+    // mapa ve které je uložen kód pro reserování => userID
+    private Map<String, String> forgottenPWs = new HashMap<>();
 
     // repozitář pro přístup k uživatelúm
     private UserRepository userRepository;

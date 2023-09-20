@@ -17,7 +17,14 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+	
+		<!-- dependenci for email sending -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency> 
 
+		<!-- dependenci for cryptografing -->
 		<dependency>
 			<groupId>org.mindrot</groupId>
 			<artifactId>jbcrypt</artifactId>
