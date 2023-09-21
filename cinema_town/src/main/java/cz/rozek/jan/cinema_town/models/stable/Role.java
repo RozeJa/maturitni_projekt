@@ -23,6 +23,9 @@ public class Role implements Entity {
     // název role
     private String name;
 
+    // zda je se má role přidat nově registrovanému uživateli
+    private boolean autoAddAble = false;
+
     // oprávnění mapované id => oprávnění
     @DBRef
     private Map<String, Permission> permissions = new HashMap<>();

@@ -1,0 +1,19 @@
+[{
+  "_id": {
+    "$oid": "650c5510540d3b4c444f36ae"
+  },
+  "email": "rozekja20@zaci.spse.cz",
+  "password": "$2a$10$RKRp1aWjiiHq44EGDCM4nePJulvFSA4aPe3j0h3gTiPxvR2ebnHOi",
+  "active": true,
+  "role": {
+    "$ref": "roles",
+    "$id": {
+      "$oid": "650bfca31ad9ed4b9f362724"
+    }
+  },
+  "reservations": {},
+  "trustedDevicesId": [
+    "NOpDyyZE8NgynHycML7zyM67Ukv1NmpJKsimEslO6HUWOVRFQ2uK9ItzkznqYU6r"
+  ],
+  "_class": "cz.rozek.jan.cinema_town.models.stable.User"
+}]

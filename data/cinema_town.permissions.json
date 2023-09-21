@@ -1,0 +1,308 @@
+[{
+  "_id": {
+    "$oid": "650bf4e01ad9ed4b9f3626eb"
+  },
+  "permission": "cinema-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf4e81ad9ed4b9f3626ec"
+  },
+  "permission": "cinema-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf4ed1ad9ed4b9f3626ed"
+  },
+  "permission": "cinema-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf4f11ad9ed4b9f3626ee"
+  },
+  "permission": "cinema-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf4f91ad9ed4b9f3626ef"
+  },
+  "permission": "film-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5011ad9ed4b9f3626f0"
+  },
+  "permission": "film-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5051ad9ed4b9f3626f1"
+  },
+  "permission": "film-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5091ad9ed4b9f3626f2"
+  },
+  "permission": "film-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5121ad9ed4b9f3626f3"
+  },
+  "permission": "genre-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5161ad9ed4b9f3626f4"
+  },
+  "permission": "genre-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf51b1ad9ed4b9f3626f5"
+  },
+  "permission": "genre-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5201ad9ed4b9f3626f6"
+  },
+  "permission": "genre-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf52b1ad9ed4b9f3626f7"
+  },
+  "permission": "permission-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf52f1ad9ed4b9f3626f8"
+  },
+  "permission": "permission-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5351ad9ed4b9f3626f9"
+  },
+  "permission": "permission-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5391ad9ed4b9f3626fa"
+  },
+  "permission": "permission-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5b31ad9ed4b9f3626fb"
+  },
+  "permission": "hall-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5b81ad9ed4b9f3626fc"
+  },
+  "permission": "hall-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5be1ad9ed4b9f3626fd"
+  },
+  "permission": "hall-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5c21ad9ed4b9f3626fe"
+  },
+  "permission": "hall-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5cd1ad9ed4b9f3626ff"
+  },
+  "permission": "people-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5d21ad9ed4b9f362700"
+  },
+  "permission": "people-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5d61ad9ed4b9f362701"
+  },
+  "permission": "people-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5dc1ad9ed4b9f362702"
+  },
+  "permission": "people-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5e41ad9ed4b9f362703"
+  },
+  "permission": "projection-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5e81ad9ed4b9f362704"
+  },
+  "permission": "projection-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5ed1ad9ed4b9f362705"
+  },
+  "permission": "projection-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5f11ad9ed4b9f362706"
+  },
+  "permission": "projection-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf5fb1ad9ed4b9f362707"
+  },
+  "permission": "user-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6001ad9ed4b9f362708"
+  },
+  "permission": "user-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6041ad9ed4b9f362709"
+  },
+  "permission": "user-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6091ad9ed4b9f36270a"
+  },
+  "permission": "user-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6121ad9ed4b9f36270b"
+  },
+  "permission": "seat-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6161ad9ed4b9f36270c"
+  },
+  "permission": "seat-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf61b1ad9ed4b9f36270d"
+  },
+  "permission": "seat-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf61e1ad9ed4b9f36270e"
+  },
+  "permission": "seat-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6271ad9ed4b9f36270f"
+  },
+  "permission": "role-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf62b1ad9ed4b9f362710"
+  },
+  "permission": "role-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf62f1ad9ed4b9f362711"
+  },
+  "permission": "role-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6331ad9ed4b9f362712"
+  },
+  "permission": "role-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf63d1ad9ed4b9f362713"
+  },
+  "permission": "reservation-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6441ad9ed4b9f362714"
+  },
+  "permission": "reservation-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf6481ad9ed4b9f362715"
+  },
+  "permission": "reservation-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "650bf64b1ad9ed4b9f362716"
+  },
+  "permission": "reservation-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+}]

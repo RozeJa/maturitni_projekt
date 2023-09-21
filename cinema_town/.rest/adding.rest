@@ -1,0 +1,312 @@
+###přidání oprávnění 
+POST http://localhost:8080/api/permissions/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "permission": "reservation-delete"
+}
+
+### přidání rolí
+### role uživatel
+POST http://localhost:8080/api/roles/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "user",
+    "autoAddAble": true,
+    "permissions": {
+        "650bf4e01ad9ed4b9f3626eb": {
+            "id": "650bf4e01ad9ed4b9f3626eb"
+        }, 
+        "650bf5091ad9ed4b9f3626f2": {
+            "id": "650bf5091ad9ed4b9f3626f2"
+        },
+        "650bf5121ad9ed4b9f3626f3": {
+            "id": "650bf5121ad9ed4b9f3626f3"
+        },
+        "650bf5b31ad9ed4b9f3626fb": {
+            "id": "650bf5b31ad9ed4b9f3626fb"
+        },
+        "650bf5e41ad9ed4b9f362703": {
+            "id": "650bf5e41ad9ed4b9f362703"
+        },
+        "650bf5dc1ad9ed4b9f362702": {
+            "id": "650bf5dc1ad9ed4b9f362702"
+        },
+        "650bf6121ad9ed4b9f36270b": {
+            "id": "650bf6121ad9ed4b9f36270b"
+        },
+        "650bf63d1ad9ed4b9f362713": {
+            "id": "650bf63d1ad9ed4b9f362713"
+        },
+        "650bf6481ad9ed4b9f362715": {
+            "id": "650bf6481ad9ed4b9f362715"
+        },
+        "650bf64b1ad9ed4b9f362716": {
+            "id": "650bf64b1ad9ed4b9f362716"
+        }
+    }
+}
+###
+GET http://localhost:8080/api/roles/650bf87b1ad9ed4b9f362722 HTTP/1.1
+
+### role editor
+POST http://localhost:8080/api/roles/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "editor",
+    "autoAddAble": false,
+    "permissions": {
+        "650bf4e01ad9ed4b9f3626eb": {
+            "id": "650bf4e01ad9ed4b9f3626eb"
+        },
+        "650bf4e81ad9ed4b9f3626ec": {
+            "id": "650bf4e81ad9ed4b9f3626ec"
+        },
+        "650bf4ed1ad9ed4b9f3626ed": {
+            "id": "650bf4ed1ad9ed4b9f3626ed"
+        },
+        "650bf4f11ad9ed4b9f3626ee": {
+            "id": "650bf4f11ad9ed4b9f3626ee"
+        },
+        "650bf4f91ad9ed4b9f3626ef": {
+            "id": "650bf4f91ad9ed4b9f3626ef"
+        },
+        "650bf5011ad9ed4b9f3626f0": {
+            "id": "650bf5011ad9ed4b9f3626f0"
+        },
+        "650bf5051ad9ed4b9f3626f1": {
+            "id": "650bf5051ad9ed4b9f3626f1"
+        },
+        "650bf5091ad9ed4b9f3626f2": {
+            "id": "650bf5091ad9ed4b9f3626f2"
+        },
+        "650bf5121ad9ed4b9f3626f3": {
+            "id": "650bf5121ad9ed4b9f3626f3"
+        },
+        "650bf5161ad9ed4b9f3626f4": {
+            "id": "650bf5161ad9ed4b9f3626f4"
+        },
+        "650bf51b1ad9ed4b9f3626f5": {
+            "id": "650bf51b1ad9ed4b9f3626f5"
+        },
+        "650bf5201ad9ed4b9f3626f6": {
+            "id": "650bf5201ad9ed4b9f3626f6"
+        },
+        "650bf5b31ad9ed4b9f3626fb": {
+            "id": "650bf5b31ad9ed4b9f3626fb"
+        },
+        "650bf5b81ad9ed4b9f3626fc": {
+            "id": "650bf5b81ad9ed4b9f3626fc"
+        },
+        "650bf5be1ad9ed4b9f3626fd": {
+            "id": "650bf5be1ad9ed4b9f3626fd"
+        },
+        "650bf5c21ad9ed4b9f3626fe": {
+            "id": "650bf5c21ad9ed4b9f3626fe"
+        },
+        "650bf5cd1ad9ed4b9f3626ff": {
+            "id": "650bf5cd1ad9ed4b9f3626ff"
+        },
+        "650bf5d21ad9ed4b9f362700": {
+            "id": "650bf5d21ad9ed4b9f362700"
+        },
+        "650bf5d61ad9ed4b9f362701": {
+            "id": "650bf5d61ad9ed4b9f362701"
+        },
+        "650bf5dc1ad9ed4b9f362702": {
+            "id": "650bf5dc1ad9ed4b9f362702"
+        },
+        "650bf5e41ad9ed4b9f362703": {
+            "id": "650bf5e41ad9ed4b9f362703"
+        },
+        "650bf5e81ad9ed4b9f362704": {
+            "id": "650bf5e81ad9ed4b9f362704"
+        },
+        "650bf5ed1ad9ed4b9f362705": {
+            "id": "650bf5ed1ad9ed4b9f362705"
+        },
+        "650bf5f11ad9ed4b9f362706": {
+            "id": "650bf5f11ad9ed4b9f362706"
+        },
+        "650bf6121ad9ed4b9f36270b": {
+            "id": "650bf6121ad9ed4b9f36270b"
+        },
+        "650bf6161ad9ed4b9f36270c": {
+            "id": "650bf6161ad9ed4b9f36270c"
+        },
+        "650bf61b1ad9ed4b9f36270d": {
+            "id": "650bf61b1ad9ed4b9f36270d"
+        },
+        "650bf61e1ad9ed4b9f36270e": {
+            "id": "650bf61e1ad9ed4b9f36270e"
+        },
+        "650bf63d1ad9ed4b9f362713": {
+            "id": "650bf63d1ad9ed4b9f362713"
+        },
+        "650bf6441ad9ed4b9f362714": {
+            "id": "650bf6441ad9ed4b9f362714"
+        },
+        "650bf6481ad9ed4b9f362715": {
+            "id": "650bf6481ad9ed4b9f362715"
+        },
+        "650bf64b1ad9ed4b9f362716": {
+            "id": "650bf64b1ad9ed4b9f362716"
+        },
+        "650bf6091ad9ed4b9f36270a": {
+            "id": "650bf6091ad9ed4b9f36270a"
+        },
+        "650bf6331ad9ed4b9f362712": {
+            "id": "650bf6331ad9ed4b9f362712"
+        }
+    }
+}
+###
+GET  http://localhost:8080/api/roles/650bfa821ad9ed4b9f362723 HTTP/1.1
+
+### role admin
+POST http://localhost:8080/api/roles/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "admin",
+    "autoAddAble": false,
+    "permissions": {
+        "650bf4e01ad9ed4b9f3626eb": {
+            "id": "650bf4e01ad9ed4b9f3626eb"
+        },
+        "650bf4e81ad9ed4b9f3626ec": {
+            "id": "650bf4e81ad9ed4b9f3626ec"
+        },
+        "650bf4ed1ad9ed4b9f3626ed": {
+            "id": "650bf4ed1ad9ed4b9f3626ed"
+        },
+        "650bf4f11ad9ed4b9f3626ee": {
+            "id": "650bf4f11ad9ed4b9f3626ee"
+        },
+        "650bf4f91ad9ed4b9f3626ef": {
+            "id": "650bf4f91ad9ed4b9f3626ef"
+        },
+        "650bf5011ad9ed4b9f3626f0": {
+            "id": "650bf5011ad9ed4b9f3626f0"
+        },
+        "650bf5051ad9ed4b9f3626f1": {
+            "id": "650bf5051ad9ed4b9f3626f1"
+        },
+        "650bf5091ad9ed4b9f3626f2": {
+            "id": "650bf5091ad9ed4b9f3626f2"
+        },
+        "650bf5121ad9ed4b9f3626f3": {
+            "id": "650bf5121ad9ed4b9f3626f3"
+        },
+        "650bf5161ad9ed4b9f3626f4": {
+            "id": "650bf5161ad9ed4b9f3626f4"
+        },
+        "650bf51b1ad9ed4b9f3626f5": {
+            "id": "650bf51b1ad9ed4b9f3626f5"
+        },
+        "650bf5201ad9ed4b9f3626f6": {
+            "id": "650bf5201ad9ed4b9f3626f6"
+        },
+        "650bf52b1ad9ed4b9f3626f7": {
+            "id": "650bf52b1ad9ed4b9f3626f7"
+        },
+        "650bf52f1ad9ed4b9f3626f8": {
+            "id": "650bf52f1ad9ed4b9f3626f8"
+        },
+        "650bf5351ad9ed4b9f3626f9": {
+            "id": "650bf5351ad9ed4b9f3626f9"
+        },
+        "650bf5391ad9ed4b9f3626fa": {
+            "id": "650bf5391ad9ed4b9f3626fa"
+        },
+        "650bf5b31ad9ed4b9f3626fb": {
+            "id": "650bf5b31ad9ed4b9f3626fb"
+        },
+        "650bf5b81ad9ed4b9f3626fc": {
+            "id": "650bf5b81ad9ed4b9f3626fc"
+        },
+        "650bf5be1ad9ed4b9f3626fd": {
+            "id": "650bf5be1ad9ed4b9f3626fd"
+        },
+        "650bf5c21ad9ed4b9f3626fe": {
+            "id": "650bf5c21ad9ed4b9f3626fe"
+        },
+        "650bf5cd1ad9ed4b9f3626ff": {
+            "id": "650bf5cd1ad9ed4b9f3626ff"
+        },
+        "650bf5d21ad9ed4b9f362700": {
+            "id": "650bf5d21ad9ed4b9f362700"
+        },
+        "650bf5d61ad9ed4b9f362701": {
+            "id": "650bf5d61ad9ed4b9f362701"
+        },
+        "650bf5dc1ad9ed4b9f362702": {
+            "id": "650bf5dc1ad9ed4b9f362702"
+        },
+        "650bf5e41ad9ed4b9f362703": {
+            "id": "650bf5e41ad9ed4b9f362703"
+        },
+        "650bf5e81ad9ed4b9f362704": {
+            "id": "650bf5e81ad9ed4b9f362704"
+        },
+        "650bf5ed1ad9ed4b9f362705": {
+            "id": "650bf5ed1ad9ed4b9f362705"
+        },
+        "650bf5f11ad9ed4b9f362706": {
+            "id": "650bf5f11ad9ed4b9f362706"
+        },
+        "650bf5fb1ad9ed4b9f362707": {
+            "id": "650bf5fb1ad9ed4b9f362707"
+        },
+        "650bf6001ad9ed4b9f362708": {
+            "id": "650bf6001ad9ed4b9f362708"
+        },
+        "650bf6041ad9ed4b9f362709": {
+            "id": "650bf6041ad9ed4b9f362709"
+        },
+        "650bf6091ad9ed4b9f36270a": {
+            "id": "650bf6091ad9ed4b9f36270a"
+        },
+        "650bf6121ad9ed4b9f36270b": {
+            "id": "650bf6121ad9ed4b9f36270b"
+        },
+        "650bf6161ad9ed4b9f36270c": {
+            "id": "650bf6161ad9ed4b9f36270c"
+        },
+        "650bf61b1ad9ed4b9f36270d": {
+            "id": "650bf61b1ad9ed4b9f36270d"
+        },
+        "650bf61e1ad9ed4b9f36270e": {
+            "id": "650bf61e1ad9ed4b9f36270e"
+        },
+        "650bf6271ad9ed4b9f36270f": {
+            "id": "650bf6271ad9ed4b9f36270f"
+        },
+        "650bf62b1ad9ed4b9f362710": {
+            "id": "650bf62b1ad9ed4b9f362710"
+        },
+        "650bf62f1ad9ed4b9f362711": {
+            "id": "650bf62f1ad9ed4b9f362711"
+        },
+        "650bf6331ad9ed4b9f362712": {
+            "id": "650bf6331ad9ed4b9f362712"
+        },
+        "650bf63d1ad9ed4b9f362713": {
+            "id": "650bf63d1ad9ed4b9f362713"
+        },
+        "650bf6441ad9ed4b9f362714": {
+            "id": "650bf6441ad9ed4b9f362714"
+        },
+        "650bf6481ad9ed4b9f362715": {
+            "id": "650bf6481ad9ed4b9f362715"
+        },
+        "650bf64b1ad9ed4b9f362716": {
+            "id": "650bf64b1ad9ed4b9f362716"
+        }
+    }
+}
+###
+
+GET  http://localhost:8080/api/roles/650bfca31ad9ed4b9f362724 HTTP/1.1

@@ -1,0 +1,558 @@
+[{
+  "_id": {
+    "$oid": "650bf87b1ad9ed4b9f362722"
+  },
+  "name": "user",
+  "autoAddAble": true,
+  "permissions": {
+    "650bf4e01ad9ed4b9f3626eb": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4e01ad9ed4b9f3626eb"
+      }
+    },
+    "650bf5091ad9ed4b9f3626f2": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5091ad9ed4b9f3626f2"
+      }
+    },
+    "650bf5121ad9ed4b9f3626f3": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5121ad9ed4b9f3626f3"
+      }
+    },
+    "650bf5b31ad9ed4b9f3626fb": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5b31ad9ed4b9f3626fb"
+      }
+    },
+    "650bf5e41ad9ed4b9f362703": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5e41ad9ed4b9f362703"
+      }
+    },
+    "650bf5dc1ad9ed4b9f362702": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5dc1ad9ed4b9f362702"
+      }
+    },
+    "650bf6121ad9ed4b9f36270b": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6121ad9ed4b9f36270b"
+      }
+    },
+    "650bf63d1ad9ed4b9f362713": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf63d1ad9ed4b9f362713"
+      }
+    },
+    "650bf6481ad9ed4b9f362715": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6481ad9ed4b9f362715"
+      }
+    },
+    "650bf64b1ad9ed4b9f362716": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf64b1ad9ed4b9f362716"
+      }
+    }
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Role"
+},
+{
+  "_id": {
+    "$oid": "650bfa821ad9ed4b9f362723"
+  },
+  "name": "editor",
+  "autoAddAble": false,
+  "permissions": {
+    "650bf4e01ad9ed4b9f3626eb": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4e01ad9ed4b9f3626eb"
+      }
+    },
+    "650bf4e81ad9ed4b9f3626ec": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4e81ad9ed4b9f3626ec"
+      }
+    },
+    "650bf4ed1ad9ed4b9f3626ed": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4ed1ad9ed4b9f3626ed"
+      }
+    },
+    "650bf4f11ad9ed4b9f3626ee": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4f11ad9ed4b9f3626ee"
+      }
+    },
+    "650bf4f91ad9ed4b9f3626ef": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4f91ad9ed4b9f3626ef"
+      }
+    },
+    "650bf5011ad9ed4b9f3626f0": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5011ad9ed4b9f3626f0"
+      }
+    },
+    "650bf5051ad9ed4b9f3626f1": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5051ad9ed4b9f3626f1"
+      }
+    },
+    "650bf5091ad9ed4b9f3626f2": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5091ad9ed4b9f3626f2"
+      }
+    },
+    "650bf5121ad9ed4b9f3626f3": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5121ad9ed4b9f3626f3"
+      }
+    },
+    "650bf5161ad9ed4b9f3626f4": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5161ad9ed4b9f3626f4"
+      }
+    },
+    "650bf51b1ad9ed4b9f3626f5": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf51b1ad9ed4b9f3626f5"
+      }
+    },
+    "650bf5201ad9ed4b9f3626f6": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5201ad9ed4b9f3626f6"
+      }
+    },
+    "650bf5b31ad9ed4b9f3626fb": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5b31ad9ed4b9f3626fb"
+      }
+    },
+    "650bf5b81ad9ed4b9f3626fc": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5b81ad9ed4b9f3626fc"
+      }
+    },
+    "650bf5be1ad9ed4b9f3626fd": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5be1ad9ed4b9f3626fd"
+      }
+    },
+    "650bf5c21ad9ed4b9f3626fe": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5c21ad9ed4b9f3626fe"
+      }
+    },
+    "650bf5cd1ad9ed4b9f3626ff": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5cd1ad9ed4b9f3626ff"
+      }
+    },
+    "650bf5d21ad9ed4b9f362700": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5d21ad9ed4b9f362700"
+      }
+    },
+    "650bf5d61ad9ed4b9f362701": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5d61ad9ed4b9f362701"
+      }
+    },
+    "650bf5dc1ad9ed4b9f362702": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5dc1ad9ed4b9f362702"
+      }
+    },
+    "650bf5e41ad9ed4b9f362703": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5e41ad9ed4b9f362703"
+      }
+    },
+    "650bf5e81ad9ed4b9f362704": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5e81ad9ed4b9f362704"
+      }
+    },
+    "650bf5ed1ad9ed4b9f362705": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5ed1ad9ed4b9f362705"
+      }
+    },
+    "650bf5f11ad9ed4b9f362706": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5f11ad9ed4b9f362706"
+      }
+    },
+    "650bf6121ad9ed4b9f36270b": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6121ad9ed4b9f36270b"
+      }
+    },
+    "650bf6161ad9ed4b9f36270c": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6161ad9ed4b9f36270c"
+      }
+    },
+    "650bf61b1ad9ed4b9f36270d": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf61b1ad9ed4b9f36270d"
+      }
+    },
+    "650bf61e1ad9ed4b9f36270e": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf61e1ad9ed4b9f36270e"
+      }
+    },
+    "650bf63d1ad9ed4b9f362713": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf63d1ad9ed4b9f362713"
+      }
+    },
+    "650bf6441ad9ed4b9f362714": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6441ad9ed4b9f362714"
+      }
+    },
+    "650bf6481ad9ed4b9f362715": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6481ad9ed4b9f362715"
+      }
+    },
+    "650bf64b1ad9ed4b9f362716": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf64b1ad9ed4b9f362716"
+      }
+    },
+    "650bf6091ad9ed4b9f36270a": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6091ad9ed4b9f36270a"
+      }
+    },
+    "650bf6331ad9ed4b9f362712": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6331ad9ed4b9f362712"
+      }
+    }
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Role"
+},
+{
+  "_id": {
+    "$oid": "650bfca31ad9ed4b9f362724"
+  },
+  "name": "admin",
+  "autoAddAble": false,
+  "permissions": {
+    "650bf4e01ad9ed4b9f3626eb": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4e01ad9ed4b9f3626eb"
+      }
+    },
+    "650bf4e81ad9ed4b9f3626ec": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4e81ad9ed4b9f3626ec"
+      }
+    },
+    "650bf4ed1ad9ed4b9f3626ed": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4ed1ad9ed4b9f3626ed"
+      }
+    },
+    "650bf4f11ad9ed4b9f3626ee": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4f11ad9ed4b9f3626ee"
+      }
+    },
+    "650bf4f91ad9ed4b9f3626ef": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4f91ad9ed4b9f3626ef"
+      }
+    },
+    "650bf5011ad9ed4b9f3626f0": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5011ad9ed4b9f3626f0"
+      }
+    },
+    "650bf5051ad9ed4b9f3626f1": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5051ad9ed4b9f3626f1"
+      }
+    },
+    "650bf5091ad9ed4b9f3626f2": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5091ad9ed4b9f3626f2"
+      }
+    },
+    "650bf5121ad9ed4b9f3626f3": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5121ad9ed4b9f3626f3"
+      }
+    },
+    "650bf5161ad9ed4b9f3626f4": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5161ad9ed4b9f3626f4"
+      }
+    },
+    "650bf51b1ad9ed4b9f3626f5": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf51b1ad9ed4b9f3626f5"
+      }
+    },
+    "650bf5201ad9ed4b9f3626f6": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5201ad9ed4b9f3626f6"
+      }
+    },
+    "650bf52b1ad9ed4b9f3626f7": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf52b1ad9ed4b9f3626f7"
+      }
+    },
+    "650bf52f1ad9ed4b9f3626f8": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf52f1ad9ed4b9f3626f8"
+      }
+    },
+    "650bf5351ad9ed4b9f3626f9": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5351ad9ed4b9f3626f9"
+      }
+    },
+    "650bf5391ad9ed4b9f3626fa": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5391ad9ed4b9f3626fa"
+      }
+    },
+    "650bf5b31ad9ed4b9f3626fb": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5b31ad9ed4b9f3626fb"
+      }
+    },
+    "650bf5b81ad9ed4b9f3626fc": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5b81ad9ed4b9f3626fc"
+      }
+    },
+    "650bf5be1ad9ed4b9f3626fd": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5be1ad9ed4b9f3626fd"
+      }
+    },
+    "650bf5c21ad9ed4b9f3626fe": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5c21ad9ed4b9f3626fe"
+      }
+    },
+    "650bf5cd1ad9ed4b9f3626ff": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5cd1ad9ed4b9f3626ff"
+      }
+    },
+    "650bf5d21ad9ed4b9f362700": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5d21ad9ed4b9f362700"
+      }
+    },
+    "650bf5d61ad9ed4b9f362701": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5d61ad9ed4b9f362701"
+      }
+    },
+    "650bf5dc1ad9ed4b9f362702": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5dc1ad9ed4b9f362702"
+      }
+    },
+    "650bf5e41ad9ed4b9f362703": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5e41ad9ed4b9f362703"
+      }
+    },
+    "650bf5e81ad9ed4b9f362704": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5e81ad9ed4b9f362704"
+      }
+    },
+    "650bf5ed1ad9ed4b9f362705": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5ed1ad9ed4b9f362705"
+      }
+    },
+    "650bf5f11ad9ed4b9f362706": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5f11ad9ed4b9f362706"
+      }
+    },
+    "650bf5fb1ad9ed4b9f362707": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf5fb1ad9ed4b9f362707"
+      }
+    },
+    "650bf6001ad9ed4b9f362708": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6001ad9ed4b9f362708"
+      }
+    },
+    "650bf6041ad9ed4b9f362709": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6041ad9ed4b9f362709"
+      }
+    },
+    "650bf6091ad9ed4b9f36270a": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6091ad9ed4b9f36270a"
+      }
+    },
+    "650bf6121ad9ed4b9f36270b": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6121ad9ed4b9f36270b"
+      }
+    },
+    "650bf6161ad9ed4b9f36270c": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6161ad9ed4b9f36270c"
+      }
+    },
+    "650bf61b1ad9ed4b9f36270d": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf61b1ad9ed4b9f36270d"
+      }
+    },
+    "650bf61e1ad9ed4b9f36270e": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf61e1ad9ed4b9f36270e"
+      }
+    },
+    "650bf6271ad9ed4b9f36270f": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6271ad9ed4b9f36270f"
+      }
+    },
+    "650bf62b1ad9ed4b9f362710": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf62b1ad9ed4b9f362710"
+      }
+    },
+    "650bf62f1ad9ed4b9f362711": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf62f1ad9ed4b9f362711"
+      }
+    },
+    "650bf6331ad9ed4b9f362712": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6331ad9ed4b9f362712"
+      }
+    },
+    "650bf63d1ad9ed4b9f362713": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf63d1ad9ed4b9f362713"
+      }
+    },
+    "650bf6441ad9ed4b9f362714": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6441ad9ed4b9f362714"
+      }
+    },
+    "650bf6481ad9ed4b9f362715": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf6481ad9ed4b9f362715"
+      }
+    },
+    "650bf64b1ad9ed4b9f362716": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf64b1ad9ed4b9f362716"
+      }
+    }
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Role"
+}]

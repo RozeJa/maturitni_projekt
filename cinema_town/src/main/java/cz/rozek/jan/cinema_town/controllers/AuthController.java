@@ -18,7 +18,6 @@ import cz.rozek.jan.cinema_town.models.dtos.TokenDeviceId;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
-import cz.rozek.jan.cinema_town.servicies.auth.RandomStringGenerator;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 
 @org.springframework.web.bind.annotation.RestController
@@ -37,6 +36,10 @@ public class AuthController {
     private AuthService authService;
     // repozitář pro přístup k uživatelúm
     private UserRepository userRepository;
+    
+    // služba pro odesílání emailů
+    @Autowired
+    private EmailService emailService;
 
     // metoda pro vložení závislosti na UserRepository
     @Autowired
@@ -55,11 +58,14 @@ public class AuthController {
         // TODO po dopsání metody register přidat catch výjimek
         try {
 
-            // registruj uživatele a vystav mu token
-            String tempJWT = authService.register(user);
+            // registruj uživatele a vystav mu aktivační kód
+            String activationCode = authService.register(user);
+
+            // pošly mu kód na email
+            emailService.sendSimpleMessage(user.getEmail(), "Activation Code", "Your activation token is: " + activationCode);
 
             // vrať login JWT
-            return new ResponseEntity<>(tempJWT, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -75,11 +81,13 @@ public class AuthController {
      * @return http responce s id zařízení, které bude příjmané jako důvěryhodné
      */
     @PostMapping("/activate-account")
-    public ResponseEntity<String> activate(@RequestBody String activationCode,
-            @RequestHeader Map<String, String> headers) {
+    public ResponseEntity<String> activate(@RequestBody String activationCode) {
         try {
+
+            System.out.println(activationCode);
+
             // zkus ověřit
-            String deviceID = authService.activateUser(headers.get(authorization), activationCode);
+            String deviceID = authService.activateUser(activationCode);
 
             if (deviceID != null)
                 return new ResponseEntity<>(deviceID, HttpStatus.OK);
@@ -100,9 +108,15 @@ public class AuthController {
      * @return http responce
      */
     @PostMapping("/reset-activation-code")
-    public ResponseEntity<String> resetActivationCode(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity<String> resetActivationCode(@RequestBody User user) {
         try {
-            if (authService.resetActivationCode(headers.get(authorization)))
+
+            String newActivationCode = authService.resetActivationCode(user);
+
+            // pošly mu kód na email
+            emailService.sendSimpleMessage(user.getEmail(), "Activation Code", "Your new activation token is: " + newActivationCode);
+
+            if (!newActivationCode.isEmpty())
                 return new ResponseEntity<>(HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -136,8 +150,11 @@ public class AuthController {
             if (identification.equals("login"))
                 return new ResponseEntity<>(token, HttpStatus.OK);
             // pokud ne vrať status 100
-            else
-                return new ResponseEntity<>(token, HttpStatus.CONTINUE);
+            else {
+                // TODO: poslat na email tento token
+                emailService.sendSimpleMessage(user.getEmail(), "Second Verification", "Your access token is: " + token);
+                return new ResponseEntity<>(HttpStatus.CONTINUE);
+            }
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
@@ -158,16 +175,14 @@ public class AuthController {
      * @return pokud se uživatel prověří, ta vrátí login JWT
      */
     @PostMapping("/second-verify")
-    public ResponseEntity<TokenDeviceId> secondVerify(@RequestHeader Map<String, String> headers,
-            @RequestBody String verifycationToken) {
+    public ResponseEntity<TokenDeviceId> secondVerify(@RequestBody String verifycationToken) {
         try {
 
             // ověř zda je i druhá fáze přihlášení provedena správně
-            User user = authService.secondVerification(headers.get(authorization), verifycationToken);
+            User user = authService.secondVerification(verifycationToken);
 
             // přidej uživateli id d;věryhodného zařízení
-            String trustedDeviceID = RandomStringGenerator.generateRandomString("DV");
-            user.getTrustedDevicesId().add(trustedDeviceID);
+            String trustedDeviceID = authService.addDeviceIDToUser(user);
 
             // uživatele ulož
             userRepository.save(user);
@@ -190,8 +205,7 @@ public class AuthController {
      * Metoda pro odebrání důvěryhodného zařízení
      */
     @PostMapping("/remove-device")
-    public ResponseEntity<String> removeDevice(@RequestHeader Map<String, String> headers,
-            @RequestBody String deviceId) {
+    public ResponseEntity<String> removeDevice(@RequestHeader Map<String, String> headers, @RequestBody String deviceId) {
         try {
 
             // získej si id uživatele
@@ -200,6 +214,8 @@ public class AuthController {
             User user = userRepository.findById(userID).get();
 
             boolean removed = user.getTrustedDevicesId().remove(deviceId);
+
+            userRepository.save(user);
 
             if (removed)
                 return new ResponseEntity<String>(HttpStatus.OK);
@@ -293,9 +309,6 @@ public class AuthController {
 
 
     // TODO example remove
-
-    @Autowired
-    private EmailService emailService;
 
     @GetMapping("/sendEmail")
     public ResponseEntity<String> sendEmail(@RequestParam(name = "to") String to, @RequestParam(name = "subject") String subject, @RequestParam(name = "message") String message) {

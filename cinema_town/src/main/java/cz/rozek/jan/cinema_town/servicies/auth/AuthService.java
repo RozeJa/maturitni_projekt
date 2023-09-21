@@ -1,5 +1,6 @@
 package cz.rozek.jan.cinema_town.servicies.auth;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.dtos.SecondVerificationToken;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 
@@ -41,21 +43,20 @@ public class AuthService {
 
     // množina vydaných a aktivních JWT, používaných pro login
     private Set<String> loggedIn = new HashSet<>();
-    // množina vydaných a aktivních JWT, používaných pro registraci
-    private Set<String> registered = new HashSet<>();
 
-    // mapa kde jsou pod aktivačnímy kódy mapováni neaktivovaní uživatelé
-    private Map<String, User> inactiveUsers = new HashMap<>();
+    // mapa kde jsou pod aktivačnímy kódy mapováni id neaktivovaní uživatelé
+    private Map<String, String> inactiveUsers = new HashMap<>();
     
     // mapa uživatelů, kteří čekají na zadání druhé fáze přihlášení
     // mapa je ve stylu userID => token
-    private Map<String, String> secondVerification = new HashMap<>();
+    private Map<String, SecondVerificationToken> secondVerification = new HashMap<>();
 
     // mapa ve které je uložen kód pro reserování => userID
     private Map<String, String> forgottenPWs = new HashMap<>();
 
     // repozitář pro přístup k uživatelúm
     private UserRepository userRepository;
+
 
     // metoda pro vložení závislosti na UserRepository
     @Autowired
@@ -82,75 +83,62 @@ public class AuthService {
     }
 
     /**
-     * 
-     * @param tempToken dočasný JWT
-     * @param verifycationCode kód, kterým se má uživatel prokázat
-     * @return uživatel
+     * Metoda zaregistruje uživatele do systému
+     * @param user // nový uživatel
+     * @return objekt, reprezentující uživatele, i s id
      */
-    public User secondVerification(String tempToken, String verifycationCode) throws NullPointerException, SecurityException {
+    public String register(User user) throws JoseException {
 
-        // získej si userID
-        String userID = verifyJWT(tempToken, rsaTempTokenKey, Set.of(tempToken));
+        User newUser = new User();
+        // TODO implementovat metodu, která registruj uživatele
+        // zvaliduj email
+        // zvaliduj passphrase
 
-        // zjisti si jaký aktivační kód k tomuto uživateli patří, pokud je null vyvolej vyjímku
-        if (secondVerification.get(userID) == null) 
-            throw new NullPointerException();
+        // změň heslo na hash
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
-        // zkontroluj zda je ověřovací token správný
-        if (secondVerification.get(userID).equals(verifycationCode)) {
-            // odeber záznam z kolekce
-            secondVerification.remove(userID);
-            User user = userRepository.findById(userID).get();
-            return user;
-        
-        // pokud došlo ke špatnému zadání tokenu vygeneruj jiný  
-        } else if(userID != null) {
-            // vygeneruj přístupový token
-            String token = RandomStringGenerator.generateRandomString("");
+        // pokud takový uživatel neexistuje přidej ho do db
 
-            // přidej do mapy pro druhé ověření pod id uživatele token
-            secondVerification.put(userID, token);
+        // vygeneruj pro něj jednorázový aktivační kód
+        String activationCode = RandomStringGenerator.generateRandomString(true, 10);
+        // načti si uživatele
+        newUser = userRepository.save(newUser);
 
-            // TODO: poslat na email tento token
-            
-            throw new IllegalStateException();
-        }
-        
-        throw new NullPointerException();
+        inactiveUsers.put(activationCode, newUser.getId());
+
+        return activationCode;
     }
 
     /**
      * Metoda pro aktivaci uživatelského účtu
      * 
-     * @param tempJWT dočasný JWT
      * @param activationCode kód pro oktivaci uživatele
      * @return vrátí true pokud uživatel byl aktivován. V opačném řípadě vrátí false.
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
      *                           podvržený, nebo neplatný
      */
-    public String activateUser(String tempJWT, String activationCode) throws SecurityException {
+    public String activateUser(String activationCode) throws SecurityException {
+
         // zjisti zda pod aktivačním kódem někoho máš
-        User expectedUser = inactiveUsers.get(activationCode);
-        if (expectedUser != null) {
+        String expectedUserID = inactiveUsers.get(activationCode);
+        if (expectedUserID != null) {
 
-            String userID = verifyJWT(tempJWT, rsaTempTokenKey, registered);
+            User user = userRepository.findById(expectedUserID).get();
 
-            // pokud jo prověř zda je to stejný uživatel
-            if (expectedUser.getId().equals(userID)) {
-                // pokud je, aktivuj ho
-                expectedUser.setActive(true);
+            // pokud je, aktivuj ho
+            user.setActive(true);
 
-                // přidej uživateli id důvěryhodného zařízení
-                String deviceID = addDeviceIDToUser(expectedUser);
+            // přidej uživateli id důvěryhodného zařízení
+            String deviceID = addDeviceIDToUser(user);
 
-                // ulož změny
-                userRepository.save(expectedUser);
+            // ulož změny
+            userRepository.save(user);
 
-                // odeber aktivovaného uživatele z mapy pro neaktivované
-                inactiveUsers.remove(activationCode);
+            // odeber aktivovaného uživatele z mapy pro neaktivované
+            inactiveUsers.remove(activationCode);
 
-                return deviceID;
-            }
+            return deviceID;
         }
 
         // když buť pod kódem nikoho nemáš, nebo pokud se uživatel neshoduje vtať null
@@ -160,77 +148,37 @@ public class AuthService {
     /**
      * Metoda pro vygenerování jiného aktivačního kódu
      * 
-     * @param tempJWT
-     * @return vrátí true pokud změnil aktivační kód
+     * @param user
+     * @return vrátí nový aktivační kód
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken podvržený, nebo neplatný
      */
-    public boolean resetActivationCode(String tempJWT) throws SecurityException {
+    public String resetActivationCode(User user) throws SecurityException {
 
-        // získej si z tokenu id uživate, který o reser žádá
-        String userID = verifyJWT(tempJWT, rsaTempTokenKey, Set.of(tempJWT));
+        if (!verifyUserLogin(user)) 
+            throw new SecurityException("Invalid user");
+
 
         // pokud účet ještě není aktivovaný, vygeneruj nový token 
-        User loader = userRepository.findById(userID).get();
-        if (loader.isActive()) {
-            return false;
-        }
+        User loaded = userRepository.findByEmail(user.getEmail());
+        if (loaded.isActive()) 
+            return "";
 
         String oldActivationCode = "";
         String newActivationCode = "";
-        User user = null;
         for (String activationCode : inactiveUsers.keySet()) {
-            if (inactiveUsers.get(activationCode).getId().equals(userID)) {
-                newActivationCode = RandomStringGenerator.generateRandomString(""); 
+            if (inactiveUsers.get(activationCode).equals(loaded.getId())) {
+                newActivationCode = RandomStringGenerator.generateRandomString(true, 10); 
                 oldActivationCode = activationCode;
-                user = inactiveUsers.get(activationCode);
-
                 break;
             }
         }
         
-        // pokud uživatel není v kolekci 
-        if (user == null) {
-            newActivationCode = RandomStringGenerator.generateRandomString(""); 
-            user = userRepository.findById(userID).get();
+        newActivationCode = RandomStringGenerator.generateRandomString(true, 10); 
             
-            inactiveUsers.put(newActivationCode, user);
+        inactiveUsers.remove(oldActivationCode);
+        inactiveUsers.put(newActivationCode, loaded.getId());
 
-            // TODO pošly email s novým aktivačním kódem
-
-            return true;
-
-            // pokud jsi vygeneroval nový kód, tak ho vyměň s novým
-        } else if (!oldActivationCode.equals("")) {
-
-            // TODO pošly email s novým aktivačním kódem
-
-            inactiveUsers.remove(oldActivationCode);
-            inactiveUsers.put(newActivationCode, user);
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Metoda zaregistruje uživatele do systému
-     * @param user // nový uživatel
-     * @return objekt, reprezentující uživatele, i s id
-     */
-    public String register(User user) {
-        // TODO implementovat metodu, která registruj uživatele
-        // zvaliduj email
-        // zvaliduj passphrase
-
-        // změň heslo na hash
-
-        // pokud takový uživatel neexistuje přidej ho do db
-
-        // vygeneruj pro něj jednorázový aktivační kód
-
-        // pošly mu kód na email
-
-        return null;
+        return newActivationCode;
     }
 
     /**
@@ -245,12 +193,8 @@ public class AuthService {
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
-        // pokud uživatel neexistuje vyvolej NullPointerException
-        if (userFromDB == null)
-            throw new NullPointerException();
-
-        // pokud uživatel existuje použij BCrypt k ověření hesla
-        if (BCrypt.checkpw(user.getPassword(), userFromDB.getPassword())) {
+        // ověř zda údaje sedí
+        if (verifyUserLogin(user)) {
 
             // uživatel se přihásil správně zkontroluj, zda se přihlašuje ze známého
             // zařízení
@@ -266,21 +210,50 @@ public class AuthService {
                 // uživatel se nepřihlašuje, ze známého zařízení
             } else {
                 // vygeneruj přístupový token
-                String token = RandomStringGenerator.generateRandomString("");
+                String token = RandomStringGenerator.generateRandomString(true, 10);
 
-                // přidej do mapy pro druhé ověření pod id uživatele token
-                secondVerification.put(userFromDB.getId(), token);
+                SecondVerificationToken svt = new SecondVerificationToken();
+                svt.setUserID(userFromDB.getId());
+                svt.setExpiration(LocalDateTime.now());
+                svt.setMinutesToExpire(10);
 
-                // TODO: poslat na email tento token
+                // přidej do mapy pro druhé ověření pod token id uživatele
+                secondVerification.put(token, svt);
 
-                // vygeneruj dočasný JWT
-                String jwt = generateTempJWT(userFromDB);
-
-                return "temp#" + jwt;
+                return "token#" + token;
             }
         } else
             // heslo není správné vyvolej SecurityException
             throw new SecurityException("Password isn´t right.");
+    }
+
+    /**
+     * 
+     * @param tempToken dočasný JWT
+     * @param verificationCode kód, kterým se má uživatel prokázat
+     * @return uživatel
+     */
+    public User secondVerification(String verificationCode) throws NullPointerException, SecurityException {
+
+        String userID = secondVerification.get(verificationCode).getUserID();
+
+        // zjisti si jaký aktivační kód k tomuto uživateli patří, pokud je null vyvolej vyjímku
+        if (userID == null || secondVerification.get(verificationCode).isExpired()) 
+            throw new NullPointerException();
+
+        // odeber záznam z kolekce
+        secondVerification.remove(verificationCode);
+        User user = userRepository.findById(userID).get();
+        return user;
+    }
+
+    private boolean verifyUserLogin(User user) {
+        User userFromDB = userRepository.findByEmail(user.getEmail());
+
+        if (userFromDB == null) 
+            return false;
+
+        return BCrypt.checkpw(user.getPassword(), userFromDB.getPassword());
     }
 
     /**
@@ -317,37 +290,6 @@ public class AuthService {
      */
     public void logout(String loginJWT) {
         loggedIn.remove(loginJWT);
-    }
-
-    /**
-     * Metoda pro vygenerování register JWT
-     * 
-     * @param user uživatel pro, kterého bude token vygenerován
-     * @return dočasný JWT
-     * @throws JoseException chyba při generování tokenu vyvolá tuto vyjímku
-     */
-    private String generateTempJWT(User user) throws JoseException {
-        // nastavení parametrů JWT
-        JwtClaims claims = new JwtClaims();
-        claims.setIssuer(ISSUER); // vydavatel
-        claims.setAudience(AUDIENCE); // publikum
-        claims.setGeneratedJwtId();
-        claims.setIssuedAtToNow(); // kdy byl vydán
-        claims.setSubject(user.getId()); // nastav předmět na id uživatele
-        claims.setClaim("email", user.getEmail()); // nastav email
-
-        // převeď claimy na JWS
-        JsonWebSignature jws = new JsonWebSignature();
-        jws.setPayload(claims.toJson());
-
-        // přidej šifrování
-        jws.setKey(rsaTempTokenKey.getPrivateKey());
-        jws.setKeyIdHeaderValue(rsaTempTokenKey.getKeyId());
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
-
-        // skompiluj do tokenu
-        String jwt = jws.getCompactSerialization();
-        return jwt;
     }
 
     /**
@@ -421,14 +363,14 @@ public class AuthService {
      * @param user
      * @return přidané id pro zařízení
      */
-    private String addDeviceIDToUser(User user) {
+    public String addDeviceIDToUser(User user) {
         boolean generatedSuccessly = false;
         String deviceID = null;
 
         while (!generatedSuccessly) {
-            deviceID = RandomStringGenerator.generateRandomString("Device_");
+            deviceID = RandomStringGenerator.generateRandomString(true, 64);
 
-            generatedSuccessly = user.getTrustedDevicesId().contains(deviceID);
+            generatedSuccessly = !user.getTrustedDevicesId().contains(deviceID);
         }
 
         user.getTrustedDevicesId().add(deviceID);
