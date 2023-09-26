@@ -1,5 +1,6 @@
 package cz.rozek.jan.cinema_town.models.stable;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,5 +18,6 @@ public class Genre implements Entity {
     private String id;
 
     // název žánru 
+    @NotBlank
     private String name;
 }

@@ -32,7 +32,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
 
     // metoda, která ověří přístup, pokud s požadevkem nebyl zaslán přístupový JWT
     protected boolean verifyNullToken(String requiredActivity) {
-        return true;
+        return false;
     }
 
     /**
@@ -116,6 +116,9 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
         
         // ověř oprávnění
         verifyAccess(accessJWT, updatePermissionRequired());
+
+        if (repository.findById(id).isEmpty()) 
+            throw new NullPointerException();
 
         // nastav id
         entity.setId(id);

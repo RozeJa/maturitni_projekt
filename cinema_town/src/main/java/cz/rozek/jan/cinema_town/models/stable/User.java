@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,17 +28,22 @@ public class User implements Entity {
     private String id;
 
     // email
+    @NotBlank
+    @Email
     private String email;
     // heslo
+    @NotBlank
     private String password;
 
     // zda byl účet aktivován
-    private boolean active;
+    private boolean active = false;
 
     // role, kterou uživatel má
+    @NotNull
     @DBRef
     private Role role;
     // rezervace uživatele maované ip => rezervace
+    @NotNull
     @DBRef
     private Map<String, Reservation> reservations = new HashMap<>();
 

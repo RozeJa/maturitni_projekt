@@ -4,8 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,17 +29,21 @@ public class Film implements Entity {
     private String id;
 
     // název filmu
+    @NotBlank
     private String name;
     // popis děje filmu
+    @NotBlank
     private String description;
     // adresa k filmu
     private String picture;
     // adresa k traileru na youtube
     private String trailer;
     // originání znění
+    @NotBlank
     private String original;
 
     // režisér
+    @NotNull
     @DBRef
     private People direcror;
     // herci mapovaní id => herec
@@ -50,14 +59,19 @@ public class Film implements Entity {
     private List<String> dabings = new ArrayList<>();
     
     // kolik minut film trvá
+    @Min(0)
     private int time;
     // věková hranice
+    @Min(0)
     private int pg;
     // cena lístku
+    @Min(0)
     private double cost;
     
     // datum kdy byl film vypuštěn
+    @NotNull
     private LocalDate production;
     // den premiéry 
+    @NotNull
     private LocalDate premier;
 }

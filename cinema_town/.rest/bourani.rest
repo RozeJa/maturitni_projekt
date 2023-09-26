@@ -1,0 +1,7 @@
+metoda adresa HTTP/1.1
+header: value
+
+data
+####
+
+GET http://localhost:8080/api/permissions/ HTTP/1.1

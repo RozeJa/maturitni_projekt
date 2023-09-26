@@ -127,9 +127,6 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
 
             E updated = service.update(id, data, headers.get(authorization), headers.get(deviceID));
 
-            if (updated == null)
-                throw new NullPointerException();
-
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

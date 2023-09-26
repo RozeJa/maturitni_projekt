@@ -1,4 +1,4 @@
-package cz.rozek.jan.cinema_town.controllers.restControllers;
+ package cz.rozek.jan.cinema_town.controllers.restControllers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

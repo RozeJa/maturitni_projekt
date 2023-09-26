@@ -2,6 +2,8 @@ package cz.rozek.jan.cinema_town.models.dynamic;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,9 +23,11 @@ public class Reservation implements Entity {
     private String id;
 
     // promítání, ke kterénu je reervace vztahuje
+    @NotNull
     @DBRef
     private Projection projection;
     // rezervované sedadlo
+    @NotNull
     @DBRef
     private Seat seat;
     // proměná signalizuje, zda je rezervace zaplacena
