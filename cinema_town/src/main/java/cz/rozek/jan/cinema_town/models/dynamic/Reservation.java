@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,10 @@ public class Reservation implements Entity {
     @NotNull
     @DBRef
     private Projection projection;
+    // uživatel, který provedl rezervaci
+    @NotNull
+    @DBRef
+    private User user;
     // rezervované sedadlo
     @NotNull
     @DBRef

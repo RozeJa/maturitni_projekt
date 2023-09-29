@@ -1,20 +1,19 @@
 package cz.rozek.jan.cinema_town.models.stable;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
-import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +29,7 @@ public class User implements Entity {
     // email
     @NotBlank
     @Email
+    @Indexed(unique = true)
     private String email;
     // heslo
     @NotBlank
@@ -38,14 +38,19 @@ public class User implements Entity {
     // zda byl účet aktivován
     private boolean active = false;
 
+    // zda chce odebírat novinky 
+    private boolean subscriber = false;
+
     // role, kterou uživatel má
     @NotNull
     @DBRef
     private Role role;
-    // rezervace uživatele maované ip => rezervace
-    @NotNull
-    @DBRef
-    private Map<String, Reservation> reservations = new HashMap<>();
 
     private Set<String> trustedDevicesId = new TreeSet<>();
+
+    public boolean validateEmail() {
+        Pattern emailReg = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+
+        return emailReg.matcher(email).matches();
+    }
 }

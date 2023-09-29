@@ -38,4 +38,6 @@ public class PermissionService extends CrudService<Permission, PermissionReposit
     public String deletePermissionRequired() {
         return "permission-delete";
     }
+
+    // Modoty C UD jsou zablokované u endpointů přístup k nim se bude zapínat jen přepsáním zdrojáku, když přibude nějaká důležitá funkcem. Přistupovat k jim bude moci jen vývojář, a jejich úpravy budou na jeho zodpovědnot
 }

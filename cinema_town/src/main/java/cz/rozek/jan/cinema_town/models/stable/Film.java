@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class Film implements Entity {
     private String trailer;
     // originání znění
     @NotBlank
+    @Size(min = 2, max = 3)
     private String original;
 
     // režisér

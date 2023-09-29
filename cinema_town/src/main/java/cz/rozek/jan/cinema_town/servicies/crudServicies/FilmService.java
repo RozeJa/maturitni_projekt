@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.stable.Film;
 import cz.rozek.jan.cinema_town.repositories.FilmRepository;
+import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
 public class FilmService extends CrudService<Film, FilmRepository> {
+
+    @Autowired
+    private ProjectionRepository projectionRepository;
     
     @Autowired
     @Override
@@ -37,5 +41,15 @@ public class FilmService extends CrudService<Film, FilmRepository> {
     @Override
     public String deletePermissionRequired() {
         return "film-delete";
+    }
+
+    @Override
+    public boolean delete(String id, String accessJWT) {
+    
+        // pokud film není přiřazený u žádného promítání můžeš ho odebrat
+        if (projectionRepository.findByFilmId(id).size() == 0)
+            return super.delete(id, accessJWT);
+            
+        return false;
     }
 }

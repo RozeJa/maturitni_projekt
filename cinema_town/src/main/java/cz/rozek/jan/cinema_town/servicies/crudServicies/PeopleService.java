@@ -1,15 +1,22 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.stable.Film;
 import cz.rozek.jan.cinema_town.models.stable.People;
+import cz.rozek.jan.cinema_town.repositories.FilmRepository;
 import cz.rozek.jan.cinema_town.repositories.PeopleRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
 public class PeopleService extends CrudService<People, PeopleRepository> {
+
+    @Autowired
+    private FilmRepository filmRepository;
     
     @Autowired
     @Override
@@ -37,5 +44,19 @@ public class PeopleService extends CrudService<People, PeopleRepository> {
     @Override
     public String deletePermissionRequired() {
         return "people-delete";
+    }
+
+    @Override
+    public boolean delete(String id, String accessJWT) {
+
+        // najdi ty filmy, ve kterých se vyskytuje daný člověk
+        List<Film> directorsFilms = filmRepository.findByActorsId(id);
+        List<Film> actorsFilms = filmRepository.findByActorsId(id);
+        
+        // pokud se někde vyskytuje nejde odebrat
+        if (directorsFilms.size() + actorsFilms.size() == 0)    
+            return super.delete(id, accessJWT);
+        
+        return false;
     }
 }

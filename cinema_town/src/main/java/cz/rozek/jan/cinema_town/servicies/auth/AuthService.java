@@ -22,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.dtos.SecondVerificationToken;
+import cz.rozek.jan.cinema_town.models.stable.Role;
 import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.repositories.RoleRepository;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 
 // třída poskytuje služby pro přihlášení, odhlášení a ověření přístupových práv
@@ -56,12 +58,17 @@ public class AuthService {
 
     // repozitář pro přístup k uživatelúm
     private UserRepository userRepository;
-
+    private RoleRepository roleRepository;
 
     // metoda pro vložení závislosti na UserRepository
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     public AuthService() {
@@ -90,15 +97,20 @@ public class AuthService {
     public String register(User user) throws JoseException {
 
         User newUser = new User();
-        // TODO implementovat metodu, která registruj uživatele
+
         // zvaliduj email
+        if (!user.validateEmail()) 
+            throw new SecurityException("Invalid email");
         // zvaliduj passphrase
+        // TODO najít dobrou heslovou politiku
 
         // změň heslo na hash
         newUser.setEmail(user.getEmail());
         newUser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-
-        // pokud takový uživatel neexistuje přidej ho do db
+        
+        // přidej uživateli roli
+        Role role = roleRepository.findByName("user");
+        newUser.setRole(role);
 
         // vygeneruj pro něj jednorázový aktivační kód
         String activationCode = RandomStringGenerator.generateRandomString(true, 10);
@@ -243,8 +255,7 @@ public class AuthService {
 
         // odeber záznam z kolekce
         secondVerification.remove(verificationCode);
-        User user = userRepository.findById(userID).get();
-        return user;
+        return userRepository.findById(userID).get();
     }
 
     private boolean verifyUserLogin(User user) {
@@ -320,8 +331,7 @@ public class AuthService {
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
 
         // skompiluj do tokenu
-        String jwt = jws.getCompactSerialization();
-        return jwt;
+        return jws.getCompactSerialization();
     }
 
     /**
@@ -353,8 +363,7 @@ public class AuthService {
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA256);
 
         // skompiluj do tokenu
-        String jwt = jws.getCompactSerialization();
-        return jwt;
+        return jws.getCompactSerialization();
     }
 
     /**
@@ -465,9 +474,7 @@ public class AuthService {
 
             // získej si uživatele
             String userID = jwtClaims.getSubject();
-            User user = userRepository.findById(userID).get();
-
-            return user;
+            return userRepository.findById(userID).get();
         } catch (InvalidJwtException | MalformedClaimException e) {
             throw new SecurityException("Invalid Token");
         }

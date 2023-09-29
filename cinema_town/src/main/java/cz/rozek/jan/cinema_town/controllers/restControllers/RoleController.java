@@ -24,13 +24,13 @@ public class RoleController extends cz.rozek.jan.cinema_town.controllers.RestCon
     
     @Override
     @PostMapping("/")
-    public ResponseEntity<Role> post(@RequestBody Role data, @RequestHeader Map<String,String> headers) {
+    public ResponseEntity<String> post(@RequestBody Role data, @RequestHeader Map<String,String> headers) {
         return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Role> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
+    public ResponseEntity<String> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
         return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 

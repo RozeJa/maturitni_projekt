@@ -38,4 +38,16 @@ public class RoleService extends CrudService<Role, RoleRepository> {
     public String deletePermissionRequired() {
         return "role-delete";
     }
+
+    @Override
+    public Role update(String id, Role entity, String accessJWT) {
+        
+        // admin role se nedá editovat
+        Role adminRole = repository.findByName("admin");
+        if (adminRole.getId().equals(id)) {
+            throw new SecurityException("Admin role cant be changed");
+        }
+
+        return super.update(id, entity, accessJWT);
+    }
 }

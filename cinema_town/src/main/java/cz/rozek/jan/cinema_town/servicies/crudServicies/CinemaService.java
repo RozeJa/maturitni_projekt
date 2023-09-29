@@ -38,4 +38,25 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
     public String deletePermissionRequired() {
         return "cinema-delete";
     }
+
+    // TODO metoda create múže dostat v Cinema i záznamy mimo DB, ty je třeba nejprve uložit do db
+    @Override
+    public Cinema create(Cinema entity, String accessJWT) {
+        // TODO Auto-generated method stub
+        return super.create(entity, accessJWT);
+    }
+
+    // TODO metoda update může dastat v Cinema i záznamy mino DB, ty je třeba nejprve uložit do db. Případně je třeba smazat odebrané záznamy
+    @Override
+    public Cinema update(String id, Cinema entity, String accessJWT) {
+        // TODO Auto-generated method stub
+        return super.update(id, entity, accessJWT);
+    }
+
+    // TODO kino bude možné odebrat jen pokud neexistují záznamy na něm závislé
+    @Override
+    public boolean delete(String id, String accessJWT) {
+        // TODO Auto-generated method stub
+        return super.delete(id, accessJWT);
+    }
 }

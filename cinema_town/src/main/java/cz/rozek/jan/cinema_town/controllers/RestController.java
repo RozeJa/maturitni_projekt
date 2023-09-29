@@ -2,6 +2,7 @@ package cz.rozek.jan.cinema_town.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import cz.rozek.jan.cinema_town.models.Entity;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
@@ -23,7 +26,7 @@ import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 // ve třídě jsou definované metody pro obsloužení základních http requestů
 // pokud bude třeba metodu přepsat, tak nad anotaci @Override je třeba doplnit i mapování
 // pokud dojde k přidávání dalších endpointů bude potřeba pro ně využít jiné mapování než "/" příp "/{id}" s vyjímkou přepisování stávajících metod
-// TODO vymyslet jak serializovat záznamy z db aby se snížila režie (tok dal, která potečou)
+// TODO vymyslet jak serializovat záznamy z db aby se snížila režie (tok dal, která potečou) - otestovat
 public abstract class RestController<E extends Entity, S extends CrudService<E,?>> {
     
     // definice konstanty, pod kterou bude očekávat v headru JWT
@@ -34,6 +37,10 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
     // spužba pro práci s daty
     @Autowired
     protected S service;
+    @Autowired
+    // třída pro přemapování objektu na json
+    protected ObjectMapper objectMapper;
+
 
     /**
      * metoda rest api pro získání všech záznamů
@@ -41,17 +48,17 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
      * @return pokud uživatel má oprávnění vráti se list záznamů a http status kód 200.
      */
     @GetMapping("/")
-    public ResponseEntity<List<E>> getAll(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity<String> getAll(@RequestHeader Map<String, String> headers) {
         try {
 
-            List<E> entities = service.readAll(headers.get(authorization), headers.get(deviceID));
+            List<E> entities = service.readAll(headers.get(authorization));
 
             if (entities.isEmpty())
                 throw new NullPointerException();
 
-            return new ResponseEntity<>(entities, HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(entities), HttpStatus.OK); 
         } catch (NullPointerException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
@@ -69,16 +76,16 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
      * @return pokud uživatel má oprávnění vráti se záznam i daným id a http status kód 200.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<E> getOne(@PathVariable String id, @RequestHeader Map<String,String> headers) {
+    public ResponseEntity<String> getOne(@PathVariable String id, @RequestHeader Map<String,String> headers) {
         try {
 
-            E entity = service.readById(id, headers.get(authorization), headers.get(deviceID));
+            E entity = service.readById(id, headers.get(authorization));
 
             if (entity == null)
                 throw new NullPointerException();
 
-            return new ResponseEntity<>(entity, HttpStatus.OK);
-        } catch (NullPointerException e) {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(entity), HttpStatus.OK);
+        } catch (NullPointerException | NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -98,12 +105,12 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
      * @return pokud uživatel má oprávnění vráti se nově uložený záznam a http status kód 200.
      */
     @PostMapping("/")
-    public ResponseEntity<E> post(@RequestBody E data, @RequestHeader Map<String,String> headers) {
+    public ResponseEntity<String> post(@RequestBody E data, @RequestHeader Map<String,String> headers) {
         try {
         
-            E saved = service.create(data, headers.get(authorization), headers.get(deviceID));
+            E saved = service.create(data, headers.get(authorization));
 
-            return new ResponseEntity<>(saved, HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(saved), HttpStatus.OK);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
@@ -122,13 +129,13 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
      * @return pokud uživatel má oprávnění vráti se upravený záznam a http status kód 200.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<E> put(@PathVariable String id, @RequestBody E data, @RequestHeader Map<String,String> headers) {
+    public ResponseEntity<String> put(@PathVariable String id, @RequestBody E data, @RequestHeader Map<String,String> headers) {
         try {
 
-            E updated = service.update(id, data, headers.get(authorization), headers.get(deviceID));
+            E updated = service.update(id, data, headers.get(authorization));
 
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } catch (NullPointerException e) {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(updated), HttpStatus.OK);
+        } catch (NullPointerException | NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -147,16 +154,16 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
      * @return pokud uživatel má oprávnění vráti se http status kód 200.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<E> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
+    public ResponseEntity<String> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
         try {
 
-            boolean deleted = service.delete(id, headers.get(authorization), headers.get(deviceID));
+            boolean deleted = service.delete(id, headers.get(authorization));
 
             if (deleted) 
                 return new ResponseEntity<>(HttpStatus.OK);
             else 
                 throw new NullPointerException();   
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

@@ -5,7 +5,6 @@ public class RandomStringGenerator {
     private static final String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String numbers = "0123456789";
 
-    // TODO 
     public static String generateRandomString(boolean allowedChars, int length) {
         
         // urči kolekci znaků, ze které budou vybírány znaky

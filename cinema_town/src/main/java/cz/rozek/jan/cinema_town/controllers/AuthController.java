@@ -1,6 +1,7 @@
 package cz.rozek.jan.cinema_town.controllers;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import com.mongodb.DuplicateKeyException;
 
 import cz.rozek.jan.cinema_town.models.dtos.TokenDeviceId;
 import cz.rozek.jan.cinema_town.models.stable.User;
@@ -55,7 +57,6 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
-        // TODO po dopsání metody register přidat catch výjimek
         try {
 
             // registruj uživatele a vystav mu aktivační kód
@@ -66,6 +67,10 @@ public class AuthController {
 
             // vrať login JWT
             return new ResponseEntity<>(HttpStatus.OK);
+        } catch (DuplicateKeyException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -151,7 +156,6 @@ public class AuthController {
                 return new ResponseEntity<>(token, HttpStatus.OK);
             // pokud ne vrať status 100
             else {
-                // TODO: poslat na email tento token
                 emailService.sendSimpleMessage(user.getEmail(), "Second Verification", "Your access token is: " + token);
                 return new ResponseEntity<>(HttpStatus.CONTINUE);
             }
@@ -193,7 +197,7 @@ public class AuthController {
             return new ResponseEntity<>(new TokenDeviceId(loginJWT, trustedDeviceID), HttpStatus.OK);
         } catch (IllegalStateException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } catch (SecurityException | NullPointerException e) {
+        } catch (SecurityException | NullPointerException | NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
@@ -218,9 +222,9 @@ public class AuthController {
             userRepository.save(user);
 
             if (removed)
-                return new ResponseEntity<String>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             else
-                return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -267,12 +271,12 @@ public class AuthController {
                 // ulož změnu
                 userRepository.save(userFromDB);
 
-                return new ResponseEntity<String>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
 
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -305,14 +309,5 @@ public class AuthController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-
-    // TODO example remove
-
-    @GetMapping("/sendEmail")
-    public ResponseEntity<String> sendEmail(@RequestParam(name = "to") String to, @RequestParam(name = "subject") String subject, @RequestParam(name = "message") String message) {
-        emailService.sendSimpleMessage(to, subject, message);
-        return new ResponseEntity<String>("Message was send!", HttpStatus.OK);
     }
 }

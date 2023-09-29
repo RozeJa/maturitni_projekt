@@ -3,6 +3,7 @@ package cz.rozek.jan.cinema_town.servicies;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+
 import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 import cz.rozek.jan.cinema_town.models.Entity;
@@ -12,7 +13,6 @@ import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 
 // abstraktní, defaultní implementace služby pro výměnu dat mezi aplikací a databází  
 // účelem této třídy a tříd, které ji rozšiřují je práce s daty
-// TODO vymyslet jak validovat data
 public abstract class CrudService<E extends Entity, R extends MongoRepository<E, String>> {
     
     // použitý repozitář
@@ -43,7 +43,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění 
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public List<E> readAll(String accessJWT, String deviceID) {
+    public List<E> readAll(String accessJWT) {
     
         // ověř oprávnění
         verifyAccess(accessJWT, readPermissionRequired());
@@ -62,7 +62,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění 
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public E readById(String id, String accessJWT, String deviceID) {
+    public E readById(String id, String accessJWT) {
 
         // ověř oprávnění
         verifyAccess(accessJWT, readPermissionRequired());
@@ -88,7 +88,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno 
      */
-    public E create(E entity, String accessJWT, String deviceID) {
+    public E create(E entity, String accessJWT) {
 
         // ověř oprávnění
         verifyAccess(accessJWT, createPermissionRequired());
@@ -112,7 +112,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění 
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public E update(String id, E entity, String accessJWT, String deviceID) {
+    public E update(String id, E entity, String accessJWT) {
         
         // ověř oprávnění
         verifyAccess(accessJWT, updatePermissionRequired());
@@ -138,7 +138,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění 
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public boolean delete(String id, String accessJWT, String deviceID) {
+    public boolean delete(String id, String accessJWT) {
         
         // ověř oprávnění
         verifyAccess(accessJWT, deletePermissionRequired());
