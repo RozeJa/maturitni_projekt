@@ -8,4 +8,5 @@ import cz.rozek.jan.cinema_town.models.dynamic.Projection;
 
 public interface ProjectionRepository extends MongoRepository<Projection, String> {
     List<Projection> findByFilmId(String id);
+    List<Projection> findByHallId(String id);
 }

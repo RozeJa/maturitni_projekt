@@ -49,7 +49,7 @@ public class GenreService extends CrudService<Genre, GenreRepository> {
     public boolean delete(String id, String accessJWT) {
 
         // pokud se tento žánr vyskytuje alespoň u jednoho filmu nemůže být odebrán
-        if (filmRepository.findByGenresId(id).size() == 0) 
+        if (filmRepository.findByGenresId(id).isEmpty()) 
             return super.delete(id, accessJWT);
 
         return false;

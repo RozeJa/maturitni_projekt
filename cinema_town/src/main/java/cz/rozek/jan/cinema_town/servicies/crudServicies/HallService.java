@@ -1,15 +1,25 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.stable.Cinema;
 import cz.rozek.jan.cinema_town.models.stable.Hall;
+import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.repositories.HallRepository;
+import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
 public class HallService extends CrudService<Hall, HallRepository> {
+
+    private SeatService seatService;
+    private ProjectionRepository projectionRepository;
 
     @Autowired
     @Override
@@ -20,6 +30,14 @@ public class HallService extends CrudService<Hall, HallRepository> {
     @Override
     public void setAuthService(AuthService authService) {
         this.authService = authService;
+    }
+    @Autowired
+    public void setSeatService(SeatService seatService) {
+        this.seatService = seatService;
+    }
+    @Autowired 
+    public void setProjectionRepository(ProjectionRepository projectionRepository) {
+        this.projectionRepository = projectionRepository;
     }
 
     @Override
@@ -39,24 +57,59 @@ public class HallService extends CrudService<Hall, HallRepository> {
         return "hall-delete";
     }
 
-    // TODO metoda create může dostat v Hall i záznamy mino DB, ty je třeba nejprve uložit do DB
     @Override
     public Hall create(Hall entity, String accessJWT) {
-        // TODO Auto-generated method stub
+        
+        // přidej sedadla do db
+        addSeatsToDB(entity, accessJWT);
+
         return super.create(entity, accessJWT);
     }
 
-    // TODO metoda update může dostat v Hall i záznamy, ty je třeba nejprve uložit do db. Případně je třeba smazat odebrané záznamy
     @Override
     public Hall update(String id, Hall entity, String accessJWT) {
-        // TODO Auto-generated method stub
+    
+        // přidej nová sedadla do db
+        addSeatsToDB(entity, accessJWT);
+
         return super.update(id, entity, accessJWT);
     }
 
-    // TODO sál půjde odebrat jedině pokud v něm nebude naplánované žádné promítání 
+    private void addSeatsToDB(Hall entity, String accessJWT) {
+        Map<String, Seat> hallSeats = new HashMap<>();
+
+        for (Seat seat : entity.getSeats().values()) {
+            if (seat.getId() == null) {
+                Seat seatFromDB = seatService.create(seat, accessJWT);
+                hallSeats.put(seatFromDB.getId(), seatFromDB);
+            } else {
+                hallSeats.put(seat.getId(), seat);
+            }
+        }
+
+        entity.setSeats(hallSeats);
+    }
+
     @Override
     public boolean delete(String id, String accessJWT) {
-        // TODO Auto-generated method stub
-        return super.delete(id, accessJWT);
+        Optional<Hall> hallOptional = repository.findById(id);
+        if (hallOptional.isPresent()) {
+            Hall hall = hallOptional.get();
+            
+            if (isHallRemovable(hall.getId())) {
+                
+                for (Seat seat : hall.getSeats().values()) {
+                    seatService.delete(seat.getId(), accessJWT);
+                }
+
+                return super.delete(id, accessJWT);
+            }
+        }
+        
+        return false;
+    }
+
+    public boolean isHallRemovable(String id) {
+        return projectionRepository.findByHallId(id).isEmpty();
     }
 }

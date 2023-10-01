@@ -47,7 +47,7 @@ public class FilmService extends CrudService<Film, FilmRepository> {
     public boolean delete(String id, String accessJWT) {
     
         // pokud film není přiřazený u žádného promítání můžeš ho odebrat
-        if (projectionRepository.findByFilmId(id).size() == 0)
+        if (projectionRepository.findByFilmId(id).isEmpty())
             return super.delete(id, accessJWT);
             
         return false;
