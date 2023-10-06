@@ -1,6 +1,7 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -8,15 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.stable.Cinema;
+import cz.rozek.jan.cinema_town.models.stable.City;
 import cz.rozek.jan.cinema_town.models.stable.Hall;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.CinemaRepository;
+import cz.rozek.jan.cinema_town.repositories.CityRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
+import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 @Service
 public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
     private HallService hallService;
+    private CityRepository cityRepository;
     
     @Autowired
     @Override
@@ -31,6 +38,10 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
     @Autowired
     public void setHallService(HallService hallService) {
         this.hallService = hallService;
+    }
+    @Autowired
+    public void setCityRepository(CityRepository cityRepository) {
+        this.cityRepository = cityRepository;
     }
 
     @Override
@@ -52,6 +63,13 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
     @Override
     public Cinema create(Cinema entity, String accessJWT) {
+
+        // pokud existuje to město, tak ho tam přidej 
+        City city = cityRepository.findByName(entity.getCity().getName());
+        if (city == null) 
+            city = cityRepository.save(entity.getCity());
+
+        entity.setCity(city);
         
         // ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
         addHallsToDB(entity, accessJWT);
@@ -61,6 +79,18 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
     @Override
     public Cinema update(String id, Cinema entity, String accessJWT) {
+
+        Cinema cinemaFormDB = repository.findById(entity.getId()).get();
+        // pokud je jiné kino vyměň a pokud to co je v db už není nikde použité, tak ho odeber
+        if (!cinemaFormDB.getCity().getId().equals(entity.getId())) {
+
+            List<Cinema> cinameByCityName = repository.findByCityName(cinemaFormDB.getCity().getName());
+            if (cinameByCityName.isEmpty()) {
+                cityRepository.delete(cinemaFormDB.getCity());
+            }
+
+        } else // pro případ, že by došlo ke změně PSČ nebo názbu města přeulož město
+            cityRepository.save(entity.getCity());
 
         // kdyby bylo změna sálů, tak radši ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
         addHallsToDB(entity, accessJWT);
@@ -109,5 +139,15 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
         }
 
         return true;    
+    }
+
+    @Override
+    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
+        
+        if (requiredPermission.equals(readPermissionRequired())) {
+            return null;
+        } 
+
+        return super.verifyAccess(accessJWT, requiredPermission);
     }
 }

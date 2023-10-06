@@ -1,28 +1,21 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.Film;
-import cz.rozek.jan.cinema_town.models.stable.People;
+import cz.rozek.jan.cinema_town.models.stable.City;
 import cz.rozek.jan.cinema_town.models.stable.User;
-import cz.rozek.jan.cinema_town.repositories.FilmRepository;
-import cz.rozek.jan.cinema_town.repositories.PeopleRepository;
+import cz.rozek.jan.cinema_town.repositories.CityRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
-public class PeopleService extends CrudService<People, PeopleRepository> {
-
-    @Autowired
-    private FilmRepository filmRepository;
+public class CityService extends CrudService<City, CityRepository> {
     
     @Autowired
     @Override
-    public void setRepository(PeopleRepository repository) {
+    public void setRepository(CityRepository repository) {
         this.repository = repository;
     }
     @Autowired
@@ -31,35 +24,23 @@ public class PeopleService extends CrudService<People, PeopleRepository> {
         this.authService = authService;
     }
 
+    // TODO tyto oprávnění je třeba přidat do db
+
     @Override
     public String readPermissionRequired() {
-        return "people-read";
+        return "city-read";
     }
     @Override
     public String createPermissionRequired() {
-        return "people-create";
+        return "cinema-create";
     }
     @Override
     public String updatePermissionRequired() {
-        return "people-update";
+        return "cinema-update";
     }
     @Override
     public String deletePermissionRequired() {
-        return "people-delete";
-    }
-
-    @Override
-    public boolean delete(String id, String accessJWT) {
-
-        // najdi ty filmy, ve kterých se vyskytuje daný člověk
-        List<Film> directorsFilms = filmRepository.findByActorsId(id);
-        List<Film> actorsFilms = filmRepository.findByActorsId(id);
-        
-        // pokud se někde vyskytuje nejde odebrat
-        if (directorsFilms.size() + actorsFilms.size() == 0)    
-            return super.delete(id, accessJWT);
-        
-        return false;
+        return "cinema-delete";
     }
 
     @Override

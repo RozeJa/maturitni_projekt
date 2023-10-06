@@ -3,6 +3,8 @@ package cz.rozek.jan.cinema_town.models.stable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -21,12 +23,10 @@ public class Cinema implements Entity {
     @Id
     private String id;
 
-    // název města, ve kterém se kino nachází
-    @NotBlank
-    private String city;
-    // poštovní směrovaní číslo
-    @NotBlank
-    private String postCode;
+    // město, ve kterém se kino nachází
+    @NotNull
+    @DBRef
+    private City city;
     // název ulice, z které je vstup do kina
     @NotBlank
     private String street;

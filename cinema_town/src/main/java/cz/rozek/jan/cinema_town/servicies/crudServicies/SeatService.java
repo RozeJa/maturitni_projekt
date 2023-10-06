@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.stable.Seat;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.SeatRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
@@ -37,5 +39,15 @@ public class SeatService extends CrudService<Seat, SeatRepository> {
     @Override
     public String deletePermissionRequired() {
         return "seat-delete";
+    }    
+    
+    @Override
+    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
+        
+        if (requiredPermission.equals(readPermissionRequired())) {
+            return null;
+        } 
+
+        return super.verifyAccess(accessJWT, requiredPermission);
     }
 }

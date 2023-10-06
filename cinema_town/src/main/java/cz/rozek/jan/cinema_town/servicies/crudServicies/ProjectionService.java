@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.dynamic.Projection;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
@@ -37,5 +39,15 @@ public class ProjectionService extends CrudService<Projection, ProjectionReposit
     @Override
     public String deletePermissionRequired() {
         return "projection-delete";
+    }
+
+    @Override
+    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
+        
+        if (requiredPermission.equals(readPermissionRequired())) {
+            return null;
+        } 
+
+        return super.verifyAccess(accessJWT, requiredPermission);
     }
 }

@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.stable.Film;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.FilmRepository;
 import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
+import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 @Service
 public class FilmService extends CrudService<Film, FilmRepository> {
@@ -51,5 +54,15 @@ public class FilmService extends CrudService<Film, FilmRepository> {
             return super.delete(id, accessJWT);
             
         return false;
+    }
+
+    @Override
+    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
+        
+        if (requiredPermission.equals(readPermissionRequired())) {
+            return null;
+        } 
+
+        return super.verifyAccess(accessJWT, requiredPermission);
     }
 }
