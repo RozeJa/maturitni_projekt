@@ -2,7 +2,7 @@ import Projection from "./Projection";
 import Seat from "./Seat";
 import User from "./User";
 
-interface Reservtion {
+interface Reservation {
     id: string,
     projection: Projection,
     user: User,
@@ -11,4 +11,4 @@ interface Reservtion {
     reserved: Date
 }
 
-export default Reservtion
+export default Reservation

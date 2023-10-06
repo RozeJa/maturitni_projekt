@@ -2,10 +2,10 @@ import City from "./City";
 import Hall from "./Hall";
 
 interface Cinema {
-    id: String,
+    id: string,
     city: City,
-    street: String,
-    houseNumber: String,
+    street: string,
+    houseNumber: string,
     halls: Hall[]
 }
 
