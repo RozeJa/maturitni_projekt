@@ -3,6 +3,7 @@ package cz.rozek.jan.cinema_town.servicies.auth;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -320,6 +321,10 @@ public class AuthService {
         claims.setSubject(user.getId()); // nastav předmět na id uživatele
         claims.setClaim("email", user.getEmail()); // nastav email
         claims.setClaim("active", user.isActive()); // nastav informaci o tom, zda je účet aktivován
+        
+        // přidej do login tokenu oprávnění 
+        List<String> permissions = user.loadPermissions();
+        claims.setStringListClaim("permissions", permissions);
 
         // převeď claimy na JWS
         JsonWebSignature jws = new JsonWebSignature();

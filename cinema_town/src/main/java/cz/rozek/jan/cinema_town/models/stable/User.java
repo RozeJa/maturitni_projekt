@@ -1,5 +1,7 @@
 package cz.rozek.jan.cinema_town.models.stable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -52,5 +54,13 @@ public class User implements Entity {
         Pattern emailReg = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
         return emailReg.matcher(email).matches();
+    }
+
+    public List<String> loadPermissions() {
+        return role.getPermissions()
+        .values()
+        .stream()
+        .map(Permission::getPermission)
+        .toList();
     }
 }
