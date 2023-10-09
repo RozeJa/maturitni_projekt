@@ -96,7 +96,7 @@ export const deleteData = async <T extends ApiData>(modelEntpoint: ModesEndpoint
             // načti si config
             const config = await getRequestConfig()
 
-            await (axios.post<T>(BASE_URL + modelEntpoint + `/${data[i].id}`, data[i], config))
+            await (axios.delete<T>(BASE_URL + modelEntpoint + `/${data[i].id}`, config))
         }
 
         return data
