@@ -43,6 +43,8 @@ public class Film implements Entity {
     @NotBlank
     @Size(min = 2, max = 3)
     private String original;
+    // určuje zda se jedná o trhák
+    private boolean isBlockBuster = false;
 
     // režisér
     @NotNull

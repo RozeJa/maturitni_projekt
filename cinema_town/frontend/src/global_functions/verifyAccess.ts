@@ -1,6 +1,6 @@
 import readTokenProperty from "./readTokenProperty";
 
-const verifyAccess = (permissionRequired: string): boolean => {
+const verifyAccess = (permissionRequired = ""): boolean => {
 
     // pokud je permissionRequired prázdný string funkce vrací zda je uživatel přihlášený
     if (permissionRequired === "") {

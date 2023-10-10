@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom"
 
 const MainLayout = () => {
 
-    const auth = verifyAccess("") ? (
+    const auth = verifyAccess() ? (
         <div>
             <a href={`/my-reservation/${readTokenProperty("sub")}`}>Moje rezervace: {readTokenProperty("email")}</a>
             <a href='' 
@@ -21,7 +21,8 @@ const MainLayout = () => {
             <a href="/register">Registrovat se</a>
         </div>
     )
-    const edit = verifyAccess("cinema-update") ? (
+
+    const edit = verifyAccess("film-update") ? (
         <div>
             <a href='/management'>Správa</a>
         </div>
@@ -34,7 +35,7 @@ const MainLayout = () => {
         <>
             <nav>
                 <div className='nav-logo'>
-                    Logo as home butt
+                    <a href='/'>Logo as home btn</a>
                 </div>
                 <div className='nav-links'>
                     {auth}

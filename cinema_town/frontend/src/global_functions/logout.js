@@ -5,7 +5,7 @@ const logout = () => {
     sessionStorage.removeItem('loginToken')
 
     return (
-        <Navigate to=""></Navigate>
+        <Navigate to="/"></Navigate>
     )
 }
 
