@@ -49,7 +49,7 @@ public class Film implements Entity {
     // režisér
     @NotNull
     @DBRef
-    private People direcror;
+    private People director;
     // herci mapovaní id => herec
     @DBRef
     private Map<String, People> actors = new HashMap<>();

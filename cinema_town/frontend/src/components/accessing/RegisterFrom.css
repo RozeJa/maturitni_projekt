@@ -1,0 +1,62 @@
+
+.register-motivation {
+    max-width: 30%;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+}
+
+.register-form p {
+    padding: 0;
+    margin: 0;
+    min-height: 1em;
+    color: var(--color--red--bright);
+}
+
+.register-form label, .register-form input {
+    border: none;
+    font-size: 1.5em;
+    padding: .5em;
+    padding-bottom: .2em;
+    outline: none;
+}
+
+.register-form input {
+    border-bottom: 2px var(--color--black) solid;
+    padding-top: .2em;
+}
+
+.register-form button {
+    margin: 2em 0;
+    font-size: 1.3em;
+    padding: .7em;
+    width: min-content;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    transition-duration: var(--transition-delay--long);
+}
+
+.register-form button:hover {
+    background-color: var(--color--red--dark);
+    cursor: pointer;
+}
+
+.register-form-confirm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.register-form-confirm a {
+    text-decoration: none;
+    color: var(--color--red--bright);
+}
+
+.register-form-confirm > *:hover {
+    cursor: pointer;
+}

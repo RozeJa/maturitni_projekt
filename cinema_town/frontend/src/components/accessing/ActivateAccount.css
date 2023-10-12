@@ -1,0 +1,14 @@
+.register-form-confirm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.register-form-confirm- a {
+    text-decoration: none;
+    color: var(--color--red--bright);
+}
+
+.register-form-confirm > *:hover {
+    cursor: pointer;
+}

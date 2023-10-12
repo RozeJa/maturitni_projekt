@@ -1,5 +1,6 @@
 package cz.rozek.jan.cinema_town.controllers;
 
+import java.io.NotActiveException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -69,7 +70,7 @@ public class AuthController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (DuplicateKeyException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } catch (SecurityException e) {
+        } catch (SecurityException | org.springframework.dao.DuplicateKeyException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,10 +90,8 @@ public class AuthController {
     public ResponseEntity<String> activate(@RequestBody String activationCode) {
         try {
 
-            System.out.println(activationCode);
-
             // zkus ověřit
-            String deviceID = authService.activateUser(activationCode);
+            String deviceID = authService.activateUser(activationCode.split("=")[0]);
 
             if (deviceID != null)
                 return new ResponseEntity<>(deviceID, HttpStatus.OK);
@@ -161,6 +160,8 @@ public class AuthController {
             }
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NotActiveException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {

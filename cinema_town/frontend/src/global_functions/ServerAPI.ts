@@ -105,6 +105,75 @@ export const deleteData = async <T extends ApiData>(modelEntpoint: ModesEndpoint
     }
 }
 
+export const register = async (user: User): Promise<boolean> => {
+    try {
+        return (await axios.post(BASE_URL + "auth/register", user)).status === 200
+    } catch (error) {
+        throw error
+    }
+}
+
+export const reactivateCode = async (email: string) => {
+    try {
+
+        const headers = {
+            "Content-Type": "application/json"
+        }
+
+        const config = {
+            headers: headers
+        }
+
+        const user = {
+            email: email,
+            password: "",
+            role: {}
+        }
+
+        const status = (await axios.post(BASE_URL + "auth/reset-activation-code", user, config)).status
+
+        console.log(status)
+
+    } catch (error) {
+
+        throw error
+    }
+}
+
+export const activateAccount = async (code: string): Promise<string> => {
+    try {
+        console.log(code);
+        
+        return (await axios.post<string>(BASE_URL + "auth/activate-account", code)).data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const login = async (email: string, password: string, deviceId: string): Promise<string> => {
+    try {
+        
+        const headers = {
+            "deviceID": deviceId,
+            "Content-Type": "application/json"
+        }
+
+        const config = {
+            headers: headers
+        }
+
+        const user = {
+            email: email,
+            password: password,
+            role: {}
+        }
+
+        return (await axios.post(BASE_URL + "auth/login", user, config)).data
+    } catch (error) {
+        throw error
+    }
+}
+
 
 // funkce získá přístupový token
 async function getAccessToken(): Promise<string | null> {

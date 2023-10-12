@@ -1,5 +1,6 @@
 package cz.rozek.jan.cinema_town.servicies.auth;
 
+import java.io.NotActiveException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -167,9 +168,7 @@ public class AuthService {
      */
     public String resetActivationCode(User user) throws SecurityException {
 
-        if (!verifyUserLogin(user)) 
-            throw new SecurityException("Invalid user");
-
+        // TODO omezit časově
 
         // pokud účet ještě není aktivovaný, vygeneruj nový token 
         User loaded = userRepository.findByEmail(user.getEmail());
@@ -202,7 +201,7 @@ public class AuthService {
      * @throws SecurityException výjimka je vyvolány při nesprávném hesle
      * @throws JoseException     nastala chyba při vytváření tokenu
      */
-    public String login(User user, String deviceID) throws SecurityException, JoseException {
+    public String login(User user, String deviceID) throws SecurityException, JoseException, NotActiveException {
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
@@ -259,11 +258,14 @@ public class AuthService {
         return userRepository.findById(userID).get();
     }
 
-    private boolean verifyUserLogin(User user) {
+    private boolean verifyUserLogin(User user) throws NotActiveException {
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
         if (userFromDB == null) 
             return false;
+
+        if (!userFromDB.isActive()) 
+            throw new NotActiveException();
 
         return BCrypt.checkpw(user.getPassword(), userFromDB.getPassword());
     }

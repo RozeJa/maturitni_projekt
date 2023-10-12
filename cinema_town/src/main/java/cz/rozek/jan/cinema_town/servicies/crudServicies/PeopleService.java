@@ -51,6 +51,9 @@ public class PeopleService extends CrudService<People, PeopleRepository> {
     @Override
     public boolean delete(String id, String accessJWT) {
 
+        // TODO potřeba jinak vymyslet hledání závislostí
+        /*/
+
         // najdi ty filmy, ve kterých se vyskytuje daný člověk
         List<Film> directorsFilms = filmRepository.findByActorsId(id);
         List<Film> actorsFilms = filmRepository.findByActorsId(id);
@@ -58,7 +61,7 @@ public class PeopleService extends CrudService<People, PeopleRepository> {
         // pokud se někde vyskytuje nejde odebrat
         if (directorsFilms.size() + actorsFilms.size() == 0)    
             return super.delete(id, accessJWT);
-        
+        /*/
         return false;
     }
 
