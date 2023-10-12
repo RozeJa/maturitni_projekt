@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import './Register.css'
 import RegisterForm from '../../components/accessing/RegisterForm'
-import ActivateAccount from '../../components/accessing/ActivateAccount'
+import SendCode from '../../components/accessing/SendCode'
 
 const Register = () => {
 
-    const firstComponent = sessionStorage.getItem('registred') !== '' ? 
-        <RegisterForm onSuccess={(pw:string) => setContent(<ActivateAccount password={pw} />)} /> : 
-        <ActivateAccount />
+    const firstComponent = <RegisterForm 
+        onSuccess={(pw:string) => setContent(<SendCode password={pw} 
+        err='Neplatný aktivační kód'
+        submit='Aktivovat'
+        label='Aktivační kód' />)} 
+        register={true} />
 
     const [content, setContent] = useState(firstComponent)
 

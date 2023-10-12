@@ -6,3 +6,12 @@ export function getSessionStorageItem(key: string): string {
         return ''
     }
 }
+
+export function getLocalStorageItem(key: string): string {
+    const value = localStorage.getItem(key)
+    if (typeof value === 'string') {
+        return value
+    } else { 
+        return ''
+    }
+}

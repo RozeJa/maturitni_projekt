@@ -1,22 +1,25 @@
+import { useState } from 'react'
 import logout from '../global_functions/logout'
 import readTokenProperty from '../global_functions/readTokenProperty'
 import verifyAccess from '../global_functions/verifyAccess'
 import './MainLayout.css'
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 
 const MainLayout = () => {
 
+    const navigate = useNavigate()
+
     const auth = verifyAccess() ? (
-        <div>
+        <div className='test'> 
             <a href={`/my-reservation/${readTokenProperty("sub")}`}>Moje rezervace: {readTokenProperty("email")}</a>
-            <a href='' 
+            <a href='/' 
                 onClick={() => {
                     logout()
                 }
             }>Odhlásit se</a>
         </div>
     ) : (
-        <div>
+        <div className='test2'>
             <a href="/login">Přihlásit se</a>
             <a href="/register">Registrovat se</a>
         </div>
@@ -38,8 +41,8 @@ const MainLayout = () => {
                     <a href='/'>Logo as home btn</a>
                 </div>
                 <div className='nav-links'>
-                    {auth}
                     {edit}
+                    {auth}
                 </div>
             </nav>
             <main>

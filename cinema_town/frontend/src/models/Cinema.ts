@@ -3,10 +3,10 @@ import Hall from "./Hall";
 
 interface Cinema {
     id: string,
-    city: City,
+    city: City | string,
     street: string,
     houseNumber: string,
-    halls: Hall[]
+    halls: Hall[] | string[]
 }
 
 export default Cinema

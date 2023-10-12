@@ -6,7 +6,7 @@ interface User {
     password: string,
     active: boolean,
     subscribed: boolean,
-    role: Role,
+    role: Role | string,
     trustedDevicesId: Map<string, string>
 }
 export default User

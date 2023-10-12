@@ -38,4 +38,21 @@ public class UserService extends CrudService<User, UserRepository> {
     public String deletePermissionRequired() {
         return "user-delete";
     }
+
+    @Override
+    public User update(String id, User entity, String accessJWT) {
+
+        User userFromDB = repository.findById(id).get();
+
+        User editor = authService.verifyAccess(accessJWT, "user-edit");
+
+        if (editor.getRole().getName().equals("admin")) 
+            userFromDB.setRole(entity.getRole());
+
+        if (editor.getId().equals(id))
+            userFromDB.setSubscriber(entity.isSubscriber());
+
+
+        return super.update(id, userFromDB, accessJWT);
+    }
 }

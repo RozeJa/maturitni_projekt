@@ -5,8 +5,8 @@ import User from "./User";
 interface Reservation {
     id: string,
     projection: Projection,
-    user: User,
-    seat: Seat,
+    user: User | string,
+    seat: Seat | string,
     paid: boolean,
     reserved: Date
 }

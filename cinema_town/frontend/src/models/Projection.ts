@@ -3,8 +3,8 @@ import Hall from "./Hall";
 
 interface Projection {
     id: string,
-    hall: Hall,
-    film: Film,
+    hall: Hall | string,
+    film: Film | string,
     title: string,
     dabing: string,
     date: Date,

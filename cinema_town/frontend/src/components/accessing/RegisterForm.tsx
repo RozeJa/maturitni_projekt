@@ -2,10 +2,21 @@ import { useState } from 'react'
 import './RegisterFrom.css'
 import User from '../../models/User'
 import { register } from '../../global_functions/ServerAPI'
-import { getSessionStorageItem } from '../../global_functions/sessionActions'
+import { getSessionStorageItem } from '../../global_functions/storagesActions'
+import { emailRegex, pwRegex } from '../../global_functions/constants'
 
 let user: User
 let passwordAgain: string
+
+user = {
+    email: '',
+    password: '',
+    id: '',
+    active: false, 
+    subscribed: false, 
+    trustedDevicesId: new Map,
+    role: ''
+}
 
 const setValue = (e: any) => {
 
@@ -14,12 +25,8 @@ const setValue = (e: any) => {
     user = { ...user, [name]: value}
 } 
 
-const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
-const pwRegex = new RegExp(/^.*(?=.[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{12,}).*$/)
-
 const RegisterForm = (data: any) => {
         
-    user = { ...user, ['email']: ''}
 
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 

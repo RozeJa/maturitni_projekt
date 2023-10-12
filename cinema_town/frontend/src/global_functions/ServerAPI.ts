@@ -11,6 +11,7 @@ import Reservation from '../models/Reservation';
 import Role from '../models/Role';
 import Seat from '../models/Seat';
 import User from '../models/User';
+import { TokenDeviceId } from '../models/TokenDeviceId';
 
 // url na server 
 const BASE_URL = 'http://localhost:8080/'
@@ -141,34 +142,47 @@ export const reactivateCode = async (email: string) => {
 }
 
 export const activateAccount = async (code: string): Promise<string> => {
-    try {
-        console.log(code);
-        
+    try {        
         return (await axios.post<string>(BASE_URL + "auth/activate-account", code)).data
     } catch (error) {
         throw error
     }
 }
 
-export const login = async (email: string, password: string, deviceId: string): Promise<string> => {
+export const secondVerify = async (code: string): Promise<TokenDeviceId> => {
     try {
-        
-        const headers = {
-            "deviceID": deviceId,
-            "Content-Type": "application/json"
-        }
+        return (await axios.post<TokenDeviceId>(BASE_URL + "auth/second-verify", code)).data
+    } catch (error) {
+        throw error
+    }
+}
 
+export const login = async (email: string, password: string, deviceId: string): Promise<string|null> => {
+    try {
+
+        const headers = {
+            "Content-Type": "application/json",
+            "deviceID": deviceId
+        }
         const config = {
             headers: headers
         }
-
         const user = {
             email: email,
             password: password,
             role: {}
-        }
+        }        
+      
+        const res = (await axios.post(BASE_URL + "auth/login", user, config))
+        
+        console.log(res.status);
+        
 
-        return (await axios.post(BASE_URL + "auth/login", user, config)).data
+        if (res.status === 200) {
+            return res.data
+        } else {
+            return null
+        }
     } catch (error) {
         throw error
     }

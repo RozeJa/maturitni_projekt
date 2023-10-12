@@ -1,0 +1,61 @@
+
+.login-motivation {
+    max-width: 30%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+}
+
+.login-form p {
+    padding: 0;
+    margin: 0;
+    min-height: 1em;
+    color: var(--color--red--bright);
+}
+
+.login-form label, .login-form input {
+    border: none;
+    font-size: 1.5em;
+    padding: .5em;
+    padding-bottom: .2em;
+    outline: none;
+}
+
+.login-form input {
+    border-bottom: 2px var(--color--black) solid;
+    padding-top: .2em;
+}
+
+.login-form button {
+    margin: 2em 0;
+    font-size: 1.3em;
+    padding: .7em;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    transition-duration: var(--transition-delay--long);
+}
+
+.login-form button:hover {
+    background-color: var(--color--red--dark);
+    cursor: pointer;
+}
+
+.login-form-confirm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.login-form-confirm a {
+    text-decoration: none;
+    color: var(--color--red--bright);
+}
+
+.login-form-confirm > *:hover {
+    cursor: pointer;
+}

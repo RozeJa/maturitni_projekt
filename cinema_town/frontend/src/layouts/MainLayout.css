@@ -24,6 +24,10 @@ nav a:hover {
     background-color: var(--color--red--dark);
 }
 
+.nav-links {
+    display: flex;
+}
+
 footer {
     display: flex;
     justify-content: space-around;

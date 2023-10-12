@@ -5,7 +5,7 @@ interface Hall {
     designation: String,
     rows: number,
     columns: number,
-    seats: Seat[]
+    seats: Seat[] | string[]
 }
 
 export default Hall

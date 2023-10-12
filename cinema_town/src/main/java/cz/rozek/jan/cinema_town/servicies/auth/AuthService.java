@@ -201,12 +201,12 @@ public class AuthService {
      * @throws SecurityException výjimka je vyvolány při nesprávném hesle
      * @throws JoseException     nastala chyba při vytváření tokenu
      */
-    public String login(User user, String deviceID) throws SecurityException, JoseException, NotActiveException {
+    public String login(User user, String deviceID, boolean isSecond) throws SecurityException, JoseException, NotActiveException {
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
         // ověř zda údaje sedí
-        if (verifyUserLogin(user)) {
+        if (verifyUserLogin(user) || isSecond) {
 
             // uživatel se přihásil správně zkontroluj, zda se přihlašuje ze známého
             // zařízení

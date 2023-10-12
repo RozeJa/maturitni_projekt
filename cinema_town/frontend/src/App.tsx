@@ -35,8 +35,8 @@ function App() {
           <Route path='/pw-change' element={ (verifyAccess() ? <PwChange /> : pwChangeErr) } />
 
           <Route path='/film/:fimlId' element={ <FilmDetail /> }/>
-          <Route path='/my-reservation/:userId' element={ (verifyAccess() ? <MyReservations /> : loginErr) } />
-          <Route path='/my-reservation/:userId/:reservationId' element={ (verifyAccess() ? <MyReservation /> : loginErr) } />
+          <Route path='/my-reservation/:userId' element={ (verifyAccess() ? <MyReservations /> : accessDenite) } />
+          <Route path='/my-reservation/:userId/:reservationId' element={ (verifyAccess() ? <MyReservation /> : accessDenite) } />
           
           <Route path='/management' element={ (verifyAccess("film-update") ? <Management /> : accessDenite) } />
           <Route path='/management/cinemas'/>

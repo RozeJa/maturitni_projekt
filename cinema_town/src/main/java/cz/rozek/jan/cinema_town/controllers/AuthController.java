@@ -32,7 +32,7 @@ public class AuthController {
     // definice konstanty, pod kterou bude očekávat v headru JWT
     protected static final String authorization = "authorization";
     // definice konstanty, pod kterou bude očekávat v headru id zařízení
-    protected static final String deviceID = "deviceID";
+    protected static final String deviceID = "deviceid";
 
     // složba pro ověření oprávnění
     @Autowired
@@ -143,7 +143,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody User user, @RequestHeader Map<String, String> headers) {
         try {
             // přihlaš uživatele
-            String jwt = authService.login(user, headers.get(deviceID));
+            String jwt = authService.login(user, headers.get(deviceID), false);
 
             String identification = jwt.split("#")[0];
 
@@ -156,7 +156,7 @@ public class AuthController {
             // pokud ne vrať status 100
             else {
                 emailService.sendSimpleMessage(user.getEmail(), "Second Verification", "Your access token is: " + token);
-                return new ResponseEntity<>(HttpStatus.CONTINUE);
+                return new ResponseEntity<>("", HttpStatus.ACCEPTED);
             }
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -184,7 +184,7 @@ public class AuthController {
         try {
 
             // ověř zda je i druhá fáze přihlášení provedena správně
-            User user = authService.secondVerification(verifycationToken);
+            User user = authService.secondVerification(verifycationToken.split("=")[0]);
 
             // přidej uživateli id d;věryhodného zařízení
             String trustedDeviceID = authService.addDeviceIDToUser(user);
@@ -193,7 +193,7 @@ public class AuthController {
             userRepository.save(user);
 
             // přihlaš uživatele
-            String loginJWT = authService.login(user, trustedDeviceID);
+            String loginJWT = authService.login(user, trustedDeviceID, true);
 
             return new ResponseEntity<>(new TokenDeviceId(loginJWT, trustedDeviceID), HttpStatus.OK);
         } catch (IllegalStateException e) {
