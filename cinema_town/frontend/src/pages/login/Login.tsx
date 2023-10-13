@@ -9,8 +9,14 @@ const Login = () => {
         onSuccess={(pw:string) => setContent(<SendCode password={pw} 
         err='Neplatný ověřovací kód'
         submit='Ověřit'
-        label='Ověřovací kód' />)}
-        register={false} />
+        label='Ověřovací kód' 
+        register={false} />)}
+        
+        isNotActive={(pw:string) => setContent(<SendCode password={pw} 
+        err='Neplatný aktivační kód'
+        submit='Aktivovat'
+        label='Aktivační kód'
+        register={true} />)} />
 
     const [content, setContent] = useState(firstComponent)
 

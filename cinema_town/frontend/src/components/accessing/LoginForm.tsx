@@ -4,6 +4,7 @@ import './LoginForm.css'
 import { login } from '../../global_functions/ServerAPI'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
 import { useNavigate } from 'react-router-dom'
+import { AxiosError } from 'axios'
 
 let user: User
 
@@ -48,8 +49,15 @@ const LoginForm = (data: any) => {
             setEmailErr('')
             setPwErr('')
         } catch (error) {
-            setEmailErr('Zkontrolujte email')
-            setPwErr('Zkontrolujte heslo')
+            console.log(error)
+            
+            if (error instanceof AxiosError && error.code === 'ERR_BAD_REQUEST') {
+                sessionStorage.setItem('email', user.email)
+                data.isNotActive(user.password)
+            } else {
+                setEmailErr('Zkontrolujte email')
+                setPwErr('Zkontrolujte heslo')
+            }
         }
         
     }

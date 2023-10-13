@@ -161,6 +161,7 @@ public class AuthController {
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (NotActiveException e) {
+            resetActivationCode(user);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
