@@ -44,7 +44,7 @@ public class UserService extends CrudService<User, UserRepository> {
 
         User userFromDB = repository.findById(id).get();
 
-        User editor = authService.verifyAccess(accessJWT, "user-edit");
+        User editor = authService.verifyAccess(accessJWT, "user-update");
 
         if (editor.getRole().getName().equals("admin")) 
             userFromDB.setRole(entity.getRole());
@@ -54,5 +54,13 @@ public class UserService extends CrudService<User, UserRepository> {
 
 
         return super.update(id, userFromDB, accessJWT);
+    }
+
+    @Override
+    public boolean delete(String id, String accessJWT) {
+
+        // TODO zkontrolovat pokud se odebírá admin, tak nebylo možné odebrat posledního
+
+        return super.delete(id, accessJWT);
     }
 }

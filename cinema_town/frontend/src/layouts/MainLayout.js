@@ -6,9 +6,7 @@ import './MainLayout.css'
 import { Outlet, useNavigate } from "react-router-dom"
 
 const MainLayout = () => {
-
-    const navigate = useNavigate()
-
+    
     const auth = verifyAccess() ? (
         <div className='test'> 
             <a href={`/my-reservation/${readTokenProperty("sub")}`}>Moje rezervace: {readTokenProperty("email")}</a>

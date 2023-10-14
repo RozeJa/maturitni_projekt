@@ -38,7 +38,9 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
     @Override
     @PostMapping("/")
     public ResponseEntity<String> post(@RequestBody Projection data, @RequestHeader Map<String, String> headers) {
-        // TODO Auto-generated method stub
+
+        
+
         return super.post(data, headers);
     }
 

@@ -1,0 +1,16 @@
+.management {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    align-self: center;
+    align-items: center;
+
+    margin-top: 10vh;
+}
+
+.management-referations {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}

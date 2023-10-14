@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, RouterProvider} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/usersPages/Home';
 import Err from './pages/Err';
@@ -11,11 +11,18 @@ import PwChange from './pages/login/PwChange';
 import FilmDetail from './pages/usersPages/FilmDetail';
 import MyReservations from './pages/usersPages/MyReservations';
 import MyReservation from './pages/usersPages/MyReservation';
-import Management from './pages/managment/Management';
-import UserDetail from './pages/managment/UserDetail';
-import ProjectionDetail from './pages/managment/ProjectionDetail';
-import CinemaDetail from './pages/managment/CinemaDetail';
-import HallDetail from './pages/managment/HallDetail';
+import Management from './pages/managment/details/Management';
+import UserDetail from './pages/managment/details/UserDetail';
+import ProjectionDetail from './pages/managment/details/ProjectionDetail';
+import CinemaDetail from './pages/managment/details/CinemaDetail';
+import HallDetail from './pages/managment/details/HallDetail';
+import GenreDetail from './pages/managment/details/GenreDetail';
+import ProjectionsSpreadsheet from './pages/managment/spreadsheets/ProjectionsSpreadSheet';
+import CinemasSpreadsheet from './pages/managment/spreadsheets/CinemasSpreadsheet';
+import UsersSpreadsheet from './pages/managment/spreadsheets/UsersSpreadsheet';
+import FilmsSpreadsheet from './pages/managment/spreadsheets/FilmsSpreadsheet';
+import GenresSpreadsheet from './pages/managment/spreadsheets/GenresSpreadsheet';
+import RolesSpreadsheet from './pages/managment/spreadsheets/RolesSpreadsheet';
 
 function App() {
 
@@ -28,7 +35,7 @@ function App() {
       <Routes>  
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Home />} />
-          {/*<Route path='/group-dashboard/:groupId' Component={() => isAuthenticated() ? <GroupDashboard /> : <Navigate to="/" />}/>*/}
+          
           <Route path='/register' element={ (verifyAccess() ? loginErr : <Register />) }/> 
           <Route path='/login' element={ (verifyAccess() ? loginErr : <Login />) }/>
           <Route path='/pw-reset' element={ (verifyAccess() ? loginErr : <PwReset />) }/>
@@ -38,21 +45,26 @@ function App() {
           <Route path='/my-reservation/:userId' element={ (verifyAccess() ? <MyReservations /> : accessDenite) } />
           <Route path='/my-reservation/:userId/:reservationId' element={ (verifyAccess() ? <MyReservation /> : accessDenite) } />
           
-          <Route path='/management' element={ (verifyAccess("film-update") ? <Management /> : accessDenite) } />
-          <Route path='/management/cinemas'/>
-          <Route path='/management/projections'/>
-          <Route path='/management/users'/>
-          <Route path='/management/films'/>
+          <Route path='/management' element={ (verifyAccess("projection-create") ? <Management /> : accessDenite) } />
+          <Route path='/management/projections' element={ (verifyAccess("projection-update") ? <ProjectionsSpreadsheet /> : accessDenite) }/>
+          <Route path='/management/cinemas' element={ (verifyAccess("cinema-update") ? <CinemasSpreadsheet /> : accessDenite) }/>
+          <Route path='/management/users' element={ (verifyAccess("user-update") ? <UsersSpreadsheet /> : accessDenite) }/>
+          <Route path='/management/films' element={ (verifyAccess("film-update") ? <FilmsSpreadsheet /> : accessDenite) }/>
+          <Route path='/management/genres' element={ (verifyAccess("genre-update") ? <GenresSpreadsheet /> : accessDenite) }/>
+          <Route path='/management/roles' element={ (verifyAccess("role-update") ? <RolesSpreadsheet /> : accessDenite) }/>
 
-          <Route path='/management/users/new' element={ (verifyAccess("user-add") ? <UserDetail /> : accessDenite) } />
-          <Route path='/management/projections/new' element={ (verifyAccess("projection-add") ? <ProjectionDetail /> : accessDenite ) }/>
-          <Route path='/management/cinemas/new' element={ (verifyAccess("cinema-add") ? <CinemaDetail /> : accessDenite) }/>
-          <Route path='/management/halls/:new' element={ (verifyAccess("hall-add") ? <HallDetail /> : accessDenite) } />
+          <Route path='/management/users/new' element={ (verifyAccess("user-create") ? <UserDetail /> : accessDenite) } />
+          <Route path='/management/projections/new' element={ (verifyAccess("projection-create") ? <ProjectionDetail /> : accessDenite ) }/>
+          <Route path='/management/cinemas/new' element={ (verifyAccess("cinema-create") ? <CinemaDetail /> : accessDenite) }/>
+          <Route path='/management/halls/new' element={ (verifyAccess("hall-create") ? <HallDetail /> : accessDenite) } />
+          <Route path='/management/genres/new' element={ (verifyAccess("genre-create") ? <GenreDetail /> : accessDenite) } />
 
-          <Route path='/management/users/:userId' element={ (verifyAccess("user-edit") ? <UserDetail /> : accessDenite) } />
-          <Route path='/management/projections/:projectionId' element={ (verifyAccess("projection-edit") ? <ProjectionDetail /> : accessDenite) }/>
-          <Route path='/management/cinemas/:cinemaId' element={ (verifyAccess("cinema-edit") ? <CinemaDetail /> : accessDenite) }/>
-          <Route path='/management/halls/:hallId' element={ (verifyAccess("hall-edit") ? <HallDetail /> : accessDenite) } />
+          <Route path='/management/users/:userId' element={ (verifyAccess("user-update") ? <UserDetail /> : accessDenite) } />
+          <Route path='/management/projections/:projectionId' element={ (verifyAccess("projection-update") ? <ProjectionDetail /> : accessDenite) }/>
+          <Route path='/management/cinemas/:cinemaId' element={ (verifyAccess("cinema-update") ? <CinemaDetail /> : accessDenite) }/>
+          <Route path='/management/halls/:hallId' element={ (verifyAccess("hall-update") ? <HallDetail /> : accessDenite) } />
+          <Route path='/management/genres/:genreId' element={ (verifyAccess("genre-update") ? <GenreDetail /> : accessDenite) } />
+          <Route path='/management/roles/:roleId' element={ (verifyAccess("genre-update") ? <GenreDetail /> : accessDenite) } />
           
           <Route path='*' element={ <Err />}/>
         </Route>

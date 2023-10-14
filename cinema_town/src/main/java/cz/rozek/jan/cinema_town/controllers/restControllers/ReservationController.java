@@ -23,7 +23,6 @@ import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 @RequestMapping(path = "/api/reservations")
 public class ReservationController extends cz.rozek.jan.cinema_town.controllers.RestController<Reservation, ReservationService> {
     
-    // TODO když bude rezervace zaplacena pošli uživateli "lístky"
     @Autowired
     private EmailService emailService; 
     
@@ -41,6 +40,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
         return null;
     }
 
+    // TODO když bude rezervace zaplacena pošli uživateli "lístky"
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable String id, @RequestBody Reservation data, @RequestHeader Map<String, String> headers) {

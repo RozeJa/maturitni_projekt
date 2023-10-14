@@ -1,0 +1,31 @@
+.management-reference {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color--red--bright);
+    padding: 2em;
+    margin: 2em;
+    border-radius: 1em;
+    min-width: 15em;
+
+    transition-duration: var(--transition-delay--short);
+}
+
+.management-reference:hover {
+    cursor: pointer;
+    box-shadow: .5em .5em 1em #AAAAAA;
+}
+
+.management-reference p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--color--grey--light);
+}
+
+.management-reference-img {
+    /*background: url('../../assets/imgs/favicons/projection-favikon.png');*/
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
