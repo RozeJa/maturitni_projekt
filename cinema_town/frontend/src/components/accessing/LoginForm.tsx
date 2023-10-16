@@ -14,7 +14,7 @@ user = {
     id: '',
     active: false, 
     subscribed: false, 
-    trustedDevicesId: new Map,
+    trustedDevicesId: new Map(),
     role: ''
 }
 
@@ -25,8 +25,7 @@ const setValue = (e: any) => {
     user = { ...user, [name]: value}
 } 
 
-
-const LoginForm = (data: any) => {
+const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActive: Function }) => {
     
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 
@@ -44,7 +43,7 @@ const LoginForm = (data: any) => {
             } else {
                 localStorage.removeItem('deviceID')
                 sessionStorage.setItem('email', user.email)
-                data.onSuccess(user.password)
+                onSuccess(user.password)
             }
             setEmailErr('')
             setPwErr('')
@@ -53,7 +52,7 @@ const LoginForm = (data: any) => {
             
             if (error instanceof AxiosError && error.code === 'ERR_BAD_REQUEST') {
                 sessionStorage.setItem('email', user.email)
-                data.isNotActive(user.password)
+                isNotActive(user.password)
             } else {
                 setEmailErr('Zkontrolujte email')
                 setPwErr('Zkontrolujte heslo')

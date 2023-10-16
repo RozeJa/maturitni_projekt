@@ -12,3 +12,13 @@ interface Projection {
 }
 
 export default Projection
+
+export let defaultProjection: Projection = {
+    id: '',
+    hall: '',
+    film: '',
+    title: '',
+    dabing: '',
+    date: new Date(),
+    time: new Date()
+}

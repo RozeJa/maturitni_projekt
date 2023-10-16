@@ -5,3 +5,9 @@ interface City {
 }
 
 export default City
+
+export let defaultCity: City = {
+    id: '',
+    name: '',
+    postalCode: ''
+}

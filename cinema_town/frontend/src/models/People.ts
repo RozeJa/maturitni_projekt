@@ -4,3 +4,9 @@ interface People {
     surname: string
 }
 export default People
+
+export let defaultPeople: People = {
+    id: '',
+    name: '',
+    surname: ''
+}

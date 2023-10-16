@@ -10,3 +10,13 @@ interface User {
     trustedDevicesId: Map<string, string>
 }
 export default User
+
+export let defaultUser: User = {
+    id: '',
+    email: '',
+    password: '',
+    active: false,
+    subscribed: false,
+    role: '',
+    trustedDevicesId: new Map()
+}

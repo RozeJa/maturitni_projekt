@@ -14,7 +14,7 @@ user = {
     id: '',
     active: false, 
     subscribed: false, 
-    trustedDevicesId: new Map,
+    trustedDevicesId: new Map(),
     role: ''
 }
 
@@ -25,9 +25,8 @@ const setValue = (e: any) => {
     user = { ...user, [name]: value}
 } 
 
-const RegisterForm = (data: any) => {
+const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
         
-
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 
     const [pwAgErr, setPwAgErr] = useState('')
@@ -66,7 +65,7 @@ const RegisterForm = (data: any) => {
             if (requestSuccess) {
 
                 sessionStorage.setItem('email', user.email)
-                data.onSuccess(user.password)
+                onSuccess(user.password)
             }
         }
     }
@@ -111,7 +110,7 @@ const RegisterForm = (data: any) => {
                                 sessionStorage.setItem('email', user.email)
                             }
 
-                            data.onSuccess()                            
+                            onSuccess()                            
                         }
                     }}>Aktivovat účet</p>
                 </div>

@@ -10,3 +10,11 @@ interface Cinema {
 }
 
 export default Cinema
+
+export let defaultCinema: Cinema = {
+    id: '',
+    city: '',
+    street: '',
+    houseNumber: '',
+    halls: []
+}

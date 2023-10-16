@@ -2,7 +2,7 @@ import './GenresSpreadsheet.css'
 
 const GenresSpreadsheet = () => {
     return (
-        <>GenresSpreadsheet</>
+        <><a href="/management/genres/new">new</a></>
     )
 }
 

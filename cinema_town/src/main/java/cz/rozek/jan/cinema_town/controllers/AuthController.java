@@ -304,7 +304,7 @@ public class AuthController {
     @GetMapping("/token")
     public ResponseEntity<String> getToken(@RequestHeader Map<String, String> headers) {
         try {
-            return new ResponseEntity<>(authService.getAccessToken(headers.get(authorization)), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(authService.getAccessToken(headers.get(authorization)), HttpStatus.OK);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {

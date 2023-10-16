@@ -1,0 +1,33 @@
+.dialog-err {
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 1em;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    max-width: 50%;
+  }
+
+  .dialog-err-ok {
+    width: fit-content;
+    font-family: 1.4em;
+    font-weight: bold;
+    padding: 0.4em;
+    border-radius: 5px;
+    background-color: var(--color--red--dark);
+  }
+
+  .dialog-err-ok:hover {
+    cursor: pointer;
+    background-color: var(--color--white);
+    color: var(--color--black);
+  }

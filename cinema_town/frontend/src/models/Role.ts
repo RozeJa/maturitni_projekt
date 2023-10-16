@@ -7,3 +7,9 @@ interface Role {
 }
 
 export default Role
+
+export let defaultRole: Role = {
+    id: '',
+    name: '',
+    permissions: []
+}

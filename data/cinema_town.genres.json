@@ -1,0 +1,203 @@
+[{
+  "_id": {
+    "$oid": "652d82ce5801eb0c3fd628b1"
+  },
+  "name": "Akční",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d83405801eb0c3fd628b2"
+  },
+  "name": "Animované",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d83b51526991bb7fa07b7"
+  },
+  "name": "Černá komedie",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84461526991bb7fa07b8"
+  },
+  "name": "Dětský ",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84501526991bb7fa07b9"
+  },
+  "name": "Dobrodružný",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84581526991bb7fa07ba"
+  },
+  "name": "Domumentární",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d845f1526991bb7fa07bb"
+  },
+  "name": "Drama",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84701526991bb7fa07bc"
+  },
+  "name": "Historický",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84851526991bb7fa07bd"
+  },
+  "name": "Erotický",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d848e1526991bb7fa07be"
+  },
+  "name": "Experimentální",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84971526991bb7fa07bf"
+  },
+  "name": "Horor",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d849d1526991bb7fa07c0"
+  },
+  "name": "Hudební",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84a71526991bb7fa07c1"
+  },
+  "name": "Katastrofický",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84ae1526991bb7fa07c2"
+  },
+  "name": "Komedie",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84be1526991bb7fa07c3"
+  },
+  "name": "Kriminální",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84c71526991bb7fa07c4"
+  },
+  "name": "Kyberpunkový",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d84dd1526991bb7fa07c5"
+  },
+  "name": "Pohádka",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d85311526991bb7fa07c6"
+  },
+  "name": "Propagandistický",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d853a1526991bb7fa07c7"
+  },
+  "name": "Psychologický",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d85461526991bb7fa07c8"
+  },
+  "name": "Rodinný",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d854d1526991bb7fa07c9"
+  },
+  "name": "Romantický",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d85551526991bb7fa07ca"
+  },
+  "name": "Sci-fi",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d85601526991bb7fa07cb"
+  },
+  "name": "Superhrdinský",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d856d1526991bb7fa07cc"
+  },
+  "name": "Špionážní",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d85751526991bb7fa07cd"
+  },
+  "name": "Thriller",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d857d1526991bb7fa07ce"
+  },
+  "name": "Taneční",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d858e1526991bb7fa07cf"
+  },
+  "name": "Válečné",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d859b1526991bb7fa07d0"
+  },
+  "name": "Westernový",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "652d85a21526991bb7fa07d1"
+  },
+  "name": "Životopisný",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+}]

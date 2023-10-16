@@ -12,6 +12,7 @@ import Role from '../models/Role';
 import Seat from '../models/Seat';
 import User from '../models/User';
 import { TokenDeviceId } from '../models/TokenDeviceId';
+import { getSessionStorageItem } from './storagesActions';
 
 // url na server 
 const BASE_URL = 'http://localhost:8080/'
@@ -21,23 +22,23 @@ type ApiData = Cinema | City | Film | Genre | Hall | People | Permission | Proje
 
 // výčtový typ mapovaný na endpointy 
 export enum ModesEndpoints {
-    Cinama =  "api/cinemas",
-    City = "api/cities",
-    Film = "api/films",
-    Genre = "api/genres",
-    Hall = "api/halls",
-    People = "api/people",
-    Permission = "api/permissions",
-    Projection = "api/projections",
-    Reservation = "api/reservations",
-    Role = "api/roles",
-    Seat = "api/seats",
-    User = "api/users"
+    Cinama =  "api/cinemas/",
+    City = "api/cities/",
+    Film = "api/films/",
+    Genre = "api/genres/",
+    Hall = "api/halls/",
+    People = "api/people/",
+    Permission = "api/permissions/",
+    Projection = "api/projections/",
+    Reservation = "api/reservations/",
+    Role = "api/roles/",
+    Seat = "api/seats/",
+    User = "api/users/"
 }
 
 
 // funkce pro načtení dat z api
-export const loadData = async <T extends ApiData>(modelEndpoint: ModesEndpoints, ids = []): Promise<T[]> => {
+export const loadData = async <T extends ApiData>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
     try {
         let data: T[] = []
 
@@ -66,6 +67,7 @@ export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints
         let reseavedData: T[] = []
 
         let config = await getRequestConfig()
+        
         if (config.headers !== undefined)
             config.headers["Content-Type"] = "application/json"
 
@@ -74,12 +76,12 @@ export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints
             const url = BASE_URL + modelEntpoint
 
             // TODO zkontrolovat zda podmínka funguje
-            if (data[i].id === undefined) {
+            if (data[i].id === undefined || data[i].id === '') {
                 // pokud je id undefinited vytváříš záznam
                 reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
             } else {
                 // pokud id není undefinited záznam edituješ
-                reseavedData.push((await (axios.put<T>(url + `/${data[i].id}`, data[i], config))).data) 
+                reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
             }
         }
 
@@ -97,7 +99,7 @@ export const deleteData = async <T extends ApiData>(modelEntpoint: ModesEndpoint
             // načti si config
             const config = await getRequestConfig()
 
-            await (axios.delete<T>(BASE_URL + modelEntpoint + `/${data[i].id}`, config))
+            await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
         }
 
         return data
@@ -174,9 +176,6 @@ export const login = async (email: string, password: string, deviceId: string): 
         }        
       
         const res = (await axios.post(BASE_URL + "auth/login", user, config))
-        
-        console.log(res.status);
-        
 
         if (res.status === 200) {
             return res.data
@@ -192,29 +191,28 @@ export const login = async (email: string, password: string, deviceId: string): 
 // funkce získá přístupový token
 async function getAccessToken(): Promise<string | null> {
 
-    const loginToken = localStorage.getItem("loginToken")
+    const loginToken = getSessionStorageItem("loginToken")
 
-    if (loginToken !== null) {
-        const headers = {
-            "authorization": loginToken
-        }
-
-        const config = {
-            headers: headers
-        }
-
-        let accessToken: string = (await axios.get<string>(BASE_URL + "auth/token", config)).data
-
-        return accessToken        
+    const headers = {
+        "authorization": loginToken
     }
 
-    return null
+    const config = {
+        headers: headers
+    }
+
+    let accessToken: string = (await axios.get<string>(BASE_URL + "auth/token", config)).data
+
+    return accessToken 
 }
 
 // metoda vytvoří config objekt pro request na api
 async function getRequestConfig(): Promise<AxiosRequestConfig> {
     
     const accessToken = await getAccessToken()
+
+    console.log(accessToken);
+    
 
     if (accessToken !== null) {
         let headers = {

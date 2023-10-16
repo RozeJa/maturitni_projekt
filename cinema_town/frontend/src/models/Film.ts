@@ -21,3 +21,22 @@ interface Film {
 }
 
 export default Film
+
+export let defaultFilm: Film = {
+    id: '',
+    name: '',
+    description: '',
+    picture: '',
+    trailer: '',
+    original: '',
+    director: '',
+    actors: [],
+    genres: [],
+    titles: [],
+    dabings: [],
+    time: 0,
+    pg: 0,
+    cost: 0,
+    production: new Date(),
+    premier: new Date()
+}

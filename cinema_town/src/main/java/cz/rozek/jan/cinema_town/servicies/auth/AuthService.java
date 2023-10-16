@@ -335,7 +335,7 @@ public class AuthService {
         // přidej šifrování
         jws.setKey(rsaLoginTokenKey.getPrivateKey());
         jws.setKeyIdHeaderValue(rsaLoginTokenKey.getKeyId());
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA512 );
 
         // skompiluj do tokenu
         return jws.getCompactSerialization();
@@ -355,8 +355,7 @@ public class AuthService {
         claims.setAudience(AUDIENCE); // publikum
         claims.setGeneratedJwtId();
         claims.setIssuedAtToNow(); // kdy byl vydán
-        // TODO test zda toto funguje. Cílem je nastavit životnost tokenu na půl minuty
-        claims.setExpirationTimeMinutesInTheFuture((float) 0.5); // jak dlouho bude použitelný
+        claims.setExpirationTimeMinutesInTheFuture(1); // jak dlouho bude použitelný
         claims.setSubject(user.getId()); // nastav předmět na id uživatele
         claims.setClaim("active", user.isActive()); // nastav informaci o tom, zda je účet aktivován
 
@@ -367,7 +366,7 @@ public class AuthService {
         // přidej šifrování
         jws.setKey(rsaAccessTokenKey.getPrivateKey());
         jws.setKeyIdHeaderValue(rsaAccessTokenKey.getKeyId());
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA256);
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA512 );
 
         // skompiluj do tokenu
         return jws.getCompactSerialization();
@@ -413,7 +412,7 @@ public class AuthService {
                 .setExpectedIssuer(ISSUER)
                 .setExpectedAudience(AUDIENCE)
                 .setVerificationKey(key.getKey())
-                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA256)
+                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512 )
                 .build();
 
         try {
@@ -426,7 +425,8 @@ public class AuthService {
             else
                 throw new SecurityException("Invalid Permition");
         } catch (MalformedClaimException | InvalidJwtException e) {
-            throw new SecurityException("Invalid Login Token");
+            e.printStackTrace();
+            throw new SecurityException("Invalid Token");
         }
 
     }
@@ -472,7 +472,7 @@ public class AuthService {
                 .setExpectedIssuer(ISSUER)
                 .setExpectedAudience(AUDIENCE)
                 .setVerificationKey(rsaAccessTokenKey.getKey())
-                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_USING_SHA256)
+                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512 )
                 .build();
 
         try {

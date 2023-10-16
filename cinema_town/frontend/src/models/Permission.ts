@@ -4,3 +4,8 @@ interface Permission {
 }
 
 export default Permission
+
+export let defaultPermission: Permission = {
+    id: '',
+    permission: ''
+}
