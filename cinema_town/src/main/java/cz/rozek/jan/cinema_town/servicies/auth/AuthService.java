@@ -366,7 +366,7 @@ public class AuthService {
         // přidej šifrování
         jws.setKey(rsaAccessTokenKey.getPrivateKey());
         jws.setKeyIdHeaderValue(rsaAccessTokenKey.getKeyId());
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA512 );
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA512);
 
         // skompiluj do tokenu
         return jws.getCompactSerialization();
@@ -412,7 +412,7 @@ public class AuthService {
                 .setExpectedIssuer(ISSUER)
                 .setExpectedAudience(AUDIENCE)
                 .setVerificationKey(key.getKey())
-                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512 )
+                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512)
                 .build();
 
         try {
@@ -472,7 +472,7 @@ public class AuthService {
                 .setExpectedIssuer(ISSUER)
                 .setExpectedAudience(AUDIENCE)
                 .setVerificationKey(rsaAccessTokenKey.getKey())
-                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512 )
+                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512)
                 .build();
 
         try {

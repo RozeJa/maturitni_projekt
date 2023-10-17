@@ -39,7 +39,8 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
             const loginToken = await login(user.email, user.password, deviceID)
             if (typeof loginToken === 'string') {
                 sessionStorage.setItem('loginToken', loginToken)
-                navigate('/')
+            
+                window.location.href = '/'
             } else {
                 localStorage.removeItem('deviceID')
                 sessionStorage.setItem('email', user.email)

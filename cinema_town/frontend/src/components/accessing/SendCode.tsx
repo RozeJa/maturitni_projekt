@@ -51,7 +51,8 @@ const SendCode = (data:any) => {
             const tokenDeviceId = await secondVerify(code)
             localStorage.setItem("deviceID", tokenDeviceId.deviceId)
             sessionStorage.setItem("loginToken", tokenDeviceId.loginToken);
-            navigate('/')
+            
+            window.location.href = '/'
         } catch (error) {
         
             console.log(error)
