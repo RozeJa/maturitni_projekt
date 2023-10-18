@@ -18,7 +18,7 @@ import { getSessionStorageItem } from './storagesActions';
 const BASE_URL = 'http://localhost:8080/'
 
 // povolený typ pro dotazy na rest api
-type ApiData = Cinema | City | Film | Genre | Hall | People | Permission | Projection | Reservation | Role | Seat | User
+export type ApiData = Cinema | City | Film | Genre | Hall | People | Permission | Projection | Reservation | Role | Seat | User
 
 // výčtový typ mapovaný na endpointy 
 export enum ModesEndpoints {
