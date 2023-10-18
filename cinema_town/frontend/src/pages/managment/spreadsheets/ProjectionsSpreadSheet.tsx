@@ -2,7 +2,7 @@ import './ProjectionsSpreadsheet.css'
 
 const ProjectionsSpreadsheet = () => {
     return (
-        <>ProjectionsSpreadsheet</>
+        <><a href="/management/projections/new">new</a></>
     )
 }
 

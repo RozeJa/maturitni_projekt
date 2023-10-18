@@ -1,5 +1,6 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,17 @@ public class UserService extends CrudService<User, UserRepository> {
     }
 
     @Override
+    public User create(User entity, String accessJWT) {
+        
+        // zvaliduj email
+        if (!entity.validateEmail()) 
+            throw new SecurityException("Invalid email");
+        entity.setPassword(BCrypt.hashpw(entity.getPassword(), BCrypt.gensalt()));
+
+        return super.create(entity, accessJWT);
+    }
+
+    @Override
     public User update(String id, User entity, String accessJWT) {
 
         User userFromDB = repository.findById(id).get();
@@ -49,8 +61,10 @@ public class UserService extends CrudService<User, UserRepository> {
         if (editor.getRole().getName().equals("admin")) 
             userFromDB.setRole(entity.getRole());
 
-        if (editor.getId().equals(id))
+        if (editor.getId().equals(id)) {
+            userFromDB.setTrustedDevicesId(entity.getTrustedDevicesId());
             userFromDB.setSubscriber(entity.isSubscriber());
+        }
 
 
         return super.update(id, userFromDB, accessJWT);

@@ -211,9 +211,6 @@ async function getRequestConfig(): Promise<AxiosRequestConfig> {
     
     const accessToken = await getAccessToken()
 
-    console.log(accessToken);
-    
-
     if (accessToken !== null) {
         let headers = {
             "authorization": accessToken

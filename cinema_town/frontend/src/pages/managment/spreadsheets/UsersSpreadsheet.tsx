@@ -2,7 +2,7 @@ import './UsersSpreadsheet.css'
 
 const UsersSpreadsheet = () => {
     return (
-        <>UsersSpreadsheet</>
+        <><a href="/management/users/new">new</a></>
     )
 }
 

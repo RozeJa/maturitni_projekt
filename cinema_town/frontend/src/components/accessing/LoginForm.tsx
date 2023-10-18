@@ -1,22 +1,11 @@
 import { useState } from 'react'
-import User from '../../models/User'
+import User, { defaultUser } from '../../models/User'
 import './LoginForm.css'
 import { login } from '../../global_functions/ServerAPI'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
-import { useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 
-let user: User
-
-user = {
-    email: '',
-    password: '',
-    id: '',
-    active: false, 
-    subscribed: false, 
-    trustedDevicesId: new Map(),
-    role: ''
-}
+let user: User = defaultUser
 
 const setValue = (e: any) => {
 
@@ -29,8 +18,6 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
     
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 
-
-    const navigate = useNavigate()
 
     const sendRequest = async () => {
         

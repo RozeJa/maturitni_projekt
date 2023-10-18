@@ -1,22 +1,12 @@
 import { useState } from 'react'
 import './RegisterFrom.css'
-import User from '../../models/User'
+import User, { defaultUser } from '../../models/User'
 import { register } from '../../global_functions/ServerAPI'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'
 import { emailRegex, pwRegex } from '../../global_functions/constants'
 
-let user: User
+let user: User = defaultUser
 let passwordAgain: string
-
-user = {
-    email: '',
-    password: '',
-    id: '',
-    active: false, 
-    subscribed: false, 
-    trustedDevicesId: new Map(),
-    role: ''
-}
 
 const setValue = (e: any) => {
 

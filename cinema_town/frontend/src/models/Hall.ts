@@ -5,7 +5,7 @@ interface Hall {
     designation: string,
     rows: number,
     columns: number,
-    seats: Seat[] | string[]
+    seats: Seat[] | string[] | null
 }
 
 export default Hall
@@ -15,5 +15,5 @@ export let defaultHall: Hall = {
     designation: '',
     rows: 0,
     columns: 0,
-    seats: []
+    seats: null
 }

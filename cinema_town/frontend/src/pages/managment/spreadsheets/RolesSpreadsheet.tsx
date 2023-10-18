@@ -2,7 +2,7 @@ import './RolesSpreadsheet.css'
 
 const RolesSpreadsheet = () => {
     return (
-        <>RolesSpreadsheet</>
+        <><a href="/management/roles/new">new</a></>
     )
 }
 

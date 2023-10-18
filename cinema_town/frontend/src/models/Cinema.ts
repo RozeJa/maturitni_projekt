@@ -6,7 +6,7 @@ interface Cinema {
     city: City | string,
     street: string,
     houseNumber: string,
-    halls: Hall[] | string[]
+    halls: Hall[] | string[] | null
 }
 
 export default Cinema
@@ -16,5 +16,5 @@ export let defaultCinema: Cinema = {
     city: '',
     street: '',
     houseNumber: '',
-    halls: []
+    halls: null
 }

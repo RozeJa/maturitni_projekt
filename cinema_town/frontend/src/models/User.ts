@@ -5,9 +5,9 @@ interface User {
     email: string,
     password: string,
     active: boolean,
-    subscribed: boolean,
+    subscriber: boolean,
     role: Role | string,
-    trustedDevicesId: Map<string, string>
+    trustedDevicesId: Set<string> | null
 }
 export default User
 
@@ -16,7 +16,7 @@ export let defaultUser: User = {
     email: '',
     password: '',
     active: false,
-    subscribed: false,
+    subscriber: false,
     role: '',
-    trustedDevicesId: new Map()
+    trustedDevicesId: null
 }

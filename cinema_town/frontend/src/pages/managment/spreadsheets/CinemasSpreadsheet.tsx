@@ -2,7 +2,7 @@ import './CinemasSpreadsheet.css'
 
 const CinemasSpreadsheet = () => {
     return (
-        <>CinemasSpreadsheet</>
+        <><a href="/management/cinemas/new">new</a></>
     )
 }
 

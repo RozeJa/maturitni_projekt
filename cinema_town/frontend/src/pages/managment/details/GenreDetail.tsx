@@ -1,71 +1,35 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import Genre, { defaultGerne } from '../../../models/Genre'
 import './GenreDetail.css'
-import { useEffect, useState } from 'react';
-import { ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI'
-import DialogErr from '../../../components/DialogErr';
+import Genre from '../../../models/Genre'
 
-const GenreDetail = () => {
+export const validateGenre = (data: Genre): Array<string> => {
+    let errs: Array<string> = []
 
-    const { genreId } = useParams<string>()
-    const [genre, setGenre] = useState<Genre>(defaultGerne);
-    const [err, setErr] = useState(<></>)
-
-    const navigate = useNavigate()
-    
-    
-    useEffect(() => {
-        if (typeof genreId === 'string') {
-            loadGenre(genreId)
-        }
-        
-    }, [])
-    
-    const handleChange = (event: any) => {
-        const { name, value } = event.target
-
-        setGenre({ ...genre, [name]: value })
+    if (data.name === '') {
+        errs.push('Abyste mohly úspěšně odeslat formulář musíte vyplnit žázev žánru.')
     }
 
-    const loadGenre = async (genreId: string) => {
-        let genre = (await loadData<Genre>(ModesEndpoints.Genre, [genreId])).pop()
-        if (genre !== undefined ) {
-            setGenre(genre)
-        }
-    }
-    const storeGenre = async () => {
+    return errs
+}
 
-        if (genre.name === '') {
-            setErr(<DialogErr err='Název žánru musí byt vyplněný' description='Abyste mohly úspěšně odeslat formulář musíte vyplnit žázev žánru.' dialogSetter={setErr} />)
-            return
-        }
-
-        try {
-            await storeData<Genre>(ModesEndpoints.Genre, [genre]);
-
-            navigate('/management/genres/')
-        } catch (error) {
-            // TODO dořešit přesnou chybu pro uživatele 
-            setErr(<DialogErr err='Žánr se nepodařilo zapsat do datábáze' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} />)
-        }
-    }
+const GenreDetail = ({
+    data, 
+    handleInputText, 
+    handleInputCheckbox, 
+    setData, 
+    setErr
+}: {
+    data: Genre, 
+    handleInputText: Function, 
+    handleInputCheckbox: Function, 
+    setData: Function, 
+    setErr: Function
+}) => {
 
     return (
-        <div className='genre-detail'>
-            {err}
-            <h1>{genreId === undefined ? 'Nový žánr' : `Žánr: ${genre.name}`}</h1>
-            <div className='genre-detail-body'>
-                <label>Název žánru</label>
-                <input name='name' type="text" placeholder='název žánru' onChange={handleChange} />
-            </div>
-            <div className='genre-detail-submit'>
-                {genreId === undefined ? 
-                    (<button onClick={()=>storeGenre()}>Vytvořit</button>) : 
-                    (<button onClick={()=>storeGenre()}>Potvrdit změny</button>) 
-                }
-                <a href='/management/genres'>Zahodit změny</a>
-            </div>
-        </div>
+       <>
+           <label>Název žánru</label>
+           <input name='name' type="text" value={data.name} placeholder='název žánru' onChange={(e: any) => handleInputText(e)} />
+       </>
     )
 }
 

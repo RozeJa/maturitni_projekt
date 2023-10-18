@@ -1,0 +1,79 @@
+.detail {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    
+    margin: 10% 0 ;
+    border-radius: 15px;
+
+    width: fit-content;
+    padding: 2%;
+    
+    background-color: var(--color--grey--light);
+
+    box-shadow: 0 0 1em #AAAAAA;
+}
+
+.detail-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-submit {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.detail label, .detail input, .detail select, .detail p {
+    border: none;
+    font-size: 1.5em;
+    padding: .5em;
+    padding-bottom: .2em;
+    outline: none;
+}
+
+.detail input {
+    border-bottom: 2px var(--color--black) solid;
+    padding-top: .2em;
+}
+
+.detail button, .detail a {
+    margin: .5em;
+    margin-top: 1em;
+    font-size: 1.3em;
+    padding: .7em;
+    border: none;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    transition-duration: var(--transition-delay--long);
+}
+
+.detail button:hover {
+    background-color: var(--color--red--dark);
+    cursor: pointer;
+}
+
+.chechbox {
+    display: flex;
+    align-items: center;
+
+
+    border: none;
+    padding: .5em;
+    padding-left: 0;
+    padding-bottom: .2em;
+    outline: none;
+}
+
+.chechbox input {
+    width: 1em;
+    height: 1em;
+    padding: .5em;
+}
+
+.chechbox label {
+    padding: .5em;
+}
