@@ -1,19 +1,19 @@
-import City from "./City";
+import City, { defaultCity } from "./City";
 import Hall from "./Hall";
 
 interface Cinema {
     id: string,
-    city: City | string,
+    city: City,
     street: string,
     houseNumber: string,
-    halls: Hall[] | string[] | null
+    halls: Hall[] | null
 }
 
 export default Cinema
 
 export let defaultCinema: Cinema = {
     id: '',
-    city: '',
+    city: defaultCity,
     street: '',
     houseNumber: '',
     halls: null

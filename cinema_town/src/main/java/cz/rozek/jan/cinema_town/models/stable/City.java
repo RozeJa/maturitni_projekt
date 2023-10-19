@@ -23,8 +23,4 @@ public class City implements Entity {
     @Indexed(unique = true)
     private String name;
 
-    // poštovní směrovaní číslo
-    @NotBlank
-    private String postalCode;
-
 }

@@ -41,7 +41,7 @@ const RoleDetail = ({
 
         permisionsData.forEach((perm) => {
                 toDisplay.push(
-                    <div className="permission">
+                    <div className="role-detail-permisions-permission">
                         <p>{perm.permission}</p>
                         <input type="checkbox" name={perm.id} checked={inRole(perm)} onChange={handleCheck} />
                     </div>
@@ -96,7 +96,7 @@ const RoleDetail = ({
             
             setPermissionsData(map)            
         } catch (error) {
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení oprávnění"} dialogSetter={setErr} />)
+            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení oprávnění"} dialogSetter={setErr} okText={<a href='/management/roles/'>Ok</a>}/>)
         }
     }
 

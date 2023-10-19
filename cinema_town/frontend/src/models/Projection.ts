@@ -1,10 +1,10 @@
-import Film from "./Film";
-import Hall from "./Hall";
+import Film, { defaultFilm } from "./Film";
+import Hall, { defaultHall } from "./Hall";
 
 interface Projection {
     id: string,
-    hall: Hall | string,
-    film: Film | string,
+    hall: Hall,
+    film: Film,
     title: string,
     dabing: string,
     date: Date,
@@ -15,8 +15,8 @@ export default Projection
 
 export let defaultProjection: Projection = {
     id: '',
-    hall: '',
-    film: '',
+    hall: defaultHall,
+    film: defaultFilm,
     title: '',
     dabing: '',
     date: new Date(),

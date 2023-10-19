@@ -1,3 +1,32 @@
 .role-detail-permisions {
-    
+    display: flex;
+    flex-direction: column;
+    max-height: 50vh;
+    overflow: auto;
+}
+
+.role-detail-permisions-permission {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding-right: 30%;
+}
+.role-detail-permisions-permission p {
+    font-size: 1.5em;
+    padding: .5em;
+}
+
+.role-detail-permisions-permission:hover {
+    background-color: var(--color--grey--medium);
+}
+
+.role-detail-permisions-permission input, .role-detail-permisions-permission p {
+    margin: .2em;
+}
+
+.role-detail-permisions-permission input {
+    width: 1em;
+    height: 1em;
 }

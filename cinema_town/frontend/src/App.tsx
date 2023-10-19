@@ -71,7 +71,7 @@ function App() {
   const hallDetail = <Detail  
                         defaultData={defaultHall}
                         modesEndpoint={ModesEndpoints.Hall}
-                        spreadsheetURL='/management/halls/'
+                        spreadsheetURL='/management/'
                         titleNew='Nový sál'
                         titleEdit='Sál'
                         validateData={validateHall}

@@ -1,5 +1,5 @@
 import Genre from "./Genre";
-import People from "./People";
+import People, { defaultPeople } from "./People";
 
 interface Film {
     id: string,
@@ -8,9 +8,9 @@ interface Film {
     picture: string,
     trailer: string,
     original: string,
-    director: People | string,
-    actors: People[] | string[] | null,
-    genres: Genre[] | string[] | null,
+    director: People,
+    actors: People[] | null,
+    genres: Genre[] | null,
     titles: string[],
     dabings: string[],
     time: number,
@@ -29,7 +29,7 @@ export let defaultFilm: Film = {
     picture: '',
     trailer: '',
     original: '',
-    director: '',
+    director: defaultPeople,
     actors: null,
     genres: null,
     titles: [],

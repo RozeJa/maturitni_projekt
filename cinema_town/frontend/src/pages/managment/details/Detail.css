@@ -3,7 +3,7 @@
     align-self: center;
     flex-direction: column;
     
-    margin: 10% 0 ;
+    margin: 8% 0 ;
     border-radius: 15px;
 
     width: fit-content;
@@ -25,20 +25,19 @@
     justify-content: space-between;
 }
 
-.detail label, .detail input, .detail select, .detail p {
+.detail label, .detail input, .detail select, .detail > p {
     border: none;
     font-size: 1.5em;
     padding: .5em;
-    padding-bottom: .2em;
     outline: none;
 }
 
 .detail input {
     border-bottom: 2px var(--color--black) solid;
-    padding-top: .2em;
+    padding-bottom: .2em;
 }
 
-.detail button, .detail a {
+.detail-submit > button, .detail-submit > a {
     margin: .5em;
     margin-top: 1em;
     font-size: 1.3em;

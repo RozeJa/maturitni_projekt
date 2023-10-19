@@ -23,6 +23,7 @@ code {
   --color--black: #000000;
   --color--grey: #444444;
   --color--grey--light: #DDDDDD;
+  --color--grey--medium: #AAAAAA;
 
   --transition-delay--short: .35s;
   --transition-delay--long: .65s;

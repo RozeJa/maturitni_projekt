@@ -55,7 +55,7 @@ const Detail = <T extends ApiData> ({
             }            
         } catch (error) {
             // TODO rozpracovat errory
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení dat"} dialogSetter={setErr} />)
+            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení dat"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
 
             console.log(error);
             
@@ -71,7 +71,7 @@ const Detail = <T extends ApiData> ({
 
             errs.forEach((err) => errLog += ` ${err}`);
 
-            setErr(<DialogErr err='Chybně vyplněný formulář' description={errLog} dialogSetter={setErr} />)
+            setErr(<DialogErr err='Chybně vyplněný formulář' description={errLog} dialogSetter={setErr} okText={'Ok'} />)
             return
         }
 
@@ -81,7 +81,7 @@ const Detail = <T extends ApiData> ({
             navigate(spreadsheetURL)
         } catch (error) {
             // TODO dořešit přesnou chybu pro uživatele 
-            setErr(<DialogErr err='Nastala chyba při vkládání do db' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} />)
+            setErr(<DialogErr err='Nastala chyba při vkládání do db' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} okText={'okText'} />)
         }
     }
 

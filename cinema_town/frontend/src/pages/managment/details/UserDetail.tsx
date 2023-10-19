@@ -67,7 +67,7 @@ const UserDetail = ({
                 </option>
             }))     
         } catch (error) {
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení rolí"} dialogSetter={setErr} />)
+            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení rolí"} dialogSetter={setErr} okText={<a href='/management/users/'>Ok</a>} />)
         }
     }
     

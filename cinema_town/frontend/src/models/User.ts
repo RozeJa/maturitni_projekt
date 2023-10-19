@@ -1,4 +1,4 @@
-import Role from "./Role"
+import Role, { defaultRole } from "./Role"
 
 interface User {
     id: string,
@@ -6,7 +6,7 @@ interface User {
     password: string,
     active: boolean,
     subscriber: boolean,
-    role: Role | string,
+    role: Role,
     trustedDevicesId: Set<string> | null
 }
 export default User
@@ -17,6 +17,6 @@ export let defaultUser: User = {
     password: '',
     active: false,
     subscriber: false,
-    role: '',
+    role: defaultRole,
     trustedDevicesId: null
 }
