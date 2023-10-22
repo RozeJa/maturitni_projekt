@@ -1,11 +1,11 @@
 interface Permission {
-    id: string,
+    id: string | null,
     permission: string
 }
 
 export default Permission
 
 export let defaultPermission: Permission = {
-    id: '',
+    id: null,
     permission: ''
 }

@@ -100,6 +100,10 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
     private void addHallsToDB(Cinema entity, String accessJWT) {
         Map<String, Hall> cinemaHalls = new HashMap<>();
+        if (entity.getHalls() == null) {
+            entity.setHalls(cinemaHalls);
+            return;
+        }
 
         for (Hall hall : entity.getHalls().values()) {
             if (hall.getId() == null) {

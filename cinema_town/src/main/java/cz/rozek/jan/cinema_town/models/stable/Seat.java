@@ -32,4 +32,5 @@ public class Seat implements Entity {
     // index ve sloupci 
     @Min(0)
     private int columnIndex;
+    private boolean seat = true;
 }

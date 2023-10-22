@@ -3,7 +3,7 @@ import Seat, { defaultSeat } from "./Seat";
 import User, { defaultUser } from "./User";
 
 interface Reservation {
-    id: string,
+    id: string | null,
     projection: Projection,
     user: User,
     seat: Seat,
@@ -14,7 +14,7 @@ interface Reservation {
 export default Reservation
 
 export let defaultReservation: Reservation = {
-    id: '',
+    id: null,
     projection: defaultProjection,
     user: defaultUser,
     seat: defaultSeat,

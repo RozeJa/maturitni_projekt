@@ -2,7 +2,7 @@ import Genre from "./Genre";
 import People, { defaultPeople } from "./People";
 
 interface Film {
-    id: string,
+    id: string | null,
     name: string,
     description: string,
     picture: string,
@@ -23,7 +23,7 @@ interface Film {
 export default Film
 
 export let defaultFilm: Film = {
-    id: '',
+    id: null,
     name: '',
     description: '',
     picture: '',

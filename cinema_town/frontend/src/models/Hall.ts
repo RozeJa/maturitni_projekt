@@ -1,19 +1,19 @@
 import Seat from "./Seat"
 
 interface Hall {
-    id: string,
+    id: string | null,
     designation: string,
     rows: number,
     columns: number,
-    seats: Seat[] | null
+    seats: Seat[][] | null
 }
 
 export default Hall
 
 export let defaultHall: Hall = {
-    id: '',
+    id: null,
     designation: '',
-    rows: 0,
-    columns: 0,
+    rows: 10,
+    columns: 15,
     seats: null
 }

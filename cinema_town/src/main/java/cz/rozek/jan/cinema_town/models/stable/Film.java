@@ -70,9 +70,9 @@ public class Film implements Entity {
     // věková hranice
     @Min(0)
     private int pg;
-    // cena lístku
+    // cena lístku, která bude předvyplněna u promítání
     @Min(0)
-    private double cost;
+    private double defaultCost;
     
     // datum kdy byl film vypuštěn
     @NotNull

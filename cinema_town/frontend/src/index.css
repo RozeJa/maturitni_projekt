@@ -32,3 +32,76 @@ code {
 body {
   background-color: var(--color--white);
 }
+
+/* Základní styly pro tabulku */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Styly pro záhlaví tabulky */
+thead {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+th, td {
+  padding: 1em 1.2em;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Styl pro liché řádky */
+tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Interaktivita pro řádky na hover */
+tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Přidání stínového efektu pro tabulku */
+table {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Zvýraznění pro první sloupec */
+td:first-child, th:first-child {
+  font-weight: bold;
+}
+
+/* Přizpůsobení tabulky na menší obrazovky */
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    margin-bottom: 20px;
+  }
+
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+}

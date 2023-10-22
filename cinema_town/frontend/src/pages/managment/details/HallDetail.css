@@ -1,0 +1,109 @@
+.hall-edit-body {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    
+    margin: 8% 0 ;
+    border-radius: 15px;
+
+    width: fit-content;
+    padding: 2%;
+    
+    background-color: var(--color--grey--light);
+
+    box-shadow: 0 0 1em #AAAAAA;
+}
+
+.checkbox-input {
+    width: 20px; 
+    height: 20px;
+    background-color: #ffffff; 
+    border: 1px solid #000000; 
+    border-radius: 4px; 
+    cursor: pointer;
+}
+
+/* Styling for the checked state of the checkbox */
+.checkbox-input:checked {
+    background-color: #00ff00 !important;
+    border: 1px solid #00ff00 !important;
+}
+
+.hall-edit-body {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    
+    margin: 8% 0 ;
+    border-radius: 15px;
+
+    width: fit-content;
+    padding: 2%;
+    
+    background-color: var(--color--grey--light);
+
+    box-shadow: 0 0 1em #AAAAAA;
+}
+
+.detail-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-submit {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.hall-edit-body label, .hall-edit-body input, .hall-edit-body select, .hall-edit-body > p {
+    border: none;
+    font-size: 1.5em;
+    padding: .5em;
+    outline: none;
+}
+
+.hall-edit-body input {
+    border-bottom: 2px var(--color--black) solid;
+    padding-bottom: .2em;
+}
+
+.detail-submit > button, .detail-submit > a {
+    margin: .5em;
+    margin-top: 1em;
+    font-size: 1.3em;
+    padding: .7em;
+    border: none;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    transition-duration: var(--transition-delay--long);
+}
+
+.hall-edit-body button:hover {
+    background-color: var(--color--red--dark);
+    cursor: pointer;
+}
+
+.chechbox {
+    display: flex;
+    align-items: center;
+
+
+    border: none;
+    padding: .5em;
+    padding-left: 0;
+    padding-bottom: .2em;
+    outline: none;
+}
+
+.chechbox input {
+    width: 1em;
+    height: 1em;
+    padding: .5em;
+}
+
+.chechbox label {
+    padding: .5em;
+}

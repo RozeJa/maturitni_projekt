@@ -43,7 +43,7 @@ const RoleDetail = ({
                 toDisplay.push(
                     <div className="role-detail-permisions-permission">
                         <p>{perm.permission}</p>
-                        <input type="checkbox" name={perm.id} checked={inRole(perm)} onChange={handleCheck} />
+                        <input type="checkbox" name={perm.id !== null ? perm.id : ''} checked={inRole(perm)} onChange={handleCheck} />
                     </div>
                 )
             })
@@ -57,7 +57,7 @@ const RoleDetail = ({
 
         let badJoke: any = data.permissions
 
-        return badJoke[perm.id] !== undefined
+        return badJoke[perm.id !== null ? perm.id : ''] !== undefined
     }
 
     const handleCheck = (event: any) => {
@@ -91,7 +91,7 @@ const RoleDetail = ({
             let map = new Map<string, Permission>()
             
             permisions.forEach((perm) => {
-                map.set(perm.id, perm);
+                map.set(perm.id !== null ? perm.id : '', perm);
             })
             
             setPermissionsData(map)            

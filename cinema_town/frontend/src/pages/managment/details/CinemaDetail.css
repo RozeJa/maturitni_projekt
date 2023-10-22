@@ -1,3 +1,20 @@
 .cinema-detail-halls {
-    
+    display: flex;
+    flex-direction: column;
+
+}
+
+.cinema-detail-halls-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1em;
+}
+.cinema-detail-halls-header p {
+    padding: .5em;
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    border-radius: .5em;
+    cursor: pointer;
 }

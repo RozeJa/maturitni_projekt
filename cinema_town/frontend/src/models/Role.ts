@@ -1,7 +1,7 @@
 import Permission from "./Permission";
 
 interface Role {
-    id: string,
+    id: string | null,
     name: string,
     permissions: Map<string, Permission> | null
 }
@@ -9,7 +9,7 @@ interface Role {
 export default Role
 
 export let defaultRole: Role = {
-    id: '',
+    id: null,
     name: '',
     permissions: null
 }

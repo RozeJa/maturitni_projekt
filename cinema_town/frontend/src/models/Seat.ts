@@ -1,17 +1,19 @@
 interface Seat {
-    id: string,
+    id: string | null,
     rowDesignation: string,
     number: number,
     rowIndex: number,
-    columnIndex: number
+    columnIndex: number,
+    seat: boolean
 }
 
 export default Seat
 
-export let defaultSeat: Seat = {
-    id: '',
+export const defaultSeat: Seat = {
+    id: null,
     rowDesignation: '',
     number: 0,
     rowIndex: 0,
-    columnIndex: 0
+    columnIndex: 0,
+    seat: true
 }

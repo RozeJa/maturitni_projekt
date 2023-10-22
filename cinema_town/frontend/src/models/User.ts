@@ -1,7 +1,7 @@
 import Role, { defaultRole } from "./Role"
 
 interface User {
-    id: string,
+    id: string | null,
     email: string,
     password: string,
     active: boolean,
@@ -12,7 +12,7 @@ interface User {
 export default User
 
 export let defaultUser: User = {
-    id: '',
+    id: null,
     email: '',
     password: '',
     active: false,

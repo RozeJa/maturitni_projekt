@@ -26,3 +26,18 @@
 
     box-shadow: 0 0 1em #AAAAAA;
 }
+
+.checkbox-input {
+    width: 20px; 
+    height: 20px;
+    background-color: #ffffff; 
+    border: 1px solid #000000; 
+    border-radius: 4px; 
+    cursor: pointer;
+}
+
+/* Styling for the checked state of the checkbox */
+.checkbox-input:checked {
+    background-color: #00ff00 !important;
+    border: 1px solid #00ff00 !important;
+}

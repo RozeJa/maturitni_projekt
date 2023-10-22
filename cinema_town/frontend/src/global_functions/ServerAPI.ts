@@ -76,7 +76,7 @@ export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints
             const url = BASE_URL + modelEntpoint
 
             // TODO zkontrolovat zda podmínka funguje
-            if (data[i].id === undefined || data[i].id === '') {
+            if (data[i].id === undefined || data[i].id === null) {
                 // pokud je id undefinited vytváříš záznam
                 reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
             } else {

@@ -1,12 +1,12 @@
 interface People {
-    id: string,
+    id: string | null,
     name: string,
     surname: string
 }
 export default People
 
 export let defaultPeople: People = {
-    id: '',
+    id: null,
     name: '',
     surname: ''
 }

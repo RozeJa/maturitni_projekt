@@ -1,11 +1,11 @@
 interface Genre {
-    id: string,
+    id: string | null,
     name: string
 }
 
 export default Genre
 
 export let defaultGerne: Genre = {
-    id: '',
+    id: null,
     name: ''
 }

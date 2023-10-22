@@ -25,7 +25,7 @@ export const validateUser = (data: User): Array<string> => {
         } else {
             errs.push("Role musí být vyplněná")
         }
-    } else if (data.role.id === '') {
+    } else if (data.role.id === null) {
         errs.push("Role musí být vyplněná")
     }
 
@@ -62,7 +62,7 @@ const UserDetail = ({
                 
             setRoles(roles.map((r) => {
                          
-                return <option key={r.id} value={r.id}>
+                return <option key={r.id} value={r.id !== null ? r.id : ''}>
                     {r.name}
                 </option>
             }))     
@@ -93,7 +93,7 @@ const UserDetail = ({
             </div>
             <div className="select">
                 <label>Role</label>
-                <select name="role" value={typeof data.role === 'string' ? data.role : data.role.id} onChange={handleSelect}>
+                <select name="role" value={typeof data.role === 'string' ? data.role : (data.role.id !== null ? data.role.id : '')} onChange={handleSelect}>
                     { roles }
                 </select>
             </div>

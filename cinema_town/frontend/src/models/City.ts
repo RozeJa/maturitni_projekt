@@ -1,11 +1,11 @@
 interface City {
-    id: string,
+    id: string | null,
     name: string
 }
 
 export default City
 
 export let defaultCity: City = {
-    id: '',
+    id: null,
     name: ''
 }

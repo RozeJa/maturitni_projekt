@@ -68,15 +68,7 @@ function App() {
                         validateData={validateCinema}
                         readRepresentData={(data: Cinema) => data.id}
                         InnerForm={CinemaDetail} />
-  const hallDetail = <Detail  
-                        defaultData={defaultHall}
-                        modesEndpoint={ModesEndpoints.Hall}
-                        spreadsheetURL='/management/'
-                        titleNew='Nový sál'
-                        titleEdit='Sál'
-                        validateData={validateHall}
-                        readRepresentData={(data: Hall) => data.designation}
-                        InnerForm={HallDetail} />
+  const hallDetail = <HallDetail />
   const genreDetail = <Detail  
                         defaultData={defaultGerne}
                         modesEndpoint={ModesEndpoints.Genre}
@@ -122,13 +114,13 @@ function App() {
           <Route path='/management/users/new' element={ (verifyAccess("user-create") ? userDetail : accessDenite) } />
           <Route path='/management/projections/new' element={ (verifyAccess("projection-create") ? projectionDetail : accessDenite ) }/>
           <Route path='/management/cinemas/new' element={ (verifyAccess("cinema-create") ? cinemaDetail : accessDenite) }/>
-          <Route path='/management/halls/new' element={ (verifyAccess("hall-create") ? hallDetail : accessDenite) } />
+          <Route path='/management/halls/:cinemaId/new' element={ (verifyAccess("hall-create") ? hallDetail : accessDenite) } />
           <Route path='/management/genres/new' element={ (verifyAccess("genre-create") ? genreDetail : accessDenite) } />
 
           <Route path='/management/users/:id' element={ (verifyAccess("user-update") ? userDetail : accessDenite) } />
           <Route path='/management/projections/:id' element={ (verifyAccess("projection-update") ? projectionDetail : accessDenite) }/>
           <Route path='/management/cinemas/:id' element={ (verifyAccess("cinema-update") ? cinemaDetail : accessDenite) }/>
-          <Route path='/management/halls/:id' element={ (verifyAccess("hall-update") ? hallDetail : accessDenite) } />
+          <Route path='/management/halls/:cinemaId/:id' element={ (verifyAccess("hall-update") ? hallDetail : accessDenite) } />
           <Route path='/management/genres/:id' element={ (verifyAccess("genre-update") ? genreDetail : accessDenite) } />
           <Route path='/management/roles/:id' element={ (verifyAccess("genre-update") ? roleDetail : accessDenite) } />
           

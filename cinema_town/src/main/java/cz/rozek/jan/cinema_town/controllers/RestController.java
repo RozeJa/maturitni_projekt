@@ -53,9 +53,6 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
 
             List<E> entities = service.readAll(headers.get(authorization));
 
-            if (entities.isEmpty())
-                throw new NullPointerException();
-
             return new ResponseEntity<>(objectMapper.writeValueAsString(entities), HttpStatus.OK); 
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); 

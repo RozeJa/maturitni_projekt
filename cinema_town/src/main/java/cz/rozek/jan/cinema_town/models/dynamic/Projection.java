@@ -3,6 +3,7 @@ package cz.rozek.jan.cinema_town.models.dynamic;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -33,6 +34,9 @@ public class Projection implements Entity {
     @NotNull
     @DBRef
     private Film film;
+    // cena lístku
+    @Min(0)
+    private double cost;
     // titulky
     @NotBlank
     @Size(max = 3)

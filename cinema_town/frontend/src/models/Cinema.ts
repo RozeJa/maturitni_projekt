@@ -2,17 +2,17 @@ import City, { defaultCity } from "./City";
 import Hall from "./Hall";
 
 interface Cinema {
-    id: string,
+    id: string | null,
     city: City,
     street: string,
     houseNumber: string,
-    halls: Hall[] | null
+    halls: Map<string, Hall> | null
 }
 
 export default Cinema
 
 export let defaultCinema: Cinema = {
-    id: '',
+    id: null,
     city: defaultCity,
     street: '',
     houseNumber: '',
