@@ -1,5 +1,8 @@
 package cz.rozek.jan.cinema_town.models.stable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -33,5 +36,5 @@ public class Hall implements Entity {
 
     // sedadla v sálu mapování id => sedadlo
     @DBRef
-    private Seat[][] seats;
+    private Map<String, Seat> seats = new HashMap<>();
 }

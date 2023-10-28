@@ -8,6 +8,7 @@ interface Film {
     picture: string,
     trailer: string,
     original: string,
+    isBlockBuster: boolean
     director: People,
     actors: People[] | null,
     genres: Genre[] | null,
@@ -15,7 +16,7 @@ interface Film {
     dabings: string[],
     time: number,
     pg: number,
-    cost: number,
+    defaultCost: number,
     production: Date,
     premier: Date
 }
@@ -29,6 +30,7 @@ export let defaultFilm: Film = {
     picture: '',
     trailer: '',
     original: '',
+    isBlockBuster: false,
     director: defaultPeople,
     actors: null,
     genres: null,
@@ -36,7 +38,7 @@ export let defaultFilm: Film = {
     dabings: [],
     time: 0,
     pg: 0,
-    cost: 0,
+    defaultCost: 0,
     production: new Date(),
     premier: new Date()
 }

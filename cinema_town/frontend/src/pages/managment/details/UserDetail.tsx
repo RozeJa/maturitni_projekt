@@ -14,7 +14,10 @@ export const validateUser = (data: User): Array<string> => {
         errs.push('Email se nezdá být validní.')
     }
     if (!pwRegex.test(data.password)) {
-        errs.push('Heslo neodpovídá heslové politice.')
+        errs.push('Heslo neodpovídá heslové politice. (Heslo by mělo alespoň obsahovat malé písmeno, velké písmeno a číslici)')
+    }
+    if (data.password !== data.password2) {
+        errs.push('Hesla se neshodují')
     }
 
     if (typeof data.role === 'string') {
@@ -87,6 +90,8 @@ const UserDetail = ({
             <input name='email' type="text" value={data.email} placeholder='email' onChange={(e: any) => handleInputText(e)} />
             <label>Heslo</label>
             <input name='password' type="password" placeholder='password' onChange={(e: any) => handleInputText(e)} />
+            <label>Potvrzení hesla</label>
+            <input name='password2' type="password" placeholder='password' onChange={(e: any) => handleInputText(e)} />
             <div className="chechbox">
                 <label>Odběratel</label>
                 <input name='subscriber' type="checkbox" checked={data.subscriber} onChange={(e: any) => handleInputCheckbox(e)} />

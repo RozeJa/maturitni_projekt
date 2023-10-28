@@ -1,0 +1,9 @@
+.film-detail-checkbox input {
+    width: 1em;
+    height: 1em;
+}
+.film-detail-checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: .7em;
+}

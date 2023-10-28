@@ -105,3 +105,46 @@ td:first-child, th:first-child {
   }
 
 }
+
+/* Základní styly pro <textarea> */
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: vertical; /* Umožní vertikální změnu velikosti <textarea> */
+}
+
+/* Zvýraznění <textarea> po najetí myší */
+textarea:hover {
+  border-color: #888;
+}
+
+/* Přizpůsobení vzhledu pro zobrazení <textarea> bez okraje */
+textarea.no-border {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  padding: 0;
+  transition: border-color 0.2s;
+}
+
+/* Zvýraznění <textarea> bez okraje */
+textarea.no-border:hover {
+  border-color: #888;
+}
+
+/* Zvýraznění <textarea> bez okraje po fokusu */
+textarea.no-border:focus {
+  box-shadow: none;
+}
+
+/* Styl pro <textarea> s nastaveným pozadím */
+textarea.custom-background {
+  background-color: #f5f5f5;
+}
+
+/* Styl pro <textarea> s vlastním vzhledem při fokusu */
+textarea.custom-background:focus {
+  background-color: #fff;
+}

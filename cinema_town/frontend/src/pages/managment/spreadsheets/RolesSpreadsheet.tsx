@@ -30,14 +30,12 @@ const RolesSpreadsheet = () => {
                     <thead>
                         <tr>
                             <th>Role</th>
-                            <th>Akce</th>
                         </tr>
                     </thead>
                     <tbody>
                         { data.map((d) => {      
                         return <tr key={d.id} onClick={()=>navigate(`/management/roles/${d.id}`)}>
                                 <td>{d.name}</td>
-                                <td>Odebrat</td>
                             </tr>
                         }) }
                     </tbody>

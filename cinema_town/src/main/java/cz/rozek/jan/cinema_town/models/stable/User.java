@@ -30,7 +30,6 @@ public class User implements Entity {
     // email
     @NotBlank
     @Email
-    @Indexed(unique = true)
     private String email;
     // heslo
     @NotBlank

@@ -49,6 +49,6 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
     private void notifySubs(List<User> subs, Film film) {
         for (User sub : subs) {
             emailService.sendSimpleMessage(sub.getEmail(), "New Film: " + film.getName(), "Hello we are introducing new film, " + film.getName() + ", at " + film.getPremier() + " in yours cinemas.");
-        }
+        } 
     }
 }

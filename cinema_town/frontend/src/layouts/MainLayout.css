@@ -31,11 +31,6 @@ nav a:hover {
 footer {
     display: flex;
     justify-content: space-around;
-    
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-
     padding: .5% 0;
     background-color: var(--color--red--bright);
     color: var(--color--white);
@@ -43,6 +38,8 @@ footer {
 
 main {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    min-height: 100vh;
 }

@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.Cinema;
 import cz.rozek.jan.cinema_town.models.stable.Hall;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.repositories.HallRepository;
@@ -76,7 +75,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
     }
 
     private void addSeatsToDB(Hall entity, String accessJWT) {
-        /*
+        
         Map<String, Seat> hallSeats = new HashMap<>();
 
         for (Seat seat : entity.getSeats().values()) {
@@ -88,8 +87,8 @@ public class HallService extends CrudService<Hall, HallRepository> {
             }
         }
 
-        entity.setSeats(hallSeats);*/
-
+        entity.setSeats(hallSeats);
+        /*
         Seat[][] hallSeats = new Seat[entity.getSeats().length][entity.getSeats()[0].length];
         for (int i = 0; i < entity.getSeats().length; i++) {
             Seat[] row = new Seat[entity.getSeats()[i].length];
@@ -106,6 +105,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
         }
 
         entity.setSeats(hallSeats);
+        */
     }
 
     @Override
@@ -115,11 +115,14 @@ public class HallService extends CrudService<Hall, HallRepository> {
             Hall hall = hallOptional.get();
             
             if (isHallRemovable(hall.getId())) {
-                
+                /*
                 for (Seat[] row : hall.getSeats()) {
                     for (Seat seat : row) {
                         seatService.delete(seat.getId(), accessJWT);
                     }
+                }*/
+                for (Seat seat : hall.getSeats().values()) {
+                    seatService.delete(seat.getId(), accessJWT);
                 }
 
                 return super.delete(id, accessJWT);

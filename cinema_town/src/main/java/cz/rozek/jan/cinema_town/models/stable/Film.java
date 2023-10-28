@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 // Instance představuje film
-@Document("fimls")
+@Document("films")
 @Data
 @NoArgsConstructor
 public class Film implements Entity {
