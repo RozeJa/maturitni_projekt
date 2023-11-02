@@ -10,8 +10,8 @@ interface Film {
     original: string,
     isBlockBuster: boolean
     director: People,
-    actors: People[] | null,
-    genres: Genre[] | null,
+    actors: Object | null,
+    genres: Object | null,
     titles: string[],
     dabings: string[],
     time: number,

@@ -58,9 +58,8 @@ const CinemaDetail = ({
             
             setCities(cities)
         } catch (error) {
-            setErr(
-                setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení měst"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
-            )
+            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení měst"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
+                
         }
     }
 
@@ -101,9 +100,6 @@ const CinemaDetail = ({
         data.city.name = value
 
         setData({ ...data })
-
-        console.log(data);
-        
     }
 
     return (

@@ -25,12 +25,11 @@ function SelectInput(props) {
 
   return (
     <div className="select-input-container">
-      <input
+      <input autoFocus={props.autoFocus}
         name={props.name}
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder="Zadejte hodnotu"
       />
       {filteredOptions.length > 0 && (
         <ul className="options-list">

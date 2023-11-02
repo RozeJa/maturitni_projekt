@@ -1,6 +1,12 @@
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Film from '../../../models/Film'
 import './FilmDetail.css'
+import People, { defaultPeople } from '../../../models/People'
+import DialogErr from '../../../components/DialogErr'
+import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
+import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
+import { act } from '@testing-library/react'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -8,8 +14,6 @@ export const validateFilm = (data: Film): Array<string> => {
     // TODO
 
     return errs
-
-
 }
 
 const formatDate = (date: Date): string => {
@@ -17,7 +21,11 @@ const formatDate = (date: Date): string => {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
-  }
+}
+
+const defPeoples : People[] = []
+const defPeople : People = defaultPeople
+const defActors : { [key: string]: People }= {}
 
 const FilmDetail = ({
     data, 
@@ -34,7 +42,28 @@ const FilmDetail = ({
 }) => {
 
     const { id } = useParams<string>()
+    const [peoples, setPeoples] = useState(defPeoples)
+    const [director, setDirector] = useState(defPeople)
+    const [actors, setActors] = useState(defActors)
     const navigate = useNavigate()  
+    
+    useEffect(() => {
+        loadPeoples()
+    }, [])
+
+    const loadPeoples = async () => {
+        try {
+            let peoples = (await loadData<People>(ModesEndpoints.People))
+
+            setPeoples(peoples)
+        } catch (error) {
+            setErr(
+                setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení lidí"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
+            )
+        }
+    }
+
+
 
     const handleNumberChange = (e: any) => {
         const { name, value } = e.target
@@ -70,9 +99,51 @@ const FilmDetail = ({
                 <input name='isBlockBuster' type="checkbox" checked={data.isBlockBuster} onChange={(e: any) => handleInputCheckbox(e)}/>                
             </div>
 
-            <label>Režisér</label>
+            <label>Režisér (příjmení a jméno)</label>
+            <PeopleInput peoples={peoples} selected={director} onChange={(newDirector: People) => {
+
+                console.log(newDirector);
+
+                setDirector({ ...newDirector })
+            }} />
 
             <label>Herci</label>
+            <div className="actors">
+                <div className="actors-header">
+                    <div></div>
+                    <input type="button" onClick={() => {
+                        const newActors = { ...actors }
+                        newActors[Object.keys(actors).length + 1] = defPeople
+                        setActors(newActors)
+                    }} value={'Přidat'} />
+                </div>
+                <div className="actors-body">
+                    {
+                        Object.keys(actors).map((key: string) => {
+                            const selected: People = actors[key] as People;
+
+                            return (
+                                <div className="acount">
+                                    <PeopleInput
+                                        peoples={peoples}
+                                        selected={selected}
+                                        onChange={(p: People) => {
+                                            const newActors = { ...actors }
+                                            newActors[key] = p
+                                            setActors(newActors)
+                                        }}
+                                    />
+                                    <input type="button" onClick={() => {
+                                            const newActors = { ...actors }
+                                            delete newActors[key]
+                                            setActors(newActors)
+                                    }} />
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
 
             <label>Spadá do žánrů</label>
 
@@ -80,7 +151,7 @@ const FilmDetail = ({
 
             <label>Dostupný dabing</label>
 
-            <label>Délka trvání</label>
+            <label>Délka trvání (v min)</label>
             <input name='time' type="number" value={data.time} onChange={handleNumberChange} />
 
             <label>Věková bariéra</label>
@@ -89,7 +160,7 @@ const FilmDetail = ({
             <label>Předpokládaná cena za lístek</label>
             <input name='defaultCost' type="number" value={data.defaultCost} onChange={handleNumberChange} />
 
-            <label>Kdy byl film hotoven</label>
+            <label>Kdy byl film vydán</label>
             <input name='production' type="date" value={formatDate(data.production)} onChange={handleDateChange} />
 
             <label>Naše první promítání</label>
