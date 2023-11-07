@@ -29,12 +29,12 @@ const PeopleInput = (
         } else {
             selected.surname = surname === undefined ? '' : surname.charAt(0).toUpperCase() + surname.slice(1)
             selected.name = name === undefined ? '' : name.charAt(0).toUpperCase() + name.slice(1)
-            onChange({ ...selected })
+            onChange({ ...selected })            
         }
     } 
         
     return (
-        <div key={selected.id === null ? `${selected.surname} ${selected.name}` : selected.id}> 
+        <div > 
             <SelectInput options={peoples.map((p:People) => p.surname + p.name)} onChange={(e: any) => handleChange(e) } initValue={(`${selected.surname} ${selected.name}`).trim()} autoFocus={selected.surname !== ''} />
         </div>
     )

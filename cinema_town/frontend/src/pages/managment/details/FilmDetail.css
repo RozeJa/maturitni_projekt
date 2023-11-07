@@ -7,3 +7,18 @@
     align-items: center;
     margin-top: .7em;
 }
+
+
+.actor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+.actor input[type="button"] {
+    text-align: center;
+    border-bottom: none;
+    height: min-content;
+    padding: .2em .4em;
+    margin-left: 10px;
+}

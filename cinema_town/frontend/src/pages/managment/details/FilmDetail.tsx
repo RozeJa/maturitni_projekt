@@ -6,7 +6,7 @@ import People, { defaultPeople } from '../../../models/People'
 import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
-import { act } from '@testing-library/react'
+import Genre from '../../../models/Genre'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -24,8 +24,9 @@ const formatDate = (date: Date): string => {
 }
 
 const defPeoples : People[] = []
+const defGenres : Genre[] = []
 const defPeople : People = defaultPeople
-const defActors : { [key: string]: People }= {}
+const defActors : { [key: string]: People }= { '0': defPeople }
 
 const FilmDetail = ({
     data, 
@@ -43,12 +44,15 @@ const FilmDetail = ({
 
     const { id } = useParams<string>()
     const [peoples, setPeoples] = useState(defPeoples)
-    const [director, setDirector] = useState(defPeople)
+    const [genres, setGenres] = useState(defGenres)
+    const [director, setDirector] = useState({ ...defPeople})
     const [actors, setActors] = useState(defActors)
     const navigate = useNavigate()  
+
     
     useEffect(() => {
         loadPeoples()
+        loadenres()
     }, [])
 
     const loadPeoples = async () => {
@@ -58,12 +62,21 @@ const FilmDetail = ({
             setPeoples(peoples)
         } catch (error) {
             setErr(
-                setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení lidí"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
+                setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení lidí."} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
             )
         }
     }
+    const loadenres = async () => {
+        try {
+            let genres = (await loadData<Genre>(ModesEndpoints.Genre))
 
-
+            setGenres(genres)
+        } catch (error) {
+            setErr(
+                setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení žánrů."} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
+            )
+        }
+    }
 
     const handleNumberChange = (e: any) => {
         const { name, value } = e.target
@@ -77,6 +90,45 @@ const FilmDetail = ({
         const { name, value } = e.target
         setData({ ...data, [name]: new Date(value) });
     }
+
+    const rendredActors = Object.keys(actors).map((key: string) => {
+            const selected: People = actors[key] as People;
+
+            const remove = <input 
+                key={key+"input"}
+                value="x"
+                type="button" 
+                onClick={() => {
+                    const newActors = { ...actors }
+                    delete newActors[key]
+                    setActors(newActors)
+            }} />
+            
+            console.log(selected);
+
+            return (
+                <div className="actor">
+                    <PeopleInput
+                        key={key+"peopleInput"}
+                        peoples={peoples}
+                        selected={selected}
+                        onChange={(p: People) => {
+                            const newActors = { ...actors }
+                            newActors[key] = p
+                                    
+                            if (newActors[(Object.keys(actors).length-1).toString()].surname !== '') {
+                                newActors[Object.keys(actors).length.toString()] = { id: null, name: '', surname: ''}
+                                setActors({ ...newActors})
+                            } else {
+                                setActors(newActors)
+                            }
+                        }}
+                    />
+
+                    { key !== '0' ? remove : <></> }
+                </div>
+            )
+        })
 
     return (
         <>
@@ -100,48 +152,16 @@ const FilmDetail = ({
             </div>
 
             <label>Režisér (příjmení a jméno)</label>
-            <PeopleInput peoples={peoples} selected={director} onChange={(newDirector: People) => {
-
-                console.log(newDirector);
+            <PeopleInput key={"director"} peoples={peoples} selected={director} onChange={(newDirector: People) => {
 
                 setDirector({ ...newDirector })
             }} />
 
+           
             <label>Herci</label>
             <div className="actors">
-                <div className="actors-header">
-                    <div></div>
-                    <input type="button" onClick={() => {
-                        const newActors = { ...actors }
-                        newActors[Object.keys(actors).length + 1] = defPeople
-                        setActors(newActors)
-                    }} value={'Přidat'} />
-                </div>
                 <div className="actors-body">
-                    {
-                        Object.keys(actors).map((key: string) => {
-                            const selected: People = actors[key] as People;
-
-                            return (
-                                <div className="acount">
-                                    <PeopleInput
-                                        peoples={peoples}
-                                        selected={selected}
-                                        onChange={(p: People) => {
-                                            const newActors = { ...actors }
-                                            newActors[key] = p
-                                            setActors(newActors)
-                                        }}
-                                    />
-                                    <input type="button" onClick={() => {
-                                            const newActors = { ...actors }
-                                            delete newActors[key]
-                                            setActors(newActors)
-                                    }} />
-                                </div>
-                            )
-                        })
-                    }
+                    { rendredActors }
                 </div>
             </div>
 

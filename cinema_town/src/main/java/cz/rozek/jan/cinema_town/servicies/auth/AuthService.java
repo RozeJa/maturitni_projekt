@@ -50,7 +50,7 @@ public class AuthService {
 
     // mapa kde jsou pod aktivačnímy kódy mapováni id neaktivovaní uživatelé
     private Map<String, String> inactiveUsers = new HashMap<>();
-    
+
     // mapa uživatelů, kteří čekají na zadání druhé fáze přihlášení
     // mapa je ve stylu userID => token
     private Map<String, SecondVerificationToken> secondVerification = new HashMap<>();
@@ -93,6 +93,7 @@ public class AuthService {
 
     /**
      * Metoda zaregistruje uživatele do systému
+     * 
      * @param user // nový uživatel
      * @return objekt, reprezentující uživatele, i s id
      */
@@ -101,7 +102,7 @@ public class AuthService {
         User newUser = new User();
 
         // zvaliduj email
-        if (!user.validateEmail()) 
+        if (!user.validateEmail())
             throw new SecurityException("Invalid email");
         // zvaliduj passphrase
         // TODO najít dobrou heslovou politiku
@@ -109,7 +110,7 @@ public class AuthService {
         // změň heslo na hash
         newUser.setEmail(user.getEmail());
         newUser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-        
+
         // přidej uživateli roli
         Role role = roleRepository.findByName("user");
         newUser.setRole(role);
@@ -128,7 +129,8 @@ public class AuthService {
      * Metoda pro aktivaci uživatelského účtu
      * 
      * @param activationCode kód pro oktivaci uživatele
-     * @return vrátí true pokud uživatel byl aktivován. V opačném řípadě vrátí false.
+     * @return vrátí true pokud uživatel byl aktivován. V opačném řípadě vrátí
+     *         false.
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
      *                           podvržený, nebo neplatný
      */
@@ -164,29 +166,30 @@ public class AuthService {
      * 
      * @param user
      * @return vrátí nový aktivační kód
-     * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken podvržený, nebo neplatný
+     * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
+     *                           podvržený, nebo neplatný
      */
     public String resetActivationCode(User user) throws SecurityException {
 
         // TODO omezit časově
 
-        // pokud účet ještě není aktivovaný, vygeneruj nový token 
+        // pokud účet ještě není aktivovaný, vygeneruj nový token
         User loaded = userRepository.findByEmail(user.getEmail());
-        if (loaded.isActive()) 
+        if (loaded.isActive())
             return "";
 
         String oldActivationCode = "";
         String newActivationCode = "";
         for (String activationCode : inactiveUsers.keySet()) {
             if (inactiveUsers.get(activationCode).equals(loaded.getId())) {
-                newActivationCode = RandomStringGenerator.generateRandomString(true, 10); 
+                newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
                 oldActivationCode = activationCode;
                 break;
             }
         }
-        
-        newActivationCode = RandomStringGenerator.generateRandomString(true, 10); 
-            
+
+        newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
+
         inactiveUsers.remove(oldActivationCode);
         inactiveUsers.put(newActivationCode, loaded.getId());
 
@@ -201,7 +204,8 @@ public class AuthService {
      * @throws SecurityException výjimka je vyvolány při nesprávném hesle
      * @throws JoseException     nastala chyba při vytváření tokenu
      */
-    public String login(User user, String deviceID, boolean isSecond) throws SecurityException, JoseException, NotActiveException {
+    public String login(User user, String deviceID, boolean isSecond)
+            throws SecurityException, JoseException, NotActiveException {
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
@@ -241,7 +245,7 @@ public class AuthService {
 
     /**
      * 
-     * @param tempToken dočasný JWT
+     * @param tempToken        dočasný JWT
      * @param verificationCode kód, kterým se má uživatel prokázat
      * @return uživatel
      */
@@ -249,8 +253,9 @@ public class AuthService {
 
         String userID = secondVerification.get(verificationCode).getUserID();
 
-        // zjisti si jaký aktivační kód k tomuto uživateli patří, pokud je null vyvolej vyjímku
-        if (userID == null || secondVerification.get(verificationCode).isExpired()) 
+        // zjisti si jaký aktivační kód k tomuto uživateli patří, pokud je null vyvolej
+        // vyjímku
+        if (userID == null || secondVerification.get(verificationCode).isExpired())
             throw new NullPointerException();
 
         // odeber záznam z kolekce
@@ -261,10 +266,10 @@ public class AuthService {
     private boolean verifyUserLogin(User user) throws NotActiveException {
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
-        if (userFromDB == null) 
+        if (userFromDB == null)
             return false;
 
-        if (!userFromDB.isActive()) 
+        if (!userFromDB.isActive())
             throw new NotActiveException();
 
         return BCrypt.checkpw(user.getPassword(), userFromDB.getPassword());
@@ -323,8 +328,8 @@ public class AuthService {
         claims.setSubject(user.getId()); // nastav předmět na id uživatele
         claims.setClaim("email", user.getEmail()); // nastav email
         claims.setClaim("active", user.isActive()); // nastav informaci o tom, zda je účet aktivován
-        
-        // přidej do login tokenu oprávnění 
+
+        // přidej do login tokenu oprávnění
         List<String> permissions = user.loadPermissions();
         claims.setStringListClaim("permissions", permissions);
 
@@ -335,7 +340,7 @@ public class AuthService {
         // přidej šifrování
         jws.setKey(rsaLoginTokenKey.getPrivateKey());
         jws.setKeyIdHeaderValue(rsaLoginTokenKey.getKeyId());
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA512 );
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA256);
 
         // skompiluj do tokenu
         return jws.getCompactSerialization();
@@ -366,7 +371,7 @@ public class AuthService {
         // přidej šifrování
         jws.setKey(rsaAccessTokenKey.getPrivateKey());
         jws.setKeyIdHeaderValue(rsaAccessTokenKey.getKeyId());
-        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA512);
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA256);
 
         // skompiluj do tokenu
         return jws.getCompactSerialization();
@@ -412,7 +417,7 @@ public class AuthService {
                 .setExpectedIssuer(ISSUER)
                 .setExpectedAudience(AUDIENCE)
                 .setVerificationKey(key.getKey())
-                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512)
+                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA256)
                 .build();
 
         try {
@@ -472,7 +477,7 @@ public class AuthService {
                 .setExpectedIssuer(ISSUER)
                 .setExpectedAudience(AUDIENCE)
                 .setVerificationKey(rsaAccessTokenKey.getKey())
-                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA512)
+                .setJwsAlgorithmConstraints(ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_PSS_USING_SHA256)
                 .build();
 
         try {
