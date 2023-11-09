@@ -81,6 +81,8 @@ const Detail = <T extends ApiData> ({
             navigate(spreadsheetURL)
         } catch (error) {
             // TODO dořešit přesnou chybu pro uživatele 
+            console.log(data);
+            
             setErr(<DialogErr err='Nastala chyba při vkládání do db' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} okText={'ok'} />)
         }
     }

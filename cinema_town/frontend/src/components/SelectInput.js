@@ -32,13 +32,15 @@ function SelectInput(props) {
         onChange={handleInputChange}
       />
       {filteredOptions.length > 0 && (
-        <ul className="options-list">
-          {filteredOptions.map((option, index) => (
-            <li key={index} onClick={() => handleSelectOption(option)}>
-              {option}
-            </li>
-          ))}
-        </ul>
+        <div className='options-list-z-index'>
+          <ul className="options-list">
+            {filteredOptions.map((option, index) => (
+              <li key={index} onClick={() => handleSelectOption(option)}>
+                {option}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );

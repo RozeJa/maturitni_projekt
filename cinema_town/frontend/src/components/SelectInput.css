@@ -2,6 +2,7 @@
     position: relative;
     width: 100%;
     font-family: Arial, sans-serif;
+    z-index: 3;
   }
   
   input[type="text"] {
@@ -9,7 +10,13 @@
     border: 1px solid #ccc;
    /* border-radius: 5px;*/
   }
-  
+
+  .options-list-z-index {
+    position: relative;
+    z-index: 4;
+
+  }
+
   .options-list {
     list-style: none;
     padding: 0;
@@ -17,14 +24,15 @@
     border: 1px solid #ccc;
     border-top: none;
     border-radius: 0 0 5px 5px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: relative;
     background-color: #fff;
+    max-height: 10em;
+    overflow-y: scroll;
   }
   
   .options-list li {
+    position: relative;
+    z-index: 5;
     padding: 10px;
     cursor: pointer;
     transition: background-color 0.3s;

@@ -87,12 +87,20 @@ public class FilmService extends CrudService<Film, FilmRepository> {
             entity.getActors().put(addedToDB.get(id).getId(), addedToDB.get(id));
         }
 
-        Optional<People> o = peopleRepository.findById(entity.getDirector().getId());
-        if (!o.isPresent()) {
+        Optional<People> o = null;
+        if (entity.getDirector().getId() != null) {
+            o = peopleRepository.findById(entity.getDirector().getId());
+            if (!o.isPresent()) {
+                // TODO kontrola člověka
+                People newPeople = peopleRepository.save(entity.getDirector());
+                entity.setDirector(newPeople);
+            }
+        } else {
             // TODO kontrola člověka
             People newPeople = peopleRepository.save(entity.getDirector());
             entity.setDirector(newPeople);
         }
+
     }
 
     @Override

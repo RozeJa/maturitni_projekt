@@ -11,8 +11,6 @@ const ManagementReferation = ({imgName, url, text}) => {
         backgroundImage: `url(${require(`../../assets/imgs/favicons/${imgName}`)})`
     }
 
-    console.log(img);
-
     return (
         <div className='management-reference' onClick={() => navigate(url)}>
             <div className='management-reference-img' style={imgBg}>

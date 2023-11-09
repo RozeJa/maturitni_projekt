@@ -6,7 +6,7 @@ import People, { defaultPeople } from '../../../models/People'
 import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
-import Genre from '../../../models/Genre'
+import Genre, { defaultGerne } from '../../../models/Genre'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -24,9 +24,11 @@ const formatDate = (date: Date): string => {
 }
 
 const defPeoples : People[] = []
-const defGenres : Genre[] = []
+const defGenres : Genre[] = [{... defaultGerne}]
 const defPeople : People = defaultPeople
 const defActors : { [key: string]: People }= { '0': defPeople }
+const defTitles : string[] = [""]
+const defDabings : string[] = [""]
 
 const FilmDetail = ({
     data, 
@@ -45,15 +47,41 @@ const FilmDetail = ({
     const { id } = useParams<string>()
     const [peoples, setPeoples] = useState(defPeoples)
     const [genres, setGenres] = useState(defGenres)
+    
+    const [selectedGenres, setSelectedGenres] = useState([...defGenres])
     const [director, setDirector] = useState({ ...defPeople})
     const [actors, setActors] = useState(defActors)
-    const navigate = useNavigate()  
-
+    const [titles, setTitles] = useState(defTitles)
+    const [dabings, setDabings] = useState(defDabings)
     
     useEffect(() => {
         loadPeoples()
         loadenres()
     }, [])
+
+    useEffect(() => {
+        data["genres"] = selectedGenres.filter((v,i) => i !== selectedGenres.length - 1)
+        setData({... data})
+    }, [selectedGenres])
+    useEffect(() => {
+        data["director"] = director
+        setData({... data})
+    }, [director])
+    useEffect(() => {
+        const tempActors = {... actors}
+        delete tempActors[Object.keys(tempActors)[Object.keys(tempActors).length - 1]]
+
+        data["actors"] = tempActors
+        setData({... data})
+    }, [actors])
+    useEffect(() => {
+        data["titles"] = titles.filter((v,i) => i !== titles.length - 1)
+        setData({... data})
+    }, [titles])
+    useEffect(() => {
+        data["dabings"] = dabings.filter((v,i) => i !== dabings.length - 1)
+        setData({... data})
+    }, [dabings])
 
     const loadPeoples = async () => {
         try {
@@ -69,6 +97,7 @@ const FilmDetail = ({
     const loadenres = async () => {
         try {
             let genres = (await loadData<Genre>(ModesEndpoints.Genre))
+            genres.unshift(defaultGerne)
 
             setGenres(genres)
         } catch (error) {
@@ -103,13 +132,10 @@ const FilmDetail = ({
                     delete newActors[key]
                     setActors(newActors)
             }} />
-            
-            console.log(selected);
 
             return (
-                <div className="actor">
+                <div className="film-detail-multiple" key={key+"peopleInput"}>
                     <PeopleInput
-                        key={key+"peopleInput"}
                         peoples={peoples}
                         selected={selected}
                         onChange={(p: People) => {
@@ -130,13 +156,119 @@ const FilmDetail = ({
             )
         })
 
+    const renderGenres = selectedGenres.map(genre => {
+
+        const keys: {[key: string]: string} = {} 
+
+        const options = genres.map((g,i) => {
+
+            const index = genre.id === g.id ? i : ''
+
+            keys[(g.id ? g.id : '')] = (g.id ? g.id : '') + " " + index
+
+            return <option key={`${g.id !== null ? g.id : ""} option`} value={keys[(g.id ? g.id : '')]}>{g.name}</option>
+        })
+
+        const remove = <input 
+                        key={(genre.id !== null ? genre.id : "genreId") + "input"}
+                        value="x"
+                        type="button" 
+                        onClick={() => {
+                            
+                            const newSelectedGenres = selectedGenres.filter(g =>  g.id === '' || g.id !== genre.id)
+                            setSelectedGenres([... newSelectedGenres ])
+                    }} />
+
+        return <div className='film-detail-multiple' key={(genre.id !== null ? genre.id : '') + 'genres'}  >
+            <select 
+                key={(genre.id !== null ? genre.id : '') + 'select genre'} 
+                value={keys[genre.id ? genre.id : '']}
+                onChange={(e: any) => {
+
+                    const {value} = e.target
+                    
+                    const id = value.split(" ")[0]
+                    const index = !Number.isNaN(parseInt(value.split(" ")[1])) ? parseInt(value.split(" ")[1]) : selectedGenres.length - 1
+                     
+                    const newGenre = genres.find((g) => {
+                        return g.id === id
+                    })
+
+                    if (newGenre !== undefined) {
+                        selectedGenres[index] = newGenre
+
+                        selectedGenres.push({... defaultGerne})
+                        const newSelectedGenres = selectedGenres.filter((value, index, array) => {
+                            return array.indexOf(value) === index;
+                          })
+                        setSelectedGenres([... newSelectedGenres ])
+                    } 
+
+                }}> { options } </select>
+            
+            { genre.id !== null ? remove : <></> }
+        </div> 
+    })
+
+    const renderTitles = titles.map((title, i) => {
+        return <div key={title} className="film-detail-multiple">
+            <input
+                type='text'
+                value={title}
+                autoFocus={title !== ''}
+                onChange={(e: any) => {
+                    if (titles.find(title => title === e.target.value) === undefined || e.target.value === '') {
+                        titles[i] = e.target.value;
+
+                        if (titles[i] === "") {
+                            const newTitles = titles.filter((v,index) => i !== index)
+            
+                            setTitles([... newTitles])
+                        } else {
+                            if (titles[titles.length - 1].trim() !== '') {
+                                titles[titles.length] = ''
+                            }
+                            setTitles([... titles])
+                        } 
+                    }
+                }}
+            />
+        </div>
+    })
+
+    const renderDabings = dabings.map((dabing, i) => {
+        return <div key={dabing} className="film-detail-multiple">
+            <input
+                type='text'
+                value={dabing}
+                autoFocus={dabing !== ''}
+                onChange={(e: any) => {
+                    if (dabings.find(dabing => dabing === e.target.value) === undefined || e.target.value === '') {
+                        dabings[i] = e.target.value;
+
+                        if (dabings[i] === "") {
+                            const newDabings = dabings.filter((v,index) => i !== index)
+            
+                            setDabings([... newDabings])
+                        } else {
+                            if (dabings[dabings.length - 1].trim() !== '') {
+                                dabings[dabings.length] = ''
+                            }
+                            setDabings([... dabings])
+                        } 
+                    }
+                }}
+            />
+        </div>
+    })
+
     return (
         <>
             <label>Název</label>
             <input name='name' type="text" value={data.name} onChange={(e: any) => handleInputText(e)}/>
             
             <label>Popis</label>
-            <textarea name='description' cols={30} rows={10} />
+            <textarea name='description' cols={30} rows={10} onChange={(e: any) => handleInputText(e)} />
 
             <label>Obrázek</label>
             <input type="file" onChange={(e: any) => console.log(e)} />
@@ -148,7 +280,7 @@ const FilmDetail = ({
             <input name='original' type="text" value={data.original} onChange={(e: any) => handleInputText(e)}/>
             <div className='film-detail-checkbox'>
                 <label>Použít pro prezenci</label>
-                <input name='isBlockBuster' type="checkbox" checked={data.isBlockBuster} onChange={(e: any) => handleInputCheckbox(e)}/>                
+                <input name='blockBuster' type="checkbox" checked={data.blockBuster} onChange={(e: any) => handleInputCheckbox(e)}/>                
             </div>
 
             <label>Režisér (příjmení a jméno)</label>
@@ -159,17 +291,24 @@ const FilmDetail = ({
 
            
             <label>Herci</label>
-            <div className="actors">
-                <div className="actors-body">
-                    { rendredActors }
-                </div>
+            <div>
+                { rendredActors }
             </div>
 
             <label>Spadá do žánrů</label>
+            <div>
+                { renderGenres }
+            </div>
 
             <label>Dostupné titulky</label>
+            <div>
+                { renderTitles }
+            </div>
 
             <label>Dostupný dabing</label>
+            <div>
+                { renderDabings }
+            </div>
 
             <label>Délka trvání (v min)</label>
             <input name='time' type="number" value={data.time} onChange={handleNumberChange} />

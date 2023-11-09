@@ -8,7 +8,7 @@ interface Film {
     picture: string,
     trailer: string,
     original: string,
-    isBlockBuster: boolean
+    blockBuster: boolean
     director: People,
     actors: Object | null,
     genres: Object | null,
@@ -30,7 +30,7 @@ export let defaultFilm: Film = {
     picture: '',
     trailer: '',
     original: '',
-    isBlockBuster: false,
+    blockBuster: false,
     director: defaultPeople,
     actors: null,
     genres: null,

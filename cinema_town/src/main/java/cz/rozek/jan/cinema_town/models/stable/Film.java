@@ -17,6 +17,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import cz.rozek.jan.cinema_town.models.Entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,7 +48,7 @@ public class Film implements Entity {
     @Size(min = 2, max = 3)
     private String original;
     // určuje zda se jedná o trhák
-    private boolean isBlockBuster = false;
+    private boolean blockBuster = false;
 
     // režisér
     @NotNull
@@ -57,7 +59,7 @@ public class Film implements Entity {
     private Map<String, People> actors = new HashMap<>();
     // žánry mapování id =>žánr
     @DBRef
-    private Map<String, Genre> genres = new HashMap<>();
+    private List<Genre> genres = new ArrayList<>();
 
     // titulky
     private List<String> titles = new ArrayList<>();
@@ -76,8 +78,10 @@ public class Film implements Entity {
     
     // datum kdy byl film vypuštěn
     @NotNull
+    @JsonProperty
     private LocalDate production;
     // den premiéry 
     @NotNull
+    @JsonProperty
     private LocalDate premier;
 }

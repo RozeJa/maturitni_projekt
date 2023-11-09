@@ -9,13 +9,15 @@
 }
 
 
-.actor {
+.film-detail-multiple {
     display: flex;
+    position: relative;
+    z-index: 0;
     flex-direction: row;
     align-items: center;
     margin-bottom: 1vh;
 }
-.actor input[type="button"] {
+.film-detail-multiple input[type="button"] {
     text-align: center;
     border-bottom: none;
     height: min-content;

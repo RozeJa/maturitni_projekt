@@ -23,6 +23,7 @@ import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
     private HallService hallService;
+    private CityService cityService;
     private CityRepository cityRepository;
     
     @Autowired
@@ -38,6 +39,10 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
     @Autowired
     public void setHallService(HallService hallService) {
         this.hallService = hallService;
+    }
+    @Autowired
+    public void setCityService(CityService cityService) {
+        this.cityService = cityService;
     }
     @Autowired
     public void setCityRepository(CityRepository cityRepository) {
@@ -67,7 +72,7 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
         // pokud existuje to město, tak ho tam přidej 
         City city = cityRepository.findByName(entity.getCity().getName());
         if (city == null) 
-            city = cityRepository.save(entity.getCity());
+            city = cityService.create(entity.getCity(), accessJWT);
 
         entity.setCity(city);
         
@@ -86,11 +91,11 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
             List<Cinema> cinameByCityName = repository.findByCityName(cinemaFormDB.getCity().getName());
             if (cinameByCityName.isEmpty()) {
-                cityRepository.delete(cinemaFormDB.getCity());
+                cityService.delete(cinemaFormDB.getCity().getId(), accessJWT);
             }
 
         } else // pro případ, že by došlo ke změně PSČ nebo názbu města přeulož město
-            cityRepository.save(entity.getCity());
+            cityService.create(entity.getCity(), accessJWT);
 
         // kdyby bylo změna sálů, tak radši ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
         addHallsToDB(entity, accessJWT);

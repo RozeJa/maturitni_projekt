@@ -1,4 +1,4 @@
-import { on } from "events"
+import './PeopleInput.css'
 import People from "../../../models/People"
 import SelectInput from "../../SelectInput"
 
@@ -34,8 +34,8 @@ const PeopleInput = (
     } 
         
     return (
-        <div > 
-            <SelectInput options={peoples.map((p:People) => p.surname + p.name)} onChange={(e: any) => handleChange(e) } initValue={(`${selected.surname} ${selected.name}`).trim()} autoFocus={selected.surname !== ''} />
+        <div className="people-input"> 
+            <SelectInput options={peoples.map((p:People) => p.surname + " " + p.name)} onChange={(e: any) => handleChange(e) } initValue={(selected.surname + " " + selected.name).trim()} autoFocus={selected.surname !== ''} />
         </div>
     )
 }
