@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,10 +27,8 @@ public class Cinema implements Entity {
     @DBRef
     private City city;
     // název ulice, z které je vstup do kina
-    @NotBlank
     private String street;
     // číslo popisné 
-    @NotBlank
     private String houseNumber;
 
     // seznam sálů kina; mapování id => sál

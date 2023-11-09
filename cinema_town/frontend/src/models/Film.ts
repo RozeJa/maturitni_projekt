@@ -1,4 +1,3 @@
-import Genre from "./Genre";
 import People, { defaultPeople } from "./People";
 
 interface Film {

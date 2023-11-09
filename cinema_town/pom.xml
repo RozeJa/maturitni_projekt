@@ -43,6 +43,12 @@
 			<version>6.0.20.Final</version>
 		</dependency>
 
+		<!-- dependenci for img inport -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-imaging</artifactId>
+			<version>1.0-alpha3</version>
+		</dependency>
 
 		<!-- dependenci for time formating -->
 		<!--	Parameter names	-->

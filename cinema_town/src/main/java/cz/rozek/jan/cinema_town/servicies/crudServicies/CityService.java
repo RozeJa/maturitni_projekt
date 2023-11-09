@@ -32,15 +32,15 @@ public class CityService extends CrudService<City, CityRepository> {
     }
     @Override
     public String createPermissionRequired() {
-        return "cinema-create";
+        return "city-create";
     }
     @Override
     public String updatePermissionRequired() {
-        return "cinema-update";
+        return "city-update";
     }
     @Override
     public String deletePermissionRequired() {
-        return "cinema-delete";
+        return "city-delete";
     }
 
     @Override

@@ -77,9 +77,17 @@ export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints
 
             // TODO zkontrolovat zda podmínka funguje
             if (data[i].id === undefined || data[i].id === null) {
+                // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
+                if (modelEntpoint === ModesEndpoints.Film) {
+                    handleFilm(data[i])
+                }
                 // pokud je id undefinited vytváříš záznam
                 reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
             } else {
+                // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
+                if (modelEntpoint === ModesEndpoints.Film) {
+                    handleFilm(data[i])
+                }
                 // pokud id není undefinited záznam edituješ
                 reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
             }
@@ -88,6 +96,18 @@ export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints
         return reseavedData
     } catch (error) {
         throw error
+    }
+}
+
+const handleFilm = (film: any) => {
+    if (film["file"] !== null) {
+
+        // TODO odešli film na server
+        fetch(BASE_URL + ModesEndpoints.Film + 'store-img', {
+            
+        })
+
+        delete film["file"]
     }
 }
 

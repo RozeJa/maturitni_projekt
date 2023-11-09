@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.validation.constraints.Min;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,7 +23,6 @@ public class Hall implements Entity {
     private String id;
     
     // označení sálu
-    @NotBlank
     private String designation;
     
     // počet řad

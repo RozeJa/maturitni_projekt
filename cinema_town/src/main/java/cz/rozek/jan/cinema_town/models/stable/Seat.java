@@ -2,7 +2,6 @@ package cz.rozek.jan.cinema_town.models.stable;
 
 import javax.validation.constraints.Min;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,7 +19,6 @@ public class Seat implements Entity {
     private String id;
 
     // označení řady
-    @NotBlank
     private String rowDesignation;
     // označení sadadla
     @Min(0)

@@ -48,7 +48,7 @@ const Detail = <T extends ApiData> ({
     const load = async (id: string) => {
         try {
             let data = (await loadData<T>(modesEndpoint, [id])).pop()
-            if (data !== undefined ) {
+            if (data !== undefined) {
                 console.log(data);
                 
                 setData(data)

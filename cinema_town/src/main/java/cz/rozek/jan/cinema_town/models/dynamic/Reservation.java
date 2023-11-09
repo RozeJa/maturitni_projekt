@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -40,7 +39,6 @@ public class Reservation implements Entity {
     @NotNull
     private boolean paid = false;
     // kód pro identifikaci 
-    @NotBlank
     private String code;
     // čas, kdy byla rezervace zadána do systému
     @NotNull

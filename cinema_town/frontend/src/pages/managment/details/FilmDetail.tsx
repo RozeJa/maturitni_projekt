@@ -43,7 +43,6 @@ const FilmDetail = ({
     setData: Function, 
     setErr: Function
 }) => {
-
     const { id } = useParams<string>()
     const [peoples, setPeoples] = useState(defPeoples)
     const [genres, setGenres] = useState(defGenres)
@@ -53,6 +52,7 @@ const FilmDetail = ({
     const [actors, setActors] = useState(defActors)
     const [titles, setTitles] = useState(defTitles)
     const [dabings, setDabings] = useState(defDabings)
+    const [file, setFile] = useState(null)
     
     useEffect(() => {
         loadPeoples()
@@ -82,6 +82,11 @@ const FilmDetail = ({
         data["dabings"] = dabings.filter((v,i) => i !== dabings.length - 1)
         setData({... data})
     }, [dabings])
+    useEffect(() => {
+        console.log(file);
+        if (file !== null)
+            setData({... data, ["file"]: file, ["picture"]: file["name"]})
+    }, [file])
 
     const loadPeoples = async () => {
         try {
@@ -271,7 +276,7 @@ const FilmDetail = ({
             <textarea name='description' cols={30} rows={10} onChange={(e: any) => handleInputText(e)} />
 
             <label>Obrázek</label>
-            <input type="file" onChange={(e: any) => console.log(e)} />
+            <input type="file" onChange={(e: any) => setFile(e.target.files[0])} />
 
             <label>Trailer</label>
             <input name='trailer' type="text" value={data.trailer} onChange={(e: any) => handleInputText(e)}/>

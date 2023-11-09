@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -33,18 +32,15 @@ public class Film implements Entity {
     private String id;
 
     // název filmu
-    @NotBlank
     @Indexed(unique = true)
     private String name;
     // popis děje filmu
-    @NotBlank
     private String description;
     // adresa k filmu
     private String picture;
     // adresa k traileru na youtube
     private String trailer;
     // originání znění
-    @NotBlank
     @Size(min = 2, max = 3)
     private String original;
     // určuje zda se jedná o trhák

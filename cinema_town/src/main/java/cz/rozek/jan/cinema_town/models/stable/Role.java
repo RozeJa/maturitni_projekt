@@ -3,7 +3,6 @@ package cz.rozek.jan.cinema_town.models.stable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -23,7 +22,6 @@ public class Role implements Entity {
     private String id;
 
     // název role
-    @NotBlank
     @Indexed(unique = true)
     private String name;
 
