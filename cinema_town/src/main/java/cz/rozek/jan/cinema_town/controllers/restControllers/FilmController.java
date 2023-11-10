@@ -1,5 +1,7 @@
 package cz.rozek.jan.cinema_town.controllers.restControllers;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ import cz.rozek.jan.cinema_town.helpers.ImageTypeValidator;
 import cz.rozek.jan.cinema_town.models.stable.Film;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.FilmService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 
@@ -51,39 +54,73 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
     }
 
     @PostMapping("/store-img")
-    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file, @RequestParam("picture") String picture, @RequestParam("film") String filmName) {
+    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file, @RequestParam("picture") String picture, @RequestParam("film") String filmName, @RequestHeader Map<String,String> headers) {
         try {            
-            byte[] data = file.getBytes();
-        
-            String fileSuffix = ImageTypeValidator.getImageType(data);
-            String[] enableSuffix = {
-                "jpg",
-                "jpeg",
-                "png"
-            };
 
-            boolean verifi = false;
-            for (String suffix : enableSuffix) {
-                if (fileSuffix.equals(suffix)) {
-                    verifi = true;
-                }
-            }
+            // zkontroluj přístup 
+           // service.verifyAccess(service.updatePermissionRequired(), headers.get(authorization));
 
-            if (verifi) {
-
+            // získej obrázek
+            byte[] data = getImg(file);
+    
+            if (data != null) {
+                
+                // pokud složka neexistuje vytvoř ji
+                File dir = new File("./frontend/src/assets/imgs/films-imgs/" + filmName);
+                dir.mkdirs();
+                
                 // TODO uložit
                 // Nejprve ulož nový a pokud se ve složce nachází ještě něco, tak to smaž
+                File imgFile = new File(dir.getAbsolutePath() + File.separator + picture);
+                try (FileOutputStream stream = new FileOutputStream(imgFile)) {
+                    stream.write(file.getBytes());
+                }
+
+                removeOldFile(dir, imgFile.getName());
 
                 // Vrácení odpovědi klientovi
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SecurityException | AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (ImageReadException | IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private void removeOldFile(File dir, String actual) throws Exception {
+        String[] files = dir.list();
+
+        for (String file : files) {
+            if (!file.equals(actual)) {
+                File toRemove = new File(dir.getAbsolutePath() + File.separator + file);
+                toRemove.delete();
+            }
+        }
+    }
+
+    private byte[] getImg(MultipartFile file) throws Exception {
+        
+        byte[] data = file.getBytes();
+        
+        String fileSuffix = ImageTypeValidator.getImageType(data);
+        String[] enableSuffix = {
+            "image/jpg",
+            "image/jpeg",
+            "image/png"
+        };
+
+        for (String suffix : enableSuffix) {
+            if (fileSuffix.equals(suffix)) {
+                return data;
+            }
+        }
+
+        return null;
     }
 
     private void notifySubs(List<User> subs, Film film) {

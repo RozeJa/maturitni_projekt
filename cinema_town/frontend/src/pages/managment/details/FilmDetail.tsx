@@ -16,11 +16,15 @@ export const validateFilm = (data: Film): Array<string> => {
     return errs
 }
 
-const formatDate = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
+const formatDate = (date: Date | string[]): string => {
+    if (date instanceof Date) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    } else {
+        return date[0] + '-' + date[1] + '-' + date[2]
+    }
 }
 
 const defPeoples : People[] = []
@@ -83,7 +87,6 @@ const FilmDetail = ({
         setData({... data})
     }, [dabings])
     useEffect(() => {
-        console.log(file);
         if (file !== null)
             setData({... data, ["file"]: file, ["picture"]: file["name"]})
     }, [file])

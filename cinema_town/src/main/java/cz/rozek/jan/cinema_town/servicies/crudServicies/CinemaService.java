@@ -151,7 +151,7 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
     }
 
     @Override
-    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
+    public User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
         
         if (requiredPermission.equals(readPermissionRequired())) {
             return null;

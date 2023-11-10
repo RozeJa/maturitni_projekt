@@ -66,7 +66,7 @@ public class PeopleService extends CrudService<People, PeopleRepository> {
     }
 
     @Override
-    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
+    public User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
         
         if (requiredPermission.equals(readPermissionRequired())) {
             return null;

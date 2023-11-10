@@ -162,7 +162,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění  
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    protected User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
+    public User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
         // pokud přístupový JWT je null prověř, zda i přes to může uživatel provést akci
         if (accessJWT == null) {
             if (!verifyNullToken(requiredPermission)) {

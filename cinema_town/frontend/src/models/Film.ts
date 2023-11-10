@@ -16,8 +16,8 @@ interface Film {
     time: number,
     pg: number,
     defaultCost: number,
-    production: Date,
-    premier: Date
+    production: Date | string[],
+    premier: Date | string[]
 }
 
 export default Film
