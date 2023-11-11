@@ -1,6 +1,7 @@
 import './PeopleInput.css'
 import People from "../../../models/People"
 import SelectInput from "../../SelectInput"
+import { useEffect, useState } from 'react'
 
 const PeopleInput = (
     {
@@ -32,9 +33,9 @@ const PeopleInput = (
             onChange({ ...selected })            
         }
     } 
-        
+
     return (
-        <div className="people-input"> 
+        <div className="people-input">
             <SelectInput options={peoples.map((p:People) => p.surname + " " + p.name)} onChange={(e: any) => handleChange(e) } initValue={(selected.surname + " " + selected.name).trim()} autoFocus={selected.surname !== ''} />
         </div>
     )

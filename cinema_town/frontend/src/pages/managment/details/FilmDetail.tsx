@@ -38,7 +38,7 @@ const formatDate = (date: Date | string[]): string => {
 const defPeoples : People[] = []
 const defGenres : Genre[] = [{... defaultGerne}]
 const defPeople : People = defaultPeople
-const defActors : { [key: string]: People }= { '0': defPeople }
+const defActors : { [key: string]: People } = { '0': defPeople }
 const defTitles : string[] = [""]
 const defDabings : string[] = [""]
 
@@ -79,8 +79,18 @@ const FilmDetail = ({
             setTitles([...data.titles, ""])
             setDabings([...data.dabings, ""])
             setSelectedGenres([...data.genres, {... defaultGerne}])
-            setActors({ ...data.actors, ['0']: {...defPeople}})
             setDirector(data.director)
+
+            if (data.actors !== null) {
+                const newActors: { [key: string]: People } = {}
+                Object.values(data.actors).forEach((a) => {
+                    newActors[Object.values(newActors).length.toString()] = a
+                })
+
+                newActors[Object.values(newActors).length.toString()] = {...defPeople}
+                
+                setActors({...newActors})
+            }
 
             setLoaded(data.titles.length > 0 || data.dabings.length > 0)
         }
@@ -153,8 +163,8 @@ const FilmDetail = ({
         setData({ ...data, [name]: new Date(value) });
     }
 
-    console.log("director",director);  
-    console.log("actors",actors);    
+    //console.log("director",director);  
+    //console.log("actors",actors);    
     const rendredActors = Object.keys(actors).map((key: string) => {
             const selected: People = actors[key] as People;
 
@@ -167,10 +177,11 @@ const FilmDetail = ({
                     delete newActors[key]
                     setActors(newActors)
             }} />
-
+            
             return (
-                <div className="film-detail-multiple" key={key+"peopleInput"}>
+                <div key={key+"peopleInput"} className="film-detail-multiple">
                     <PeopleInput
+                        key={key+"peopleInput komp"}
                         peoples={peoples}
                         selected={selected}
                         onChange={(p: People) => {
@@ -319,7 +330,6 @@ const FilmDetail = ({
 
             <label>Režisér (příjmení a jméno)</label>
             <PeopleInput 
-                key={"director"} 
                 peoples={peoples} 
                 selected={director} 
                 onChange={(newDirector: People) => {

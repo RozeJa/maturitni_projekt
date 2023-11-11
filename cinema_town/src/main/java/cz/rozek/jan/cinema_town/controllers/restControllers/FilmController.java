@@ -54,7 +54,7 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
     }
 
     @PostMapping("/store-img")
-    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file, @RequestParam("picture") String picture, @RequestParam("film") String filmId, @RequestHeader Map<String,String> headers) {
+    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file, @RequestParam("picture") String picture, @RequestParam("film") String filmID, @RequestHeader Map<String,String> headers) {
         try {            
 
             // zkontroluj přístup 
@@ -66,7 +66,7 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
             if (data != null) {
                 
                 // pokud složka neexistuje vytvoř ji
-                File dir = new File("./frontend/src/assets/imgs/films-imgs/" + filmId);
+                File dir = new File("./frontend/src/assets/imgs/films-imgs/" + filmID);
                 dir.mkdirs();
                 
                 // TODO uložit
