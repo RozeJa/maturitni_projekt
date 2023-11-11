@@ -17,14 +17,22 @@ export const validateFilm = (data: Film): Array<string> => {
 }
 
 const formatDate = (date: Date | string[]): string => {
+    
+    let year
+    let month 
+    let day 
     if (date instanceof Date) {
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        year = date.getFullYear()
+        month = (date.getMonth() + 1).toString().padStart(2, '0')
+        day = date.getDate().toString().padStart(2, '0')
     } else {
-        return date[0] + '-' + date[1] + '-' + date[2]
+        const objData = new Date(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]))
+        year = objData.getFullYear()
+        month = (objData.getMonth() + 1).toString().padStart(2, '0')
+        day = objData.getDate().toString().padStart(2, '0')
     }
+        
+    return `${year}-${month}-${day}`;
 }
 
 const defPeoples : People[] = []
@@ -54,9 +62,11 @@ const FilmDetail = ({
     const [selectedGenres, setSelectedGenres] = useState([...defGenres])
     const [director, setDirector] = useState({ ...defPeople})
     const [actors, setActors] = useState(defActors)
-    const [titles, setTitles] = useState(defTitles)
-    const [dabings, setDabings] = useState(defDabings)
+    const [titles, setTitles] = useState([...data.titles, ""])
+    const [dabings, setDabings] = useState([...data.dabings, ""])
     const [file, setFile] = useState(null)
+
+    const [loaded, setLoaded] = useState(false)
     
     useEffect(() => {
         loadPeoples()
@@ -64,7 +74,21 @@ const FilmDetail = ({
     }, [])
 
     useEffect(() => {
-        data["genres"] = selectedGenres.filter((v,i) => i !== selectedGenres.length - 1)
+
+        if (!loaded && data.id !== null) {
+            setTitles([...data.titles, ""])
+            setDabings([...data.dabings, ""])
+            setSelectedGenres([...data.genres, {... defaultGerne}])
+            setActors({ ...data.actors, ['0']: {...defPeople}})
+            setDirector(data.director)
+
+            setLoaded(data.titles.length > 0 || data.dabings.length > 0)
+        }
+
+    }, [data])
+
+    useEffect(() => {
+        data["genres"] = selectedGenres.filter((v,i) => i !== selectedGenres.length - 1 && v.name !== "")
         setData({... data})
     }, [selectedGenres])
     useEffect(() => {
@@ -79,11 +103,11 @@ const FilmDetail = ({
         setData({... data})
     }, [actors])
     useEffect(() => {
-        data["titles"] = titles.filter((v,i) => i !== titles.length - 1)
+        data["titles"] = titles.filter((v,i) => i !== titles.length - 1 && v !== "")
         setData({... data})
     }, [titles])
-    useEffect(() => {
-        data["dabings"] = dabings.filter((v,i) => i !== dabings.length - 1)
+    useEffect(() => {        
+        data["dabings"] = dabings.filter((v,i) => i !== dabings.length - 1 && v !== "") 
         setData({... data})
     }, [dabings])
     useEffect(() => {
@@ -125,9 +149,12 @@ const FilmDetail = ({
 
     const handleDateChange = (e: any) => {
         const { name, value } = e.target
+        
         setData({ ...data, [name]: new Date(value) });
     }
 
+    console.log("director",director);  
+    console.log("actors",actors);    
     const rendredActors = Object.keys(actors).map((key: string) => {
             const selected: People = actors[key] as People;
 
@@ -163,9 +190,8 @@ const FilmDetail = ({
                 </div>
             )
         })
-
+   
     const renderGenres = selectedGenres.map(genre => {
-
         const keys: {[key: string]: string} = {} 
 
         const options = genres.map((g,i) => {
@@ -243,7 +269,7 @@ const FilmDetail = ({
             />
         </div>
     })
-
+    
     const renderDabings = dabings.map((dabing, i) => {
         return <div key={dabing} className="film-detail-multiple">
             <input
@@ -276,7 +302,7 @@ const FilmDetail = ({
             <input name='name' type="text" value={data.name} onChange={(e: any) => handleInputText(e)}/>
             
             <label>Popis</label>
-            <textarea name='description' cols={30} rows={10} onChange={(e: any) => handleInputText(e)} />
+            <textarea name='description' value={data.description} cols={30} rows={10} onChange={(e: any) => handleInputText(e)} />
 
             <label>Obrázek</label>
             <input type="file" onChange={(e: any) => setFile(e.target.files[0])} />
@@ -292,11 +318,13 @@ const FilmDetail = ({
             </div>
 
             <label>Režisér (příjmení a jméno)</label>
-            <PeopleInput key={"director"} peoples={peoples} selected={director} onChange={(newDirector: People) => {
-
-                setDirector({ ...newDirector })
-            }} />
-
+            <PeopleInput 
+                key={"director"} 
+                peoples={peoples} 
+                selected={director} 
+                onChange={(newDirector: People) => {
+                    setDirector({ ...newDirector })
+                }} />
            
             <label>Herci</label>
             <div>

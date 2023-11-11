@@ -62,9 +62,9 @@ export const loadData = async <T extends ApiData>(modelEndpoint: ModesEndpoints,
 }
 
 // funkce pro uložení dat na server
-export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
+export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints, data: T[]): Promise<ApiData[]> => {
     try {
-        let reseavedData: T[] = []
+        let reseavedData: ApiData[] = []
 
         let config = await getRequestConfig()
         
@@ -79,17 +79,20 @@ export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints
             if (data[i].id === undefined || data[i].id === null) {
                 // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
                 if (modelEntpoint === ModesEndpoints.Film) {
-                    await handleFilm(data[i])
+
+                    reseavedData.push(await handleFilm(url, data[i], config))
+                } else {
+                    // pokud je id undefinited vytváříš záznam
+                    reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
                 }
-                // pokud je id undefinited vytváříš záznam
-                reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
             } else {
                 // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
                 if (modelEntpoint === ModesEndpoints.Film) {
-                    await handleFilm(data[i])
+                    reseavedData.push(await handleFilm(url, data[i], config))
+                } else {
+                    // pokud id není undefinited záznam edituješ
+                    reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
                 }
-                // pokud id není undefinited záznam edituješ
-                reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
             }
         }
 
@@ -99,18 +102,32 @@ export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints
     }
 }
 
-const handleFilm = async (film: any) => {
+const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>): Promise<Film> => {
     
     if (film["file"] !== null) {
-
-        const accessToken = await getAccessToken()
-
+        // připrav tělo dotazu, pro poslání obrázku na server
         const formData = new FormData();
         formData.append('file', film["file"]);
-        formData.append('film', film.name);
         formData.append('picture', film.picture);
 
-        // TODO odešli film na server
+        // z filmu smaž prop file
+        delete film["file"]
+
+        let data
+        // ulož film
+        if (film.id === null) {
+            data = (await (axios.post<Film>(url, film, config))).data
+        } else {
+            data = (await (axios.put<Film>(url + film.id, film, config))).data
+        }
+        
+        // použi jeho id k doplnění dotazu
+        formData.append('film', data.id ? data.id : 'errr');
+
+        // získej si token
+        const accessToken = await getAccessToken()
+        
+        // proveď dotaz
         fetch(BASE_URL + ModesEndpoints.Film + 'store-img', {
             method: 'POST',
             headers: {
@@ -118,10 +135,17 @@ const handleFilm = async (film: any) => {
             },
             body: formData
         })
+                
+        // navrať film
+        return data;
+    } else {
+        // navrať film
+        if (film.id === null) {
+            return (await (axios.post<Film>(url, film, config))).data
+        } else {
+            return (await (axios.put<Film>(url + film.id, film, config))).data
+        }
         
-        console.log(accessToken);
-        
-        delete film["file"]
     }
 }
 
