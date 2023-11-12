@@ -19,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -80,4 +81,35 @@ public class Film implements Entity {
     @NotNull
     @JsonProperty
     private LocalDate premier;
+
+    @Override
+    public void validate() throws ValidationException {
+        try {
+            if (name.isBlank())
+                throw new ValidationException("Film name cant be empty.");
+            if (description.isBlank())
+                throw new ValidationException("Film description cant be empty."); 
+            if (original.isBlank())
+                throw new ValidationException("Film original cant be empty.");
+            if (original.length() > 3) 
+                throw new ValidationException("Max lenght of original is 3 chars.");
+        } catch (Exception e) {
+                throw new ValidationException("Some prop is null. Cant be."); 
+        }
+        if (picture == null)
+            picture = "";
+        if (trailer == null)
+            trailer = "";
+        if (director == null)
+            throw new ValidationException("Director cant be null.");
+        if (genres.size() == 0) 
+            throw new ValidationException("Film must be at least one genre.");
+        if (time <= 0)
+            throw new ValidationException("Time cant be negative or zero.");
+        if (pg <= 0) 
+            throw new ValidationException("PG cant be negative or zero.");
+        if (defaultCost < 0) 
+            throw new ValidationException("Default cost cant be negative.");
+            
+    }
 }

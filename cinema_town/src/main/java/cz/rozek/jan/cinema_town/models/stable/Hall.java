@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -35,4 +36,19 @@ public class Hall implements Entity {
     // sedadla v sálu mapování id => sedadlo
     @DBRef
     private Map<String, Seat> seats = new HashMap<>();
+
+    @Override
+    public void validate() throws ValidationException {
+
+        if (designation == null)
+            throw new ValidationException("Designation cant be null.");
+        if (designation.isBlank())
+            throw new ValidationException("Designation cant be empty.");
+        if (rows < 1) 
+            throw new ValidationException("Number of rows must be at least 1.");
+        if (columns < 1) 
+            throw new ValidationException("Number of columns must be at least 1.");
+        if (seats.size() == 0) 
+            throw new ValidationException("Seats cant be null");
+    }
 }

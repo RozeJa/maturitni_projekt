@@ -36,7 +36,7 @@ const MainLayout = () => {
         <>
             <nav>
                 <div className='nav-logo'>
-                    <a href='/'>Logo as home btn</a>
+                    <a href='/'>Cinema Town</a>
                 </div>
                 <div className='nav-links'>
                     {edit}

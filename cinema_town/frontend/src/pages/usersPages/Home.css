@@ -1,0 +1,26 @@
+.block-busters-slider-container {
+    background-color: black;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.slick-slide a {
+    width: fit-content;
+}
+
+.slick-slide img {
+    margin:auto;
+    left:auto;
+}
+
+@media only screen and (max-width: 700px) {
+  .slick-slide img {
+      width: 100%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .slick-slide img {
+    width: 100%;
+  }
+}

@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,12 @@ public class Permission implements Entity {
     // název oprávnění
     @Indexed(unique = true)
     private String permission;
+
+    @Override
+    public void validate() throws ValidationException {
+        if (permission == null)
+            throw new ValidationException("Permission cant be null.");
+        if (permission.isBlank())
+            throw new ValidationException("Permission cant be empty.");
+    }
 }

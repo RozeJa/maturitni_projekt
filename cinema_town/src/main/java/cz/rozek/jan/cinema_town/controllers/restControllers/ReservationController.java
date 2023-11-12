@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,13 +45,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable String id, @RequestBody Reservation data, @RequestHeader Map<String, String> headers) {
-        // TODO Auto-generated method stub
-        return super.put(id, data, headers);
+        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    @PutMapping("multiple/{id}")
-    public ResponseEntity<String> putMultiple(@PathVariable String id, List<Reservation> data, Map<String, String> headers) {
-        // TODO
-        return null;
-    }
 }

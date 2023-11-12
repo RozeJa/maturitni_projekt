@@ -47,45 +47,54 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable String id, @RequestBody Projection data, @RequestHeader Map<String,String> headers) {
-        ResponseEntity<String> response = super.put(id, data, headers);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            // zjisti, kterých rezervací se změna týká
-            List<Reservation> reservations = reservationRepository.findByProjectionId(id);
-
-            // ty rezervace smaž
-            reservationRepository.deleteAll(reservations);
-
-            // upozorni uživatle na to, že jsi jim odebral rezervaci
-            notifyUserOnRemoveReservation(reservations);
+        try {
+            ResponseEntity<String> response = super.put(id, data, headers);
+    
+            if (response.getStatusCode() == HttpStatus.OK) {
+                // zjisti, kterých rezervací se změna týká
+                List<Reservation> reservations = reservationRepository.findByProjectionId(id);
+    
+                // ty rezervace smaž
+                reservationRepository.deleteAll(reservations);
+    
+                // upozorni uživatle na to, že jsi jim odebral rezervaci
+                notifyUserOnRemoveReservation(reservations);
+            }
+    
+            return response;
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return response;
     }
 
     
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
-        Projection projection = service.readById(id, headers.get(authorization));
+        try {
+            Projection projection = service.readById(id, headers.get(authorization));
 
-        ResponseEntity<String> response = super.delete(id, headers);
+            ResponseEntity<String> response = super.delete(id, headers);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            // zjisti, kterých rezervací se změna týká
-            List<Reservation> reservations = reservationRepository.findByProjectionId(id);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                // zjisti, kterých rezervací se změna týká
+                List<Reservation> reservations = reservationRepository.findByProjectionId(id);
 
-            // ty rezervace smaž
-            reservationRepository.deleteAll(reservations);
+                // ty rezervace smaž
+                reservationRepository.deleteAll(reservations);
 
-            // upozorni uživatle na to, že jsi jim odebral rezervaci, pokud se nejedná o promítání, které se už odehrálo
-            if (LocalDate.now().compareTo(projection.getDate()) > 0) {
-                if (LocalTime.now().compareTo(projection.getTime()) > 0) 
-                    notifyUserOnCancledProjection(reservations);
+                // upozorni uživatle na to, že jsi jim odebral rezervaci, pokud se nejedná o promítání, které se už odehrálo
+                if (LocalDate.now().compareTo(projection.getDate()) > 0) {
+                    if (LocalTime.now().compareTo(projection.getTime()) > 0) 
+                        notifyUserOnCancledProjection(reservations);
+                }
             }
+
+            return response;            
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return response;
     }
 
     private void notifyUserOnRemoveReservation(List<Reservation> reservations) {

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import lombok.Data;
@@ -35,12 +36,19 @@ public class Reservation implements Entity {
     @NotNull
     @DBRef
     private Seat seat;
-    // proměná signalizuje, zda je rezervace zaplacena
-    @NotNull
-    private boolean paid = false;
     // kód pro identifikaci 
     private String code;
     // čas, kdy byla rezervace zadána do systému
     @NotNull
     private LocalDateTime reserved = LocalDateTime.now();
+
+    @Override
+    public void validate() throws ValidationException {
+        if (projection == null)
+            throw new ValidationException("Projection cant be null.");
+        if (user == null)
+            throw new ValidationException("User cant be null.");
+        if (seat == null) 
+            throw new ValidationException("Seat cant be null.");
+    }
 }  

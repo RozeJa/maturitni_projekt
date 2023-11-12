@@ -32,16 +32,22 @@ public class CinemaController extends cz.rozek.jan.cinema_town.controllers.RestC
     @Override
     @PostMapping("/")
     public ResponseEntity<String> post(@RequestBody Cinema data, @RequestHeader Map<String,String> headers) {
-        ResponseEntity<String> response = super.post(data, headers);
+        try {
+            ResponseEntity<String> response = super.post(data, headers);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            // získej si odběratele 
-            List<User> subs = userRepository.findAll().stream().filter(User::isSubscriber).toList();
-            // upozorni odběratele na to, že přibylo nové kino
-            notifySubs(subs, data);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                // získej si odběratele 
+                List<User> subs = userRepository.findAll().stream().filter(User::isSubscriber).toList();
+                // upozorni odběratele na to, že přibylo nové kino
+                notifySubs(subs, data);
+            }
+
+            return response;            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return response;
     }
 
     private void notifySubs(List<User> subs, Cinema cinema) {

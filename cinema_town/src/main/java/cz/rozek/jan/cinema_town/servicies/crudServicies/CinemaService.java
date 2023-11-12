@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.Cinema;
 import cz.rozek.jan.cinema_town.models.stable.City;
 import cz.rozek.jan.cinema_town.models.stable.Hall;
@@ -67,7 +68,7 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
     }
 
     @Override
-    public Cinema create(Cinema entity, String accessJWT) {
+    public Cinema create(Cinema entity, String accessJWT) throws ValidationException {
 
         // pokud existuje to město, tak ho tam přidej 
         City city = cityRepository.findByName(entity.getCity().getName());
@@ -83,7 +84,7 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
     }
 
     @Override
-    public Cinema update(String id, Cinema entity, String accessJWT) {
+    public Cinema update(String id, Cinema entity, String accessJWT) throws ValidationException {
 
         Cinema cinemaFormDB = repository.findById(entity.getId()).get();
         // pokud je jiné kino vyměň a pokud to co je v db už není nikde použité, tak ho odeber
@@ -103,7 +104,7 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
         return super.update(id, entity, accessJWT);
     }
 
-    private void addHallsToDB(Cinema entity, String accessJWT) {
+    private void addHallsToDB(Cinema entity, String accessJWT) throws ValidationException {
         Map<String, Hall> cinemaHalls = new HashMap<>();
         if (entity.getHalls() == null) {
             entity.setHalls(cinemaHalls);

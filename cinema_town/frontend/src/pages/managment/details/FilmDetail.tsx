@@ -42,6 +42,9 @@ const defActors : { [key: string]: People } = { '0': defPeople }
 const defTitles : string[] = [""]
 const defDabings : string[] = [""]
 
+// TODO DOLADIT
+// TODO předělat people input ať jako první bere jméno. (poslední slovo je příjmení ostatní spoj do jména)
+
 const FilmDetail = ({
     data, 
     handleInputText, 
@@ -70,7 +73,7 @@ const FilmDetail = ({
     
     useEffect(() => {
         loadPeoples()
-        loadenres()
+        loadGenres()
     }, [])
 
     useEffect(() => {
@@ -136,7 +139,7 @@ const FilmDetail = ({
             )
         }
     }
-    const loadenres = async () => {
+    const loadGenres = async () => {
         try {
             let genres = (await loadData<Genre>(ModesEndpoints.Genre))
             genres.unshift(defaultGerne)

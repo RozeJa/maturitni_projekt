@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -48,6 +49,12 @@ public class User implements Entity {
         return emailReg.matcher(email).matches();
     }
 
+    public boolean validatePassword() {
+        Pattern pwReg = Pattern.compile("^.*(?=.[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{12,}).*$");
+
+        return pwReg.matcher(password).matches();
+    }
+
     public List<String> loadPermissions() {
         return role.getPermissions()
         .values()
@@ -55,4 +62,20 @@ public class User implements Entity {
         .map(Permission::getPermission)
         .toList();
     }
+
+    @Override
+    public void validate() throws ValidationException {        
+        try {
+            if (!validateEmail()) 
+                throw new ValidationException("Email isnt valid.");
+            if (!validatePassword())
+                throw new ValidationException("Password isnt valid.");
+        } catch (Exception e) {
+                throw new ValidationException("Some prop is null. Cant be."); 
+        }
+        if (role == null) 
+            throw new ValidationException("Role cant be null.");
+        if (trustedDevicesId == null) 
+            throw new ValidationException("TrustedDevicesId cant be null.");
+    }   
 }

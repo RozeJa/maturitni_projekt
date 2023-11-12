@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.Film;
 import cz.rozek.jan.cinema_town.models.stable.People;
 import cz.rozek.jan.cinema_town.models.stable.User;
@@ -55,7 +56,7 @@ public class FilmService extends CrudService<Film, FilmRepository> {
     }
 
     @Override
-    public Film create(Film entity, String accessJWT) {
+    public Film create(Film entity, String accessJWT) throws ValidationException {
         
         pushPeoplesToDB(entity);
 
@@ -63,7 +64,7 @@ public class FilmService extends CrudService<Film, FilmRepository> {
     }
 
     @Override
-    public Film update(String id, Film entity, String accessJWT) {
+    public Film update(String id, Film entity, String accessJWT) throws ValidationException {
         
         pushPeoplesToDB(entity);
 

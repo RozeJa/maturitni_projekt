@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -38,19 +39,44 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/block-busters")
+    public ResponseEntity<String> getBlockBusters(@RequestHeader Map<String, String> headers) {
+        try {
+
+            List<Film> entities = service.readAll(headers.get(authorization));
+            entities = entities.stream().filter(Film::isBlockBuster).toList();
+
+            return new ResponseEntity<>(objectMapper.writeValueAsString(entities), HttpStatus.OK); 
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Override 
     @PostMapping("/")
     public ResponseEntity<String> post(@RequestBody Film data, @RequestHeader Map<String,String> headers) {
-        ResponseEntity<String> response = super.post(data, headers);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            // najdi si odběratele
-            List<User> subs = userRepository.findAll().stream().filter(User::isSubscriber).toList();
-
-            notifySubs(subs, data);
+        try {
+            ResponseEntity<String> response = super.post(data, headers);
+    
+            if (response.getStatusCode() == HttpStatus.OK) {
+                // najdi si odběratele
+                List<User> subs = userRepository.findAll().stream().filter(User::isSubscriber).toList();
+    
+                notifySubs(subs, data);
+            }
+    
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return response;
     }
 
     @PostMapping("/store-img")

@@ -1,8 +1,8 @@
 import './PeopleInput.css'
 import People from "../../../models/People"
 import SelectInput from "../../SelectInput"
-import { useEffect, useState } from 'react'
 
+// TODO předělat people input ať jako první bere jméno. (poslední slovo je příjmení ostatní spoj do jména)
 const PeopleInput = (
     {
         peoples,

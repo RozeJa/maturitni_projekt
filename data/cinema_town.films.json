@@ -1,0 +1,1136 @@
+[{
+  "_id": {
+    "$oid": "654fb582eac6391045e77f2b"
+  },
+  "name": "NCT NATION : To The World in Cinemas",
+  "description": "Zbrusu nový koncertní film NCT NATION : To The World in Cinemas představí poprvé na velkém plátně společné vystoupení současných jednotek k-popových průkopníků – superskupiny – NCT U, NCT 127, NCT Dream a WayV. Fanoušci k-popu po celém světě tak mohou zhlédnout spektakulární vystoupení NCT Nation na stadionu Munhak v korejském Inčchonu, kde představili nové album NCT Golden Age. Koncert byl nasnímán 18 kamerami, a kromě hudebního vystoupení se podíváte i do zákulisí. Nenechte si ujít tuto k-popovou koncertní smršť na velkém plátně s NCTzens v kinech po celém světě! V kinech jen 6., 9. a 10. prosince 2023! ",
+  "picture": "NCT NATION  To The World in Cinemas.jpeg",
+  "trailer": "https://www.youtube.com/watch?v=vGuJuW0bDWA",
+  "original": "KO",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654fb582eac6391045e77f2a"
+    }
+  },
+  "actors": {
+    "654fb582eac6391045e77f29": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fb582eac6391045e77f29"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "654fb4f6eac6391045e77f28"
+      }
+    }
+  ],
+  "titles": [
+    "CZ"
+  ],
+  "dabings": [
+    "KO"
+  ],
+  "time": 103,
+  "pg": 15,
+  "defaultCost": 300,
+  "production": {
+    "$date": "2023-11-01T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-23T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654fe9bf7285413e5ade2663"
+  },
+  "name": "Napoleon",
+  "description": "Epické drama zachycuje život francouzského císaře Napoleona Bonaparte, jeho vzestup k moci a vztah k životní lásce Josephine, a ukazuje jeho vizionářské vojenské a politické taktiky na pozadí nejdynamičtějších bitevních scén jaké kdy byly natočeny. ",
+  "picture": "5977S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=aX2G64lTxnE",
+  "original": "EN",
+  "blockBuster": true,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654fe9bf7285413e5ade2662"
+    }
+  },
+  "actors": {
+    "654fe9bf7285413e5ade2657": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade2657"
+      }
+    },
+    "654fe9bf7285413e5ade2658": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade2658"
+      }
+    },
+    "654fe9bf7285413e5ade2659": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade2659"
+      }
+    },
+    "654fe9bf7285413e5ade265a": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade265a"
+      }
+    },
+    "654fe9bf7285413e5ade265b": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade265b"
+      }
+    },
+    "654fe9bf7285413e5ade265c": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade265c"
+      }
+    },
+    "654fe9bf7285413e5ade265d": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade265d"
+      }
+    },
+    "654fe9bf7285413e5ade265e": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade265e"
+      }
+    },
+    "654fe9bf7285413e5ade265f": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade265f"
+      }
+    },
+    "654fe9bf7285413e5ade2660": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade2660"
+      }
+    },
+    "654fe9bf7285413e5ade2661": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade2661"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d845f1526991bb7fa07bb"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d84701526991bb7fa07bc"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d858e1526991bb7fa07cf"
+      }
+    }
+  ],
+  "titles": [
+    "CZ"
+  ],
+  "dabings": [
+    "EN",
+    "CZ"
+  ],
+  "time": 154,
+  "pg": 15,
+  "defaultCost": 300,
+  "production": {
+    "$date": "2023-11-05T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-12-05T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654fea697285413e5ade2668"
+  },
+  "name": "Tiger 3",
+  "description": "Po událostech v předchozích filmech Tiger Zinda Hai, War a Pathaan jsou Tiger a Zoya označeni teroristou jménem Aatish jako zrádci, a usiluje o pomstu. Tiger a Zoya se vydávají na život ohrožující křížovou výpravu, aby očistili je i jméno jejich rodiny.",
+  "picture": "6173S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=vEjTUDjjU6A",
+  "original": "HI",
+  "blockBuster": true,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654fea697285413e5ade2667"
+    }
+  },
+  "actors": {
+    "654fea697285413e5ade2664": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fea697285413e5ade2664"
+      }
+    },
+    "654fea697285413e5ade2665": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fea697285413e5ade2665"
+      }
+    },
+    "654fea697285413e5ade2666": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fea697285413e5ade2666"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d82ce5801eb0c3fd628b1"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d85751526991bb7fa07cd"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 155,
+  "pg": 12,
+  "defaultCost": 200,
+  "production": {
+    "$date": "2023-10-31T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-10T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654feb0d7285413e5ade266f"
+  },
+  "name": "Umění jíst a milovat",
+  "description": "Píše se rok 1885. V rozlehlém domě v údolí Loiry začíná další den a kuchařka Eugénie (Juliette Binoche) od časného rána pobíhá v kuchyni. Její jedinečný talent a láska k vaření dávají vzniknout neuvěřitelně chutným pokrmům. Posledních 20 let pracovala pro slavného gurmána Dodina (Benoît Magimel). Společně hledají a nalézají nové, neotřelé recepty, zkoumají chutě a sdílejí lásku ke gastronomii. Během let mezi nimi vzniklo silné pouto ovoněné upřímnou láskou. Dodin by byl rád, kdyby se Eugénie stala jeho ženou. Tak ale zarputile odmítá, nechce ztratit svobodu. Vždyť jejich soužití je takto dokonalé. Tráví spolu dlouhý čas, zkoumají a hledají recepty. Není to lepší než kdejaké manželství? Dodin je ale neústupný a tak se rozhodne udělat něco, co ještě nikdy neudělal: uvaří on pro ni. Možná mu poté řekne své Ano. ",
+  "picture": "6126S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=I17PpWusR4U",
+  "original": "FR",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654feb0d7285413e5ade266e"
+    }
+  },
+  "actors": {
+    "654feb0d7285413e5ade2669": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb0d7285413e5ade2669"
+      }
+    },
+    "654feb0d7285413e5ade266a": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb0d7285413e5ade266a"
+      }
+    },
+    "654feb0d7285413e5ade266b": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb0d7285413e5ade266b"
+      }
+    },
+    "654feb0d7285413e5ade266c": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb0d7285413e5ade266c"
+      }
+    },
+    "654feb0d7285413e5ade266d": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb0d7285413e5ade266d"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d845f1526991bb7fa07bb"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d84701526991bb7fa07bc"
+      }
+    }
+  ],
+  "titles": [
+    "EN",
+    "CZ"
+  ],
+  "dabings": [
+    "FR",
+    "CZ"
+  ],
+  "time": 134,
+  "pg": 13,
+  "defaultCost": 300,
+  "production": {
+    "$date": "2023-11-04T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-21T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654feb817285413e5ade2676"
+  },
+  "name": "Kukačky",
+  "description": "Pozor, koho si pustíte do hnízda. Děsivý horror o prázdninové výměně domů s hvězdou Papírového domu. Producenti filmu The Orphanage a zkušený režisér Mar Targarona (Boy Missing) přicházejí s filmem Kukačky, novinkou ve španělském kánonu thrillerů a hororů, která chytře překrucuje koncept home invasion thrillerů na novou úroveň. V hlavních rolích excelují hvězdy Belen Cuesta (Money Heist, The Endless Trench) a Jorge Suquet (Libertad). ",
+  "picture": "6117S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=MmIR2JVKJ-w",
+  "original": "ES",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654feb817285413e5ade2675"
+    }
+  },
+  "actors": {
+    "654feb817285413e5ade2670": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb817285413e5ade2670"
+      }
+    },
+    "654feb817285413e5ade2671": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb817285413e5ade2671"
+      }
+    },
+    "654feb817285413e5ade2672": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb817285413e5ade2672"
+      }
+    },
+    "654feb817285413e5ade2673": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb817285413e5ade2673"
+      }
+    },
+    "654feb817285413e5ade2674": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb817285413e5ade2674"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d85751526991bb7fa07cd"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 98,
+  "pg": 15,
+  "defaultCost": 399,
+  "production": {
+    "$date": "2023-10-08T22:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-08T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654fec0a7285413e5ade267f"
+  },
+  "name": "Disco Boy",
+  "description": "Alexej je mladý Bělorus utíkající před minulostí, kterou musí pohřbít. Uzavírá jakousi faustovskou smlouvu a výměnou za příslib francouzského občanství vstupuje do cizinecké legie. Daleko v deltě řeky Niger žije Jomo, revoluční aktivista zapojený do ozbrojeného boje na obranu své komunity. Alexej je voják, Jomo partyzánský bojovník. Kvůli další nesmyslné válce se jejich osudy protnou. Co je to „jinakost“ a jak ji vnímáme v souvislosti s tím, kým jsme, když procházíme životem, překračujeme hranice a zjišťujeme, že obýváme neustále se měnící fyzický a duševní prostor? Giacomo Abbruzzese tyto otázky zkoumá s pozoruhodným smyslem pro bezprostřední myšlení a velkou vynalézavostí ve vizuálně pozoruhodném díle, které je plné poezie a napětí. Lidé upadají do transu, díky němuž se o sobě dozvídají nové věci a skrze otevřenější komunikaci s druhými přestávají myslet jen na sebe. Toto magické snění doprovází silná hudba od elektronického hudebníka Vitalica, díky které se z nočního klubu stává transcendentní prostor. Disco se stává konečným cílem pro všechny, kteří hledí upřeně na posvátný horizont utopie. ",
+  "picture": "6111S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=VZvwicVaDYA",
+  "original": "FR",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654fec0a7285413e5ade267e"
+    }
+  },
+  "actors": {
+    "654fec0a7285413e5ade2677": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade2677"
+      }
+    },
+    "654fec0a7285413e5ade2678": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade2678"
+      }
+    },
+    "654fec0a7285413e5ade2679": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade2679"
+      }
+    },
+    "654fec0a7285413e5ade267a": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade267a"
+      }
+    },
+    "654fec0a7285413e5ade267b": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade267b"
+      }
+    },
+    "654fec0a7285413e5ade267c": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade267c"
+      }
+    },
+    "654fec0a7285413e5ade267d": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade267d"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d845f1526991bb7fa07bb"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 93,
+  "pg": 15,
+  "defaultCost": 299,
+  "production": {
+    "$date": "2023-10-05T22:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-08T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654fec687285413e5ade2682"
+  },
+  "name": "Nina a ježkovo tajemství",
+  "description": "Desetiletá Nina miluje tatínkovy pohádky o ježkovi, který objevuje svět. Jednoho večera ale tatínek vyprávět nepřijde. Ztratil totiž práci a svět celé rodiny se obrátil vzhůru nohama. Nina se bojí, co bude dál, a když zaslechne zvěsti o pokladu, který je ukryt kdesi ve staré tatínkově továrně, rozhodne se se svým nejlepším kamarádem Mehdim podniknout odvážnou akci. Chtějí poklad najít a rozdělit peníze mezi otce a jeho kolegy. Bláznivé dobrodružství začíná… ",
+  "picture": "6110D2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=MpEx9icWVrs",
+  "original": "FR",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654fec687285413e5ade2681"
+    }
+  },
+  "actors": {
+    "654fec687285413e5ade2680": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec687285413e5ade2680"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d83405801eb0c3fd628b2"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d85461526991bb7fa07c8"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 77,
+  "pg": 3,
+  "defaultCost": 150,
+  "production": {
+    "$date": "2023-10-31T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-08T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654feddf7285413e5ade2693"
+  },
+  "name": "The Marvels",
+  "description": "Carol Danvers, známá také jako Captain Marvel, získala zpátky svou identitu, kterou jí vzali kreejští tyrani, a pomstila se Nejvyšší inteligenci. Když ji povinnosti zavedou k anonymní červí díře spojované s kreejským revolucionářem, padá na ni kvůli nečekaným okolnostem tíha celého destabilizovaného vesmíru. Její schopnosti ji propojí s Kamalou Khan, alias Ms. Marvel, a její vzdálenou „neteří“, kapitánkou Monicou Rambeau, z níž se mezitím stala astronautka organizace S.A.B.E.R. Nesourodá trojice musí spojit síly a naučit se kooperovat, aby mohly společně zachránit vesmír.",
+  "picture": "5855S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=Nx7g9viAvi8",
+  "original": "EN",
+  "blockBuster": true,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654feddf7285413e5ade2692"
+    }
+  },
+  "actors": {
+    "654feddf7285413e5ade268e": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade268e"
+      }
+    },
+    "654feddf7285413e5ade268f": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade268f"
+      }
+    },
+    "654feddf7285413e5ade2690": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2690"
+      }
+    },
+    "654feddf7285413e5ade2691": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2691"
+      }
+    },
+    "654feddf7285413e5ade2683": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2683"
+      }
+    },
+    "654feddf7285413e5ade2684": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2684"
+      }
+    },
+    "654feddf7285413e5ade2685": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2685"
+      }
+    },
+    "654feddf7285413e5ade2686": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2686"
+      }
+    },
+    "654feddf7285413e5ade2687": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2687"
+      }
+    },
+    "654feddf7285413e5ade2688": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2688"
+      }
+    },
+    "654feddf7285413e5ade2689": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade2689"
+      }
+    },
+    "654feddf7285413e5ade268a": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade268a"
+      }
+    },
+    "654feddf7285413e5ade268b": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade268b"
+      }
+    },
+    "654feddf7285413e5ade268c": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade268c"
+      }
+    },
+    "654feddf7285413e5ade268d": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feddf7285413e5ade268d"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d82ce5801eb0c3fd628b1"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d84501526991bb7fa07b9"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d85551526991bb7fa07ca"
+      }
+    }
+  ],
+  "titles": [
+    "CZ"
+  ],
+  "dabings": [
+    "EN",
+    "CZ"
+  ],
+  "time": 105,
+  "pg": 12,
+  "defaultCost": 399,
+  "production": {
+    "$date": "2023-11-02T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-08T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654fef5d7285413e5ade2695"
+  },
+  "name": "Kouzelná Beruška a Černý kocour ve filmu",
+  "description": "Celovečerní film Kouzelná Beruška a Černý kocour ukáže zrození superhrdinů, kteří brání Paříž před zlem a kteří si v pěti sériích stejnojmenného seriálu získali srdce milionů diváků a fanoušků po celém světě. Nesmělou holku Marinnette, která se rozkoukává v nové škole, vyberou síly dobra jako tu pravou osobu, jež by měla mít v držení kouzelný drahokam s mocí proměnit člověka v superhrdinu Červenou Berušku. Během první mise potkává Marinnete v katedrále Notre-Dame druhého vyvoleného hrdinu Černého kocoura. Společně zneškodní oživlé a děsivé gotické sochy. Ani jeden netuší, že jsou spolužáci, a jejich hlavním úkolem bude postavit se do cesty mocnému padouchoviLyšajovi. Každý sám je jako hrdina super, společně by ale mohli být nepřemožitelní. ",
+  "picture": "5897D2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=2wKasdHTS4k",
+  "original": "EN",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654fef5d7285413e5ade2694"
+    }
+  },
+  "actors": {},
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d83405801eb0c3fd628b2"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 105,
+  "pg": 3,
+  "defaultCost": 105,
+  "production": {
+    "$date": "2023-11-10T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-10T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654feff97285413e5ade269a"
+  },
+  "name": "Pět nocí u Freddyho",
+  "description": "V kůži Mika (Josh Hutcherson), hlavního hrdiny Pěti nocí u Freddyho, byste určitě být nechtěli. Sám pečuje o desetiletou sestru Abby a dosud se nevyrovnal s neobjasněným zmizením dalšího sourozence před více než deseti lety. Čerstvě bez práce a s perspektivou, že přijde o Abbyino opatrovnictví, přijme práci nočního hlídače v uzavřené pizzerii Freddyho Fazbeara. Na první pohled se to může zdát jako pohodová a nenáročná práce, jenže Mike záhy zjistí, že Freddyho restaurace skrývá četná překvapení a že většina z nich není ani trochu příjemná. Nevysvětlitelné události, do nichž se Mike zaplétá čím dál víc, ho postupně zavedou situace, která připomíná tu nejděsivější noční můru, jakou si můžete představit. Zdánlivě nudná šichta se tak mění v boj o život, ve kterém soupeř nehraje ani trochu podle pravidel.",
+  "picture": "5850S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=v_f3sumBb20",
+  "original": "EN",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654feff97285413e5ade2699"
+    }
+  },
+  "actors": {
+    "654feff97285413e5ade2696": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feff97285413e5ade2696"
+      }
+    },
+    "654fe9bf7285413e5ade265d": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fe9bf7285413e5ade265d"
+      }
+    },
+    "654feff97285413e5ade2697": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feff97285413e5ade2697"
+      }
+    },
+    "654feff97285413e5ade2698": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feff97285413e5ade2698"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d84971526991bb7fa07bf"
+      }
+    }
+  ],
+  "titles": [
+    "CZ"
+  ],
+  "dabings": [
+    "EN",
+    "CZ"
+  ],
+  "time": 105,
+  "pg": 12,
+  "defaultCost": 298,
+  "production": {
+    "$date": "2023-10-31T23:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-01T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654ff0727285413e5ade26a2"
+  },
+  "name": "Zabijáci rozkvetlého měsíce",
+  "description": "Indiánský kmen Osedžů patřil ve dvacátých letech minulého století k celosvětově nejbohatším komunitám. Měli to štěstí, že na jejich půdě byla objevena ropa a že se jim podařilo zajistit profit z každého vytěženého barelu. Osedžové vlastnili obrovské domy, krásná auta a bělošské sloužící. Měli však zároveň obrovskou smůlu, protože je, víc než kteroukoliv jinou populaci, pronásledovala záhadná a „nešťastná“ úmrtí. I když byli pohádkově bohatí, pořád to byli „jen“ indiáni, takže jejich podezřelé konce nikdo nevyšetřoval a práva na zisky z těžby ropy se tiše přesouvaly do cizích rukou. Jenže tak dlouho se chodí se džbánem pro vodu, až se i tehdy čerstvě ustavená FBI probere.",
+  "picture": "5932S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=-_5hJ-VqXYc",
+  "original": "EN",
+  "blockBuster": true,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654ff0727285413e5ade26a1"
+    }
+  },
+  "actors": {
+    "654ff0727285413e5ade269b": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff0727285413e5ade269b"
+      }
+    },
+    "654fec0a7285413e5ade2679": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654fec0a7285413e5ade2679"
+      }
+    },
+    "654ff0727285413e5ade269c": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff0727285413e5ade269c"
+      }
+    },
+    "654ff0727285413e5ade269d": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff0727285413e5ade269d"
+      }
+    },
+    "654ff0727285413e5ade269e": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff0727285413e5ade269e"
+      }
+    },
+    "654ff0727285413e5ade269f": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff0727285413e5ade269f"
+      }
+    },
+    "654ff0727285413e5ade26a0": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff0727285413e5ade26a0"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d845f1526991bb7fa07bb"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 206,
+  "pg": 15,
+  "defaultCost": 499,
+  "production": {
+    "$date": "2023-09-30T22:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-11-18T23:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654ff0e07285413e5ade26a4"
+  },
+  "name": "Esa z pralesa 2: Světové dobrodružství",
+  "description": "S.O.S.! Tajemný superpadouch pokryl džungli toxickou růžovou pěnou, která vybouchne při kontaktu s vodou! Na pomoc jsou přivoláni ti nejlepší z nejlepších. Esa z pralesa! Do období dešťů zbývá méně než měsíc. Naši hrdinové, ke kterým se přidávají noví spojenci, musí najít protijed. Od ledových zemí na severu, přes Evropu, Asii a Střední východ se vydávají na své největší dobrodružství. Tentokrát čelí protivníkovi chytřejšímu a ďábelštějšímu než kdy předtím. Pro Maurice a jeho přátele začíná boj za záchranu jejich domova! ",
+  "picture": "5931D2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=3CeT0bGXhSM",
+  "original": "FR",
+  "blockBuster": false,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654ff0e07285413e5ade26a3"
+    }
+  },
+  "actors": {},
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d83405801eb0c3fd628b2"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 87,
+  "pg": 3,
+  "defaultCost": 150,
+  "production": {
+    "$date": "2023-10-03T22:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-10-11T22:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654ff16b7285413e5ade26ad"
+  },
+  "name": "Saw X",
+  "description": "John Kramer (Tobin Bell) je zpět. Dosud nejznepokojivější díl série Saw zkoumá nevyřčenou kapitolu Jigsawovy nejosobnější hry. Děj se odehrává mezi událostmi SAW I a II, kdy nemocný a zoufalý John cestuje do Mexika na riskantní a experimentální lékařský zákrok v naději na zázračný lék na rakovinu - jen aby zjistil, že celá operace je podvod s cílem podvést ty nejzranitelnější. Vyzbrojen nově nalezeným cílem se nechvalně proslulý sériový vrah vrací ke své práci a pomocí vychytralých, vyšinutých a důmyslných pastí obrací karty proti podvodníkům svým typickým niterným způsobem",
+  "picture": "5963S2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=4k6vBoZRT1Y",
+  "original": "EN",
+  "blockBuster": true,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654feff97285413e5ade2698"
+    }
+  },
+  "actors": {
+    "654ff16b7285413e5ade26a5": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26a5"
+      }
+    },
+    "654ff16b7285413e5ade26a6": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26a6"
+      }
+    },
+    "654ff16b7285413e5ade26a7": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26a7"
+      }
+    },
+    "654ff16b7285413e5ade26a8": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26a8"
+      }
+    },
+    "654ff16b7285413e5ade26a9": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26a9"
+      }
+    },
+    "654ff16b7285413e5ade26aa": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26aa"
+      }
+    },
+    "654ff16b7285413e5ade26ab": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26ab"
+      }
+    },
+    "654ff16b7285413e5ade26ac": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff16b7285413e5ade26ac"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d84971526991bb7fa07bf"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d85751526991bb7fa07cd"
+      }
+    }
+  ],
+  "titles": [
+    "CZ"
+  ],
+  "dabings": [
+    "EN",
+    "CZ"
+  ],
+  "time": 118,
+  "pg": 15,
+  "defaultCost": 399,
+  "production": {
+    "$date": "2023-09-10T22:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-09-27T22:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+},
+{
+  "_id": {
+    "$oid": "654ff25e7285413e5ade26bc"
+  },
+  "name": "Bod obnovy",
+  "description": "Představte si, že žijete v roce 2041, kdy máte právo být oživeni, když se vám stane nehoda či zemřete nepřirozenou smrtí. Stačí si jen pravidelně vytvářet digitální zálohu své osobnosti – BOD OBNOVY. Agentka Em právě dostává do rukou případ, kdy byla základní pravidla obnovy porušena. Bod obnovy oběti byl smazán a Em tak má před sebou výjimečný zločin. Strhující příběh zasazený do blízké budoucnosti, kdy technologie budou zaručovat lepší život a lidé si budou moci zaplatit jeho prodloužení. Nebo ne? ",
+  "picture": "5867O2R.jpg",
+  "trailer": "https://www.youtube.com/watch?v=QpqF7DJOxA8",
+  "original": "CZ",
+  "blockBuster": true,
+  "director": {
+    "$ref": "people",
+    "$id": {
+      "$oid": "654fec0a7285413e5ade2679"
+    }
+  },
+  "actors": {
+    "654feb0d7285413e5ade266c": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654feb0d7285413e5ade266c"
+      }
+    },
+    "654ff25e7285413e5ade26b8": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b8"
+      }
+    },
+    "654ff25e7285413e5ade26b9": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b9"
+      }
+    },
+    "654ff25e7285413e5ade26ba": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26ba"
+      }
+    },
+    "654ff25e7285413e5ade26bb": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26bb"
+      }
+    },
+    "654ff25e7285413e5ade26ae": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26ae"
+      }
+    },
+    "654ff25e7285413e5ade26af": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26af"
+      }
+    },
+    "654ff25e7285413e5ade26b0": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b0"
+      }
+    },
+    "654ff25e7285413e5ade26b1": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b1"
+      }
+    },
+    "654ff25e7285413e5ade26b2": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b2"
+      }
+    },
+    "654ff25e7285413e5ade26b3": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b3"
+      }
+    },
+    "654ff25e7285413e5ade26b4": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b4"
+      }
+    },
+    "654ff25e7285413e5ade26b5": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b5"
+      }
+    },
+    "654ff25e7285413e5ade26b6": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b6"
+      }
+    },
+    "654ff25e7285413e5ade26b7": {
+      "$ref": "people",
+      "$id": {
+        "$oid": "654ff25e7285413e5ade26b7"
+      }
+    }
+  },
+  "genres": [
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d85551526991bb7fa07ca"
+      }
+    },
+    {
+      "$ref": "genres",
+      "$id": {
+        "$oid": "652d85751526991bb7fa07cd"
+      }
+    }
+  ],
+  "titles": [],
+  "dabings": [
+    "CZ"
+  ],
+  "time": 111,
+  "pg": 12,
+  "defaultCost": 299,
+  "production": {
+    "$date": "2023-09-20T22:00:00.000Z"
+  },
+  "premier": {
+    "$date": "2023-09-20T22:00:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
+}]

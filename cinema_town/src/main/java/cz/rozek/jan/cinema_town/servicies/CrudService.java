@@ -1,5 +1,6 @@
 package cz.rozek.jan.cinema_town.servicies;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
@@ -88,10 +90,12 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno 
      */
-    public E create(E entity, String accessJWT) {
+    public E create(E entity, String accessJWT) throws ValidationException {
 
         // ověř oprávnění
         verifyAccess(accessJWT, createPermissionRequired());
+
+        entity.validate();
 
         // vynuluj id
         entity.setId(null);
@@ -112,10 +116,12 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
      * @throws SecurityException pokud uživatel nemá oprávnění 
      * @throws AuthRequired pokud se jedná o přístup bez přihlášení a přihlášení je vyžadováno
      */
-    public E update(String id, E entity, String accessJWT) {
+    public E update(String id, E entity, String accessJWT) throws ValidationException {
         
         // ověř oprávnění
         verifyAccess(accessJWT, updatePermissionRequired());
+
+        entity.validate();
 
         if (repository.findById(id).isEmpty()) 
             throw new NullPointerException();

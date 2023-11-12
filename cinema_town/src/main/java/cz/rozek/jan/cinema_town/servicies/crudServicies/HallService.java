@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.Hall;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.repositories.HallRepository;
@@ -57,7 +58,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
     }
 
     @Override
-    public Hall create(Hall entity, String accessJWT) {
+    public Hall create(Hall entity, String accessJWT) throws ValidationException {
         
         // přidej sedadla do db
         addSeatsToDB(entity, accessJWT);
@@ -66,7 +67,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
     }
 
     @Override
-    public Hall update(String id, Hall entity, String accessJWT) {
+    public Hall update(String id, Hall entity, String accessJWT) throws ValidationException {
     
         // přidej nová sedadla do db
         addSeatsToDB(entity, accessJWT);
@@ -74,7 +75,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
         return super.update(id, entity, accessJWT);
     }
 
-    private void addSeatsToDB(Hall entity, String accessJWT) {
+    private void addSeatsToDB(Hall entity, String accessJWT) throws ValidationException {
         
         Map<String, Seat> hallSeats = new HashMap<>();
 

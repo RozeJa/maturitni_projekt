@@ -23,11 +23,13 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.SecondVerificationToken;
 import cz.rozek.jan.cinema_town.models.stable.Role;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.RoleRepository;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
+import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 // třída poskytuje služby pro přihlášení, odhlášení a ověření přístupových práv
 @Service
@@ -97,23 +99,20 @@ public class AuthService {
      * @param user // nový uživatel
      * @return objekt, reprezentující uživatele, i s id
      */
-    public String register(User user) throws JoseException {
+    public String register(User user) throws JoseException, ValidationException {
 
         User newUser = new User();
-
-        // zvaliduj email
-        if (!user.validateEmail())
-            throw new SecurityException("Invalid email");
-        // zvaliduj passphrase
-        // TODO najít dobrou heslovou politiku
-
-        // změň heslo na hash
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         // přidej uživateli roli
         Role role = roleRepository.findByName("user");
         newUser.setRole(role);
+        
+        // zvaliduj uživatele
+        user.validate();
+
+        // změň heslo na hash
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         // vygeneruj pro něj jednorázový aktivační kód
         String activationCode = RandomStringGenerator.generateRandomString(true, 10);
@@ -430,7 +429,6 @@ public class AuthService {
             else
                 throw new SecurityException("Invalid Permition");
         } catch (MalformedClaimException | InvalidJwtException e) {
-            e.printStackTrace();
             throw new SecurityException("Invalid Token");
         }
 

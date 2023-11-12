@@ -7,7 +7,6 @@ interface Reservation {
     projection: Projection,
     user: User,
     seat: Seat,
-    paid: boolean,
     reserved: Date
 }
 
@@ -18,6 +17,5 @@ export let defaultReservation: Reservation = {
     projection: defaultProjection,
     user: defaultUser,
     seat: defaultSeat,
-    paid: false,
     reserved: new Date()
 }

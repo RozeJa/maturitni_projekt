@@ -25,6 +25,7 @@ export enum ModesEndpoints {
     Cinama =  "api/cinemas/",
     City = "api/cities/",
     Film = "api/films/",
+    FilmBlockBuster = "api/films/block-busters",
     Genre = "api/genres/",
     Hall = "api/halls/",
     People = "api/people/",
@@ -247,7 +248,7 @@ export const login = async (email: string, password: string, deviceId: string): 
 
 
 // funkce získá přístupový token
-async function getAccessToken(): Promise<string | null> {
+async function getAccessToken(): Promise<string> {
 
     const loginToken = getSessionStorageItem("loginToken")
 
@@ -259,9 +260,14 @@ async function getAccessToken(): Promise<string | null> {
         headers: headers
     }
 
-    let accessToken: string = (await axios.get<string>(BASE_URL + "auth/token", config)).data
+    try {
+        let accessToken: string = (await axios.get<string>(BASE_URL + "auth/token", config)).data
 
-    return accessToken 
+        return accessToken         
+    } catch (error) {
+        return ""
+    }
+
 }
 
 // metoda vytvoří config objekt pro request na api
@@ -269,18 +275,14 @@ async function getRequestConfig(): Promise<AxiosRequestConfig> {
     
     const accessToken = await getAccessToken()
 
-    if (accessToken !== null) {
-        let headers = {
-            "authorization": accessToken
-        }
-
-        let config = {
-            headers: headers
-        }
-
-        return config;        
+    let headers = {
+        "authorization": accessToken,
     }
 
-    return {}
+    let config = {
+        headers: headers
+    }
+
+    return config
 }   
 

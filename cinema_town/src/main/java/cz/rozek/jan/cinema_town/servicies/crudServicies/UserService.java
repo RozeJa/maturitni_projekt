@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
@@ -41,7 +42,7 @@ public class UserService extends CrudService<User, UserRepository> {
     }
 
     @Override
-    public User create(User entity, String accessJWT) {
+    public User create(User entity, String accessJWT) throws ValidationException {
         
         // zvaliduj email
         if (!entity.validateEmail()) 
@@ -52,7 +53,7 @@ public class UserService extends CrudService<User, UserRepository> {
     }
 
     @Override
-    public User update(String id, User entity, String accessJWT) {
+    public User update(String id, User entity, String accessJWT) throws ValidationException {
 
         User userFromDB = repository.findById(id).get();
 

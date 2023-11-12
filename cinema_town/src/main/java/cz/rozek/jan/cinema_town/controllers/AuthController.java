@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mongodb.DuplicateKeyException;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.TokenDeviceId;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
+import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 
 @org.springframework.web.bind.annotation.RestController
@@ -70,7 +72,7 @@ public class AuthController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (DuplicateKeyException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } catch (SecurityException | org.springframework.dao.DuplicateKeyException e) {
+        } catch (SecurityException | org.springframework.dao.DuplicateKeyException | ValidationException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();

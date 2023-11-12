@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,11 @@ public class People implements Entity {
     // přijmení    
     private String surname;
 
+    @Override
+    public void validate() throws ValidationException {
+        if (surname == null)
+            throw new ValidationException("Surname cant be null.");
+        if (surname.isBlank())
+            throw new ValidationException("Surname cant be empty.");
+    }
 }

@@ -3,6 +3,7 @@ package cz.rozek.jan.cinema_town.servicies.crudServicies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.Role;
 import cz.rozek.jan.cinema_town.repositories.RoleRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
@@ -40,7 +41,7 @@ public class RoleService extends CrudService<Role, RoleRepository> {
     }
 
     @Override
-    public Role update(String id, Role entity, String accessJWT) {
+    public Role update(String id, Role entity, String accessJWT) throws ValidationException {
         
         // admin role se nedá editovat
         Role adminRole = repository.findByName("admin");
