@@ -6,6 +6,7 @@ import Film from '../../models/Film';
 import './Home.css'
 import React, { useEffect, useState } from 'react';
 import { defaultCinema } from '../../models/Cinema';
+import Projection from '../../components/home/Projection';
 
 // TODO udělán jen nástřel bude třeba sprovozdnit vyhledávací formulář a s tím i přidat logiku, že se zobrazují spíš promítání, než filmy
 
@@ -51,7 +52,10 @@ const Home = () => {
         try {
             const cinemas = (await loadData<Cinema>(ModesEndpoints.Cinama))
 
-            cinemas.unshift({...defaultCinema})
+            const cinema = {...defaultCinema}
+            cinema.city.name = "Vyberte kino"
+
+            cinemas.unshift(cinema)
 
             SetCinemas(cinemas)
         } catch (err) {
@@ -66,23 +70,29 @@ const Home = () => {
             {/* část s filtrem filmu */}
             <div className='home-search'>
                 <h1>Program</h1>
-                <select name="selectedCity" onSelect={() => {
-                    // TODO
-                }}>
-                    {cinemas.map((c, i) => {
-                        return <option key={i} value={c.id !== null ? c.id : ""}>{`${c.city.name} ${c.street} ${c.houseNumber}`}</option>
-                    })}
-                </select>
-                <div className="home-search-form">
-                    <input type="text" onChange={() => {
-                        // TODO
-                    }} />
-                    <p>Vyhledat</p>
+                <div className="home-search-form">                
+                    <select name="selectedCity" onSelect={() => {
+                            // TODO
+                        }}> 
+                        {cinemas.map((c, i) => {
+                            return <option key={i} value={c.id !== null ? c.id : ""}>{`${c.city.name} ${c.street} ${c.houseNumber}`}</option>
+                        })}
+                    </select>
+                    <div className="home-search-form-filter">
+                        <input type="text" onChange={() => {
+                            // TODO
+                        }} />
+                        <button>Vyhledat</button>
+                    </div>
                 </div>
             </div>
             {/* filmy  */}
             <div className="home-films">
-                
+                {
+                    films.map((f, index) => {
+                        return <Projection key={index} film={f} i={index} />
+                    })
+                }
             </div>
         </>
     )
