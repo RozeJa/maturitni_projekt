@@ -1,24 +1,34 @@
 .block-busters-slider-container {
-    background-color: black;
-    max-width: 100%;
-    overflow: hidden;
+  background-color: black;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.block-busters-img {
+  height: 50%;
 }
 
 .slick-slide a {
-    width: fit-content;
+  width: fit-content;
 }
 
 .slick-slide img {
-    margin:auto;
-    left:auto;
+  margin:auto;
+  left:auto;
 }
 
 .home-search {
   display: flex;
+  margin-top: 2em;
   flex-direction: row;
   justify-content: space-around;
   /*TODO */
 }
+
+.home-search select {
+  height: fit-content;
+}
+
 .home-films {
   /*TODO */
 }

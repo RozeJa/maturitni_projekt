@@ -12,9 +12,9 @@ const BlockBusters = ({
   const settings = {
     dots: true,
     infinite: true,
-    fade: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    /*fade: true,*/
+    slidesToShow: 2,
+    slidesToScroll: 2,
     speed: 1000,
     autoplay: true,
     autoplaySpeed: 10000
