@@ -57,6 +57,7 @@
 .home-films {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   background-color: #EEEEEE;
   padding-top: 2em;
@@ -65,6 +66,15 @@
 @media only screen and (max-width: 700px) {
   .slick-slide img {
       width: 100%;
+  }
+
+  .home-search-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .home-search-form > * {
+    margin: 1em 0;
   }
 }
 
