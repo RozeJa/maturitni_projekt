@@ -1,0 +1,56 @@
+.projection {
+    display: flex;
+    flex-direction: row;
+}
+.projection {
+    display: flex;
+    margin: 2em 15%;     
+    padding: 1.5em;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    cursor: default;
+}
+
+.projection:hover {
+    box-shadow: 1em 1em 1em var(--color--grey--medium);
+    transition-duration: 1s;
+}
+
+.projection-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.projection-img img {
+    max-width: 300px;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+.projection-text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+.projection-text-content h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    margin-top: 0;
+    color: var(--color--red--bright);
+    cursor: pointer;
+}
+
+.projection-text-content p {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.projection-text-content-actors p {
+    font-size: 1em;
+    margin: 0;
+}

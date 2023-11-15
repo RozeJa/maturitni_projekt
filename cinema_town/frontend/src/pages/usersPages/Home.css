@@ -28,7 +28,6 @@
   flex-direction: column;
   justify-content: space-around;
   margin-top: 2em;
-  margin-bottom: 2em;
   /*TODO */
 }
 .home-search h1 {
@@ -51,10 +50,16 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  padding-bottom: 2.5em;
+  border-bottom: 1px solid var(--color--grey--medium);
 }
 
 .home-films {
-  /*TODO */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #EEEEEE;
+  padding-top: 2em;
 }
 
 @media only screen and (max-width: 700px) {

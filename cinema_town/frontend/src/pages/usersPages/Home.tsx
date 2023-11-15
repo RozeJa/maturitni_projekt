@@ -79,7 +79,7 @@ const Home = () => {
                         })}
                     </select>
                     <div className="home-search-form-filter">
-                        <input type="text" onChange={() => {
+                        <input type="text" placeholder='Vyhledat' onChange={() => {
                             // TODO
                         }} />
                         <button>Vyhledat</button>

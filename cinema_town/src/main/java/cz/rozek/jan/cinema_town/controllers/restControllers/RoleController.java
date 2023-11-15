@@ -21,7 +21,6 @@ import cz.rozek.jan.cinema_town.servicies.crudServicies.RoleService;
 @RequestMapping(path = "/api/roles")
 public class RoleController extends cz.rozek.jan.cinema_town.controllers.RestController<Role, RoleService> {
     
-    
     @Override
     @PostMapping("/")
     public ResponseEntity<String> post(@RequestBody Role data, @RequestHeader Map<String,String> headers) {
