@@ -7,6 +7,7 @@ nav {
 
     background-color: var(--color--red--bright);
     color: var(--color--white);
+    overflow: hidden;
 }
 
 nav a {
@@ -91,6 +92,7 @@ main {
         left: 0;
         width: 100%;
         background-color: var(--color--red--bright);
+        overflow: hidden;
     }
     .nav-burger-content a {
         width: 100%;
