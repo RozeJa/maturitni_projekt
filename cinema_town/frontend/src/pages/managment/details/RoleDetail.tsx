@@ -57,6 +57,8 @@ const RoleDetail = ({
 
         let badJoke: any = data.permissions
 
+        console.log(badJoke);
+        
         return badJoke[perm.id !== null ? perm.id : ''] !== undefined
     }
 

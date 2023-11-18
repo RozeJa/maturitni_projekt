@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './SelectInput.css'
 
 function SelectInput(props) {
-  const [inputValue, setInputValue] = useState(props.initValue);
+  const initiaValue = props.initValue
+
+  const [inputValue, setInputValue] = useState(initiaValue);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const options = props.options;
+
+
+  useEffect(() => {
+    setInputValue(initiaValue)
+  }, [initiaValue])
 
   const handleInputChange = (e) => {
     const value = e.target.value;

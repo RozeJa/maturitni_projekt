@@ -305,4 +305,32 @@
   },
   "permission": "reservation-delete",
   "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "655900e84451955f428df09d"
+  },
+  "permission": "city-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "655900ed4451955f428df09e"
+  },
+  "permission": "city-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "655900f24451955f428df09f"
+  },
+  "permission": "city-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "655900f84451955f428df0a0"
+  },
+  "permission": "city-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
 }]

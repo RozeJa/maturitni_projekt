@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.DuplicateKeyException;
 
 import cz.rozek.jan.cinema_town.models.Entity;
 import cz.rozek.jan.cinema_town.models.ValidationException;
@@ -113,7 +114,7 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (ValidationException e) {
+        } catch (ValidationException | DuplicateKeyException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,6 +142,8 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (ValidationException | DuplicateKeyException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

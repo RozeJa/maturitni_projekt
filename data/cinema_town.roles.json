@@ -3,14 +3,7 @@
     "$oid": "650bf87b1ad9ed4b9f362722"
   },
   "name": "user",
-  "autoAddAble": true,
   "permissions": {
-    "650bf4e01ad9ed4b9f3626eb": {
-      "$ref": "permissions",
-      "$id": {
-        "$oid": "650bf4e01ad9ed4b9f3626eb"
-      }
-    },
     "650bf5091ad9ed4b9f3626f2": {
       "$ref": "permissions",
       "$id": {
@@ -64,6 +57,12 @@
       "$id": {
         "$oid": "650bf64b1ad9ed4b9f362716"
       }
+    },
+    "650bf4e01ad9ed4b9f3626eb": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "650bf4e01ad9ed4b9f3626eb"
+      }
     }
   },
   "_class": "cz.rozek.jan.cinema_town.models.stable.Role"
@@ -73,7 +72,6 @@
     "$oid": "650bfa821ad9ed4b9f362723"
   },
   "name": "editor",
-  "autoAddAble": false,
   "permissions": {
     "650bf4e01ad9ed4b9f3626eb": {
       "$ref": "permissions",
@@ -278,6 +276,30 @@
       "$id": {
         "$oid": "650bf6331ad9ed4b9f362712"
       }
+    },
+    "655900f84451955f428df0a0": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900f84451955f428df0a0"
+      }
+    },
+    "655900f24451955f428df09f": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900f24451955f428df09f"
+      }
+    },
+    "655900ed4451955f428df09e": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900ed4451955f428df09e"
+      }
+    },
+    "655900e84451955f428df09d": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900e84451955f428df09d"
+      }
     }
   },
   "_class": "cz.rozek.jan.cinema_town.models.stable.Role"
@@ -287,7 +309,6 @@
     "$oid": "650bfca31ad9ed4b9f362724"
   },
   "name": "admin",
-  "autoAddAble": false,
   "permissions": {
     "650bf4e01ad9ed4b9f3626eb": {
       "$ref": "permissions",
@@ -551,6 +572,30 @@
       "$ref": "permissions",
       "$id": {
         "$oid": "650bf64b1ad9ed4b9f362716"
+      }
+    },
+    "655900f84451955f428df0a0": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900f84451955f428df0a0"
+      }
+    },
+    "655900f24451955f428df09f": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900f24451955f428df09f"
+      }
+    },
+    "655900ed4451955f428df09e": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900ed4451955f428df09e"
+      }
+    },
+    "655900e84451955f428df09d": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "655900e84451955f428df09d"
       }
     }
   },

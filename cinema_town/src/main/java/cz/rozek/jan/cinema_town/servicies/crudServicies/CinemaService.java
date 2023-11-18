@@ -88,18 +88,20 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
         Cinema cinemaFormDB = repository.findById(entity.getId()).get();
         // pokud je jiné kino vyměň a pokud to co je v db už není nikde použité, tak ho odeber
-        if (!cinemaFormDB.getCity().getId().equals(entity.getId())) {
+        if (!cinemaFormDB.getCity().getId().equals(entity.getCity().getId())) {
 
-            List<Cinema> cinameByCityName = repository.findByCityName(cinemaFormDB.getCity().getName());
+            List<Cinema> cinameByCityName = repository.findByCityId(cinemaFormDB.getCity().getId());
             if (cinameByCityName.isEmpty()) {
                 cityService.delete(cinemaFormDB.getCity().getId(), accessJWT);
             }
 
-        } else // pro případ, že by došlo ke změně PSČ nebo názbu města přeulož město
-            cityService.create(entity.getCity(), accessJWT);
+        }
 
         // kdyby bylo změna sálů, tak radši ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
         addHallsToDB(entity, accessJWT);
+
+        // ! odeber z db odebrané sály
+        // ! odeber z db odebraná sedadla
 
         return super.update(id, entity, accessJWT);
     }

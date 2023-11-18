@@ -5,7 +5,7 @@ interface Hall {
     designation: string,
     rows: number,
     columns: number,
-    seats: Object | null
+    seats: { [key: string]: Seat }
 }
 
 export default Hall

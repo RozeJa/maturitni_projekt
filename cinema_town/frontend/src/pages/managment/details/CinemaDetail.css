@@ -17,4 +17,12 @@
     color: var(--color--white);
     border-radius: .5em;
     cursor: pointer;
+    transition-duration: var(--transition-delay--long);
 }
+.cinema-detail-halls-header p:hover {
+    background-color: var(--color--red--dark);
+}
+.cinema-detail-halls-body {
+    overflow: auto;
+    max-height: 40vh;
+} 

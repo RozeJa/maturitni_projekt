@@ -3,7 +3,7 @@ POST http://localhost:8080/api/permissions/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "permission": "reservation-delete"
+    "permission": "city-delete"
 }
 
 ### přidání rolí
@@ -51,7 +51,7 @@ Content-Type: application/json
 GET http://localhost:8080/api/roles/650bf87b1ad9ed4b9f362722 HTTP/1.1
 
 ### role editor
-POST http://localhost:8080/api/roles/ HTTP/1.1
+PUT http://localhost:8080/api/roles/ HTTP/1.1
 Content-Type: application/json
 
 {

@@ -19,15 +19,15 @@ const HallRecord = ({
     const removeHall = async (hall: Hall) => {
         if (cinema.halls !== null) {
             // odeber z kina sál 
-            cinema.halls.delete(hall.id !== null ? hall.id : '')
+            delete cinema.halls[hall.id !== null ? hall.id : '']
             // pošli update kina na server
             setCinema(await storeData<Cinema>(ModesEndpoints.Cinama, [cinema]))
         }
     }
 
     return (
-        <div key={hall.id} className='hall-record' onClick={() => navigate(`/management/halls/${cinema.id}/${hall.id}`)} >
-            <p>{hall.designation}</p>
+        <div className='hall-record'>
+            <p onClick={() => navigate(`/management/halls/${cinema.id}/${hall.id}`)}>Sál: {hall.designation}</p>
             <button onClick={() => removeHall(hall)}>Odebrat</button>
         </div>
     )

@@ -21,13 +21,14 @@ const HallDetail = () => {
     const [hall, setHall] = useState(defaultHall)
 
     const generateField = (): Seat[][]=> {
+        
         let newValueField: Seat[][] = []
 
         for (let i = 0; i < hall.rows; i++) {
             let row = []
             for (let j = 0; j < hall.columns; j++) {
                 let seat: Seat = {
-                    id: '',
+                    id: null,
                     rowDesignation: '',
                     number: 0,
                     rowIndex: 0,
@@ -38,7 +39,14 @@ const HallDetail = () => {
                 seat.number = j+1
                 seat.rowIndex = i
                 seat.rowDesignation = (i+1).toString()
-                row.push(seat)
+
+                const hallSeat = Object.values(hall.seats).find(s => s.columnIndex === seat.columnIndex && s.rowDesignation === seat.rowDesignation)
+
+                if (hallSeat !== undefined) {
+                    row.push(hallSeat)                    
+                } else {
+                    row.push(seat)
+                }
             }
             newValueField.push(row)
         }
@@ -60,6 +68,10 @@ const HallDetail = () => {
         
     }, [])
 
+    useEffect(() => {
+        setValueField(generateField())        
+    }, [hall])
+
     const load = async (id: string) => {
         try {
             let data = (await loadData<Hall>(ModesEndpoints.Hall, [id])).pop()
@@ -77,22 +89,53 @@ const HallDetail = () => {
     }
 
     const store = async () => {
+
+
+        const seats: { [key: string]: Seat } = {}
+        if (Object.keys(hall.seats).length === 0) {
+            valueField.forEach((row, rowIndex) => {
+                row.forEach((seat, columnIndex) => {
+                    seats[`${rowIndex}${columnIndex}`] = seat
+                })
+            })
+
+        } else {
+            valueField.forEach((row, rowIndex) => {
+                row.forEach((seat, columnIndex) => {
+                    const editedSeat = Object.values(hall.seats).find(s => s.columnIndex === seat.columnIndex && s.rowIndex === seat.rowIndex)
+                    if (editedSeat !== undefined) {
+                        editedSeat.seat = seat.seat
+                        seats[editedSeat.id !== null ? editedSeat.id : ''] = editedSeat
+                    } else {
+                        seats[`${rowIndex}${columnIndex}`] = seat
+                    }
+                })
+            })
+        }
+        
+        hall.seats = seats
+
+        console.log(hall);
+        
     
         try {
             // načti kino
             let cinema: Cinema = (await loadData<Cinema>(ModesEndpoints.Cinama, [cinemaId !== undefined ? cinemaId : '']))[0]
+            
             // má tento sál
-            if (cinema.halls !== null) {
-                cinema.halls.set(hall.id !== null? hall.id : '', hall)
+            const halls = cinema.halls !== null ? cinema.halls : {}
+            if (Object.keys(cinema.halls).length === 0) {
+                halls[hall.id !== null? hall.id : ''] = hall
             } else {
-                cinema.halls = new Map()
-                cinema.halls.set(hall.id !== null? hall.id : `t-${Math.random()}`, hall)
+                halls[hall.id !== null ? hall.id : `t-${Math.random()}`] = hall
             }
+            cinema.halls = halls;
             
             (await storeData<Cinema>(ModesEndpoints.Cinama, [cinema]))
             navigate(`/management/cinemas/${cinemaId}`)
         } catch (error) {
             setErr(<DialogErr err='Nastala chyba při načítání nebo ukládání dat na server' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} okText={'ok'} />)
+            
         }
     }
 
@@ -132,11 +175,11 @@ const HallDetail = () => {
                             const newValueFieldCopy = valueField.map((row, i) =>
                                 row.map((seat, j) => ({
                                     ...seat,
-                                    isSelected: i == rowIndex && j == columnIndex ? checked : seat.seat,
+                                    ["seat"]: i == rowIndex && j == columnIndex ? checked : seat.seat
                                 }))
                             );
                         
-                            setValueField(newValueFieldCopy);
+                            setValueField([...newValueFieldCopy]);
                         }}/></td>
                     })}
                 </tr>
@@ -157,13 +200,13 @@ const HallDetail = () => {
             {err}
             <h1>{hall.id === null ? 'Nový sál' : `Sál ${hall.designation}`}</h1>
             <label>Onačení sálu</label> 
-            <input name='designation' type="text" onChange={(e: any) => handleInputText(e)} />
+            <input name='designation' type="text" onChange={(e: any) => handleInputText(e)} value={hall.designation} />
             <label>Počet řad</label> 
             <input name='rows' type="number" value={hall.rows} onChange={handleInputNumber} />
             <label>Počet sloupců</label> 
             <input name='columns' type="number" value={hall.columns} onChange={handleInputNumber} />
+            <h2>Rozložení sedadel</h2>
             <div className="seats">
-                <h2>Rozložení sedadel</h2>
                 {displayField}
             </div>
             <div className='detail-submit'>

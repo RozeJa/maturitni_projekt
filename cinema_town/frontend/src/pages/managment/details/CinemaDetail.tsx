@@ -51,6 +51,17 @@ const CinemaDetail = ({
         loadCities()
     }, [])
 
+    useEffect(() => {
+        if (data.halls !== null) {
+        
+            const maped = Object.values(data.halls).map((hal) => {
+                return <HallRecord key={hal.id} hall={hal} cinema={data} setCinema={(newData: Cinema) => setData(newData)} />
+            })
+            
+           setHallRecords(maped)
+        }
+    }, [data])
+
 
     const loadCities = async () => {
         try {
@@ -82,16 +93,9 @@ const CinemaDetail = ({
         } catch (error) {
             // TODO dořešit přesnou chybu pro uživatele 
             setErr(<DialogErr err='Nastala chyba při vkládání do db' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} okText={'ok'} />)
+            console.log(error);
+            
         }
-    }
-
-    if (data.halls !== null) {
-        
-        const maped = Array.from(data.halls).map(([key,hal]) => {
-            return <HallRecord key={hal.id} hall={hal} cinema={data} setCinema={(newData: Cinema) => setData(newData)} />
-        })
-
-        setHallRecords(maped)
     }
 
     const handleCityChange = (e: any) => {
@@ -124,7 +128,9 @@ const CinemaDetail = ({
                 
                     }}>Přidat sál</p>
                 </div>
-                {hallRecords}
+                <div className="cinema-detail-halls-body">
+                    {hallRecords}
+                </div>
             </div>
         </>
     )

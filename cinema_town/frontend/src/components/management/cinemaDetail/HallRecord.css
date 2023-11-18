@@ -1,0 +1,21 @@
+.hall-record {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 20%;
+    padding-left: 5%;
+}
+.hall-record p {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.hall-record button {
+    background-color: var(--color--red--bright);
+    color: white;
+    padding: .5em;
+    box-shadow: none;
+    border: none;
+    border-radius: .5em;
+    transition-duration: var(--transition-delay--long);
+}

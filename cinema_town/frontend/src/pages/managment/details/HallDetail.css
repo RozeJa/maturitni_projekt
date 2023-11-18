@@ -81,6 +81,10 @@
     transition-duration: var(--transition-delay--long);
 }
 
+.detail-submit > a:hover {
+    background-color: var(--color--red--dark);
+}
+
 .hall-edit-body button:hover {
     background-color: var(--color--red--dark);
     cursor: pointer;
@@ -106,4 +110,16 @@
 
 .chechbox label {
     padding: .5em;
+}
+
+.seats {
+    max-width: 80vw;
+    overflow-x: auto;
+}
+
+.seats th, .seats td {
+    padding: .25em;
+    margin: .25em;
+    background-color: #f9f9f9;
+    border-bottom: none;
 }

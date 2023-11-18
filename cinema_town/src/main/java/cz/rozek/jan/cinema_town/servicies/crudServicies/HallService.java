@@ -72,6 +72,8 @@ public class HallService extends CrudService<Hall, HallRepository> {
         // přidej nová sedadla do db
         addSeatsToDB(entity, accessJWT);
 
+        // ! odeber z db odebraná sedadla
+
         return super.update(id, entity, accessJWT);
     }
 
@@ -89,24 +91,6 @@ public class HallService extends CrudService<Hall, HallRepository> {
         }
 
         entity.setSeats(hallSeats);
-        /*
-        Seat[][] hallSeats = new Seat[entity.getSeats().length][entity.getSeats()[0].length];
-        for (int i = 0; i < entity.getSeats().length; i++) {
-            Seat[] row = new Seat[entity.getSeats()[i].length];
-            for (int j = 0; j < row.length; j++) {
-                Seat record = row[j];
-                if (record.getId() == null) {
-                    Seat seatFromDB = seatService.create(record, accessJWT);
-                    row[j] = seatFromDB;
-                } else {
-                    row[j] = record;
-                }
-            }
-            hallSeats[i] = row;
-        }
-
-        entity.setSeats(hallSeats);
-        */
     }
 
     @Override
