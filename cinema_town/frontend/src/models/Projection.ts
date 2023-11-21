@@ -5,10 +5,10 @@ interface Projection {
     id: string | null,
     hall: Hall,
     film: Film,
+    cost: number,
     title: string,
     dabing: string,
-    date: Date,
-    time: Date
+    dateTime: Date
 }
 
 export default Projection
@@ -17,8 +17,8 @@ export let defaultProjection: Projection = {
     id: null,
     hall: defaultHall,
     film: defaultFilm,
+    cost: 0,
     title: '',
     dabing: '',
-    date: new Date(),
-    time: new Date()
+    dateTime: new Date()
 }

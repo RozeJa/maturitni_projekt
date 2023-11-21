@@ -1,6 +1,7 @@
  package cz.rozek.jan.cinema_town.controllers.restControllers;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -84,9 +85,8 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
                 reservationRepository.deleteAll(reservations);
 
                 // upozorni uživatle na to, že jsi jim odebral rezervaci, pokud se nejedná o promítání, které se už odehrálo
-                if (LocalDate.now().compareTo(projection.getDate()) > 0) {
-                    if (LocalTime.now().compareTo(projection.getTime()) > 0) 
-                        notifyUserOnCancledProjection(reservations);
+                if (LocalDateTime.now().compareTo(projection.getDateTime()) > 0) {
+                    notifyUserOnCancledProjection(reservations);
                 }
             }
 

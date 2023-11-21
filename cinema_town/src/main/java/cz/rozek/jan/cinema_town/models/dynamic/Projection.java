@@ -1,7 +1,7 @@
 package cz.rozek.jan.cinema_town.models.dynamic;
 
-import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.validation.ValidationException;
@@ -46,10 +46,7 @@ public class Projection implements Entity {
     private String dabing;
     // datum kdy se bude film promítat
     @NotNull
-    private LocalDate date;
-    // čas, kdy se bude fiml promítat
-    @NotNull
-    private LocalTime time;
+    private LocalDateTime dateTime;
 
     @Override
     public void validate() throws ValidationException {
@@ -59,7 +56,7 @@ public class Projection implements Entity {
             throw new ValidationException("Film cant be null.");
         if (cost < 0)
             throw new ValidationException("Minila cost is '0'.");
-        if (date.isBefore(LocalDate.now()))
+        if (dateTime.isBefore(LocalDateTime.now()))
             throw new ValidationException("Date of projection must be today or after today."); 
     }
 }
