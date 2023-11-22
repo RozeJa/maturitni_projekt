@@ -7,6 +7,7 @@ import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
 import Genre, { defaultGerne } from '../../../models/Genre'
+import { formatDate } from '../../../global_functions/constantsAndFunction'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -15,26 +16,6 @@ export const validateFilm = (data: Film): Array<string> => {
 
     return errs
 }
-
-const formatDate = (date: Date | string[]): string => {
-    
-    let year
-    let month 
-    let day 
-    if (date instanceof Date) {
-        year = date.getFullYear()
-        month = (date.getMonth() + 1).toString().padStart(2, '0')
-        day = date.getDate().toString().padStart(2, '0')
-    } else {
-        const objData = new Date(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]))
-        year = objData.getFullYear()
-        month = (objData.getMonth() + 1).toString().padStart(2, '0')
-        day = objData.getDate().toString().padStart(2, '0')
-    }
-        
-    return `${year}-${month}-${day}`;
-}
-
 const defPeoples : People[] = []
 const defGenres : Genre[] = [{... defaultGerne}]
 const defPeople : People = defaultPeople

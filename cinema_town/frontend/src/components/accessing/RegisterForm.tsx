@@ -3,7 +3,7 @@ import './RegisterFrom.css'
 import User, { defaultUser } from '../../models/User'
 import { register } from '../../global_functions/ServerAPI'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'
-import { emailRegex, pwRegex } from '../../global_functions/constants'
+import { emailRegex, pwRegex } from '../../global_functions/constantsAndFunction'
 
 let user: User = defaultUser
 let passwordAgain: string

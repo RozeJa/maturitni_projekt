@@ -76,7 +76,7 @@ const Detail = <T extends ApiData> ({
         }
 
         try {
-            await storeData<T>(modesEndpoint, [data]);
+            const resp = await storeData<T>(modesEndpoint, [data]);
 
             navigate(spreadsheetURL)
         } catch (error) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { emailRegex, pwRegex } from '../../../global_functions/constants'
+import { emailRegex, pwRegex } from '../../../global_functions/constantsAndFunction'
 import User from '../../../models/User'
 import './UserDetail.css'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI';

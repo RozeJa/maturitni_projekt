@@ -1,8 +1,6 @@
 package cz.rozek.jan.cinema_town.models.dynamic;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import javax.validation.ValidationException;
 import javax.validation.constraints.Min;

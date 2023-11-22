@@ -8,7 +8,7 @@ interface Projection {
     cost: number,
     title: string,
     dabing: string,
-    dateTime: Date
+    dateTime: Date | string[]
 }
 
 export default Projection
@@ -17,7 +17,7 @@ export let defaultProjection: Projection = {
     id: null,
     hall: defaultHall,
     film: defaultFilm,
-    cost: 0,
+    cost: -1,
     title: '',
     dabing: '',
     dateTime: new Date()

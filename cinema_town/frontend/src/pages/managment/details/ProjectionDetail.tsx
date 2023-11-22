@@ -6,7 +6,7 @@ import Film, { defaultFilm } from '../../../models/Film'
 import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import { defaultHall } from '../../../models/Hall'
-import { log } from 'console'
+import { formatDate } from '../../../global_functions/constantsAndFunction'
 
 export const validateProjection = (data: Projection): Array<string> => {
     let errs: Array<string> = []
@@ -36,6 +36,7 @@ const ProjectionDetail = ({
     const [selectedCinema, setSelectedCinema] = useState({...defaultCinema})
     const [cinemas, setCinemas] = useState(defCinemas)
     const [films, setFilms] = useState(defFilms)
+    const [changeDefData, setChangeDefData] = useState(true)
 
     const [hallsSelect, setHallsSelect] = useState(<></>)
     const [filmExtendedForm, setFilmExtendedForm] = useState(<></>)
@@ -56,13 +57,12 @@ const ProjectionDetail = ({
                         onChange={(e:any) => {
                             const { value } = e.target
 
-                            console.log(value);
-                            console.log(selectedCinema);
-                            
-                            
-                            data.hall = selectedCinema.halls[value]
+                            if (selectedCinema.halls[value] !== undefined) {
+                                data.hall = selectedCinema.halls[value]
 
-                            setData({...data})
+    
+                                setData({...data})
+                            }
                         }}
                     >
                         {
@@ -84,9 +84,34 @@ const ProjectionDetail = ({
     }, [data])
 
     useEffect(() => {
+        
+        // ! TOTO převede, čas ze servru na správný 
+        if (!(data.dateTime instanceof Date)) {
+            const dateTime = new Date()
+            dateTime.setFullYear(parseInt(data.dateTime[0]))
+            dateTime.setMonth(parseInt(data.dateTime[1])-1)
+            dateTime.setDate(parseInt(data.dateTime[2]))
+            dateTime.setHours(parseInt(data.dateTime[3])+1)
+            dateTime.setMinutes(parseInt(data.dateTime[4]))
+            data.dateTime = dateTime          
+            setData({...data})
+        } 
+    }, [data])
+
+    useEffect(() => {
         if (data.film.id !== null) {
 
-            const cost = data.cost === 0 ? data.film.defaultCost : data.cost
+            if (changeDefData) {
+                data.cost = data.film.defaultCost
+                data.dabing = data.film.dabings[0]
+                setChangeDefData(false)
+                setData({...data})   
+            }
+
+            console.log(data);
+            
+
+            const cost = data.cost
             const titles = [...data.film.titles]
             titles.unshift("")
 
@@ -99,6 +124,7 @@ const ProjectionDetail = ({
                         const cost = Math.max(0, parseFloat(value))
 
                         data.cost = cost
+                        setData({...data})
                     }}/>
                     <label>Titulky</label>
                     <select value={data.title} 
@@ -136,16 +162,42 @@ const ProjectionDetail = ({
                     </select>
                     <label>Datum</label>
                     <input type="date" 
-                        value={parseDate(data.dateTime)}
-                        onChange={(e:any) => console.log(e.target.value)
-                        }    
-                    />
+                        value={formatDate(data.dateTime)}
+                        onChange={(e:any) => {
+                            if (data.dateTime instanceof Date) {
+                                const { value } = e.target
+    
+                                const newDate = new Date(value)
+                                newDate.setHours(data.dateTime.getHours())
+                                newDate.setMinutes(data.dateTime.getMinutes())
+    
+                                data.dateTime = newDate
+    
+                                console.log(data.dateTime);
+    
+                                setData({...data})
+                            }
+                        }} />
                     <label>Čas</label>
                     {/** TODO dodělat čas jako select po 15 minutách */}
+                    <input type="time" 
+                        value={parseTime(data.dateTime)} 
+                        onChange={(e:any) => {
+                            if (data.dateTime instanceof Date) {
+                                const { value } = e.target
+
+                                const hours = parseInt(value.split(":")[0])
+                                const minutes = parseInt(value.split(":")[1])
+                                
+                                data.dateTime.setHours(hours)
+                                data.dateTime.setMinutes(minutes)
+                                setData({...data})     
+                            }                      
+                        }}/>
                 </>
             )
         }
-    }, [data])
+    }, [data, changeDefData])
 
     const load = async () => {
         try {
@@ -190,6 +242,7 @@ const ProjectionDetail = ({
 
                     const film = films.find(f => f.id === value)
                     if (film !== undefined) {
+                        setChangeDefData(true)
                         data.film = film
                         setData({...data})
                     }
@@ -212,11 +265,17 @@ export default ProjectionDetail
 
 // TODO
 // zkontrolovat co bude vracet backend
-function parseDate(date: Date): string {
-    
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const day = date.getDate().toString().padStart(2, '0')
 
-    return `${year}-${month}-${day}`
+function parseTime(date: Date | string[]): string {        
+    let hours
+    let minutes 
+    if (date instanceof Date) {
+        hours = date.getHours().toString().padStart(2, '0')
+        minutes = date.getMinutes().toString().padStart(2, '0')
+    } else {
+        hours = date[3].toString().padStart(2, '0')
+        minutes = date[4].toString().padStart(2, '0')
+    }
+
+    return `${hours}:${minutes}`
 }
