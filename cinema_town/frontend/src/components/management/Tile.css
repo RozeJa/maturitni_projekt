@@ -1,0 +1,45 @@
+.tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    
+    height: 100%;
+    padding: 1em;
+    margin: 1em ;
+    border-radius: .5em;
+    background-color: var(--color--grey--light);
+    transition-duration: var(--transition-delay--long);
+    cursor: pointer;
+}
+
+.tile:hover {
+    box-shadow: .5em .5em .5em var(--color--grey--medium);
+}
+
+.tile-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.tile-header > h2 {
+    margin: 0 1em;
+    margin-left: 0;
+}
+
+.tile-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.tile-body > * {
+    padding: .2em;
+    margin: .2em;
+}
+
+.tile-actions {
+    align-items: center;
+    justify-content: center;
+}

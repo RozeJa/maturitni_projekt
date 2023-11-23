@@ -39,9 +39,9 @@ const RoleDetail = ({
     const reprintPermissions = () => {
         let toDisplay: Array<JSX.Element> = []
 
-        permisionsData.forEach((perm) => {
+        permisionsData.forEach((perm, index) => {
                 toDisplay.push(
-                    <div className="role-detail-permisions-permission">
+                    <div key={index} className="role-detail-permisions-permission">
                         <p>{perm.permission}</p>
                         <input type="checkbox" name={perm.id !== null ? perm.id : ''} checked={inRole(perm)} onChange={handleCheck} />
                     </div>
@@ -57,7 +57,7 @@ const RoleDetail = ({
 
         let badJoke: any = data.permissions
 
-        console.log(badJoke);
+        //console.log(badJoke);
         
         return badJoke[perm.id !== null ? perm.id : ''] !== undefined
     }
@@ -80,7 +80,6 @@ const RoleDetail = ({
       
         setData({ ...data, ['permissions']: permisions})
         reprintPermissions()
-        console.log(data);
         
     }
 
@@ -92,7 +91,7 @@ const RoleDetail = ({
 
             let map = new Map<string, Permission>()
             
-            permisions.forEach((perm) => {
+            permisions.sort((a,b) => a.permission.localeCompare(b.permission)).forEach((perm) => {
                 map.set(perm.id !== null ? perm.id : '', perm);
             })
             

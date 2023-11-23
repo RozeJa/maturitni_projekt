@@ -30,6 +30,8 @@ const Detail = <T extends ApiData> ({
     const [data, setData] = useState<T>(defaultData);
     const [err, setErr] = useState(<></>)
 
+    const [title, setTitle] = useState('')
+
     const [form, setForm] = useState(<></>)
 
     const navigate = useNavigate()    
@@ -40,6 +42,13 @@ const Detail = <T extends ApiData> ({
         }
         
     }, [])
+
+    
+    useEffect(() => {
+        if (title === '' || title === `${titleEdit}: `) {
+            setTitle(id === undefined ? `${titleNew}` : `${titleEdit}: ${readRepresentData(data)}`)            
+        }
+    }, [data])
 
     useEffect(() => {
         setForm(<InnerForm data={data} handleInputText={handleInputText} handleInputCheckbox={handleInputCheckbox} setData={(newData: T) => (setData(newData))} setErr={(err: JSX.Element) => setErr(err)}></InnerForm>)
@@ -102,7 +111,7 @@ const Detail = <T extends ApiData> ({
     return (
         <div className='detail'>
             {err}
-            <h1>{id === undefined ? `${titleNew}` : `${titleEdit}: ${readRepresentData(data)}`}</h1>
+            <h1>{title}</h1>
             <div className='detail-body'>
                 {form}
             </div>

@@ -7,6 +7,7 @@ import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import { defaultHall } from '../../../models/Hall'
 import { formatDate } from '../../../global_functions/constantsAndFunction'
+import { useParams } from 'react-router-dom'
 
 export const validateProjection = (data: Projection): Array<string> => {
     let errs: Array<string> = []
@@ -40,6 +41,8 @@ const ProjectionDetail = ({
 
     const [hallsSelect, setHallsSelect] = useState(<></>)
     const [filmExtendedForm, setFilmExtendedForm] = useState(<></>)
+
+    const { id } = useParams<string>()
 
     useEffect(() => {
         load()
@@ -78,10 +81,10 @@ const ProjectionDetail = ({
 
     useEffect(() => {
         const cinema = cinemas.find(c => Object.keys(c.halls).filter(hid => hid === data.hall.id).length > 0)
-
+        
         if (cinema !== undefined)
             setSelectedCinema({...cinema})
-    }, [data])
+    }, [data, cinemas])
 
     useEffect(() => {
         
@@ -101,15 +104,12 @@ const ProjectionDetail = ({
     useEffect(() => {
         if (data.film.id !== null) {
 
-            if (changeDefData) {
+            if (changeDefData && id === "new") {
                 data.cost = data.film.defaultCost
                 data.dabing = data.film.dabings[0]
                 setChangeDefData(false)
                 setData({...data})   
-            }
-
-            console.log(data);
-            
+            }            
 
             const cost = data.cost
             const titles = [...data.film.titles]
@@ -229,7 +229,7 @@ const ProjectionDetail = ({
             >
                 {
                     cinemas.map((c, index) => 
-                        <option key={`cinema ${index}`} value={c.id !== null ? c.id : ''}>{`${c.city.name} ${c.street} ${c.houseNumber}`}</option>
+                        <option key={`cinema ${index}`} value={c.id !== null ? c.id : ''}>{`${c.city.name}, ${c.street}, ${c.houseNumber}`}</option>
                     )
                 }
             </select>
@@ -262,9 +262,6 @@ const ProjectionDetail = ({
 }
 
 export default ProjectionDetail
-
-// TODO
-// zkontrolovat co bude vracet backend
 
 function parseTime(date: Date | string[]): string {        
     let hours

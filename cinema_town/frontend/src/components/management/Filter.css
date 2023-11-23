@@ -1,0 +1,7 @@
+.filter label {
+    font-size: 2em;
+    margin-right: .5em;
+}
+.filter > input {
+    border-radius: .5em;
+}

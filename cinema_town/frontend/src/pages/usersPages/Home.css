@@ -54,6 +54,10 @@
   border-bottom: 1px solid var(--color--grey--medium);
 }
 
+.home-search-form-filter input {
+  margin-right: 1em;
+}
+
 .home-films {
   display: flex;
   justify-content: center;
