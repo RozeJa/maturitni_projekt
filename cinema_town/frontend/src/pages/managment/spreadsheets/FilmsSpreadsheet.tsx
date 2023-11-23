@@ -39,6 +39,8 @@ const FilmsSpreadsheet = () => {
         try {
             const films = (await loadData<Film>(ModesEndpoints.Film))
 
+            films.sort((a,b) => a.name.localeCompare(b.name))
+
             setFilms(films)
         } catch (error) {
             console.log(error);
@@ -75,7 +77,11 @@ const FilmsSpreadsheet = () => {
                 
                 return ((
                     f.name.toLowerCase() === value.toLowerCase() ||
-                    f.name.toLowerCase().split(value.toLowerCase()).length > 1) && (
+                    f.name.toLowerCase().split(value.toLowerCase()).length > 1 ||
+                    f.defaultCost.toString().split(value).length > 1 ||
+                    f.defaultCost == value ||
+                    f.time == value ||
+                    f.time.toString().split(value).length > 1) && (
                         selectedGenre.id === null ||
                         f.genres.find(g => g.id === selectedGenre.id)
                     )
@@ -87,9 +93,6 @@ const FilmsSpreadsheet = () => {
         } else {
             const newData = films.filter(f => {
                 
-                console.log(selectedGenre.id);
-                
-
                 return (
                     selectedGenre.id === null ||
                     f.genres.find(g => g.id === selectedGenre.id)
@@ -104,7 +107,7 @@ const FilmsSpreadsheet = () => {
             <div className="sp-header">
                 <Filter filter={filter} />
                 <div className='film-header-filter-genre'>
-                    <label>Žánr : </label>
+                    <label>Žánr :</label>
                     <select onChange={(e:any) => {
                         const { value } = e.target
 
@@ -115,7 +118,7 @@ const FilmsSpreadsheet = () => {
                             setSelectedGenre({...defGenre})
                     }}>
                         {
-                            genres.map((g,index) => 
+                            genres.sort((a,b) => a.name.localeCompare(b.name)).map((g,index) => 
                                 <option key={index} value={g.id !== null ? g.id : ''}>{g.name}</option>
                             )
                         }

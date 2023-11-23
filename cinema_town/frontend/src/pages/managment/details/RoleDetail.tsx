@@ -34,14 +34,14 @@ const RoleDetail = ({
 
     useEffect(() => {
         reprintPermissions()
-    }, [permisionsData])
+    }, [permisionsData, data])
 
     const reprintPermissions = () => {
         let toDisplay: Array<JSX.Element> = []
 
-        permisionsData.forEach((perm, index) => {
+        permisionsData.forEach((perm, key) => {
                 toDisplay.push(
-                    <div key={index} className="role-detail-permisions-permission">
+                    <div key={key} className="role-detail-permisions-permission">
                         <p>{perm.permission}</p>
                         <input type="checkbox" name={perm.id !== null ? perm.id : ''} checked={inRole(perm)} onChange={handleCheck} />
                     </div>
@@ -56,8 +56,6 @@ const RoleDetail = ({
             return false
 
         let badJoke: any = data.permissions
-
-        //console.log(badJoke);
         
         return badJoke[perm.id !== null ? perm.id : ''] !== undefined
     }

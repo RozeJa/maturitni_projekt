@@ -10,7 +10,13 @@ import DialogErr from '../../../components/DialogErr'
 export const validateHall = (data: Hall): Array<string> => {
     let errs: Array<string> = []
 
-    // TODO
+    if (data.designation.trim() === '')
+        errs.push("Film musí obsahovat nějaký popis.")
+    if (data.rows < 1 || data.columns < 1) 
+        errs.push("Sál musí obsahovat nějaká sedadla.")
+    if (Object.values(data.seats).filter(s => s.seat).length < (data.rows * data.columns / 2 - 1))
+        errs.push("Prosím upravte rozložení sálu. Aktuálně obsahuje příliš mnoho prázdných míst. (uličky mezi řadami jsou samozřejmostí a není třeba je vykreslovat).")
+
 
     return errs
 

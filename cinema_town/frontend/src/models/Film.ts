@@ -38,7 +38,7 @@ export let defaultFilm: Film = {
     titles: [],
     dabings: [],
     time: 0,
-    pg: 0,
+    pg: 3,
     defaultCost: 0,
     production: new Date(),
     premier: new Date()

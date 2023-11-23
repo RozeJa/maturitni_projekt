@@ -67,6 +67,13 @@
   padding-top: 2em;
 }
 
+.home-films > p {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  padding: 0.3em;
+}
+
 @media only screen and (max-width: 700px) {
   .slick-slide img {
       width: 100%;

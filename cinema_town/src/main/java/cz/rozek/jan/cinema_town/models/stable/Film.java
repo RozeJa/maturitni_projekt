@@ -106,10 +106,14 @@ public class Film implements Entity {
             throw new ValidationException("Film must be at least one genre.");
         if (time <= 0)
             throw new ValidationException("Time cant be negative or zero.");
-        if (pg <= 0) 
+        if (time > 720)
+            throw new ValidationException("Time cant be bigger number that 720 minits.");
+        if (pg <= 3) 
             throw new ValidationException("PG cant be negative or zero.");
+        if (pg > 99)
+            throw new ValidationException("Invalid pg number. Limit is 99");
         if (defaultCost < 0) 
             throw new ValidationException("Default cost cant be negative.");
-            
+
     }
 }

@@ -25,29 +25,28 @@ const Detail = <T extends ApiData> ({
         readRepresentData: Function,
         InnerForm: any
     }) => {    
-    
+       
     const { id } = useParams<string>()
+    
     const [data, setData] = useState<T>(defaultData);
     const [err, setErr] = useState(<></>)
-
+    
     const [title, setTitle] = useState('')
-
     const [form, setForm] = useState(<></>)
-
-    const navigate = useNavigate()    
+    
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (typeof id === 'string') {
             load(id)
         }
-        
     }, [])
 
     
     useEffect(() => {
-        if (title === '' || title === `${titleEdit}: `) {
+        if (title === '' || title === `${titleEdit}: ` || title == `${titleEdit}: null`) {
             setTitle(id === undefined ? `${titleNew}` : `${titleEdit}: ${readRepresentData(data)}`)            
-        }
+        } 
     }, [data])
 
     useEffect(() => {
@@ -57,9 +56,7 @@ const Detail = <T extends ApiData> ({
     const load = async (id: string) => {
         try {
             let data = (await loadData<T>(modesEndpoint, [id])).pop()
-            if (data !== undefined) {
-                console.log(data);
-                
+            if (data !== undefined) {                
                 setData(data)
             }            
         } catch (error) {

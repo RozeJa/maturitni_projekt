@@ -5,7 +5,7 @@ export const validateGenre = (data: Genre): Array<string> => {
     let errs: Array<string> = []
 
     if (data.name === '') {
-        errs.push('Abyste mohly úspěšně odeslat formulář musíte vyplnit žázev žánru.')
+        errs.push('Abyste mohly úspěšně odeslat formulář musíte vyplnit název žánru.')
     }
 
     return errs

@@ -5,6 +5,7 @@
 }
 
 .film-header-filter-genre label {
+    font-weight: bold;
     margin-right: 1em;
 }
 

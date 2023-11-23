@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cz.rozek.jan.cinema_town.models.dynamic.Projection;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
 import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ProjectionService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 
@@ -32,6 +34,28 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
     private EmailService emailService;
     @Autowired 
     private ReservationRepository reservationRepository;
+
+    // Pro získání všech vrátit jen ty, které ještě neproběhly
+    @Override
+    @GetMapping("/")
+    public ResponseEntity<String> getAll(Map<String, String> headers) {
+        try {
+
+            List<Projection> entities = service.readAll(headers.get(authorization));
+            entities = entities.stream().filter(e -> e.getDateTime().isAfter(LocalDateTime.now())).toList();
+
+            return new ResponseEntity<>(objectMapper.writeValueAsString(entities), HttpStatus.OK); 
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
 
     // TODO vytvořit prebuild pro lístek 
     @Override

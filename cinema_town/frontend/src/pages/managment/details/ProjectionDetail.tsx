@@ -12,8 +12,21 @@ import { useParams } from 'react-router-dom'
 export const validateProjection = (data: Projection): Array<string> => {
     let errs: Array<string> = []
 
-    // TODO
-
+    if (data.hall.id === null)
+        errs.push("Promítání musí probýhat v nějakém sále.")
+    if (data.film.id === null)
+        errs.push("Musí se promítat nějaký film.")
+    if (data.cost < 0) 
+        errs.push("Naše společnost lidem za návštěvu kin neplatí :D.")
+    
+    const date = new Date()
+    date.setDate(date.getDate() + 1)
+    console.log(date);
+    if (data.dateTime instanceof Date)
+        if (date.getTime() < data.dateTime.getTime())
+            errs.push("Nejdřive můžete zadat promítání JEDEN den dopředu!")
+    
+    
     return errs
 }
 
@@ -33,7 +46,7 @@ const ProjectionDetail = ({
     setData: Function, 
     setErr: Function
 }) => {
-
+    
     const [selectedCinema, setSelectedCinema] = useState({...defaultCinema})
     const [cinemas, setCinemas] = useState(defCinemas)
     const [films, setFilms] = useState(defFilms)
@@ -103,8 +116,7 @@ const ProjectionDetail = ({
 
     useEffect(() => {
         if (data.film.id !== null) {
-
-            if (changeDefData && id === "new") {
+            if (changeDefData && id === undefined) {
                 data.cost = data.film.defaultCost
                 data.dabing = data.film.dabings[0]
                 setChangeDefData(false)

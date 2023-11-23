@@ -3,7 +3,6 @@ import { ReactElement } from 'react'
 
 const Tile = ({
         header,
-        key,
         onClick,
         actions,
         children,
@@ -15,7 +14,7 @@ const Tile = ({
         children: ReactElement
     }) => {
 
-    return <div key={key} className='tile'>
+    return <div className='tile'>
             <div className='tile-header'>
                 <h2 onClick={() => onClick()} >{header}</h2>
                 <div className="tile-actions">{actions}</div>

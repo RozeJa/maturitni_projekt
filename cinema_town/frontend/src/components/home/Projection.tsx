@@ -31,6 +31,7 @@ const Projection = ({
                         <p>{film.description}</p>
                     </div>
                     <div className="projection-text-content-actors">
+                        <p><b>Žánry: </b>{film.genres.map(g => g.name).join(", ")}</p>
                         <p><b>Režisér:</b> {`${film.director.surname} ${film.director.name}`}</p>
                         <p><b>Herci:</b> {Object.values(film.actors ? film.actors : {} ).map((a,i,arr) => `${a.surname} ${a.name}${i < (arr.length - 1) ? ", " : ""}`)}</p>
                     </div>

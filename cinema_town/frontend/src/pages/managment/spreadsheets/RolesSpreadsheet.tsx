@@ -47,7 +47,10 @@ const RolesSpreadsheet = () => {
     const filter = (e:any) => {
         const { value } = e.target 
 
-        const newData = data.filter(r => r.name.toLowerCase().split(value.toLowerCase()).length > 1 || r.name.toLowerCase() === value.toLowerCase())
+        const newData = data.filter(r => (
+            r.name.toLowerCase().split(value.toLowerCase()).length > 1 ||
+            r.name.toLowerCase() === value.toLowerCase()
+        ))
         
         setFiltredData([...newData])    
     }
@@ -60,7 +63,7 @@ const RolesSpreadsheet = () => {
             </div>
             <div className="sp-body">
                 { filtredData.map((d,index) => {      
-                    return <Tile key={index.toString()  }
+                    return <Tile key={index.toString()}
                             header={d.name} 
                             onClick={()=>navigate(`/management/roles/${d.id}`)}
                             actions={

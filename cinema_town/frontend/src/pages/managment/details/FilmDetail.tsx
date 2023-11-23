@@ -12,7 +12,26 @@ import { formatDate } from '../../../global_functions/constantsAndFunction'
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
 
-    // TODO
+    if (data.name.trim() === '')
+        errs.push("Název filmu nesmí být nevyplněný.")
+    if (data.original.trim() === '')
+        errs.push("Původní dabing nesmí být nevyplněný.")
+    if (data.picture.trim() === '')
+        errs.push("Obrázek fulmu nesmí být nevyplněný.")
+    if (data.genres.length === 0) 
+        errs.push("Film musí být zařazen alespoň do jednoho žánru.")
+    if (data.director.surname === '') 
+        errs.push("I přes toleranci jmen zahraničních režisérů se vyžaduje alespoň příjmení režiséra.")
+    if (data.time <= 0)
+        errs.push("Naše společnost je otevřena sebekračím filmovým představením, ale tato doba musí být zapsána jako přirozené číslo.")
+    if (data.time > 720)
+        errs.push("Nejdelší film, který jsme ochotni vysílat musí být kratšší než 720 minut.")
+    if (data.pg < 3) 
+        errs.push("Nižší věkové omezení než 3 roky je pro ná nepřijatelné.")
+    if (data.pg > 99) 
+        errs.push("Věkové omezení nad 99 nemůže být uplatněno. Někde musí být hranice. Stoletý člověk už je dost starý na všechno.")
+    if (data.defaultCost < 0) 
+        errs.push("Naše společnost skutečně není charitní a nejnižší možná cena je 0 Kč.")
 
     return errs
 }
@@ -300,7 +319,7 @@ const FilmDetail = ({
             <textarea name='description' value={data.description} cols={30} rows={10} onChange={(e: any) => handleInputText(e)} />
 
             <label>Obrázek</label>
-            <input type="file" onChange={(e: any) => setFile(e.target.files[0])} />
+            <input type="file" onChange={(e: any) => setFile(e.target.files[0])} accept="image/jpeg, image/png, image/jpg" />
 
             <label>Trailer</label>
             <input name='trailer' type="text" value={data.trailer} onChange={(e: any) => handleInputText(e)}/>
@@ -341,13 +360,13 @@ const FilmDetail = ({
             </div>
 
             <label>Délka trvání (v min)</label>
-            <input name='time' type="number" value={data.time} onChange={handleNumberChange} />
+            <input name='time' type="number" min={0} max={720} value={data.time} onChange={handleNumberChange} />
 
             <label>Věková bariéra</label>
-            <input name='pg' type="number" value={data.pg} onChange={handleNumberChange} />
+            <input name='pg' type="number" min={3} max={99} value={data.pg} onChange={handleNumberChange} />
 
             <label>Předpokládaná cena za lístek</label>
-            <input name='defaultCost' type="number" value={data.defaultCost} onChange={handleNumberChange} />
+            <input name='defaultCost' type="number" min={0} value={data.defaultCost} onChange={handleNumberChange} />
 
             <label>Kdy byl film vydán</label>
             <input name='production' type="date" value={formatDate(data.production)} onChange={handleDateChange} />
