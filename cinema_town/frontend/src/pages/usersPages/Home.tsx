@@ -34,12 +34,12 @@ const Home = () => {
         loadProjections()
     }, [])
     useEffect(() => {
-        
+        filter(lastEvent)
     }, [films, blockBusters])
 
     useEffect(() => {
         setFiltredProjections(projections)
-    }, projections)
+    }, [projections])
 
     useEffect(() => {
         filter(lastEvent)

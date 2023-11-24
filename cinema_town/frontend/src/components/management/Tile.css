@@ -23,6 +23,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 .tile-header > h2 {
     margin: 0 1em;
@@ -42,4 +43,10 @@
 .tile-actions {
     align-items: center;
     justify-content: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .tile-header {
+
+    }
 }
