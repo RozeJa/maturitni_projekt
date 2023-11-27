@@ -48,12 +48,13 @@ public class GenreService extends CrudService<Genre, GenreRepository> {
     @Override
     public boolean delete(String id, String accessJWT) {
 
+        Genre toRemove = repository.findById(id).get();
+
         // TODO potřeba jinak vymyslet hledání závislostí
-        /*/
         // pokud se tento žánr vyskytuje alespoň u jednoho filmu nemůže být odebrán
-        if (filmRepository.findByGenresId(id).isEmpty()) 
+        if (filmRepository.findByGenres(toRemove).isEmpty()) 
             return super.delete(id, accessJWT);
-        */
+        
         return false;
     }
 

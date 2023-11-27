@@ -6,6 +6,7 @@ import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/
 import { useNavigate } from 'react-router-dom'
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
+import { handleErr } from '../../../global_functions/constantsAndFunction'
 
 const defData: Genre[] = []
 const GenresSpreadsheet = () => {
@@ -14,36 +15,26 @@ const GenresSpreadsheet = () => {
     const [data, setData] = useState(defData)
     const [filtredData, setFiltredData] = useState([...defData])
 
+    const [err, setErr] = useState(<></>)
+
     useEffect(() => {
-        load();
+        loadData<Genre>(ModesEndpoints.Genre)
+            .then(data => {
+                setData(
+                    data.sort((a,b) => a.name.localeCompare(b.name))
+                )
+            })
+            .catch(err => handleErr(setErr, err))
     }, [])
 
     useEffect(() => {
         setFiltredData(data)
     }, [data])
 
-    const load = async () => {
-        try {
-            const genres = (await loadData<Genre>(ModesEndpoints.Genre))
-
-            genres.sort((a,b) => a.name.localeCompare(b.name))
-
-            setData(genres)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
-    const remove = async (genre: Genre) => {
-        try {
-            deleteData<Genre>(ModesEndpoints.Genre, [genre])
-
-            load()
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+    const remove = (genre: Genre) => {
+        deleteData<Genre>(ModesEndpoints.Genre, [genre])
+            .then(res => setData([...data.filter(d => d.id !== genre.id)]))
+            .catch(err => handleErr(setErr, err))
     }
 
     const filter = (e:any) => {
@@ -58,6 +49,7 @@ const GenresSpreadsheet = () => {
 
     return (
         <div className='sp'>
+            {err}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <a href="/management/genres/new"><b>Nový</b></a>

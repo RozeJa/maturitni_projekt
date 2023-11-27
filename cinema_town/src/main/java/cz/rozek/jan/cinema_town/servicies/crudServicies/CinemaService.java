@@ -78,7 +78,7 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
         entity.setCity(city);
         
         // ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
-        addHallsToDB(entity, accessJWT);
+        editHalls(entity, accessJWT);
         
         return super.create(entity, accessJWT);
     }
@@ -98,15 +98,20 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
         }
 
         // kdyby bylo změna sálů, tak radši ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
-        addHallsToDB(entity, accessJWT);
+        editHalls(entity, accessJWT);
 
         // ! odeber z db odebrané sály
-        // ! odeber z db odebraná sedadla
+        // ! odeber z db odebraná sedadla -> se stane při odebrání sálů
+        List<Hall> toRemove = cinemaFormDB.getHalls().values().stream().filter(h -> entity.getHalls().get(h.getId()) == null).toList();
+
+        for (Hall hall : toRemove) {
+            hallService.delete(hall.getId(), accessJWT);
+        }
 
         return super.update(id, entity, accessJWT);
     }
 
-    private void addHallsToDB(Cinema entity, String accessJWT) throws ValidationException {
+    private void editHalls(Cinema entity, String accessJWT) throws ValidationException {
         Map<String, Hall> cinemaHalls = new HashMap<>();
         if (entity.getHalls() == null) {
             entity.setHalls(cinemaHalls);
@@ -133,11 +138,13 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
             if (isCinemaRemovable(cinema)) {
 
+                boolean removed = super.delete(id, accessJWT);
+
                 for (Hall hall : cinema.getHalls().values()) {
                     hallService.delete(hall.getId(), accessJWT);
                 }
 
-                return super.delete(id, accessJWT);
+                return removed;
             }
         }
         return false;

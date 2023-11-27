@@ -7,6 +7,7 @@ import DialogErr from '../../../components/DialogErr';
 import { useNavigate } from 'react-router-dom';
 import HallRecord from '../../../components/management/cinemaDetail/HallRecord';
 import SelectInput from '../../../components/SelectInput';
+import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction';
 
 export const validateCinema = (data: Cinema): Array<string> => {
     let errs: Array<string> = []
@@ -27,7 +28,7 @@ export const validateCinema = (data: Cinema): Array<string> => {
 }
 
 let citiesDefault: City[] = []
-const hallRecordsDefault = [<></>]
+const hallRecordsDefault = [<div key={-1} className='hall-record'/>]
 
 const CinemaDetail = ({
     data, 
@@ -44,35 +45,26 @@ const CinemaDetail = ({
 }) => {
 
     const [cities, setCities] = useState(citiesDefault)
-    const [hallRecords, setHallRecords] = useState(hallRecordsDefault)
+    const [hallRecords, setHallRecords] = useState([...hallRecordsDefault])
     const navigate = useNavigate()
 
     useEffect(() => {
-        loadCities()
+        loadData<City>(ModesEndpoints.City)
+            .then(data => setCities(data))
+            .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
     useEffect(() => {
         if (data.halls !== null) {
         
-            const maped = Object.values(data.halls).map((hal) => {
-                return <HallRecord key={hal.id} hall={hal} cinema={data} setCinema={(newData: Cinema) => setData(newData)} />
+            const maped = Object.values(data.halls).map((hal, index) => {
+                return <HallRecord key={index} hall={hal} cinema={data} setCinema={(newData: Cinema) => setData(newData)} />
             })
+            
             
            setHallRecords(maped)
         }
     }, [data])
-
-
-    const loadCities = async () => {
-        try {
-            let cities = (await loadData<City>(ModesEndpoints.City))
-            
-            setCities(cities)
-        } catch (error) {
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení měst"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
-                
-        }
-    }
 
     const storeAndRedirect = async () => {
         
@@ -86,16 +78,9 @@ const CinemaDetail = ({
             return
         }
 
-        try {
-            let stored = await storeData<Cinema>(ModesEndpoints.Cinama, [data]);
-
-            navigate(`/management/halls/${stored[0].id}/new`)
-        } catch (error) {
-            // TODO dořešit přesnou chybu pro uživatele 
-            setErr(<DialogErr err='Nastala chyba při vkládání do db' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} okText={'ok'} />)
-            console.log(error);
-            
-        }
+        storeData<Cinema>(ModesEndpoints.Cinama, [data])
+            .then(data => navigate(`/management/halls/${data[0].id}/new`))
+            .catch(err => handleErr(setErr, err))
     }
 
     const handleCityChange = (e: any) => {

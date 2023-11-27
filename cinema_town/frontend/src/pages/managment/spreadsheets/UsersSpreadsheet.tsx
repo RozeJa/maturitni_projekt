@@ -6,6 +6,7 @@ import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/
 import { useNavigate } from 'react-router-dom'
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
+import { handleErr } from '../../../global_functions/constantsAndFunction'
 
 const defUsers: User[] = []
 const UsersSpreadsheet = () => {
@@ -13,35 +14,23 @@ const UsersSpreadsheet = () => {
     const navigate = useNavigate()    
     const [users, setUsers] = useState([...defUsers])
     const [filtredUsers, setFitredUsers] = useState([...defUsers])
+    
+    const [err, setErr] = useState(<></>)
 
     useEffect(() => {
-        loadUsers();
+        loadData<User>(ModesEndpoints.User)
+            .then(data =>  setUsers(data))
+            .catch(err => handleErr(setErr, err))
     }, [])
     
     useEffect(() => {
         setFitredUsers(users)
     }, [users])
 
-    const loadUsers = async () => {
-        try {
-            const users = (await loadData<User>(ModesEndpoints.User))
-            
-            setUsers(users)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
-    const remove = async (user: User) => {
-        try {
-            deleteData<User>(ModesEndpoints.User, [user])
-
-            loadUsers()
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+    const remove = (user: User) => {
+        deleteData<User>(ModesEndpoints.User, [user])
+            .then(res => setUsers([...users.filter(d => d.id !== user.id)]))
+            .catch(err => handleErr(setErr, err))
     }
 
     const filter = (e: any) => {
@@ -61,6 +50,7 @@ const UsersSpreadsheet = () => {
 
     return (
         <div className='sp'>
+            {err}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <a href="/management/users/new"><b>Nový</b></a>
@@ -75,9 +65,9 @@ const UsersSpreadsheet = () => {
                             }
                             >
                             <>
-                              <p><b>Role:</b> {d.role.name}</p> 
-                              <p>{d.active ? "Aktivován" : "Neaktivován" }</p>  
-                              <p>{d.active ? "Odběratel" : "Není odběratel" }</p> 
+                              <p><b>Role</b> {d.role.name}</p> 
+                              <p><b>{d.active ? "Aktivován" : "Neaktivován" }</b></p>  
+                              <p><b>{d.active ? "Odběratel" : "Není odběratel" }</b></p> 
                             </>
                         </Tile>
                     }) }

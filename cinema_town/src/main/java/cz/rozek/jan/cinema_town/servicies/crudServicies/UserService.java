@@ -1,5 +1,7 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
+import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
+import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 @Service
 public class UserService extends CrudService<User, UserRepository> {
@@ -74,7 +77,12 @@ public class UserService extends CrudService<User, UserRepository> {
     @Override
     public boolean delete(String id, String accessJWT) {
 
-        // TODO zkontrolovat pokud se odebírá admin, tak nebylo možné odebrat posledního
+        User toRemove = repository.findById(id).get();
+
+        List<User> usersWithRSameRole = repository.findAllByRole(toRemove.getRole());
+        if (toRemove.getRole().getName().equals("admin") && usersWithRSameRole.size() <= 1) {
+            throw new SecurityException("You cannot remove last admin.");
+        }
 
         return super.delete(id, accessJWT);
     }

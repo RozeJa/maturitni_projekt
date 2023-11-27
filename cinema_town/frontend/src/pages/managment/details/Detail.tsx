@@ -3,7 +3,7 @@ import './Detail.css'
 import { ApiData, ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI';
 import { useNavigate, useParams } from 'react-router-dom';
 import DialogErr from '../../../components/DialogErr';
-
+import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction';
 
 
 const Detail = <T extends ApiData> ({
@@ -53,23 +53,18 @@ const Detail = <T extends ApiData> ({
         setForm(<InnerForm data={data} handleInputText={handleInputText} handleInputCheckbox={handleInputCheckbox} setData={(newData: T) => (setData(newData))} setErr={(err: JSX.Element) => setErr(err)}></InnerForm>)
     }, [data])
 
-    const load = async (id: string) => {
-        try {
-            let data = (await loadData<T>(modesEndpoint, [id])).pop()
-            if (data !== undefined) {                
-                setData(data)
-            }            
-        } catch (error) {
-            // TODO rozpracovat errory
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení dat"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
-
-            console.log(error);
-            
-        }
-
+    const load = (id: string) => {
+        loadData<T>(modesEndpoint, [id])
+            .then(data => {
+                const d = data.pop()
+                if (d !== undefined) {                
+                    setData(d)
+                }          
+            })
+            .catch(err => handleErrRedirect(setErr, err))
     }
 
-    const store = async () => {
+    const store = () => {
         
         let errs: Array<string> = validateData(data)
         if (errs.length > 0) {
@@ -80,17 +75,10 @@ const Detail = <T extends ApiData> ({
             setErr(<DialogErr err='Chybně vyplněný formulář' description={errLog} dialogSetter={setErr} okText={'Ok'} />)
             return
         }
-
-        try {
-            const resp = await storeData<T>(modesEndpoint, [data]);
-
-            navigate(spreadsheetURL)
-        } catch (error) {
-            // TODO dořešit přesnou chybu pro uživatele 
-            console.log(data);
-            
-            setErr(<DialogErr err='Nastala chyba při vkládání do db' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} okText={'ok'} />)
-        }
+    
+        storeData<T>(modesEndpoint, [data])
+            .then(data => navigate(spreadsheetURL))
+            .catch(err => handleErr(setErr, err))
     }
 
     const handleInputText = (event: any) => {

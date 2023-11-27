@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { emailRegex, pwRegex } from '../../../global_functions/constantsAndFunction'
+import { emailRegex, handleErrRedirect, pwRegex } from '../../../global_functions/constantsAndFunction'
 import User from '../../../models/User'
 import './UserDetail.css'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI';
 import Role, { defaultRole } from '../../../models/Role';
-import DialogErr from '../../../components/DialogErr';
 
 
 export const validateUser = (data: User): Array<string> => {
@@ -53,26 +52,18 @@ const UserDetail = ({
 
 
     useEffect(() => {
-        loadRoles()
-    }, [])
-
-    const loadRoles = async () => {
-        try {
-            let roles = (await loadData<Role>(ModesEndpoints.Role))
-
-
-            roles.unshift(defaultRole)
-                
-            setRoles(roles.map((r) => {
+        loadData<Role>(ModesEndpoints.Role)
+            .then(data => {
+                data.unshift(defaultRole)
+                setRoles(data.map((r) => {
                          
-                return <option key={r.id} value={r.id !== null ? r.id : ''}>
-                    {r.name}
-                </option>
-            }))     
-        } catch (error) {
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení rolí"} dialogSetter={setErr} okText={<a href='/management/users/'>Ok</a>} />)
-        }
-    }
+                    return <option key={r.id} value={r.id !== null ? r.id : ''}>
+                        {r.name}
+                    </option>
+                }))     
+            })
+            .catch(err => handleErrRedirect(setErr, err))
+    }, [])
     
     const handleSelect = (e: any) => {
             

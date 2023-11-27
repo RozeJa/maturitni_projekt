@@ -40,67 +40,59 @@ export enum ModesEndpoints {
 
 // funkce pro načtení dat z api
 export const loadData = async <T extends ApiData>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
-    try {
-        let data: T[] = []
+    let data: T[] = []
 
-        // načti si config
-        const config = await getRequestConfig()
+    // načti si config
+    const config = await getRequestConfig()
 
-        if (ids.length > 0) {
-            // pokud se jedná o sérii id, načti si postupně data
-            for (let i = 0; i < ids.length; i++) {
-                data.push((await axios.get<T>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data);
-            }
-        } else {
-            // jinak načti všechna data
-            data = (await axios.get<T[]>(BASE_URL + modelEndpoint, config)).data
+    if (ids.length > 0) {
+        // pokud se jedná o sérii id, načti si postupně data
+        for (let i = 0; i < ids.length; i++) {
+            data.push((await axios.get<T>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data);
         }
-
-        return data
-    } catch (error) {
-        throw error
+    } else {
+        // jinak načti všechna data
+        data = (await axios.get<T[]>(BASE_URL + modelEndpoint, config)).data
     }
+
+    return data
 }
 
 // funkce pro uložení dat na server
 export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints, data: T[]): Promise<ApiData[]> => {
-    try {
-        let reseavedData: ApiData[] = []
+    let reseavedData: ApiData[] = []
 
-        let config = await getRequestConfig()
-        
-        if (config.headers !== undefined)
-            config.headers["Content-Type"] = "application/json"
+    let config = await getRequestConfig()
+    
+    if (config.headers !== undefined)
+        config.headers["Content-Type"] = "application/json"
 
-        for (let i = 0; i < data.length; i++) {
-         
-            const url = BASE_URL + modelEntpoint
+    for (let i = 0; i < data.length; i++) {
+     
+        const url = BASE_URL + modelEntpoint
 
-            // TODO zkontrolovat zda podmínka funguje
-            if (data[i].id === undefined || data[i].id === null) {
-                // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
-                if (modelEntpoint === ModesEndpoints.Film) {
+        // TODO zkontrolovat zda podmínka funguje
+        if (data[i].id === undefined || data[i].id === null) {
+            // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
+            if (modelEntpoint === ModesEndpoints.Film) {
 
-                    reseavedData.push(await handleFilm(url, data[i], config))
-                } else {
-                    // pokud je id undefinited vytváříš záznam
-                    reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
-                }
+                reseavedData.push(await handleFilm(url, data[i], config))
             } else {
-                // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
-                if (modelEntpoint === ModesEndpoints.Film) {
-                    reseavedData.push(await handleFilm(url, data[i], config))
-                } else {
-                    // pokud id není undefinited záznam edituješ
-                    reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
-                }
+                // pokud je id undefinited vytváříš záznam
+                reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
+            }
+        } else {
+            // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
+            if (modelEntpoint === ModesEndpoints.Film) {
+                reseavedData.push(await handleFilm(url, data[i], config))
+            } else {
+                // pokud id není undefinited záznam edituješ
+                reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
             }
         }
-
-        return reseavedData
-    } catch (error) {
-        throw error
     }
+
+    return reseavedData
 }
 
 const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>): Promise<Film> => {
@@ -152,19 +144,15 @@ const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>
 
 // funkce pro odstranění dat
 export const deleteData = async <T extends ApiData>(modelEntpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
-    try {
-        for (let i = 0; i < data.length; i++) {
-         
-            // načti si config
-            const config = await getRequestConfig()
+    for (let i = 0; i < data.length; i++) {
+     
+        // načti si config
+        const config = await getRequestConfig()
 
-            await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
-        }
-
-        return data
-    } catch (error) {
-        throw error
+        await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
     }
+
+    return data
 }
 
 export const register = async (user: User): Promise<boolean> => {

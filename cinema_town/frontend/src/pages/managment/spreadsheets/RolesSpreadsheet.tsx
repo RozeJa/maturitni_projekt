@@ -6,6 +6,7 @@ import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/
 import { useNavigate } from 'react-router-dom'
 import Tile from '../../../components/management/Tile'
 import Filter from '../../../components/management/Filter'
+import { handleErr } from '../../../global_functions/constantsAndFunction'
 
 const defData: Role[] = []
 const RolesSpreadsheet = () => {
@@ -14,34 +15,22 @@ const RolesSpreadsheet = () => {
     const [data, setData] = useState([...defData])
     const [filtredData, setFiltredData] = useState([...defData])
 
+    const [err, setErr] = useState(<></>)
+
     useEffect(() => {
-        load();
+        loadData<Role>(ModesEndpoints.Role)
+            .then(data => setData(data))
+            .catch(err => handleErr(setErr, err))
     }, [])
 
     useEffect(() => {
         setFiltredData(data)
     }, [data])
 
-    const load = async () => {
-        try {
-            const roles = (await loadData<Role>(ModesEndpoints.Role))
-
-            setData(roles)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
-    const remove = async (role: Role) => {
-        try {
-            deleteData<Role>(ModesEndpoints.Role, [role])
-
-            load()
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+    const remove = (role: Role) => {
+        deleteData<Role>(ModesEndpoints.Role, [role])
+            .then(res => setData([...data.filter(d => d.id !== role.id)]))
+            .catch(err => handleErr(setErr, err))
     }
 
     const filter = (e:any) => {
@@ -57,6 +46,7 @@ const RolesSpreadsheet = () => {
 
     return (
         <div className='sp'>
+            {err}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <a href="/management/roles/new"><b>Nový</b></a>
@@ -70,8 +60,7 @@ const RolesSpreadsheet = () => {
                                 <input type='button' value='Odebrat' onClick={() => remove(d)} />
                             }
                             >
-                            <p>
-                                Počet přidělených oprávnění {Object.values(d.permissions !== null ? d.permissions : {}).length}
+                            <p><b>Přidělených oprávnění </b>{Object.values(d.permissions !== null ? d.permissions : {}).length}
                             </p>
                         </Tile>
                     }) }

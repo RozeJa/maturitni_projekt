@@ -5,6 +5,9 @@
     padding-right: 20%;
     padding-left: 5%;
 }
+.hall-record:hover {
+    background-color: var(--color--grey--lightest);
+}
 .hall-record p {
     font-size: 1.5em;
     cursor: pointer;

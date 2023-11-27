@@ -1,5 +1,7 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +51,22 @@ public class SeatService extends CrudService<Seat, SeatRepository> {
         } 
 
         return super.verifyAccess(accessJWT, requiredPermission);
+    }
+
+    @Override
+    public boolean delete(String id, String accessJWT) {
+        // TODO možná ošetřit, že sedeadlo nepůjde odebrat, pokud už na něj byla provedena rezervace
+        
+        return super.delete(id, accessJWT);
+    }
+
+    public void deleteAll(List<Seat> seats, String accessJWT) throws SecurityException, AuthRequired {
+
+        // TODO možná ošetřit, že sedeadlo nepůjde odebrat, pokud už na něj byla provedena rezervace
+
+        // Ověř oprávnění
+        verifyAccess(accessJWT, deletePermissionRequired());
+
+        repository.deleteAll(seats);
     }
 }

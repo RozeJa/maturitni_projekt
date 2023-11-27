@@ -1,6 +1,7 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -61,23 +62,28 @@ public class HallService extends CrudService<Hall, HallRepository> {
     public Hall create(Hall entity, String accessJWT) throws ValidationException {
         
         // přidej sedadla do db
-        addSeatsToDB(entity, accessJWT);
+        editSeats(entity, accessJWT);
 
         return super.create(entity, accessJWT);
     }
 
     @Override
     public Hall update(String id, Hall entity, String accessJWT) throws ValidationException {
+
+        Hall editedFromDB = repository.findById(id).get();
     
         // přidej nová sedadla do db
-        addSeatsToDB(entity, accessJWT);
+        editSeats(entity, accessJWT);
 
         // ! odeber z db odebraná sedadla
+        List<Seat> removedSeats = editedFromDB.getSeats().values().stream().filter(s -> entity.getSeats().get(s.getId()) == null).toList();
+
+        seatService.deleteAll(removedSeats, accessJWT);
 
         return super.update(id, entity, accessJWT);
     }
 
-    private void addSeatsToDB(Hall entity, String accessJWT) throws ValidationException {
+    private void editSeats(Hall entity, String accessJWT) throws ValidationException {
         
         Map<String, Seat> hallSeats = new HashMap<>();
 
@@ -100,17 +106,10 @@ public class HallService extends CrudService<Hall, HallRepository> {
             Hall hall = hallOptional.get();
             
             if (isHallRemovable(hall.getId())) {
-                /*
-                for (Seat[] row : hall.getSeats()) {
-                    for (Seat seat : row) {
-                        seatService.delete(seat.getId(), accessJWT);
-                    }
-                }*/
-                for (Seat seat : hall.getSeats().values()) {
-                    seatService.delete(seat.getId(), accessJWT);
-                }
+                boolean removed = super.delete(id, accessJWT);
+                seatService.deleteAll(hall.getSeats().values().stream().toList(), accessJWT);
 
-                return super.delete(id, accessJWT);
+                return removed;
             }
         }
         
@@ -118,6 +117,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
     }
 
     public boolean isHallRemovable(String id) {
-        return projectionRepository.findByHallId(id).isEmpty();
+        Hall toRemove = repository.findById(id).get();
+        return projectionRepository.findByHall(toRemove).isEmpty();
     }
 }

@@ -153,7 +153,7 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
         E entity = repository.findById(id).get();
 
         // pokud záznam existuje smaž ho 
-        if (entity == null) {
+        if (entity != null) {
             repository.delete(entity);
             return true;
         }

@@ -5,7 +5,7 @@ import './HallDetail.css'
 import { useEffect, useState } from 'react'
 import Cinema from '../../../models/Cinema'
 import { ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI'
-import DialogErr from '../../../components/DialogErr'
+import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 
 export const validateHall = (data: Hall): Array<string> => {
     let errs: Array<string> = []
@@ -17,9 +17,7 @@ export const validateHall = (data: Hall): Array<string> => {
     if (Object.values(data.seats).filter(s => s.seat).length < (data.rows * data.columns / 2 - 1))
         errs.push("Prosím upravte rozložení sálu. Aktuálně obsahuje příliš mnoho prázdných míst. (uličky mezi řadami jsou samozřejmostí a není třeba je vykreslovat).")
 
-
     return errs
-
 }
 
 const HallDetail = () => {
@@ -70,33 +68,25 @@ const HallDetail = () => {
     useEffect(() => {
         if (typeof id === 'string') {
             load(id)
-        }
-        
+        }        
     }, [])
 
     useEffect(() => {
         setValueField(generateField())        
     }, [hall])
 
-    const load = async (id: string) => {
-        try {
-            let data = (await loadData<Hall>(ModesEndpoints.Hall, [id])).pop()
-            if (data !== undefined ) {
-                console.log(data);
-                
-                setHall(data)
-            }            
-        } catch (error) {
-            // TODO rozpracovat errory
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení dat"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
-
-            console.log(error);
-        }
+    const load = (id: string) => {
+        loadData<Hall>(ModesEndpoints.Hall, [id])
+            .then(data => {
+                const d = data.pop()
+                if (d !== undefined) {
+                    setHall(d)
+                }    
+            })
+            .catch(err => handleErrRedirect(setErr, err))
     }
 
-    const store = async () => {
-
-
+    const store = () => {
         const seats: { [key: string]: Seat } = {}
         if (Object.keys(hall.seats).length === 0) {
             valueField.forEach((row, rowIndex) => {
@@ -120,29 +110,29 @@ const HallDetail = () => {
         }
         
         hall.seats = seats
-
         console.log(hall);
         
-    
-        try {
-            // načti kino
-            let cinema: Cinema = (await loadData<Cinema>(ModesEndpoints.Cinama, [cinemaId !== undefined ? cinemaId : '']))[0]
-            
-            // má tento sál
-            const halls = cinema.halls !== null ? cinema.halls : {}
-            if (Object.keys(cinema.halls).length === 0) {
-                halls[hall.id !== null? hall.id : ''] = hall
-            } else {
-                halls[hall.id !== null ? hall.id : `t-${Math.random()}`] = hall
-            }
-            cinema.halls = halls;
-            
-            (await storeData<Cinema>(ModesEndpoints.Cinama, [cinema]))
-            navigate(`/management/cinemas/${cinemaId}`)
-        } catch (error) {
-            setErr(<DialogErr err='Nastala chyba při načítání nebo ukládání dat na server' description='Přesné změní chyby nebylo dosud implementováno' dialogSetter={setErr} okText={'ok'} />)
-            
-        }
+        loadData<Cinema>(ModesEndpoints.Cinama, [cinemaId !== undefined ? cinemaId : ''])
+            .then(data => {
+                const cinema = data[0]
+
+                // má tento sál
+                const halls = cinema.halls !== null ? cinema.halls : {}
+                if (Object.keys(cinema.halls).length === 0) {
+                    halls[hall.id !== null? hall.id : ''] = hall
+                } else {
+                    halls[hall.id !== null ? hall.id : `t-${Math.random()}`] = hall
+                }
+                cinema.halls = halls;
+                return cinema;
+            })
+            .then(cinema => 
+                storeData<Cinema>(ModesEndpoints.Cinama, [cinema])
+                    .then(data => navigate(`/management/cinemas/${cinemaId}`))
+                    .catch(err => handleErr(setErr, err))
+            )
+            .catch(err => handleErr(setErr, err))
+
     }
 
     const handleInputNumber = (event: any) => {
@@ -160,7 +150,6 @@ const HallDetail = () => {
     }, [hall])
 
     useEffect(()=> {
-    
         const table = <table>
             <tbody>
             {valueField.map((row) => {

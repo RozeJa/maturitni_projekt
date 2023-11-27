@@ -6,6 +6,7 @@ import Cinema from '../../../models/Cinema'
 import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/ServerAPI'
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
+import { handleErr } from '../../../global_functions/constantsAndFunction'
 
 const defCinemas: Cinema[] = []
 
@@ -15,6 +16,8 @@ const CinemasSpreadsheet = () => {
     const [cinemas, setCinemas] = useState([...defCinemas])
     const [filtredCinemas, setFiltredCinemas] = useState([...defCinemas])
 
+    const [err, setErr] = useState(<></>)
+    
     useEffect(() => {
         loadCinemas()
     }, [])
@@ -24,25 +27,15 @@ const CinemasSpreadsheet = () => {
     }, [cinemas])
 
     const loadCinemas = async () => {
-        try {
-            const cinemas = await loadData<Cinema>(ModesEndpoints.Cinama)
-
-            setCinemas(cinemas)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+        loadData<Cinema>(ModesEndpoints.Cinama)
+            .then(data => setCinemas(data))
+            .catch(err => handleErr(setErr, err))
     }
 
-    const remove = async (cinema: Cinema) => {
-        try {
-            deleteData<Cinema>(ModesEndpoints.Cinama, [cinema])
-
-            loadCinemas()
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+    const remove = (cinema: Cinema) => {
+        deleteData<Cinema>(ModesEndpoints.Cinama, [cinema])
+            .then(res => setCinemas([...cinemas.filter(d => d.id !== cinema.id)]))
+            .catch(err => handleErr(setErr, err))
     }
 
     const filter = (e:any) => {
@@ -69,6 +62,7 @@ const CinemasSpreadsheet = () => {
 
     return (
         <div className='sp'>
+            {err}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <a href="/management/cinemas/new"><b>Nový</b></a>
@@ -85,9 +79,7 @@ const CinemasSpreadsheet = () => {
                             >
                             <>
                                 <p><b>Sály</b> {Object.values(d.halls).map(h=>h.designation).join(", ")}</p>
-                                <p>
-                                    Počet sálů {Object.values(d.halls).length}.
-                                </p>
+                                <p><b>Počet sálů</b> {Object.values(d.halls).length}</p>
                             </>
                         </Tile>
                     }) }

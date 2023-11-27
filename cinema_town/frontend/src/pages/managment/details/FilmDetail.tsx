@@ -7,7 +7,7 @@ import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
 import Genre, { defaultGerne } from '../../../models/Genre'
-import { formatDate } from '../../../global_functions/constantsAndFunction'
+import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -17,7 +17,7 @@ export const validateFilm = (data: Film): Array<string> => {
     if (data.original.trim() === '')
         errs.push("Původní dabing nesmí být nevyplněný.")
     if (data.picture.trim() === '')
-        errs.push("Obrázek fulmu nesmí být nevyplněný.")
+        errs.push("Obrázek filmu nesmí být nevyplněný.")
     if (data.genres.length === 0) 
         errs.push("Film musí být zařazen alespoň do jednoho žánru.")
     if (data.director.surname === '') 
@@ -39,8 +39,6 @@ const defPeoples : People[] = []
 const defGenres : Genre[] = [{... defaultGerne}]
 const defPeople : People = defaultPeople
 const defActors : { [key: string]: People } = { '0': defPeople }
-const defTitles : string[] = [""]
-const defDabings : string[] = [""]
 
 // TODO DOLADIT
 // TODO předělat people input ať jako první bere jméno. (poslední slovo je příjmení ostatní spoj do jména)
@@ -72,8 +70,16 @@ const FilmDetail = ({
     const [loaded, setLoaded] = useState(false)
     
     useEffect(() => {
-        loadPeoples()
-        loadGenres()
+        loadData<People>(ModesEndpoints.People)
+            .then(data => setPeoples(data))
+            .catch(err => handleErrRedirect(setErr, err))
+
+        loadData<Genre>(ModesEndpoints.Genre)
+            .then(data => {
+                data.unshift(defaultGerne)
+                setGenres(data)
+            })
+            .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
     useEffect(() => {
@@ -128,30 +134,6 @@ const FilmDetail = ({
             setData({... data, ["file"]: file, ["picture"]: file["name"]})
     }, [file])
 
-    const loadPeoples = async () => {
-        try {
-            let peoples = (await loadData<People>(ModesEndpoints.People))
-
-            setPeoples(peoples)
-        } catch (error) {
-            setErr(
-                setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení lidí."} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
-            )
-        }
-    }
-    const loadGenres = async () => {
-        try {
-            let genres = (await loadData<Genre>(ModesEndpoints.Genre))
-            genres.unshift(defaultGerne)
-
-            setGenres(genres)
-        } catch (error) {
-            setErr(
-                setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení žánrů."} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
-            )
-        }
-    }
-
     const handleNumberChange = (e: any) => {
         const { name, value } = e.target
 
@@ -197,6 +179,7 @@ const FilmDetail = ({
                             } else {
                                 setActors(newActors)
                             }
+                           
                         }}
                     />
 
@@ -205,7 +188,7 @@ const FilmDetail = ({
             )
         })
    
-    const renderGenres = selectedGenres.map(genre => {
+    const renderGenres = selectedGenres.map((genre) => {
         const keys: {[key: string]: string} = {} 
 
         const options = genres.map((g,i) => {

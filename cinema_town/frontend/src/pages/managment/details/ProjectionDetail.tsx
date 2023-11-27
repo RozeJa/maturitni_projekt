@@ -6,7 +6,7 @@ import Film, { defaultFilm } from '../../../models/Film'
 import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import { defaultHall } from '../../../models/Hall'
-import { formatDate } from '../../../global_functions/constantsAndFunction'
+import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 import { useParams } from 'react-router-dom'
 
 export const validateProjection = (data: Projection): Array<string> => {
@@ -58,7 +58,19 @@ const ProjectionDetail = ({
     const { id } = useParams<string>()
 
     useEffect(() => {
-        load()
+        loadData<Cinema>(ModesEndpoints.Cinama)
+            .then(data => {
+                data.unshift({...defaultCinema})
+                setCinemas(data)
+            })
+            .catch(err => handleErrRedirect(setErr, err))
+            
+         loadData<Film>(ModesEndpoints.Film)
+            .then(data => {
+                data.unshift({...defaultFilm})
+                  setFilms(data)
+               })
+           .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
     useEffect(() => {
@@ -210,21 +222,6 @@ const ProjectionDetail = ({
             )
         }
     }, [data, changeDefData])
-
-    const load = async () => {
-        try {
-            const cinemas = await loadData<Cinema>(ModesEndpoints.Cinama);
-            cinemas.unshift({...defaultCinema})
-            
-            const films = await loadData<Film>(ModesEndpoints.Film)
-            films.unshift({...defaultFilm})
-
-            setCinemas(cinemas)
-            setFilms(films)
-        } catch (error) {
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro multikin nebo filmů"} dialogSetter={setErr} okText={<a href='/management/'>Ok</a>} />)
-        }
-    }
 
     return (
         <>

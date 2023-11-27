@@ -7,6 +7,7 @@ import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
 import Reservation from '../../../models/Reservation'
+import { handleErr } from '../../../global_functions/constantsAndFunction'
 
 const defProjections: Projection[] = []
 const defCinemas: Cinema[] = []
@@ -24,9 +25,29 @@ const ProjectionsSpreadsheet = () => {
     const [filtredProjections, setFiltredProjections] = useState([...defProjections])
     const [selectedCinema, setSelectedCinema] = useState({...defCinema})
     const [lastEvent, setLastEvent] = useState(defAny)
+    
+    const [err, setErr] = useState(<></>)
 
     useEffect(() => {
-        load()
+        loadData<Projection>(ModesEndpoints.Projection)
+            .then(data => {
+                setProjections(
+                    data.sort((a,b) => a.dateTime.toLocaleString().localeCompare(b.dateTime.toLocaleString()))
+                )
+            })
+            .catch(err => handleErr(setErr, err))
+
+
+        loadData<Cinema>(ModesEndpoints.Cinama)
+            .then(data => {
+                data.unshift({...defCinema})
+                setCinemas(data)
+            })
+            .catch(err => handleErr(setErr, err))
+
+        loadData<Reservation>(ModesEndpoints.Reservation)
+            .then(data => setReservations(data))
+            .catch(err => handleErr(setErr, err))
     }, [])
 
     useEffect(() => {
@@ -37,47 +58,10 @@ const ProjectionsSpreadsheet = () => {
         filter(lastEvent)
     }, [selectedCinema])
 
-    const load = async () => {
-        try {
-            const projections = (await loadData<Projection>(ModesEndpoints.Projection))
-            
-            projections.sort((a,b) => a.dateTime.toLocaleString().localeCompare(b.dateTime.toLocaleString()))
-
-            setProjections(projections)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-
-        try {
-            const cinemas = (await loadData<Cinema>(ModesEndpoints.Cinama))
-            cinemas.unshift({...defCinema})
-
-            setCinemas(cinemas)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-
-        try {
-            const reservations = (await loadData<Reservation>(ModesEndpoints.Reservation))
-
-            setReservations(reservations)
-        } catch (error) {
-            console.log(error);
-           throw error 
-        }
-    }
-
-    const remove = async (projection: Projection) => {
-        try {
-            deleteData<Projection>(ModesEndpoints.Projection, [projection])
-
-            load()
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+    const remove = (projection: Projection) => {
+        deleteData<Projection>(ModesEndpoints.Projection, [projection])
+            .then(res => setProjections([...projections.filter(d => d.id !== projection.id)]))
+            .catch(err => handleErr(setErr, err))
     }
 
     const filter = (e:any) => {
@@ -115,6 +99,7 @@ const ProjectionsSpreadsheet = () => {
     
     return (
         <div className='sp'>
+            {err}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <div className="projection-header-filter-cinema">
@@ -154,9 +139,9 @@ const ProjectionsSpreadsheet = () => {
                             }
                             >
                             <>
-                                <p><b>Multikino:</b> {address}</p>
-                                <p><b>Počet volných míst:</b> {seats - reserved}</p>
-                                <p><b>Míst celkem:</b> {seats}</p>
+                                <p><b>Multikino</b> {address}</p>
+                                <p><b>Počet volných míst</b> {seats - reserved}</p>
+                                <p><b>Míst celkem</b> {seats}</p>
                             </>
                         </Tile>
                     }) }

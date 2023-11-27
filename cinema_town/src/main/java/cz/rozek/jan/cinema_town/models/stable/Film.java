@@ -108,7 +108,7 @@ public class Film implements Entity {
             throw new ValidationException("Time cant be negative or zero.");
         if (time > 720)
             throw new ValidationException("Time cant be bigger number that 720 minits.");
-        if (pg <= 3) 
+        if (pg < 3) 
             throw new ValidationException("PG cant be negative or zero.");
         if (pg > 99)
             throw new ValidationException("Invalid pg number. Limit is 99");

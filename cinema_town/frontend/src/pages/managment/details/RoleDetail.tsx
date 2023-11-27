@@ -4,6 +4,7 @@ import './RoleDetail.css'
 import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import Permission from '../../../models/Permission'
+import { handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 
 export const validateRole = (data: Role): Array<string> => {
     let errs: Array<string> = []
@@ -29,7 +30,17 @@ const RoleDetail = ({
     const [permisions, setPermissions] = useState([<></>])
 
     useEffect(() => {
-        loadPermissions()
+        loadData<Permission>(ModesEndpoints.Permission)
+            .then(data => {
+                let map = new Map<string, Permission>()
+            
+                data.sort((a,b) => a.permission.localeCompare(b.permission)).forEach((perm) => {
+                    map.set(perm.id !== null ? perm.id : '', perm);
+                })
+                
+                setPermissionsData(map) 
+            })
+            .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
     useEffect(() => {
@@ -78,25 +89,6 @@ const RoleDetail = ({
       
         setData({ ...data, ['permissions']: permisions})
         reprintPermissions()
-        
-    }
-
-
-    const loadPermissions = async () => {
-        try {
-
-            let permisions = (await loadData<Permission>(ModesEndpoints.Permission))
-
-            let map = new Map<string, Permission>()
-            
-            permisions.sort((a,b) => a.permission.localeCompare(b.permission)).forEach((perm) => {
-                map.set(perm.id !== null ? perm.id : '', perm);
-            })
-            
-            setPermissionsData(map)            
-        } catch (error) {
-            setErr(<DialogErr err='Přístup odepřen' description={"Nemáte dostatečné oprávnění pro načtení oprávnění"} dialogSetter={setErr} okText={<a href='/management/roles/'>Ok</a>}/>)
-        }
     }
 
     return (

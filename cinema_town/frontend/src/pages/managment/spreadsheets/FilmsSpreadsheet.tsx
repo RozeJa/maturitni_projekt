@@ -7,6 +7,7 @@ import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/
 import Genre, {defaultGerne} from '../../../models/Genre'
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
+import { handleErr } from '../../../global_functions/constantsAndFunction'
 
 const defFilms: Film[] = []
 const defGenres: Genre[] = []
@@ -22,8 +23,23 @@ const FilmsSpreadsheet = () => {
 
     const [lastValue, setLastValue] = useState('')
 
+    const [err, setErr] = useState(<></>)
+    
     useEffect(() => {
-        load()
+        loadData<Film>(ModesEndpoints.Film)
+            .then(data => {
+                setFilms(
+                    data.sort((a,b) => a.name.localeCompare(b.name))
+                    )
+            })
+            .catch(err => handleErr(setErr, err))
+
+        loadData<Genre>(ModesEndpoints.Genre)
+            .then(data => {
+                data.unshift({...defGenre})
+                setGenres(data)
+            })
+            .catch(err => handleErr(setErr, err))
     }, [])
 
     useEffect(() => {
@@ -34,39 +50,10 @@ const FilmsSpreadsheet = () => {
         filter(lastValue)
     }, [selectedGenre])
 
-    const load = async () => {
-        
-        try {
-            const films = (await loadData<Film>(ModesEndpoints.Film))
-
-            films.sort((a,b) => a.name.localeCompare(b.name))
-
-            setFilms(films)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-        
-        try {
-            const genres = (await loadData<Genre>(ModesEndpoints.Genre))
-            genres.unshift({...defGenre})
-
-            setGenres(genres)
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
-    const remove = async (film: Film) => {
-        try {
-            deleteData<Film>(ModesEndpoints.Film, [film])
-
-            load()
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+    const remove = (film: Film) => {
+        deleteData<Film>(ModesEndpoints.Film, [film])
+            .then(res => setFilms([...films.filter(d => d.id !== film.id)]))
+            .catch(err => handleErr(setErr, err))
     }
 
     const filter = (e:any) => {
@@ -104,6 +91,7 @@ const FilmsSpreadsheet = () => {
 
     return (        
         <div className='sp'>
+            {err}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <div className='film-header-filter-genre'>

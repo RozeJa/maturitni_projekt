@@ -24,8 +24,6 @@ public class CityService extends CrudService<City, CityRepository> {
         this.authService = authService;
     }
 
-    // TODO tyto oprávnění je třeba přidat do db
-
     @Override
     public String readPermissionRequired() {
         return "city-read";

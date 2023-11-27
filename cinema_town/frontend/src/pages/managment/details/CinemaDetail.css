@@ -25,4 +25,5 @@
 .cinema-detail-halls-body {
     overflow: auto;
     max-height: 40vh;
+    background-color: white;
 } 

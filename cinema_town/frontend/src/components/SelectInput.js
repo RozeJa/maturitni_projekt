@@ -27,6 +27,9 @@ function SelectInput(props) {
 
   const handleSelectOption = (option) => {
     setInputValue(option);
+    props.onChange({target: {
+      value: option
+    }});
     setFilteredOptions([]); // Skryj seznam možností
   };
 
