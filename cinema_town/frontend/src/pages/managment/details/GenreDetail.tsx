@@ -1,5 +1,6 @@
 import './GenreDetail.css'
 import Genre from '../../../models/Genre'
+import SmartInput from '../../../components/SmartInput'
 
 export const validateGenre = (data: Genre): Array<string> => {
     let errs: Array<string> = []
@@ -26,10 +27,18 @@ const GenreDetail = ({
 }) => {
 
     return (
-       <>
+        <>
            <label>Název žánru</label>
            <input name='name' type="text" value={data.name} placeholder='název žánru' onChange={(e: any) => handleInputText(e)} />
-       </>
+            <SmartInput
+                label={'Název žánru'}
+                name={'name'}
+                type={'text'}
+                value={data.name}
+                onChange={(e: any) => handleInputText(e)}
+                >
+            </SmartInput>   
+        </>
     )
 }
 

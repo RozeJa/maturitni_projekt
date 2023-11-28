@@ -74,15 +74,20 @@ const UserDetail = ({
 
         setData({ ...data, [name]: role})
     }
+
+    const handleInput = (e: any) => {
+        if (data.id === null) 
+            handleInputText(e)
+    }
     
     return (
         <>
             <label>Email</label>
-            <input name='email' type="text" value={data.email} placeholder='email' onChange={(e: any) => handleInputText(e)} disabled={data.id !== null} />
+            <input name='email' type="text" value={data.email} placeholder='email' onChange={(e: any) => handleInput(e)} disabled={data.id !== null} />
             <label>Heslo</label>
-            <input name='password' type="password" placeholder='password' onChange={(e: any) => handleInputText(e)} disabled={data.id !== null} />
+            <input name='password' type="password" placeholder='password' onChange={(e: any) => handleInput(e)} disabled={data.id !== null} />
             <label>Potvrzení hesla</label>
-            <input name='password2' type="password" placeholder='password' onChange={(e: any) => handleInputText(e)} disabled={data.id !== null} />
+            <input name='password2' type="password" placeholder='password' onChange={(e: any) => handleInput(e)} disabled={data.id !== null} />
             <div className="chechbox">
                 <label>Odběratel</label>
                 <input name='subscriber' type="checkbox" checked={data.subscriber} onChange={(e: any) => handleInputCheckbox(e)} disabled={data.id !== null} />
