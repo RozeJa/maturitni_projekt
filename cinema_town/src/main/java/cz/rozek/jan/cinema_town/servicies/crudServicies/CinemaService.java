@@ -100,6 +100,8 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
         // kdyby bylo změna sálů, tak radši ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
         editHalls(entity, accessJWT);
 
+        Cinema updated = super.update(id, entity, accessJWT);
+
         // ! odeber z db odebrané sály
         // ! odeber z db odebraná sedadla -> se stane při odebrání sálů
         List<Hall> toRemove = cinemaFormDB.getHalls().values().stream().filter(h -> entity.getHalls().get(h.getId()) == null).toList();
@@ -108,7 +110,7 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
             hallService.delete(hall.getId(), accessJWT);
         }
 
-        return super.update(id, entity, accessJWT);
+        return updated;
     }
 
     private void editHalls(Cinema entity, String accessJWT) throws ValidationException {
@@ -123,7 +125,8 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
                 Hall hallFromDB = hallService.create(hall, accessJWT);
                 cinemaHalls.put(hallFromDB.getId(), hallFromDB);
             } else {
-                cinemaHalls.put(hall.getId(), hall);
+                Hall updated = hallService.update(hall.getId(), hall, accessJWT);
+                cinemaHalls.put(hall.getId(), updated);
             }
         }
 

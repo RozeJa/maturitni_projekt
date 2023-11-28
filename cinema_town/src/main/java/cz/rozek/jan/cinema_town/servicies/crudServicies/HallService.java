@@ -92,6 +92,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
                 Seat seatFromDB = seatService.create(seat, accessJWT);
                 hallSeats.put(seatFromDB.getId(), seatFromDB);
             } else {
+                Seat updated = seatService.update(seat.getId(), seat, accessJWT);
                 hallSeats.put(seat.getId(), seat);
             }
         }

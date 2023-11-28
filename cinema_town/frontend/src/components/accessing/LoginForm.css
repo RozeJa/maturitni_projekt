@@ -6,7 +6,10 @@
 .login-form {
     display: flex;
     flex-direction: column;
-    width: min-content;
+    background-color: var(--color--grey--lightest);
+    padding: 2em;
+    border-radius: .5em;
+    background-color: #ff000010;
 }
 
 .login-form p {

@@ -8,6 +8,7 @@ import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
 import Genre, { defaultGerne } from '../../../models/Genre'
 import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
+import SmartInput from '../../../components/SmartInput'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -295,20 +296,36 @@ const FilmDetail = ({
 
     return (
         <>
-            <label>Název</label>
-            <input name='name' type="text" value={data.name} onChange={(e: any) => handleInputText(e)}/>
+            <SmartInput
+                label={'Název'}
+                name={'name'}
+                type={'text'}
+                value={data.name}
+                onChange={(e: any) => handleInputText(e)}
+            />   
             
             <label>Popis</label>
             <textarea name='description' value={data.description} cols={30} rows={10} onChange={(e: any) => handleInputText(e)} />
 
             <label>Obrázek</label>
             <input type="file" onChange={(e: any) => setFile(e.target.files[0])} accept="image/jpeg, image/png, image/jpg" />
+            
+            <SmartInput
+                label={'Trailer'}
+                name={'trailer'}
+                type={'text'}
+                value={data.trailer}
+                onChange={(e: any) => handleInputText(e)}
+            />   
 
-            <label>Trailer</label>
-            <input name='trailer' type="text" value={data.trailer} onChange={(e: any) => handleInputText(e)}/>
+            <SmartInput
+                label={'Originální znění'}
+                name={'original'}
+                type={'text'}
+                value={data.original} 
+                onChange={(e: any) => handleInputText(e)}
+            />   
 
-            <label>Originální znění</label>
-            <input name='original' type="text" value={data.original} onChange={(e: any) => handleInputText(e)}/>
             <div className='film-detail-checkbox'>
                 <label>Použít pro prezenci</label>
                 <input name='blockBuster' type="checkbox" checked={data.blockBuster} onChange={(e: any) => handleInputCheckbox(e)}/>                
@@ -341,21 +358,46 @@ const FilmDetail = ({
             <div>
                 { renderDabings }
             </div>
+            
+            <SmartInput
+                label={'Délka trvání (v min)'}
+                name={'time'}
+                type={'number'}
+                value={data.time} 
+                onChange={handleNumberChange}
+            />   
 
-            <label>Délka trvání (v min)</label>
-            <input name='time' type="number" min={0} max={720} value={data.time} onChange={handleNumberChange} />
+            <SmartInput
+                label={'Věková bariéra'}
+                name={'pg'}
+                type={'number'}
+                value={data.pg} 
+                onChange={handleNumberChange}
+            />   
 
-            <label>Věková bariéra</label>
-            <input name='pg' type="number" min={3} max={99} value={data.pg} onChange={handleNumberChange} />
+            <SmartInput
+                label={'Předpokládaná cena za lístek'}
+                name={'defaultCost'}
+                type={'number'}
+                value={data.defaultCost} 
+                onChange={handleNumberChange}
+            />   
+            
+            <SmartInput
+                label={'Kdy byl film vydán'}
+                name={'production'}
+                type={'text'}
+                value={data.production} 
+                onChange={(e: any) => handleInputText(e)}
+            />   
 
-            <label>Předpokládaná cena za lístek</label>
-            <input name='defaultCost' type="number" min={0} value={data.defaultCost} onChange={handleNumberChange} />
-
-            <label>Kdy byl film vydán</label>
-            <input name='production' type="date" value={formatDate(data.production)} onChange={handleDateChange} />
-
-            <label>Naše první promítání</label>
-            <input name='premier' type="date" value={formatDate(data.premier)} onChange={handleDateChange} />
+            <SmartInput
+                label={'Premiéra'}
+                name={'premier'}
+                type={'date'}
+                value={formatDate(data.premier)} 
+                onChange={handleDateChange}
+            />   
         </>
     )
 }

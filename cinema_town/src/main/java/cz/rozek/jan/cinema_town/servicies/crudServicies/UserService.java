@@ -62,8 +62,19 @@ public class UserService extends CrudService<User, UserRepository> {
 
         User editor = authService.verifyAccess(accessJWT, "user-update");
 
-        if (editor.getRole().getName().equals("admin")) 
+        if (editor.getRole().getName().equals("admin")) {
+
+            List<User> admins = repository.findAllByRole(userFromDB.getRole());
+            if (
+                editor.getId().equals(id) && 
+                admins.size() <= 1 && 
+                !entity.getRole().getId().equals(editor.getRole().getId())
+                ) 
+                throw new SecurityException("Last admin cant change his role.");
+            
+
             userFromDB.setRole(entity.getRole());
+        }
 
         if (editor.getId().equals(id)) {
             userFromDB.setTrustedDevicesId(entity.getTrustedDevicesId());

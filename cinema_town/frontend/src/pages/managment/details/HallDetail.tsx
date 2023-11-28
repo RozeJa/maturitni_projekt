@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Cinema from '../../../models/Cinema'
 import { ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI'
 import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
+import SmartInput from '../../../components/SmartInput'
 
 export const validateHall = (data: Hall): Array<string> => {
     let errs: Array<string> = []
@@ -20,6 +21,8 @@ export const validateHall = (data: Hall): Array<string> => {
     return errs
 }
 
+// TODO nefunguje to úplně stpávně
+// konkrátně editace a vytváření sálů
 const HallDetail = () => {
 
     const [hall, setHall] = useState(defaultHall)
@@ -194,12 +197,27 @@ const HallDetail = () => {
         <div className="hall-edit-body">
             {err}
             <h1>{hall.id === null ? 'Nový sál' : `Sál ${hall.designation}`}</h1>
-            <label>Onačení sálu</label> 
-            <input name='designation' type="text" onChange={(e: any) => handleInputText(e)} value={hall.designation} />
-            <label>Počet řad</label> 
-            <input name='rows' type="number" value={hall.rows} onChange={handleInputNumber} />
-            <label>Počet sloupců</label> 
-            <input name='columns' type="number" value={hall.columns} onChange={handleInputNumber} />
+            <SmartInput
+                label={'Onačení sálu'}
+                name={'designation'}
+                type={'text'}
+                value={hall.designation}
+                onChange={(e: any) => handleInputText(e)}
+            /> 
+            <SmartInput
+                label={'Počet řad'}
+                name={'rows'}
+                type={'number'}
+                value={hall.rows}
+                onChange={handleInputNumber}
+            /> 
+            <SmartInput
+                label={'Počet sloupců'}
+                name={'columns'}
+                type={'number'}
+                value={hall.columns}
+                onChange={handleInputNumber}
+            /> 
             <h2>Rozložení sedadel</h2>
             <div className="seats">
                 {displayField}

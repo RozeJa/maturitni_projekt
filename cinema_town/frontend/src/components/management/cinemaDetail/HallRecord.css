@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-right: 20%;
+    padding-right: 5%;
     padding-left: 5%;
 }
 .hall-record:hover {

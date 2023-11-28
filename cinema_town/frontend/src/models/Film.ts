@@ -18,7 +18,7 @@ interface Film {
     time: number,
     pg: number,
     defaultCost: number,
-    production: Date | string[],
+    production: string,
     premier: Date | string[]
 }
 
@@ -40,6 +40,6 @@ export let defaultFilm: Film = {
     time: 0,
     pg: 3,
     defaultCost: 0,
-    production: new Date(),
+    production: '',
     premier: new Date()
 }

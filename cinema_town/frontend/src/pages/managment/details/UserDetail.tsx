@@ -4,6 +4,7 @@ import User from '../../../models/User'
 import './UserDetail.css'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI';
 import Role, { defaultRole } from '../../../models/Role';
+import SmartInput from '../../../components/SmartInput';
 
 
 export const validateUser = (data: User): Array<string> => {
@@ -82,12 +83,32 @@ const UserDetail = ({
     
     return (
         <>
-            <label>Email</label>
-            <input name='email' type="text" value={data.email} placeholder='email' onChange={(e: any) => handleInput(e)} disabled={data.id !== null} />
-            <label>Heslo</label>
-            <input name='password' type="password" placeholder='password' onChange={(e: any) => handleInput(e)} disabled={data.id !== null} />
-            <label>Potvrzení hesla</label>
-            <input name='password2' type="password" placeholder='password' onChange={(e: any) => handleInput(e)} disabled={data.id !== null} />
+            <SmartInput
+                label={'Email'}
+                name={'email'}
+                type={'text'}
+                value={data.email}
+                onChange={(e: any) => handleInput(e)}
+                disabled={data.id !== null}
+            />
+            
+            <SmartInput
+                label={'Heslo'}
+                name={'password'}
+                type={'password'}
+                value={''}
+                onChange={(e: any) => handleInput(e)}
+                disabled={data.id !== null}
+            />
+            
+            <SmartInput
+                label={'Potvrzení hesla'}
+                name={'password2'}
+                type={'password'}
+                value={''}
+                onChange={(e: any) => handleInput(e)}
+                disabled={data.id !== null}
+            />
             <div className="chechbox">
                 <label>Odběratel</label>
                 <input name='subscriber' type="checkbox" checked={data.subscriber} onChange={(e: any) => handleInputCheckbox(e)} disabled={data.id !== null} />

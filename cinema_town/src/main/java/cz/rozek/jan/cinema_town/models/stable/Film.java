@@ -73,10 +73,8 @@ public class Film implements Entity {
     @Min(0)
     private double defaultCost;
     
-    // datum kdy byl film vypuštěn
-    @NotNull
-    @JsonProperty
-    private LocalDate production;
+    // v jaké zemi a kde byl film produkován
+    private String production;
     // den premiéry 
     @NotNull
     @JsonProperty

@@ -8,6 +8,7 @@ import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import { defaultHall } from '../../../models/Hall'
 import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 import { useParams } from 'react-router-dom'
+import SmartInput from '../../../components/SmartInput'
 
 export const validateProjection = (data: Projection): Array<string> => {
     let errs: Array<string> = []
@@ -23,7 +24,7 @@ export const validateProjection = (data: Projection): Array<string> => {
     date.setDate(date.getDate() + 1)
     console.log(date);
     if (data.dateTime instanceof Date)
-        if (date.getTime() < data.dateTime.getTime())
+        if (date.getTime() > data.dateTime.getTime())
             errs.push("Nejdřive můžete zadat promítání JEDEN den dopředu!")
     
     
@@ -141,15 +142,21 @@ const ProjectionDetail = ({
 
             setFilmExtendedForm(
                 <>
-                    <label>Cena lístku:</label>
-                    <input type="number" name="cost" value={cost} onChange={(e:any) => { 
-                        const { value } = e.target
+                    <SmartInput
+                        label={'Cena lístku:'}
+                        name={'cost'}
+                        type={'number'}
+                        value={cost}
+                        onChange={(e:any) => { 
+                            const { value } = e.target
+    
+                            const cost = Math.max(0, parseFloat(value))
+    
+                            data.cost = cost
+                            setData({...data})
+                        }}
+                    /> 
 
-                        const cost = Math.max(0, parseFloat(value))
-
-                        data.cost = cost
-                        setData({...data})
-                    }}/>
                     <label>Titulky</label>
                     <select value={data.title} 
                         onChange={(e:any) => {
@@ -184,27 +191,31 @@ const ProjectionDetail = ({
                             )
                         }
                     </select>
-                    <label>Datum</label>
-                    <input type="date" 
+                    <SmartInput
+                        label={'Datum'}
+                        name={'date'}
+                        type={'date'}
                         value={formatDate(data.dateTime)}
                         onChange={(e:any) => {
                             if (data.dateTime instanceof Date) {
                                 const { value } = e.target
-    
+        
                                 const newDate = new Date(value)
                                 newDate.setHours(data.dateTime.getHours())
                                 newDate.setMinutes(data.dateTime.getMinutes())
-    
+        
                                 data.dateTime = newDate
-    
+        
                                 console.log(data.dateTime);
-    
+        
                                 setData({...data})
                             }
-                        }} />
-                    <label>Čas</label>
-                    {/** TODO dodělat čas jako select po 15 minutách */}
-                    <input type="time" 
+                        }}
+                    /> 
+                    <SmartInput
+                        label={'Čas'}
+                        name={'time'}
+                        type={'time'}
                         value={parseTime(data.dateTime)} 
                         onChange={(e:any) => {
                             if (data.dateTime instanceof Date) {
@@ -217,7 +228,8 @@ const ProjectionDetail = ({
                                 data.dateTime.setMinutes(minutes)
                                 setData({...data})     
                             }                      
-                        }}/>
+                        }}
+                    /> 
                 </>
             )
         }

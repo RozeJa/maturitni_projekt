@@ -128,8 +128,8 @@ const ProjectionsSpreadsheet = () => {
                     const cinema = cinemas.find(c => Object.values(c.halls).find(h => h.id === d.hall.id) !== undefined)
 
                     const address = `${cinema?.city.name}, ${cinema?.street}, ${cinema?.houseNumber}`
-                    const seats = Object.values(d.hall.seats).filter(s => s.seat).length - 1
-                    const reserved = reservations.filter(r => r.projection.id === d.id).length - 1
+                    const seats = Object.values(d.hall.seats).filter(s => s.seat).length
+                    const reserved = reservations.filter(r => r.projection.id === d.id).length
                     
                     return <Tile key={index.toString()  }
                             header={d.film.name} 

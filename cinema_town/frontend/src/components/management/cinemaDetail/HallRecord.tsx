@@ -27,7 +27,7 @@ const HallRecord = ({
 
     return (
         <div className='hall-record'>
-            <p onClick={() => navigate(`/management/halls/${cinema.id}/${hall.id}`)}>Sál: {hall.designation}</p>
+            <p onClick={() => navigate(`/management/halls/${cinema.id}/${hall.id}`)}><b>Sál: {hall.designation}</b></p>
             <button onClick={() => removeHall(hall)}>Odebrat</button>
         </div>
     )

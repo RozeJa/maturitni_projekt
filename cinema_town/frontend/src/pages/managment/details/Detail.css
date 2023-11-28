@@ -25,7 +25,7 @@
     justify-content: space-between;
 }
 
-.detail label, .detail input, .detail select, .detail > p {
+.detail > div > label, .detail input, .detail select, .detail .select > label, .detail > p {
     border: none;
     font-size: 1.5em;
     padding: .5em;

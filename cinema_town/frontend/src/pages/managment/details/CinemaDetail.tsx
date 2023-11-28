@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import HallRecord from '../../../components/management/cinemaDetail/HallRecord';
 import SelectInput from '../../../components/SelectInput';
 import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction';
+import SmartInput from '../../../components/SmartInput';
 
 export const validateCinema = (data: Cinema): Array<string> => {
     let errs: Array<string> = []
@@ -95,10 +96,22 @@ const CinemaDetail = ({
         <>
             <label>Město</label>
             <SelectInput options={cities.map((c: City) => c.name)} onChange={(event: any) => handleCityChange(event)} initValue={data.city.name} />
-            <label>Ulice</label>
-            <input name='street' type="text" value={data.street} onChange={(e: any) =>  handleInputText(e)} />
-            <label>Číslo popisné</label>
-            <input name='houseNumber' type="text" value={data.houseNumber} onChange={(e: any) =>  handleInputText(e)}/>
+           
+            <SmartInput
+                label={'Ulice'}
+                name={'street'}
+                type={'text'}
+                value={data.street}
+                onChange={(e: any) => handleInputText(e)}
+            /> 
+            
+            <SmartInput
+                label={'Číslo popisné'}
+                name={'houseNumber'}
+                type={'text'}
+                value={data.houseNumber}
+                onChange={(e: any) => handleInputText(e)}
+            /> 
             <div className="cinema-detail-halls">
                 <div className="cinema-detail-halls-header">
                     <h2>Sály kina</h2>
@@ -111,7 +124,7 @@ const CinemaDetail = ({
                             navigate(`/management/halls/${data.id}/new`)
                         }
                 
-                    }}>Přidat sál</p>
+                    }}>Nový sál</p>
                 </div>
                 <div className="cinema-detail-halls-body">
                     {hallRecords}

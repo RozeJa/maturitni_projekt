@@ -1,0 +1,33 @@
+.smart-input-big-label, .smart-input {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+    margin: .5em 0;
+    background-color: white;
+    border-radius: .5em;
+    height: min-content ;
+    width: auto;
+}
+.smart-input-big-label > label, .smart-input > label  {
+    height: 0;
+}
+
+.smart-input-big-label > label { 
+    position: relative;
+    top: .8em;
+    left: .5em;
+    font-size: 1.5em;
+    transition-duration: var(--transition-delay--long);
+}
+
+.smart-input > label {
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: 1em;
+    transition-duration: var(--transition-delay--long);
+}
+.smart-input-big-label > input, .smart-input > input {
+    font-size: 1.5em;
+    margin-top: .7em;
+}
