@@ -142,20 +142,20 @@ const ProjectionDetail = ({
 
             setFilmExtendedForm(
                 <>
-                    <SmartInput
-                        label={'Cena lístku:'}
-                        name={'cost'}
-                        type={'number'}
-                        value={cost}
-                        onChange={(e:any) => { 
-                            const { value } = e.target
-    
-                            const cost = Math.max(0, parseFloat(value))
-    
-                            data.cost = cost
-                            setData({...data})
-                        }}
-                    /> 
+                    <SmartInput label={'Cena lístku:'}>
+                        <input 
+                            name={'cost'}
+                            type={'number'}
+                            value={cost}
+                            onChange={(e:any) => { 
+                                const { value } = e.target
+        
+                                const cost = Math.max(0, parseFloat(value))
+        
+                                data.cost = cost
+                                setData({...data})
+                            }} />
+                    </SmartInput>
 
                     <label>Titulky</label>
                     <select value={data.title} 
@@ -191,45 +191,45 @@ const ProjectionDetail = ({
                             )
                         }
                     </select>
-                    <SmartInput
-                        label={'Datum'}
-                        name={'date'}
-                        type={'date'}
-                        value={formatDate(data.dateTime)}
-                        onChange={(e:any) => {
-                            if (data.dateTime instanceof Date) {
-                                const { value } = e.target
-        
-                                const newDate = new Date(value)
-                                newDate.setHours(data.dateTime.getHours())
-                                newDate.setMinutes(data.dateTime.getMinutes())
-        
-                                data.dateTime = newDate
-        
-                                console.log(data.dateTime);
-        
-                                setData({...data})
-                            }
-                        }}
-                    /> 
-                    <SmartInput
-                        label={'Čas'}
-                        name={'time'}
-                        type={'time'}
-                        value={parseTime(data.dateTime)} 
-                        onChange={(e:any) => {
-                            if (data.dateTime instanceof Date) {
-                                const { value } = e.target
+                    <SmartInput label={'Datum'}>
+                        <input 
+                            name={'date'}
+                            type={'date'}
+                            value={formatDate(data.dateTime)}
+                            onChange={(e:any) => {
+                                if (data.dateTime instanceof Date) {
+                                    const { value } = e.target
+            
+                                    const newDate = new Date(value)
+                                    newDate.setHours(data.dateTime.getHours())
+                                    newDate.setMinutes(data.dateTime.getMinutes())
+            
+                                    data.dateTime = newDate
+            
+                                    console.log(data.dateTime);
+            
+                                    setData({...data})
+                                }
+                            }} />
+                    </SmartInput>
+                    <SmartInput label={'Čas'}>
+                        <input 
+                            name={'time'}
+                            type={'time'}
+                            value={parseTime(data.dateTime)} 
+                            onChange={(e:any) => {
+                                if (data.dateTime instanceof Date) {
+                                    const { value } = e.target
 
-                                const hours = parseInt(value.split(":")[0])
-                                const minutes = parseInt(value.split(":")[1])
-                                
-                                data.dateTime.setHours(hours)
-                                data.dateTime.setMinutes(minutes)
-                                setData({...data})     
-                            }                      
-                        }}
-                    /> 
+                                    const hours = parseInt(value.split(":")[0])
+                                    const minutes = parseInt(value.split(":")[1])
+                                    
+                                    data.dateTime.setHours(hours)
+                                    data.dateTime.setMinutes(minutes)
+                                    setData({...data})     
+                                }                      
+                            }} />
+                    </SmartInput>
                 </>
             )
         }

@@ -200,4 +200,11 @@
   },
   "name": "Životopisný",
   "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
+},
+{
+  "_id": {
+    "$oid": "654fb4f6eac6391045e77f28"
+  },
+  "name": "Koncertní",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Genre"
 }]

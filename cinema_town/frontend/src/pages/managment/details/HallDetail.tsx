@@ -197,27 +197,29 @@ const HallDetail = () => {
         <div className="hall-edit-body">
             {err}
             <h1>{hall.id === null ? 'Nový sál' : `Sál ${hall.designation}`}</h1>
-            <SmartInput
-                label={'Onačení sálu'}
-                name={'designation'}
-                type={'text'}
-                value={hall.designation}
-                onChange={(e: any) => handleInputText(e)}
-            /> 
-            <SmartInput
-                label={'Počet řad'}
-                name={'rows'}
-                type={'number'}
-                value={hall.rows}
-                onChange={handleInputNumber}
-            /> 
-            <SmartInput
-                label={'Počet sloupců'}
+            <SmartInput label={'Onačení sálu'}>
+                <input 
+                    name={'designation'}
+                    type={'text'}
+                    value={hall.designation}
+                    onChange={(e: any) => handleInputText(e)} />
+            </SmartInput>
+
+            <SmartInput label={'Počet řad'}>
+                <input 
+                    name={'rows'}
+                    type={'number'}
+                    value={hall.rows}
+                    onChange={handleInputNumber} />
+            </SmartInput>
+            <SmartInput label={'Počet sloupců'}>
+                <input 
                 name={'columns'}
                 type={'number'}
                 value={hall.columns}
-                onChange={handleInputNumber}
-            /> 
+                onChange={handleInputNumber} />
+            </SmartInput>
+            
             <h2>Rozložení sedadel</h2>
             <div className="seats">
                 {displayField}

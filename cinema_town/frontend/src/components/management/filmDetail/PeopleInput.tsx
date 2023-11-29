@@ -17,15 +17,17 @@ const PeopleInput = (
     const handleChange = (e: any) => {
         const { value } = e.target
 
-        const surname = value.trim().split(' ')[0]
-        const name = value.trim().split(' ')[1]
+        const surname = value.trim().split(' ')[1]
+        const name = value.trim().split(' ')[0]
 
         let newSelected: People | undefined = peoples.find(p => p.surname === surname);
         if (newSelected === undefined) {
-            newSelected = peoples.find(p => p.surname === name);
+            newSelected = peoples.find(p => p.surname === surname);
         }
 
         if (newSelected !== undefined) {
+            console.log(newSelected);
+            
             onChange(newSelected)
         } else {
             selected.surname = surname === undefined ? '' : surname.charAt(0).toUpperCase() + surname.slice(1)
@@ -36,7 +38,7 @@ const PeopleInput = (
 
     return (
         <div className="people-input">
-            <SelectInput options={peoples.map((p:People) => p.surname + " " + p.name)} onChange={(e: any) => handleChange(e) } initValue={(selected.surname + " " + selected.name).trim()} autoFocus={selected.surname !== ''} />
+            <SelectInput options={peoples.map((p:People) => p.name + " " + p.surname)} onChange={(e: any) => handleChange(e) } initValue={(selected.name + " " + selected.surname).trim()} autoFocus={selected.surname !== ''} />
         </div>
     )
 }

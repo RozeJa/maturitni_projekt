@@ -1,0 +1,25 @@
+.beautiful-input {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+    margin: .5em 0;
+    background-color: white;
+    border-radius: .5em;
+    height: min-content ;
+    width: auto;
+}
+.beautiful-input > label  {
+    height: 0;
+}
+
+.beautiful-input > label {
+    position: relative;
+    top: -.4em;
+    left: 0;
+    z-index: 3;
+    font-size: 1em;
+    transition-duration: var(--transition-delay--long);
+}
+.beautiful-input > * {
+    margin-top: .7em;
+}

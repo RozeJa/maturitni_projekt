@@ -1,0 +1,192 @@
+[{
+  "_id": {
+    "$oid": "656608e014d47e099168141c"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654fe9bf7285413e5ade2663"
+    }
+  },
+  "cost": 300,
+  "title": "CZ",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2023-11-30T14:35:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "65675327a41ce22e32df068d"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654fea697285413e5ade2668"
+    }
+  },
+  "cost": 200,
+  "title": "",
+  "dabing": "CZ",
+  "dateTime": {
+    "$date": "2023-12-01T14:04:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "65675331a41ce22e32df068e"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654feb0d7285413e5ade266f"
+    }
+  },
+  "cost": 300,
+  "title": "",
+  "dabing": "FR",
+  "dateTime": {
+    "$date": "2023-12-02T14:05:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "6567533ba41ce22e32df068f"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654feddf7285413e5ade2693"
+    }
+  },
+  "cost": 399,
+  "title": "",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2023-12-08T14:05:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "65675343a41ce22e32df0690"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654ff16b7285413e5ade26ad"
+    }
+  },
+  "cost": 399,
+  "title": "",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2023-12-03T14:05:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "6567534da41ce22e32df0691"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654ff0727285413e5ade26a2"
+    }
+  },
+  "cost": 499,
+  "title": "",
+  "dabing": "CZ",
+  "dateTime": {
+    "$date": "2023-12-02T14:05:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "6567535aa41ce22e32df0692"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654ff25e7285413e5ade26bc"
+    }
+  },
+  "cost": 299,
+  "title": "",
+  "dabing": "CZ",
+  "dateTime": {
+    "$date": "2023-12-10T14:05:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "65675365a41ce22e32df0693"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654feff97285413e5ade269a"
+    }
+  },
+  "cost": 298,
+  "title": "",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2023-12-10T14:06:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+}]

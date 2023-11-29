@@ -1,52 +1,40 @@
-import { useEffect, useState } from 'react'
-import { useRef } from 'react';
-import './SmartInput.css'
+import React, { useEffect, useState, useRef, ReactNode } from 'react';
+import './SmartInput.css';
 
 const SmartInput = ({
-        label,
-        name,
-        type,
-        value,
-        onChange, 
-        disabled = false
-    } : {
-        label: string,
-        name: string,
-        type: string,
-        value: any,
-        onChange: (e:any) => void
-        disabled? : boolean
-    }) => {
-        
-    const inputRef = useRef<HTMLInputElement | null>(null)
-    const [bigLabel, setBigLabel] = useState(value === '') 
+    label,
+    children
+}: {
+    label: string
+    children: ReactNode // Změna typu na ReactNode
+}) => {
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const [bigLabel, setBigLabel] = useState(
+        inputRef.current ? inputRef.current.value === '' : true
+    );
 
     useEffect(() => {
-        setBigLabel(value === '')
-    }, [value])
+        setBigLabel(inputRef.current ? inputRef.current.value === '' : true);
+    }, [children]);
 
     return (
         <div
-            className={bigLabel ? "smart-input-big-label" : 'smart-input'}
+            className={bigLabel ? 'smart-input-big-label' : 'smart-input'}
             onClick={() => {
-                setBigLabel(false)
-                if (inputRef.current !== null && 'focus' in inputRef.current) 
-                    inputRef.current.focus()
+                setBigLabel(false);
+                if (inputRef.current !== null && 'focus' in inputRef.current)
+                    inputRef.current.focus();
             }}
-            >
+            onFocus={() => setBigLabel(false)}
+            onBlur={() => setBigLabel(inputRef.current ? inputRef.current.value === '' : true)}
+        >
             <label>{label}</label>
-            <input 
-                name={name} 
-                type={type} 
-                value={value} 
-                onChange={onChange} 
-                disabled={disabled}
-                onFocus={() => setBigLabel(false)} 
-                onBlur={() => setBigLabel(value === '')} 
-                ref={inputRef}
-                />
+            {React.cloneElement(children as React.ReactElement, {
+                ref: inputRef
+            })}
         </div>
-    )
-}
+    );
+};
 
-export default SmartInput
+export default SmartInput;

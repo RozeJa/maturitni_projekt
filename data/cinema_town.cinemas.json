@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "6559032c4451955f428df0aa"
+  },
+  "city": {
+    "$ref": "cities",
+    "$id": {
+      "$oid": "6559032c4451955f428df0a9"
+    }
+  },
+  "street": "Pod Sadem",
+  "houseNumber": "292",
+  "halls": {
+    "656606ac14d47e099168140d": {
+      "$ref": "halls",
+      "$id": {
+        "$oid": "656606ac14d47e099168140d"
+      }
+    }
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Cinema"
+}]

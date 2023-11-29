@@ -9,8 +9,6 @@ import { defaultCinema } from '../../models/Cinema';
 import ProjectionComponent from '../../components/home/Projection';
 import Projection from '../../models/Projection';
 
-// TODO udělán jen nástřel bude třeba sprovozdnit vyhledávací formulář a s tím i přidat logiku, že se zobrazují spíš promítání, než filmy
-
 const defFilms: Film[] = []
 const defCinemas: Cinema[] = [{...defaultCinema}]
 const defProjections: Projection[] = []
@@ -149,7 +147,7 @@ const Home = () => {
             <div className="home-films">
                 {
                     //films
-                    filtredProjections.map(p => p.film)
+                    filtredProjections.sort((a,b) => a.film.name.localeCompare(b.film.name)).map(p => p.film)
                     .map((f, index) => {
                     return <ProjectionComponent key={index} film={f} i={index} />
                     })

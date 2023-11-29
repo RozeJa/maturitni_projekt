@@ -83,32 +83,33 @@ const UserDetail = ({
     
     return (
         <>
-            <SmartInput
-                label={'Email'}
-                name={'email'}
-                type={'text'}
-                value={data.email}
-                onChange={(e: any) => handleInput(e)}
-                disabled={data.id !== null}
-            />
+            <SmartInput label={'Email'}>
+                <input 
+                    name={'email'}
+                    type={'text'}
+                    value={data.email}
+                    onChange={(e: any) => handleInput(e)}
+                    disabled={data.id !== null} />
+            </SmartInput>
             
-            <SmartInput
-                label={'Heslo'}
-                name={'password'}
-                type={'password'}
-                value={''}
-                onChange={(e: any) => handleInput(e)}
-                disabled={data.id !== null}
-            />
+            <SmartInput label={'Heslo'}>
+                <input 
+                    name={'password'}
+                    type={'password'}
+                    value={''}
+                    onChange={(e: any) => handleInput(e)}
+                    disabled={data.id !== null} />
+            </SmartInput>
             
-            <SmartInput
-                label={'Potvrzení hesla'}
-                name={'password2'}
-                type={'password'}
-                value={''}
-                onChange={(e: any) => handleInput(e)}
-                disabled={data.id !== null}
-            />
+            <SmartInput label={'Potvrzení hesla'}>
+                <input 
+                    name={'password2'}
+                    type={'password'}
+                    value={''}
+                    onChange={(e: any) => handleInput(e)}
+                    disabled={data.id !== null} />
+            </SmartInput>
+            
             <div className="chechbox">
                 <label>Odběratel</label>
                 <input name='subscriber' type="checkbox" checked={data.subscriber} onChange={(e: any) => handleInputCheckbox(e)} disabled={data.id !== null} />

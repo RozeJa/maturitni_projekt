@@ -1,14 +1,15 @@
 .select-input-container {
+    display: flex;
+    flex-direction: column;
     position: relative;
-    width: 100%;
+    /*width: 100%;*/
     font-family: Arial, sans-serif;
     z-index: 3;
+    overflow: hidden;
   }
   
-  input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-   /* border-radius: 5px;*/
+  .select-input-container input {
+    width: 100%;
   }
 
   .options-list-z-index {

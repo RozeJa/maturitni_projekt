@@ -9,6 +9,7 @@ import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
 import Genre, { defaultGerne } from '../../../models/Genre'
 import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 import SmartInput from '../../../components/SmartInput'
+import BeautifulInput from '../../../components/BeautifulInput'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -17,6 +18,10 @@ export const validateFilm = (data: Film): Array<string> => {
         errs.push("Název filmu nesmí být nevyplněný.")
     if (data.original.trim() === '')
         errs.push("Původní dabing nesmí být nevyplněný.")
+    if (data.trailer !== '') {
+        if (data.trailer.split("http").length > 1 || data.trailer.split("www").length > 1 || data.trailer.split("youtube").length > 1 || data.trailer.split("v=").length > 1) 
+            errs.push("Trailer nemá být url adresa na video stačí pouze jeho id. Id nalednete na 'v='. Př: URL - https://www.youtube.com/watch?v=158aKdnWr7s Id - 158aKdnWr7s")
+    }
     if (data.picture.trim() === '')
         errs.push("Obrázek filmu nesmí být nevyplněný.")
     if (data.genres.length === 0) 
@@ -159,9 +164,17 @@ const FilmDetail = ({
                 value="x"
                 type="button" 
                 onClick={() => {
-                    const newActors = { ...actors }
-                    delete newActors[key]
-                    setActors(newActors)
+                    if ((Object.values(actors).length - 1).toString() !== key)
+                        delete actors[key]
+                    
+                    const newActors: { [key: string]: People } = {}
+
+                    Object.values(actors).forEach((p,index) => {
+                        newActors[index] = p
+                    })
+                    
+                    
+                    setActors({...newActors})
             }} />
             
             return (
@@ -296,108 +309,120 @@ const FilmDetail = ({
 
     return (
         <>
-            <SmartInput
-                label={'Název'}
-                name={'name'}
-                type={'text'}
-                value={data.name}
-                onChange={(e: any) => handleInputText(e)}
-            />   
+            <SmartInput label={'Název'}>
+                <input 
+                    name={'name'}
+                    type={'text'}
+                    value={data.name}
+                    onChange={(e: any) => handleInputText(e)} />
+            </SmartInput>
             
-            <label>Popis</label>
-            <textarea name='description' value={data.description} cols={30} rows={10} onChange={(e: any) => handleInputText(e)} />
+            <BeautifulInput label={'Popis'}>
+                <textarea  className='film-detail-textarea'
+                    name={'description'}
+                    cols={30} rows={10}
+                    value={data.description}
+                    onChange={(e: any) => handleInputText(e)} />
+            </BeautifulInput>
 
-            <label>Obrázek</label>
-            <input type="file" onChange={(e: any) => setFile(e.target.files[0])} accept="image/jpeg, image/png, image/jpg" />
+            <BeautifulInput label={`Obrázek ${(data.picture !== '' ? 'je vložen na servru' : '')}`}>
+                <input type="file" onChange={(e: any) => setFile(e.target.files[0])} accept="image/jpeg, image/png, image/jpg" />
+            </BeautifulInput>
             
-            <SmartInput
-                label={'Trailer'}
-                name={'trailer'}
-                type={'text'}
-                value={data.trailer}
-                onChange={(e: any) => handleInputText(e)}
-            />   
+            <SmartInput label={'Trailer (jen jeho YouTobe id)'}>
+                <input 
+                    name={'trailer'}
+                    type={'text'}
+                    value={data.trailer}
+                    onChange={(e: any) => handleInputText(e)} />
+            </SmartInput>  
 
-            <SmartInput
-                label={'Originální znění'}
-                name={'original'}
-                type={'text'}
-                value={data.original} 
-                onChange={(e: any) => handleInputText(e)}
-            />   
+            <SmartInput label={'Originální znění'}>
+                <input 
+                    name={'original'}
+                    type={'text'}
+                    value={data.original} 
+                    onChange={(e: any) => handleInputText(e)} />
+            </SmartInput>
 
             <div className='film-detail-checkbox'>
                 <label>Použít pro prezenci</label>
                 <input name='blockBuster' type="checkbox" checked={data.blockBuster} onChange={(e: any) => handleInputCheckbox(e)}/>                
             </div>
 
-            <label>Režisér (příjmení a jméno)</label>
-            <PeopleInput 
-                peoples={peoples} 
-                selected={director} 
-                onChange={(newDirector: People) => {
-                    setDirector({ ...newDirector })
-                }} />
+            <BeautifulInput label={'Režisér (jméno a příjmení)'}>
+                <PeopleInput 
+                    peoples={peoples} 
+                    selected={director} 
+                    onChange={(newDirector: People) => {
+                        setDirector({ ...newDirector })
+                    }} />
+            </BeautifulInput>
            
-            <label>Herci</label>
-            <div>
-                { rendredActors }
-            </div>
+            <BeautifulInput label={'Herci'}>
+                <div>
+                    { rendredActors }
+                </div>
+            </BeautifulInput>
 
-            <label>Spadá do žánrů</label>
-            <div>
-                { renderGenres }
-            </div>
+            <BeautifulInput label={'Spadá do žánrů'}>
+                <div className='film-detail-selects'>
+                    { renderGenres }
+                </div>
+            </BeautifulInput>
 
-            <label>Dostupné titulky</label>
-            <div>
-                { renderTitles }
-            </div>
+            <BeautifulInput label={'Dostupné titulky'}>
+                <div>
+                    { renderTitles }
+                </div>
+            </BeautifulInput>
 
-            <label>Dostupný dabing</label>
-            <div>
-                { renderDabings }
-            </div>
+
+            <BeautifulInput label={'Dostupný dabing'}>
+                <div>
+                    { renderDabings }
+                </div>
+            </BeautifulInput>
             
-            <SmartInput
-                label={'Délka trvání (v min)'}
-                name={'time'}
-                type={'number'}
-                value={data.time} 
-                onChange={handleNumberChange}
-            />   
+            <SmartInput label={'Délka trvání (v min)'}>
+                <input 
+                    name={'time'}
+                    type={'number'}
+                    value={data.time} 
+                    onChange={handleNumberChange} />
+            </SmartInput>   
 
-            <SmartInput
-                label={'Věková bariéra'}
-                name={'pg'}
-                type={'number'}
-                value={data.pg} 
-                onChange={handleNumberChange}
-            />   
+            <SmartInput label={'Věková bariéra'}>
+                <input 
+                    name={'pg'}
+                    type={'number'}
+                    value={data.pg} 
+                    onChange={handleNumberChange} />
+            </SmartInput>   
 
-            <SmartInput
-                label={'Předpokládaná cena za lístek'}
-                name={'defaultCost'}
-                type={'number'}
-                value={data.defaultCost} 
-                onChange={handleNumberChange}
-            />   
+            <SmartInput label={'Předpokládaná cena za lístek'}>
+                <input 
+                    name={'defaultCost'}
+                    type={'number'}
+                    value={data.defaultCost} 
+                    onChange={handleNumberChange} />
+            </SmartInput>
             
-            <SmartInput
-                label={'Kdy byl film vydán'}
-                name={'production'}
-                type={'text'}
-                value={data.production} 
-                onChange={(e: any) => handleInputText(e)}
-            />   
+            <SmartInput label={'Kdy byl film vydán'}>
+                <input 
+                    name={'production'}
+                    type={'text'}
+                    value={data.production} 
+                    onChange={(e: any) => handleInputText(e)} />
+            </SmartInput>
 
-            <SmartInput
-                label={'Premiéra'}
-                name={'premier'}
-                type={'date'}
-                value={formatDate(data.premier)} 
-                onChange={handleDateChange}
-            />   
+            <SmartInput label={'Premiéra'}>
+                <input 
+                    name={'premier'}
+                    type={'date'}
+                    value={formatDate(data.premier)} 
+                    onChange={handleDateChange} />
+            </SmartInput>
         </>
     )
 }

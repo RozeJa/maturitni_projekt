@@ -28,13 +28,13 @@ const GenreDetail = ({
 
     return (
         <>  
-            <SmartInput
-                label={'Název žánru'}
-                name={'name'}
-                type={'text'}
-                value={data.name}
-                onChange={(e: any) => handleInputText(e)}
-            /> 
+            <SmartInput label={'Název žánru'}>
+                <input 
+                    name={'name'}
+                    type={'text'}
+                    value={data.name}
+                    onChange={(e: any) => handleInputText(e)} />
+            </SmartInput>
         </>
     )
 }

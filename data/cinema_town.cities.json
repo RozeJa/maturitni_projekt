@@ -1,0 +1,7 @@
+[{
+  "_id": {
+    "$oid": "6559032c4451955f428df0a9"
+  },
+  "name": "Třemošnice",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.City"
+}]

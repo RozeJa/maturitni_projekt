@@ -6,8 +6,8 @@ function SelectInput(props) {
 
   const [inputValue, setInputValue] = useState(initiaValue);
   const [filteredOptions, setFilteredOptions] = useState([]);
+  const [focus, setFocus] = useState(false)
   const options = props.options;
-
 
   useEffect(() => {
     setInputValue(initiaValue)
@@ -40,8 +40,10 @@ function SelectInput(props) {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setTimeout(() => setFocus(false), 100)}
       />
-      {filteredOptions.length > 0 && (
+      {filteredOptions.length > 0 && focus && (
         <div className='options-list-z-index'>
           <ul className="options-list">
             {filteredOptions.map((option, index) => (
