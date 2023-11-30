@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import './ManagementReferation.css'
+import Filter from './Filter'
 
 const ManagementReferation = ({imgName, url, text}) => {
 
@@ -11,9 +12,7 @@ const ManagementReferation = ({imgName, url, text}) => {
 
     return (
         <div className='management-reference' onClick={() => navigate(url)}>
-            <div className='management-reference-img' style={imgBg}>
-
-            </div>
+            <div className='management-reference-img' style={imgBg} />
             <p>{text}</p>
         </div>
     )
