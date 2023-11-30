@@ -1,11 +1,14 @@
+.management-referations {
+    width: 100%;
+}
 .management-reference {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: var(--color--red--bright);
-    padding: 2em;
-    margin: 2em;
+    padding: 4%;
+    margin: 2%;
     border-radius: 1em;
     min-width: 15em;
 
@@ -14,7 +17,7 @@
 
 .management-reference:hover {
     cursor: pointer;
-    box-shadow: .5em .5em 1em #AAAAAA;
+    box-shadow: 1em 1em 2em var(--color--grey--medium);
 }
 
 .management-reference p {

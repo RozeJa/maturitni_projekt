@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import './ManagementReferation.css'
 
-import img from '../../assets/imgs/favicons/projection-favikon.png'
-
 const ManagementReferation = ({imgName, url, text}) => {
 
     const navigate = useNavigate()

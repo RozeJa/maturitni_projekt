@@ -22,10 +22,11 @@
     transition-duration: 1s;
 }
 
-
 .projection-img {
     display: flex;
     justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .projection-img img {
@@ -34,6 +35,15 @@
     object-fit: cover;
     border-radius: 1em;
     cursor: pointer;
+}
+
+.projection-img img:nth-child(2) {
+    position: absolute; 
+    width: 75px;
+    height: 75px;
+    background-color: #00000070;
+    padding: 0;
+    border-radius: 100%;
 }
 
 .projection-text-content {

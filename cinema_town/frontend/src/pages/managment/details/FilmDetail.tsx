@@ -408,7 +408,7 @@ const FilmDetail = ({
                     onChange={handleNumberChange} />
             </SmartInput>
             
-            <SmartInput label={'Kdy byl film vydán'}>
+            <SmartInput label={'Produkce'}>
                 <input 
                     name={'production'}
                     type={'text'}

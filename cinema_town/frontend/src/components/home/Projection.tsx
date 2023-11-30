@@ -26,7 +26,8 @@ const Projection = ({
                 <div className="projection-img"
                     onClick={() => setTrailer(<Trailer url={film.trailer} onClick={() => setTrailer(<></>)} />)}>
                     <img src={require(`../../assets/imgs/films-imgs/${film.id}/${film.picture}`)} alt={film.name}  />
-                </div>
+                    <img src={require(`../../assets/imgs/favicons/play-favicon.png`)} alt="favicon-play" />
+            </div>
                 <div className="projection-text-content">
                     <h1 
                         onClick={() => navigate(`/film/${film.id}`)}

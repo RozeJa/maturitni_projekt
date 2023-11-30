@@ -95,6 +95,8 @@ public class UserService extends CrudService<User, UserRepository> {
             throw new SecurityException("You cannot remove last admin.");
         }
 
+        // TODO odeber všechny jeho rezervace
+
         return super.delete(id, accessJWT);
     }
 }

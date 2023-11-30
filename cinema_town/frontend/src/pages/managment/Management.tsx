@@ -12,6 +12,8 @@ const Management = () => {
 
     const roles = verifyAccess('role-update') ? <ManagementReferation imgName='role-favicon.png' url='/management/roles/' text='Správa rolí' /> : <></>
     
+    // přidat rezervace
+
     return (
         <div className='management'>
             <div className="management-referations">
