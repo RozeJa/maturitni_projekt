@@ -74,8 +74,10 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
             ResponseEntity<String> response = super.put(id, data, headers);
     
             if (response.getStatusCode() == HttpStatus.OK) {
+                // najdi si dané promítání 
+                Projection p = service.readById(id, headers.get(authorization));
                 // zjisti, kterých rezervací se změna týká
-                List<Reservation> reservations = reservationRepository.findByProjectionId(id);
+                List<Reservation> reservations = reservationRepository.findByProjection(p);
     
                 // ty rezervace smaž
                 reservationRepository.deleteAll(reservations);
@@ -100,8 +102,10 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
             ResponseEntity<String> response = super.delete(id, headers);
 
             if (response.getStatusCode() == HttpStatus.OK) {
+                // najdi si dané promítání 
+                Projection p = service.readById(id, headers.get(authorization));
                 // zjisti, kterých rezervací se změna týká
-                List<Reservation> reservations = reservationRepository.findByProjectionId(id);
+                List<Reservation> reservations = reservationRepository.findByProjection(p);
 
                 // ty rezervace smaž
                 reservationRepository.deleteAll(reservations);

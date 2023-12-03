@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
+import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
 import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
@@ -15,6 +17,9 @@ import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 @Service
 public class UserService extends CrudService<User, UserRepository> {
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Autowired
     @Override
@@ -95,8 +100,13 @@ public class UserService extends CrudService<User, UserRepository> {
             throw new SecurityException("You cannot remove last admin.");
         }
 
-        // TODO odeber všechny jeho rezervace
+        // najdi si a odeber všechny rezervace odebíraného uživatele
+        List<Reservation> reservations = reservationRepository.findByUser(toRemove);
 
+        for (Reservation reservation : reservations) {
+            reservationRepository.delete(reservation);
+        }
+        
         return super.delete(id, accessJWT);
     }
 }

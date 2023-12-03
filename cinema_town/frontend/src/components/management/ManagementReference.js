@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import './ManagementReferation.css'
-import Filter from './Filter'
 
 const ManagementReferation = ({imgName, url, text}) => {
 
