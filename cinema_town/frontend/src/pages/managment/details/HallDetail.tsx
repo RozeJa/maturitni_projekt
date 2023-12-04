@@ -158,28 +158,27 @@ const HallDetail = () => {
             {valueField.map((row) => {
                 let s = row[0]
                 return <tr key={`row${s.rowDesignation}${s.number}${s.rowIndex}${s.columnIndex}`}>
-                    {row.map((seat) => {
-                        
-                        return <td 
-                        key={`line${seat.columnIndex}${seat.rowIndex}`}><input 
-                        className="checkbox-input" 
-                        name={seat.columnIndex + ";" + seat.rowIndex} checked={seat.seat} type="checkbox" 
-                        onChange={(event: any) => {
-                            const { name, checked } = event.target
+                    {row.map((seat) => <td key={`line${seat.columnIndex}${seat.rowIndex}`}>
+                        <input 
+                            className="checkbox-input" 
+                            name={seat.columnIndex + ";" + seat.rowIndex} checked={seat.seat} type="checkbox" 
+                            onChange={(event: any) => {
+                                const { name, checked } = event.target
 
-                            let columnIndex = name.split(";")[0]
-                            let rowIndex = name.split(";")[1]
+                                let columnIndex = name.split(";")[0]
+                                let rowIndex = name.split(";")[1]
 
-                            const newValueFieldCopy = valueField.map((row, i) =>
-                                row.map((seat, j) => ({
-                                    ...seat,
-                                    ["seat"]: i == rowIndex && j == columnIndex ? checked : seat.seat
-                                }))
-                            );
-                        
-                            setValueField([...newValueFieldCopy]);
-                        }}/></td>
-                    })}
+                                const newValueFieldCopy = valueField.map((row, i) =>
+                                    row.map((seat, j) => ({
+                                        ...seat,
+                                        ["seat"]: i == rowIndex && j == columnIndex ? checked : seat.seat
+                                    }))
+                                );
+                            
+                                setValueField([...newValueFieldCopy]);
+                            }}/>
+                    </td>
+                    )}
                 </tr>
             })}
             </tbody>
