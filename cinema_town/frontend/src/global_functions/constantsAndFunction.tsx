@@ -3,6 +3,8 @@ import DialogErr from "../components/DialogErr"
 
 export const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
 export const pwRegex = new RegExp(/^.*(?=.[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{12,}).*$/)
+export const daysInWeekShort = ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So']
+export const daysInWeek = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota']
 export const formatDate = (date: Date | string[]): string => {
     
     let year

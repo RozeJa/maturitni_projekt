@@ -1,4 +1,3 @@
-import DialogErr from '../../components/DialogErr';
 import BlockBusters from '../../components/home/BlockBusters';
 import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI';
 import Cinema from '../../models/Cinema';
@@ -8,11 +7,16 @@ import React, { useEffect, useState } from 'react';
 import { defaultCinema } from '../../models/Cinema';
 import ProjectionComponent from '../../components/home/Projection';
 import Projection from '../../models/Projection';
+import DaySelection from '../../components/home/DaySelection';
+import { setgroups } from 'process';
+import ProjectionGroup from '../../components/home/ProjectionGroup';
 
 const defFilms: Film[] = []
 const defCinemas: Cinema[] = [{...defaultCinema}]
 const defProjections: Projection[] = []
 const defAny: any = null
+const defGroups: { [key: number]: Projection[] } = {}
+const defSections: { [key: number]: string } = {}
 
 const Home = () => {
 
@@ -22,6 +26,8 @@ const Home = () => {
     const [projections, setProjections] = useState([...defProjections])
 
     const [filtredProjections, setFiltredProjections] = useState([...defProjections])
+    const [projectionsGroups, setProjectionGroups] = useState({...defGroups})
+    const [sections, setSections] = useState({...defSections})
     const [selectedCinema, setSelectedCinema] = useState({...defaultCinema})
     const [lastEvent, setLastEvent] = useState(defAny)
 
@@ -42,6 +48,24 @@ const Home = () => {
     useEffect(() => {
         filter(lastEvent)
     }, [selectedCinema])
+    useEffect(() => {
+        const groups: { [key: number]: Projection[] } = {}
+        const sections = {...defSections}
+
+        filtredProjections.forEach(p => {
+            if (!(p.dateTime instanceof Date)) {
+                if (groups[parseInt(p.dateTime[2])] === undefined) {
+                    sections[parseInt(p.dateTime[2])] = '#' + p.dateTime[2]
+                    groups[parseInt(p.dateTime[2])] = [p]
+                } else {
+                    groups[parseInt(p.dateTime[2])].push(p)
+                }
+            }
+        })
+        
+        setSections(sections)
+        setProjectionGroups(groups)
+    }, [filtredProjections])
 
     const loadFilms = async () => {
         try {
@@ -142,15 +166,19 @@ const Home = () => {
                         <button>Vyhledat</button>
                     </div>
                 </div>
+                <DaySelection sections={sections} />
             </div>
             {/* filmy  */}
             <div className="home-films">
                 {
                     //films
-                    filtredProjections.sort((a,b) => a.film.name.localeCompare(b.film.name)).map(p => p.film)
-                    .map((f, index) => {
-                    return <ProjectionComponent key={index} film={f} i={index} />
-                    })
+                    //filtredProjections.sort((a,b) => a.film.name.localeCompare(b.film.name)).map(p => p.film)
+                    //.map((f, index) => {
+                    //return <ProjectionComponent key={index} film={f} i={index} />
+                    //})
+                    Object.keys(projectionsGroups).map(((pg, index) => 
+                        <ProjectionGroup key={index} projections={projectionsGroups[parseInt(pg)]} day={parseInt(pg)} />
+                    ))
                 } 
                 { 
                     filtredProjections.length === 0 ? <p>Jejda, pro tuto kombinaci kina a vyhledávání jsme nenašli žádná dostupná promítání.</p> : <></>

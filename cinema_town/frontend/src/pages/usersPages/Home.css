@@ -49,8 +49,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  padding-bottom: 2.5em;
-  border-bottom: 1px solid var(--color--grey--medium);
 }
 
 .home-search-form-filter input {
@@ -74,7 +72,7 @@
   padding: 0.3em;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 750px) {
   .slick-slide img {
       width: 100%;
   }
@@ -89,7 +87,7 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 5000px) {
   .slick-slide img {
     width: 100%;
   }

@@ -90,7 +90,8 @@
         transition-duration: 1s;
     }
     .projection-responsive-header {
-        display: block;
+        display: flex;
+        justify-content: center;
     }
     .projection-text-content h1 {
         display: none;

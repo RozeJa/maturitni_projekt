@@ -1,0 +1,36 @@
+.day-selection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    width: 100%;
+    padding: 1em 0;
+    border-bottom: 1px solid var(--color--grey--medium);
+    font-size: 1.5em;
+}
+
+.day-selection > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.day-selection a {
+    font-weight: bold;
+    padding: .25em .5em;
+
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.day-selection .selected a {
+    color: var(--color--red--bright);
+}
+.day-selection a:hover {
+    color: var(--color--red--bright);
+}
+.day-selection .inactice a {
+    color: gray;
+}
