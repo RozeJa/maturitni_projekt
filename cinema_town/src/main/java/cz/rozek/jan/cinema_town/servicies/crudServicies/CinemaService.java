@@ -99,16 +99,18 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
         // kdyby bylo změna sálů, tak radši ulož kinu sály abys zízkal jejich id a ěl je pak podle čaho namapovat
         editHalls(entity, accessJWT);
-
-        Cinema updated = super.update(id, entity, accessJWT);
-
+        
         // ! odeber z db odebrané sály
         // ! odeber z db odebraná sedadla -> se stane při odebrání sálů
         List<Hall> toRemove = cinemaFormDB.getHalls().values().stream().filter(h -> entity.getHalls().get(h.getId()) == null).toList();
-
+        
         for (Hall hall : toRemove) {
-            hallService.delete(hall.getId(), accessJWT);
+            if (!hallService.delete(hall.getId(), accessJWT)) {
+                entity.getHalls().put(hall.getId(), hall);
+            }
         }
+
+        Cinema updated = super.update(id, entity, accessJWT);
 
         return updated;
     }

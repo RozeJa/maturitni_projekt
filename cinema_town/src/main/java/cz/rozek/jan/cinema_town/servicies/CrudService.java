@@ -130,9 +130,10 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
         entity.setId(id);
 
         // ulož změny
-        E updated = repository.save(entity);
+        repository.save(entity);
+        E data = repository.findById(id).get();
 
-        return updated;
+        return data;
     }
 
     /**

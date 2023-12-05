@@ -22,3 +22,7 @@
     border-radius: .5em;
     transition-duration: var(--transition-delay--long);
 }
+
+.hall-record-dizabled {
+    opacity: .5;
+}

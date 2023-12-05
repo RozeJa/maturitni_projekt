@@ -33,4 +33,5 @@
 }
 .day-selection .inactice a {
     color: gray;
+    cursor: default;
 }

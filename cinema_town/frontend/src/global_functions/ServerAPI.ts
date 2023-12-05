@@ -28,6 +28,7 @@ export enum ModesEndpoints {
     FilmBlockBuster = "api/films/block-busters",
     Genre = "api/genres/",
     Hall = "api/halls/",
+    HallsUnremovable = "api/halls/unremovable/",
     People = "api/people/",
     Permission = "api/permissions/",
     Projection = "api/projections/",

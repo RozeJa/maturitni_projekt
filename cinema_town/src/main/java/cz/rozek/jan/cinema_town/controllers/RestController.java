@@ -65,7 +65,7 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
+        }
     } 
 
     /**

@@ -10,6 +10,7 @@ import SelectInput from '../../../components/SelectInput';
 import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction';
 import SmartInput from '../../../components/SmartInput';
 import BeautifulInput from '../../../components/BeautifulInput';
+import Hall from '../../../models/Hall';
 
 export const validateCinema = (data: Cinema): Array<string> => {
     let errs: Array<string> = []
@@ -31,6 +32,7 @@ export const validateCinema = (data: Cinema): Array<string> => {
 
 let citiesDefault: City[] = []
 const hallRecordsDefault = [<div key={-1} className='hall-record'/>]
+const defHalls: Hall[] = []
 
 const CinemaDetail = ({
     data, 
@@ -48,6 +50,7 @@ const CinemaDetail = ({
 
     const [cities, setCities] = useState(citiesDefault)
     const [hallRecords, setHallRecords] = useState([...hallRecordsDefault])
+    const [unremovableHalls, setUnremovablrHalls] = useState([...defHalls])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -60,12 +63,19 @@ const CinemaDetail = ({
         if (data.halls !== null) {
         
             const maped = Object.values(data.halls).map((hal, index) => {
-                return <HallRecord key={index} hall={hal} cinema={data} setCinema={(newData: Cinema) => setData(newData)} />
+                return <HallRecord key={index} hall={hal} cinema={data} unremovableHalls={unremovableHalls} setCinema={(newData: Cinema) => setData(newData)} />
             })
             
             
            setHallRecords(maped)
         }
+    }, [data, unremovableHalls])
+
+    useEffect(() => {
+        if (data.id !== null)
+            loadData<Hall>(ModesEndpoints.HallsUnremovable, [data.id])
+                .then(data => setUnremovablrHalls(data))
+                .catch(err => handleErrRedirect(setErr, err))
     }, [data])
 
     const storeAndRedirect = async () => {

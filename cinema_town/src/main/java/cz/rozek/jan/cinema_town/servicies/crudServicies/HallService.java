@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
+import cz.rozek.jan.cinema_town.models.dynamic.Projection;
+import cz.rozek.jan.cinema_town.models.stable.Cinema;
 import cz.rozek.jan.cinema_town.models.stable.Hall;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
+import cz.rozek.jan.cinema_town.repositories.CinemaRepository;
 import cz.rozek.jan.cinema_town.repositories.HallRepository;
 import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
@@ -21,6 +24,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
 
     private SeatService seatService;
     private ProjectionRepository projectionRepository;
+    private CinemaRepository cinemaRepository;
 
     @Autowired
     @Override
@@ -39,6 +43,10 @@ public class HallService extends CrudService<Hall, HallRepository> {
     @Autowired 
     public void setProjectionRepository(ProjectionRepository projectionRepository) {
         this.projectionRepository = projectionRepository;
+    }
+    @Autowired
+    public void setCinemaRepository(CinemaRepository cinemaRepository) {
+        this.cinemaRepository = cinemaRepository;
     }
 
     @Override
@@ -67,6 +75,20 @@ public class HallService extends CrudService<Hall, HallRepository> {
         return super.create(entity, accessJWT);
     }
 
+    public List<Hall> readAllUnremovable(String cinemaID, String accessJWT) {
+        Cinema c = cinemaRepository.findById(cinemaID).get();
+
+        List<Hall> halls = c.getHalls()
+        .values()
+        .stream()
+        .toList();
+        List<Projection> projections = projectionRepository.findByHall(halls);
+        return projections.stream()
+        .map(p -> p.getHall())
+        .distinct()
+        .toList();
+    }
+
     @Override
     public Hall update(String id, Hall entity, String accessJWT) throws ValidationException {
 
@@ -93,7 +115,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
                 hallSeats.put(seatFromDB.getId(), seatFromDB);
             } else {
                 Seat updated = seatService.update(seat.getId(), seat, accessJWT);
-                hallSeats.put(seat.getId(), seat);
+                hallSeats.put(seat.getId(), updated);
             }
         }
 
