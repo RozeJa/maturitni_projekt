@@ -72,12 +72,17 @@
 
 .hall-edit-body label, .hall-edit-body input, .hall-edit-body select, .hall-edit-body > p {
     border: none;
-    font-size: 1.5em;
     padding: .5em;
     outline: none;
 }
+.hall-edit-body input, .hall-edit-body select, .hall-edit-body > p {
+    font-size: 1.5em;
+}
 
-
+.hall-edit-body input {
+    border-bottom: 2px var(--color--black) solid;
+    padding-bottom: .2em;
+}
 
 .detail-submit > button, .detail-submit > a {
     margin: .5em;

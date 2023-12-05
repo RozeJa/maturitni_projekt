@@ -26,6 +26,7 @@ export const validateHall = (data: Hall): Array<string> => {
 const HallDetail = () => {
 
     const [hall, setHall] = useState(defaultHall)
+    const [designation, setDesignation] = useState("")
 
     const generateField = (): Seat[][]=> {
         
@@ -67,6 +68,11 @@ const HallDetail = () => {
     const {cinemaId} = useParams<string>()
     const { id } = useParams<string>()
     const navigate = useNavigate()  
+
+    useEffect(() => {
+        if (designation === "") 
+            setDesignation(hall.designation)
+    }, [hall])
 
     useEffect(() => {
         if (typeof id === 'string') {
@@ -139,12 +145,17 @@ const HallDetail = () => {
     }
 
     const handleInputNumber = (event: any) => {
-        const { name, value } = event.target
-
-        if (value <= 2) {
-            setHall({ ...hall, [name]: 2})
-        } else {
-            setHall({ ...hall, [name]:  parseInt(value)})
+        try {
+            const { name, value } = event.target
+    
+            if (value <= 2) {
+                setHall({ ...hall, [name]: 2})
+            } else {
+                setHall({ ...hall, [name]:  parseInt(value)})
+            }
+            
+        } catch (error) {
+            setHall({ ...hall})
         }
     }
 
@@ -195,8 +206,8 @@ const HallDetail = () => {
     return (
         <div className="hall-edit-body">
             {err}
-            <h1>{hall.id === null ? 'Nový sál' : `Sál ${hall.designation}`}</h1>
-            <SmartInput label={'Onačení sálu'}>
+            <h1>{hall.id === null ? 'Nový sál' : `Sál ${designation}`}</h1>
+            <SmartInput label={'Označení sálu'}>
                 <input 
                     name={'designation'}
                     type={'text'}

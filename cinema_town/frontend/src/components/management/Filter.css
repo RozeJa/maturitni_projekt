@@ -5,4 +5,5 @@
 .filter > input {
     border-radius: .5em;
     border: none;
+    padding: .5em;
 }

@@ -31,7 +31,7 @@
     padding: .5em;
     outline: none;
 }
-
+    
 .detail input {
     border-bottom: 2px var(--color--black) solid;
     padding-bottom: .2em;
