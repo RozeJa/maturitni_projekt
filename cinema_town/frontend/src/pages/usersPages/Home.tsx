@@ -92,7 +92,7 @@ const Home = () => {
             const cinemas = (await loadData<Cinema>(ModesEndpoints.Cinama))
 
             const cinema = {...defaultCinema}
-            cinema.city.name = "Vyberte kino"
+            cinema.city.name = "Všechna kina"
 
             cinemas.unshift(cinema)
 
@@ -158,7 +158,7 @@ const Home = () => {
                             setSelectedCinema({...defaultCinema})
                     }}> 
                         {cinemas.map((c, i) => {
-                            return <option key={i} value={c.id !== null ? c.id : ""}>{`${c.city.name}, ${c.street}, ${c.houseNumber}`}</option>
+                            return <option key={i} value={c.id !== null ? c.id : ""}>{c.city.name === 'Všechna kina' ? 'Všechna kina' : `${c.city.name}, ${c.street}, ${c.houseNumber}`}</option>
                         })}
                     </select>
                     <div className="home-search-form-filter">
