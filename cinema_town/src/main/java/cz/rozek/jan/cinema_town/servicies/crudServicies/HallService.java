@@ -31,19 +31,23 @@ public class HallService extends CrudService<Hall, HallRepository> {
     public void setRepository(HallRepository repository) {
         this.repository = repository;
     }
+
     @Autowired
     @Override
     public void setAuthService(AuthService authService) {
         this.authService = authService;
     }
+
     @Autowired
     public void setSeatService(SeatService seatService) {
         this.seatService = seatService;
     }
-    @Autowired 
+
+    @Autowired
     public void setProjectionRepository(ProjectionRepository projectionRepository) {
         this.projectionRepository = projectionRepository;
     }
+
     @Autowired
     public void setCinemaRepository(CinemaRepository cinemaRepository) {
         this.cinemaRepository = cinemaRepository;
@@ -53,14 +57,17 @@ public class HallService extends CrudService<Hall, HallRepository> {
     public String readPermissionRequired() {
         return "hall-read";
     }
+
     @Override
     public String createPermissionRequired() {
         return "hall-create";
     }
+
     @Override
     public String updatePermissionRequired() {
         return "hall-update";
     }
+
     @Override
     public String deletePermissionRequired() {
         return "hall-delete";
@@ -68,7 +75,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
 
     @Override
     public Hall create(Hall entity, String accessJWT) throws ValidationException {
-        
+
         // přidej sedadla do db
         editSeats(entity, accessJWT);
 
@@ -76,29 +83,34 @@ public class HallService extends CrudService<Hall, HallRepository> {
     }
 
     public List<Hall> readAllUnremovable(String cinemaID, String accessJWT) {
+
+        // ověř oprávnění
+        verifyAccess(accessJWT, readPermissionRequired());
+
         Cinema c = cinemaRepository.findById(cinemaID).get();
 
         List<Hall> halls = c.getHalls()
-        .values()
-        .stream()
-        .toList();
+                .values()
+                .stream()
+                .toList();
         List<Projection> projections = projectionRepository.findByHall(halls);
         return projections.stream()
-        .map(p -> p.getHall())
-        .distinct()
-        .toList();
+                .map(p -> p.getHall())
+                .distinct()
+                .toList();
     }
 
     @Override
     public Hall update(String id, Hall entity, String accessJWT) throws ValidationException {
 
         Hall editedFromDB = repository.findById(id).get();
-    
+
         // přidej nová sedadla do db
         editSeats(entity, accessJWT);
 
         // ! odeber z db odebraná sedadla
-        List<Seat> removedSeats = editedFromDB.getSeats().values().stream().filter(s -> entity.getSeats().get(s.getId()) == null).toList();
+        List<Seat> removedSeats = editedFromDB.getSeats().values().stream()
+                .filter(s -> entity.getSeats().get(s.getId()) == null).toList();
 
         seatService.deleteAll(removedSeats, accessJWT);
 
@@ -106,7 +118,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
     }
 
     private void editSeats(Hall entity, String accessJWT) throws ValidationException {
-        
+
         Map<String, Seat> hallSeats = new HashMap<>();
 
         for (Seat seat : entity.getSeats().values()) {
@@ -127,7 +139,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
         Optional<Hall> hallOptional = repository.findById(id);
         if (hallOptional.isPresent()) {
             Hall hall = hallOptional.get();
-            
+
             if (isHallRemovable(hall.getId())) {
                 boolean removed = super.delete(id, accessJWT);
                 seatService.deleteAll(hall.getSeats().values().stream().toList(), accessJWT);
@@ -135,7 +147,7 @@ public class HallService extends CrudService<Hall, HallRepository> {
                 return removed;
             }
         }
-        
+
         return false;
     }
 

@@ -25,4 +25,5 @@
 
 .hall-record-dizabled {
     opacity: .5;
+    cursor: not-allowed !important;
 }

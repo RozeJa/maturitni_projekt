@@ -27,7 +27,7 @@ public class HallController extends cz.rozek.jan.cinema_town.controllers.RestCon
     public ResponseEntity<String> getUnremovable(@PathVariable String cinemaID, @RequestHeader Map<String, String> headers) {
         try {
 
-            List<Hall> entities = service.readAllUnremovable(cinemaID,headers.get(authorization));
+            List<Hall> entities = service.readAllUnremovable(cinemaID, headers.get(authorization));
 
             return new ResponseEntity<>(objectMapper.writeValueAsString(entities), HttpStatus.OK); 
         } catch (NullPointerException e) {
