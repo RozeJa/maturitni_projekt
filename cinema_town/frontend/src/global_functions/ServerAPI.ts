@@ -1,24 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import Cinema from '../models/Cinema';
-import City from '../models/City';
 import Film from '../models/Film';
-import Genre from '../models/Genre';
-import Hall from '../models/Hall';
-import People from '../models/People';
-import Permission from '../models/Permission';
-import Projection from '../models/Projection';
-import Reservation from '../models/Reservation';
-import Role from '../models/Role';
-import Seat from '../models/Seat';
 import User from '../models/User';
 import { TokenDeviceId } from '../models/TokenDeviceId';
 import { getSessionStorageItem } from './storagesActions';
+import Entity from '../models/Entity';
 
 // url na server 
 const BASE_URL = 'http://localhost:8080/'
-
-// povolený typ pro dotazy na rest api
-export type ApiData = Cinema | City | Film | Genre | Hall | People | Permission | Projection | Reservation | Role | Seat | User
 
 // výčtový typ mapovaný na endpointy 
 export enum ModesEndpoints {
@@ -40,7 +28,7 @@ export enum ModesEndpoints {
 
 
 // funkce pro načtení dat z api
-export const loadData = async <T extends ApiData>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
+export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
     let data: T[] = []
 
     // načti si config
@@ -60,8 +48,8 @@ export const loadData = async <T extends ApiData>(modelEndpoint: ModesEndpoints,
 }
 
 // funkce pro uložení dat na server
-export const storeData = async <T extends ApiData>(modelEntpoint: ModesEndpoints, data: T[]): Promise<ApiData[]> => {
-    let reseavedData: ApiData[] = []
+export const storeData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<Entity[]> => {
+    let reseavedData: Entity[] = []
 
     let config = await getRequestConfig()
     
@@ -144,7 +132,7 @@ const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>
 }
 
 // funkce pro odstranění dat
-export const deleteData = async <T extends ApiData>(modelEntpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
+export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
     for (let i = 0; i < data.length; i++) {
      
         // načti si config

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './Detail.css'
-import { ApiData, ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI';
+import { ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI';
 import { useNavigate, useParams } from 'react-router-dom';
 import DialogErr from '../../../components/DialogErr';
 import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction';
+import Entity from '../../../models/Entity';
 
 
-const Detail = <T extends ApiData> ({
+const Detail = <T extends Entity> ({
         defaultData,
         modesEndpoint,
         spreadsheetURL,

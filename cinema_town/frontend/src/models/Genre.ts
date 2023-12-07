@@ -1,5 +1,6 @@
-interface Genre {
-    id: string | null,
+import Entity from "./Entity"
+
+interface Genre extends Entity {
     name: string
 }
 

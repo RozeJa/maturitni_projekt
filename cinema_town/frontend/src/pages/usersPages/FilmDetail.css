@@ -1,0 +1,109 @@
+.film-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8vh;
+}
+
+.film-detail-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 65%;
+    margin-bottom: 2vh;
+    flex-wrap: wrap;
+}
+.film-detail-header h1 {
+    font-size: 2.5em;
+}
+.film-detail-header button {
+    border: none;
+    outline: none;
+    font-size: 1.5em;
+    padding: .5em;
+    border-radius: .5em;
+    background-color: var(--color--red--bright);
+    color: white;
+    cursor: pointer;
+    transition-duration: var(--transition-delay--short);
+}
+.film-detail-header button:hover {
+    box-shadow: .2em .2em .2em var(--color--red--dark);
+}
+
+.film-detail-trailer {
+    width: 65vw;
+    height: 65vh;
+    margin-bottom: 3vh;
+}
+.film-detail-trailer  iframe {
+    position: 'absolute';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+}
+.film-detail-description {
+    width: 65%;
+}
+.film-detail-description > p {
+    display: block;
+}
+
+.film-detail-description-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.film-detail-description-data {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 2em;
+}
+.film-detail-description-data-stat {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--color--grey--medium);
+    font-size: 1.1em;
+    padding: 0 2em;
+}
+
+.film-detail-description-data-stat {
+    flex-wrap: wrap;
+}
+
+.film-detail-description-data-stat p {
+    margin-bottom: .5em;
+}
+
+.film-detail-description-data-stat p:nth-child(2) {
+    margin-top: 0;
+}
+
+.film-detail-description-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.film-detail-description-img  img {
+    width: 20vw;
+    height: auto;
+    border-radius: 2em;
+}
+
+@media only screen and (max-width: 1200px) {
+    .film-detail-description-stats {
+        flex-direction: column;
+    }
+    .film-detail-description-data {
+        width: 100%;
+    }
+    .film-detail-description-img {
+        display: none;
+    }
+}

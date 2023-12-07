@@ -1,5 +1,6 @@
-interface City {
-    id: string | null,
+import Entity from "./Entity"
+
+interface City extends Entity {
     name: string
 }
 

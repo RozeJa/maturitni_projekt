@@ -1,5 +1,6 @@
-interface People {
-    id: string | null,
+import Entity from "./Entity"
+
+interface People extends Entity {
     name: string,
     surname: string
 }

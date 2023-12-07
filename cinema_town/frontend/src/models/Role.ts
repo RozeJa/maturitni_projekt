@@ -1,7 +1,7 @@
+import Entity from "./Entity";
 import Permission from "./Permission";
 
-interface Role {
-    id: string | null,
+interface Role extends Entity {
     name: string,
     permissions: Map<string, Permission> | null
 }

@@ -1,7 +1,7 @@
+import Entity from "./Entity"
 import Role, { defaultRole } from "./Role"
 
-interface User {
-    id: string | null,
+interface User extends Entity {
     email: string,
     password: string,
     password2: string,

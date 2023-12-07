@@ -1,8 +1,8 @@
+import Entity from "./Entity";
 import Film, { defaultFilm } from "./Film";
 import Hall, { defaultHall } from "./Hall";
 
-interface Projection {
-    id: string | null,
+interface Projection extends Entity {
     hall: Hall,
     film: Film,
     cost: number,

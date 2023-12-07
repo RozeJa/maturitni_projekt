@@ -1,9 +1,8 @@
-import { type } from "os";
 import Genre from "./Genre";
 import People, { defaultPeople } from "./People";
+import Entity from "./Entity";
 
-interface Film {
-    id: string | null,
+interface Film extends Entity {
     name: string,
     description: string,
     picture: string,

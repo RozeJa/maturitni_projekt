@@ -1,8 +1,8 @@
 import City, { defaultCity } from "./City";
+import Entity from "./Entity";
 import Hall from "./Hall";
 
-interface Cinema {
-    id: string | null,
+interface Cinema extends Entity {
     city: City,
     street: string,
     houseNumber: string,

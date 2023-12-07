@@ -1,9 +1,9 @@
+import Entity from "./Entity";
 import Projection, { defaultProjection } from "./Projection";
 import Seat, { defaultSeat } from "./Seat";
 import User, { defaultUser } from "./User";
 
-interface Reservation {
-    id: string | null,
+interface Reservation extends Entity {
     projection: Projection,
     user: User,
     seat: Seat,

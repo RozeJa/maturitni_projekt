@@ -1,5 +1,6 @@
-interface Permission {
-    id: string | null,
+import Entity from "./Entity"
+
+interface Permission extends Entity {
     permission: string
 }
 

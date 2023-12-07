@@ -1,7 +1,7 @@
+import Entity from "./Entity"
 import Seat from "./Seat"
 
-interface Hall {
-    id: string | null,
+interface Hall extends Entity {
     designation: string,
     rows: number,
     columns: number,

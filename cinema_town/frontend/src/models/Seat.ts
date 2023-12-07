@@ -1,5 +1,6 @@
-interface Seat {
-    id: string | null,
+import Entity from "./Entity"
+
+interface Seat extends Entity {
     rowDesignation: string,
     number: number,
     rowIndex: number,
