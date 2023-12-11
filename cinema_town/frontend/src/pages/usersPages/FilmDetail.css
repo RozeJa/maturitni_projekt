@@ -57,7 +57,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
-.film-detail-description-data {
+.film-detail-description-stats > div {
     display: flex;
     flex-direction: column;
     width: 50%;

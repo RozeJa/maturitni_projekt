@@ -48,7 +48,7 @@ const FilmDetail = () => {
                 <h2>{film.name}</h2>
                 <p>{film.description}</p>
                 <div className="film-detail-description-stats">
-                    <div className="film-detail-description-data">
+                    <div>
                         <div className="film-detail-description-data-stat">
                             <p>Žánry</p>
                             <p>{Object.values(film.genres).map(g => g.name).join(', ')}</p>
