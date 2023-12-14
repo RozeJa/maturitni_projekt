@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { emailRegex, handleErrRedirect, pwRegex } from '../../../global_functions/constantsAndFunction'
-import User from '../../../models/User'
+import User, { defaultUser } from '../../../models/User'
 import './UserDetail.css'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI';
 import Role, { defaultRole } from '../../../models/Role';
 import SmartInput from '../../../components/SmartInput';
+import { storeDetailData } from './Detail';
 
 
 export const validateUser = (data: User): Array<string> => {
@@ -37,20 +38,23 @@ export const validateUser = (data: User): Array<string> => {
 
 const UserDetail = ({
         data, 
-        handleInputText, 
-        handleInputCheckbox, 
-        setData, 
         setErr
     }: {
         data: User, 
-        handleInputText: Function, 
-        handleInputCheckbox: Function, 
-        setData: Function, 
         setErr: Function
     }) => {
 
+    
+    const [tempData, setTempData] = useState(defaultUser)
+    useEffect(() => {
+        setTempData(data)
+        storeDetailData(tempData)
+    }, [data])
+    useEffect(() => {
+        storeDetailData(tempData)
+    }, [tempData])
+    
     const [roles, setRoles] = useState([<></>])
-
 
     useEffect(() => {
         loadData<Role>(ModesEndpoints.Role)
@@ -73,12 +77,24 @@ const UserDetail = ({
         let role: Role = defaultRole
         role.id = value
 
-        setData({ ...data, [name]: role})
+        setTempData({ ...tempData, [name]: role})
     }
 
     const handleInput = (e: any) => {
-        if (data.id === null) 
+        if (tempData.id === null) 
             handleInputText(e)
+    }
+
+    const handleInputText = (e:any) => {
+        const {name, value} = e.target
+
+        setTempData({... tempData, [name]: value})
+    }
+
+    const handleInputCheckbox = (e:any) => {
+        const {name, checked} = e.target
+
+        setTempData({... tempData, [name]: checked})
     }
     
     return (
@@ -87,9 +103,9 @@ const UserDetail = ({
                 <input 
                     name={'email'}
                     type={'text'}
-                    value={data.email}
+                    value={tempData.email}
                     onChange={(e: any) => handleInput(e)}
-                    disabled={data.id !== null} />
+                    disabled={tempData.id !== null} />
             </SmartInput>
             
             <SmartInput label={'Heslo'}>
@@ -98,7 +114,7 @@ const UserDetail = ({
                     type={'password'}
                     value={''}
                     onChange={(e: any) => handleInput(e)}
-                    disabled={data.id !== null} />
+                    disabled={tempData.id !== null} />
             </SmartInput>
             
             <SmartInput label={'Potvrzení hesla'}>
@@ -107,16 +123,16 @@ const UserDetail = ({
                     type={'password'}
                     value={''}
                     onChange={(e: any) => handleInput(e)}
-                    disabled={data.id !== null} />
+                    disabled={tempData.id !== null} />
             </SmartInput>
             
             <div className="chechbox">
                 <label>Odběratel</label>
-                <input name='subscriber' type="checkbox" checked={data.subscriber} onChange={(e: any) => handleInputCheckbox(e)} disabled={data.id !== null} />
+                <input name='subscriber' type="checkbox" checked={tempData.subscriber} onChange={(e: any) => handleInputCheckbox(e)} disabled={tempData.id !== null} />
             </div>
             <div className="select">
                 <label>Role</label>
-                <select name="role" value={typeof data.role === 'string' ? data.role : (data.role.id !== null ? data.role.id : '')} onChange={handleSelect}>
+                <select name="role" value={typeof tempData.role === 'string' ? tempData.role : (tempData.role.id !== null ? tempData.role.id : '')} onChange={handleSelect}>
                     { roles }
                 </select>
             </div>

@@ -1,6 +1,8 @@
 import './GenreDetail.css'
-import Genre from '../../../models/Genre'
+import Genre, { defaultGerne } from '../../../models/Genre'
 import SmartInput from '../../../components/SmartInput'
+import { useEffect, useState } from 'react'
+import { storeDetailData } from './Detail'
 
 export const validateGenre = (data: Genre): Array<string> => {
     let errs: Array<string> = []
@@ -14,17 +16,26 @@ export const validateGenre = (data: Genre): Array<string> => {
 
 const GenreDetail = ({
     data, 
-    handleInputText, 
-    handleInputCheckbox, 
-    setData, 
     setErr
 }: {
     data: Genre, 
-    handleInputText: Function, 
-    handleInputCheckbox: Function, 
-    setData: Function, 
     setErr: Function
 }) => {
+
+    const [tempData, setTempData] = useState(defaultGerne)
+    useEffect(() => {
+        setTempData(data)
+        storeDetailData(tempData)
+    }, [data])
+    useEffect(() => {
+        storeDetailData(tempData)
+    }, [tempData])
+    
+    const handleInputText = (e:any) => {
+        const {name, value} = e.target
+
+        setTempData({... tempData, [name]: value})
+    }
 
     return (
         <>  
@@ -32,7 +43,7 @@ const GenreDetail = ({
                 <input 
                     name={'name'}
                     type={'text'}
-                    value={data.name}
+                    value={tempData.name}
                     onChange={(e: any) => handleInputText(e)} />
             </SmartInput>
         </>

@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 8vh;
+    padding-top: 8vh;
+    background-color: black;
 }
 
 .film-detail-header {
@@ -17,6 +18,7 @@
 }
 .film-detail-header h1 {
     font-size: 2.5em;
+    color: white;
 }
 .film-detail-header button {
     border: none;
@@ -36,17 +38,20 @@
 .film-detail-trailer {
     width: 65vw;
     height: 65vh;
-    margin-bottom: 3vh;
+    padding-bottom: 6vh;
 }
-.film-detail-trailer  iframe {
+.film-detail-trailer    iframe {
     position: 'absolute';
     top: 0;
     left: 0;
     width: 100%;
     height: 100%; 
+    border: none;
 }
 .film-detail-description {
     width: 65%;
+    padding: 0 17.5%;
+    background-color: white;
 }
 .film-detail-description > p {
     display: block;
@@ -99,6 +104,10 @@
 @media only screen and (max-width: 1200px) {
     .film-detail-description-stats {
         flex-direction: column;
+        width: 100%;
+    }
+    .film-detail-description-stats > div {
+        width: 100%;
     }
     .film-detail-description-data {
         width: 100%;

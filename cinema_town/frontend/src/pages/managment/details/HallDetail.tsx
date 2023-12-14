@@ -235,14 +235,14 @@ const HallDetail = () => {
                 {displayField}
             </div>
             <div className='detail-submit'>
+                <a href={`/management/cinemas/${cinemaId}`}>
+                    Zahodit změny
+                </a>
                 <button onClick={()=> {
                     store()
                 }}>
                     Uložit změny
                 </button>
-                <a href={`/management/cinemas/${cinemaId}`}>
-                    Zahodit změny
-                </a>
             </div>
         </div>
     )

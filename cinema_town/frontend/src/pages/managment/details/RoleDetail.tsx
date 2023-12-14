@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import Role from '../../../models/Role'
+import Role, { defaultRole } from '../../../models/Role'
 import './RoleDetail.css'
 import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import Permission from '../../../models/Permission'
 import { handleErrRedirect } from '../../../global_functions/constantsAndFunction'
+import { storeDetailData } from './Detail'
 
 export const validateRole = (data: Role): Array<string> => {
     let errs: Array<string> = []
@@ -14,17 +15,20 @@ export const validateRole = (data: Role): Array<string> => {
 
 const RoleDetail = ({
     data, 
-    handleInputText, 
-    handleInputCheckbox, 
-    setData, 
     setErr
 }: {
-    data: Role, 
-    handleInputText: Function, 
-    handleInputCheckbox: Function, 
-    setData: Function, 
+    data: Role,
     setErr: Function
 }) => {
+    
+    const [tempData, setTempData] = useState(defaultRole)
+    useEffect(() => {
+        setTempData(data)
+        storeDetailData(tempData)
+    }, [data])
+    useEffect(() => {
+        storeDetailData(tempData)
+    }, [tempData])
 
     const [permisionsData, setPermissionsData] = useState(new Map<string, Permission>())
     const [permisions, setPermissions] = useState([<></>])
@@ -45,7 +49,7 @@ const RoleDetail = ({
 
     useEffect(() => {
         reprintPermissions()
-    }, [permisionsData, data])
+    }, [permisionsData, tempData])
 
     const reprintPermissions = () => {
         let toDisplay: Array<JSX.Element> = []
@@ -87,7 +91,7 @@ const RoleDetail = ({
             delete permisions[name]
         }
       
-        setData({ ...data, ['permissions']: permisions})
+        setTempData({ ...tempData, ['permissions']: permisions})
         reprintPermissions()
     }
 

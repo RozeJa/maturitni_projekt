@@ -1,7 +1,7 @@
 .block-busters-slider-container {
   background-color: black;
   overflow: hidden;
-  max-width: 100%;
+  max-width: 100%;  
 }
 .slick-initialized .slick-slide {
   display: flex; 
@@ -62,7 +62,6 @@
   align-items: center;
   flex-direction: column;
   background-color: #EEEEEE;
-  padding-top: 2em;
 }
 
 .home-films > p {

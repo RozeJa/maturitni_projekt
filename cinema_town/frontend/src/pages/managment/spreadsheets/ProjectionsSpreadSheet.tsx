@@ -26,13 +26,15 @@ const ProjectionsSpreadsheet = () => {
     const [selectedCinema, setSelectedCinema] = useState({...defCinema})
     const [lastEvent, setLastEvent] = useState(defAny)
     
+    const [showArchived, setShowArchived] = useState(false)
     const [err, setErr] = useState(<></>)
 
     useEffect(() => {
-        loadData<Projection>(ModesEndpoints.Projection)
+        const endpoint = showArchived ? ModesEndpoints.ProjectionArchived : ModesEndpoints.Projection
+        loadData<Projection>(endpoint)
             .then(data => {
                 setProjections(
-                    data.sort((a,b) => a.dateTime.toLocaleString().localeCompare(b.dateTime.toLocaleString()))
+                    data.sort((a,b) => a.film.name.localeCompare(b.film.name))
                 )
             })
             .catch(err => handleErr(setErr, err))
@@ -48,7 +50,7 @@ const ProjectionsSpreadsheet = () => {
         loadData<Reservation>(ModesEndpoints.Reservation)
             .then(data => setReservations(data))
             .catch(err => handleErr(setErr, err))
-    }, [])
+    }, [showArchived])
 
     useEffect(() => {
         setFiltredProjections(projections)
@@ -75,7 +77,10 @@ const ProjectionsSpreadsheet = () => {
                     p.cost == value ||
                     p.dabing.toLowerCase() === value.toLowerCase() ||
                     p.title.toLowerCase() === value.toLowerCase() ||
-                    p.dateTime.toString().toLowerCase() === value.toLowerCase() ||
+                    p.dateTime.toString().replaceAll(",",":").toLowerCase() === value.toLowerCase() ||
+                    p.dateTime.toString().replaceAll(",","-").toLowerCase() === value.toLowerCase() ||
+                    p.dateTime.toString().replaceAll(",",":").toLowerCase().split(value.toLowerCase()).length > 1 ||
+                    p.dateTime.toString().replaceAll(",","-").toLowerCase().split(value.toLowerCase()).length > 1 ||
                     p.dateTime.toString().toLowerCase().split(value.toLowerCase()).length > 1
                 ) &&
                 (
@@ -98,12 +103,12 @@ const ProjectionsSpreadsheet = () => {
     }
     
     return (
-        <div className='sp'>
+        <div className='projection-sp'>
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <div className="projection-header-filter-cinema">
-                    <label>Multikino :</label>
+                    <label>Multikino:</label>
                     <select onChange={(e:any) => {
                         const { value } = e.target
 
@@ -120,6 +125,11 @@ const ProjectionsSpreadsheet = () => {
                         }
                     </select>
                 </div>
+                <div className="projection-header-filter-cinema">
+                    <label>Zobrazit:</label>
+                    <button onClick={() => setShowArchived(!showArchived)}>{showArchived ? "Archivované" : "Budoucí"} promítání</button>
+                </div>
+
                 <a href="/management/projections/new"><b>Nový</b></a>
             </div>
             <div className="sp-body">
@@ -131,6 +141,14 @@ const ProjectionsSpreadsheet = () => {
                     const seats = Object.values(d.hall.seats).filter(s => s.seat).length
                     const reserved = reservations.filter(r => r.projection.id === d.id).length
                     
+                    let date = ''
+                    let time = ''
+
+                    if (!(d.dateTime instanceof Date)) {
+                        date = `${d.dateTime[0]}-${d.dateTime[1].toString().padStart(2, '0')}-${d.dateTime[2].toString().padStart(2, '0')}`
+                        time = `${d.dateTime[3]+1}:${d.dateTime[4].toString().padStart(2, '0')}`
+                    }
+                    
                     return <Tile key={index.toString()  }
                             header={d.film.name} 
                             onClick={()=>navigate(`/management/projections/${d.id}`)}
@@ -140,6 +158,8 @@ const ProjectionsSpreadsheet = () => {
                             >
                             <>
                                 <p><b>Multikino</b> {address}</p>
+                                <p><b>Datum:</b> {date}</p>
+                                <p><b>Čas:</b> {time}</p>
                                 <p><b>Počet volných míst</b> {seats - reserved}</p>
                                 <p><b>Míst celkem</b> {seats}</p>
                             </>

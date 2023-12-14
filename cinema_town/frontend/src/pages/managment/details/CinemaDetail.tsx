@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Cinema from '../../../models/Cinema'
+import Cinema, { defaultCinema } from '../../../models/Cinema'
 import City from '../../../models/City'
 import './CinemaDetail.css'
 import { ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI';
@@ -11,6 +11,7 @@ import { handleErr, handleErrRedirect } from '../../../global_functions/constant
 import SmartInput from '../../../components/SmartInput';
 import BeautifulInput from '../../../components/BeautifulInput';
 import Hall from '../../../models/Hall';
+import { storeDetailData } from './Detail';
 
 export const validateCinema = (data: Cinema): Array<string> => {
     let errs: Array<string> = []
@@ -36,17 +37,20 @@ const defHalls: Hall[] = []
 
 const CinemaDetail = ({
     data, 
-    handleInputText, 
-    handleInputCheckbox, 
-    setData, 
     setErr
 }: {
     data: Cinema, 
-    handleInputText: Function, 
-    handleInputCheckbox: Function, 
-    setData: Function, 
     setErr: Function
 }) => {
+
+    const [tempData, setTempData] = useState(defaultCinema)
+    useEffect(() => {
+        setTempData(data)
+        storeDetailData(tempData)
+    }, [data])
+    useEffect(() => {
+        storeDetailData(tempData)
+    }, [tempData])
 
     const [cities, setCities] = useState(citiesDefault)
     const [hallRecords, setHallRecords] = useState([...hallRecordsDefault])
@@ -60,27 +64,27 @@ const CinemaDetail = ({
     }, [])
 
     useEffect(() => {
-        if (data.halls !== null) {
+        if (tempData.halls !== null) {
         
-            const maped = Object.values(data.halls).map((hal, index) => {
-                return <HallRecord key={index} hall={hal} cinema={data} unremovableHalls={unremovableHalls} setCinema={(newData: Cinema) => setData(newData)} />
+            const maped = Object.values(tempData.halls).map((hal, index) => {
+                return <HallRecord key={index} hall={hal} cinema={tempData} unremovableHalls={unremovableHalls} setCinema={(newData: Cinema) => setTempData(newData)} />
             })
             
             
            setHallRecords(maped)
         }
-    }, [data, unremovableHalls])
+    }, [unremovableHalls, tempData])
 
     useEffect(() => {
-        if (data.id !== null)
-            loadData<Hall>(ModesEndpoints.HallsUnremovable, [data.id])
+        if (tempData.id !== null)
+            loadData<Hall>(ModesEndpoints.HallsUnremovable, [tempData.id])
                 .then(data => setUnremovablrHalls(data))
                 .catch(err => handleErrRedirect(setErr, err))
-    }, [data])
+    }, [tempData])
 
     const storeAndRedirect = async () => {
         
-        let errs: Array<string> = validateCinema(data)
+        let errs: Array<string> = validateCinema(tempData)
         if (errs.length > 0) {
             let errLog: string = ''
 
@@ -90,7 +94,7 @@ const CinemaDetail = ({
             return
         }
 
-        storeData<Cinema>(ModesEndpoints.Cinama, [data])
+        storeData<Cinema>(ModesEndpoints.Cinama, [tempData])
             .then(data => navigate(`/management/halls/${data[0].id}/new`))
             .catch(err => handleErr(setErr, err))
     }
@@ -98,22 +102,28 @@ const CinemaDetail = ({
     const handleCityChange = (e: any) => {
         const { value } = e.target
 
-        data.city.name = value
+        tempData.city.name = value
 
-        setData({ ...data })
+        setTempData({ ...data })
+    }
+
+    const handleInputText = (e:any) => {
+        const {name, value} = e.target
+
+        setTempData({... tempData, [name]: value})
     }
 
     return (
         <>            
             <BeautifulInput label='Město'>
-                <SelectInput options={cities.map((c: City) => c.name)} onChange={(event: any) => handleCityChange(event)} initValue={data.city.name} />
+                <SelectInput options={cities.map((c: City) => c.name)} onChange={(event: any) => handleCityChange(event)} initValue={tempData.city.name} />
             </BeautifulInput>
            
             <SmartInput label={'Ulice'}>
                 <input 
                     name={'street'}
                     type={'text'}
-                    value={data.street}
+                    value={tempData.street}
                     onChange={(e: any) => handleInputText(e)}/>    
             </SmartInput> 
             
@@ -121,7 +131,7 @@ const CinemaDetail = ({
                 <input 
                     name={'houseNumber'}
                     type={'text'}
-                    value={data.houseNumber}
+                    value={tempData.houseNumber}
                     onChange={(e: any) => handleInputText(e)}/>
             </SmartInput> 
 
@@ -130,11 +140,11 @@ const CinemaDetail = ({
                     <h2>Sály kina</h2>
                     <p onClick={() => {
                         // pokud vytvářiš nový kino ulož ho 
-                        if (data.id === null) {
+                        if (tempData.id === null) {
                             storeAndRedirect()
                             // nebo přesměruj na stránku
                         } else {
-                            navigate(`/management/halls/${data.id}/new`)
+                            navigate(`/management/halls/${tempData.id}/new`)
                         }
                 
                     }}>Nový sál</p>

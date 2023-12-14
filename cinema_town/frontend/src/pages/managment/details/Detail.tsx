@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react';
+    import React, { useEffect, useState } from 'react';
 import './Detail.css'
 import { ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI';
 import { useNavigate, useParams } from 'react-router-dom';
 import DialogErr from '../../../components/DialogErr';
 import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction';
 import Entity from '../../../models/Entity';
+import { getSessionStorageItem } from '../../../global_functions/storagesActions';
 
+const tempData = "tempData"
+
+export const storeDetailData = (data: Entity) => {
+    sessionStorage.setItem(tempData, JSON.stringify(data))
+}
 
 const Detail = <T extends Entity> ({
         defaultData,
@@ -51,7 +57,7 @@ const Detail = <T extends Entity> ({
     }, [data])
 
     useEffect(() => {
-        setForm(<InnerForm data={data} handleInputText={handleInputText} handleInputCheckbox={handleInputCheckbox} setData={(newData: T) => (setData(newData))} setErr={(err: JSX.Element) => setErr(err)}></InnerForm>)
+        setForm(<InnerForm data={data} setErr={(err: JSX.Element) => setErr(err)}></InnerForm>)
     }, [data])
 
     const load = (id: string) => {
@@ -66,7 +72,8 @@ const Detail = <T extends Entity> ({
     }
 
     const store = () => {
-        
+        const data = JSON.parse(getSessionStorageItem(tempData))
+
         let errs: Array<string> = validateData(data)
         if (errs.length > 0) {
             let errLog: string = ''
@@ -78,20 +85,11 @@ const Detail = <T extends Entity> ({
         }
     
         storeData<T>(modesEndpoint, [data])
-            .then(data => navigate(spreadsheetURL))
+            .then(data => {
+                sessionStorage.removeItem(tempData)
+                navigate(spreadsheetURL)
+            })
             .catch(err => handleErr(setErr, err))
-    }
-
-    const handleInputText = (event: any) => {
-        const { name, value } = event.target
-
-        setData({ ...data, [name]: value })
-    }
-
-    const handleInputCheckbox = (event: any) => {
-        const { name, checked } = event.target
-        
-        setData({ ...data, [name]: checked })
     }
 
     return (
@@ -102,10 +100,10 @@ const Detail = <T extends Entity> ({
                 {form}
             </div>
             <div className='detail-submit'>
+                <a href={spreadsheetURL}>Zahodit změny</a>
                 <button onClick={()=>store()}>
                     {id === undefined ? 'Vytvořit' : 'Potvrdit změny'}
                 </button>
-                <a href={spreadsheetURL}>Zahodit změny</a>
             </div>
         </div>
     )

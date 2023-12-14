@@ -20,6 +20,7 @@ export enum ModesEndpoints {
     People = "api/people/",
     Permission = "api/permissions/",
     Projection = "api/projections/",
+    ProjectionArchived = "api/projections/archived",
     Reservation = "api/reservations/",
     Role = "api/roles/",
     Seat = "api/seats/",

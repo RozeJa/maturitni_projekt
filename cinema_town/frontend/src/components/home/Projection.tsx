@@ -13,15 +13,11 @@ const Projection = ({
     }) => {
 
     const [trailer, setTrailer] = useState(<></>)
-    const navigate = useNavigate()
 
     return (
         <div className='projection'>
             {trailer}
-            <h1 className='projection-responsive-header'
-                onClick={() => navigate(`/film/${film.id}`)}
-                >{film.name}
-            </h1>
+            <h1 className='projection-responsive-header'><a href={`/film/${film.id}`}>{film.name}</a></h1>
             <div className="projection-content">
                 <div className="projection-img"
                     onClick={() => setTrailer(<Trailer url={film.trailer} onClick={() => setTrailer(<></>)} />)}>
@@ -29,10 +25,7 @@ const Projection = ({
                     <img src={require(`../../assets/imgs/favicons/play-favicon2.png`)} alt="favicon-play" />
                 </div>
                 <div className="projection-text-content">
-                    <h1 
-                        onClick={() => navigate(`/film/${film.id}`)}
-                        >{film.name}
-                    </h1>
+                    <h1><a href={`/film/${film.id}`}>{film.name}</a></h1>
                     <div>
                         <p>{film.description}</p>
                     </div>

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import Film from '../../../models/Film'
+import Film, { defaultFilm } from '../../../models/Film'
 import './FilmDetail.css'
 import People, { defaultPeople } from '../../../models/People'
-import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
 import Genre, { defaultGerne } from '../../../models/Genre'
 import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 import SmartInput from '../../../components/SmartInput'
 import BeautifulInput from '../../../components/BeautifulInput'
+import { storeDetailData } from './Detail'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -51,26 +50,29 @@ const defActors : { [key: string]: People } = { '0': defPeople }
 
 const FilmDetail = ({
     data, 
-    handleInputText, 
-    handleInputCheckbox, 
-    setData, 
     setErr
 }: {
-    data: Film, 
-    handleInputText: Function, 
-    handleInputCheckbox: Function, 
-    setData: Function, 
+    data: Film,
     setErr: Function
 }) => {
-    const { id } = useParams<string>()
+    
+    const [tempData, setTempData] = useState(defaultFilm)
+    useEffect(() => {
+        setTempData(data)
+        storeDetailData(tempData)
+    }, [data])
+    useEffect(() => {
+        storeDetailData(tempData)
+    }, [tempData])
+
     const [peoples, setPeoples] = useState(defPeoples)
     const [genres, setGenres] = useState(defGenres)
     
     const [selectedGenres, setSelectedGenres] = useState([...defGenres])
     const [director, setDirector] = useState({ ...defPeople})
     const [actors, setActors] = useState(defActors)
-    const [titles, setTitles] = useState([...data.titles, ""])
-    const [dabings, setDabings] = useState([...data.dabings, ""])
+    const [titles, setTitles] = useState([...tempData.titles, ""])
+    const [dabings, setDabings] = useState([...tempData.dabings, ""])
     const [file, setFile] = useState(null)
 
     const [loaded, setLoaded] = useState(false)
@@ -90,15 +92,15 @@ const FilmDetail = ({
 
     useEffect(() => {
 
-        if (!loaded && data.id !== null) {
-            setTitles([...data.titles, ""])
-            setDabings([...data.dabings, ""])
-            setSelectedGenres([...data.genres, {... defaultGerne}])
-            setDirector(data.director)
+        if (!loaded && tempData.id !== null) {
+            setTitles([...tempData.titles, ""])
+            setDabings([...tempData.dabings, ""])
+            setSelectedGenres([...tempData.genres, {... defaultGerne}])
+            setDirector(tempData.director)
 
-            if (data.actors !== null) {
+            if (tempData.actors !== null) {
                 const newActors: { [key: string]: People } = {}
-                Object.values(data.actors).forEach((a) => {
+                Object.values(tempData.actors).forEach((a) => {
                     newActors[Object.values(newActors).length.toString()] = a
                 })
 
@@ -107,37 +109,37 @@ const FilmDetail = ({
                 setActors({...newActors})
             }
 
-            setLoaded(data.titles.length > 0 || data.dabings.length > 0)
+            setLoaded(tempData.titles.length > 0 || tempData.dabings.length > 0)
         }
 
-    }, [data])
+    }, [tempData])
 
     useEffect(() => {
-        data["genres"] = selectedGenres.filter((v,i) => i !== selectedGenres.length - 1 && v.name !== "")
-        setData({... data})
+        tempData["genres"] = selectedGenres.filter((v,i) => i !== selectedGenres.length - 1 && v.name !== "")
+        setTempData({... tempData})
     }, [selectedGenres])
     useEffect(() => {
-        data["director"] = director
-        setData({... data})
+        tempData["director"] = director
+        setTempData({... tempData})
     }, [director])
     useEffect(() => {
         const tempActors = {... actors}
         delete tempActors[Object.keys(tempActors)[Object.keys(tempActors).length - 1]]
 
-        data["actors"] = tempActors
-        setData({... data})
+        tempData["actors"] = tempActors
+        setTempData({... tempData})
     }, [actors])
     useEffect(() => {
-        data["titles"] = titles.filter((v,i) => i !== titles.length - 1 && v !== "")
-        setData({... data})
+        tempData["titles"] = titles.filter((v,i) => i !== titles.length - 1 && v !== "")
+        setTempData({... tempData})
     }, [titles])
     useEffect(() => {        
-        data["dabings"] = dabings.filter((v,i) => i !== dabings.length - 1 && v !== "") 
-        setData({... data})
+        tempData["dabings"] = dabings.filter((v,i) => i !== dabings.length - 1 && v !== "") 
+        setTempData({... tempData})
     }, [dabings])
     useEffect(() => {
         if (file !== null)
-            setData({... data, ["file"]: file, ["picture"]: file["name"]})
+            setTempData({... tempData, ["file"]: file, ["picture"]: file["name"]})
     }, [file])
 
     const handleNumberChange = (e: any) => {
@@ -145,13 +147,13 @@ const FilmDetail = ({
 
         let val =  parseInt(value) 
 
-        setData({ ...data, [name]: val > 0 ? val : 0 })
+        setTempData({ ...tempData, [name]: val > 0 ? val : 0 })
     }
 
     const handleDateChange = (e: any) => {
         const { name, value } = e.target
         
-        setData({ ...data, [name]: new Date(value) });
+        setTempData({ ...tempData, [name]: new Date(value) });
     }
 
     //console.log("director",director);  
@@ -307,13 +309,25 @@ const FilmDetail = ({
         </div>
     })
 
+    const handleInputText = (e:any) => {
+        const {name, value} = e.target
+
+        setTempData({... tempData, [name]: value})
+    }
+
+    const handleInputCheckbox = (e:any) => {
+        const {name, checked} = e.target
+
+        setTempData({... tempData, [name]: checked})
+    }
+
     return (
         <>
             <SmartInput label={'Název'}>
                 <input 
                     name={'name'}
                     type={'text'}
-                    value={data.name}
+                    value={tempData .name}
                     onChange={(e: any) => handleInputText(e)} />
             </SmartInput>
             
@@ -321,11 +335,11 @@ const FilmDetail = ({
                 <textarea  className='film-detail-textarea'
                     name={'description'}
                     cols={30} rows={10}
-                    value={data.description}
+                    value={tempData.description}
                     onChange={(e: any) => handleInputText(e)} />
             </BeautifulInput>
 
-            <BeautifulInput label={`Obrázek ${(data.picture !== '' ? 'je vložen na servru' : '')}`}>
+            <BeautifulInput label={`Obrázek ${(tempData.picture !== '' ? 'je vložen na servru' : '')}`}>
                 <input type="file" onChange={(e: any) => setFile(e.target.files[0])} accept="image/jpeg, image/png, image/jpg" />
             </BeautifulInput>
             
@@ -333,7 +347,7 @@ const FilmDetail = ({
                 <input 
                     name={'trailer'}
                     type={'text'}
-                    value={data.trailer}
+                    value={tempData.trailer}
                     onChange={(e: any) => handleInputText(e)} />
             </SmartInput>  
 
@@ -341,13 +355,13 @@ const FilmDetail = ({
                 <input 
                     name={'original'}
                     type={'text'}
-                    value={data.original} 
+                    value={tempData.original} 
                     onChange={(e: any) => handleInputText(e)} />
             </SmartInput>
 
             <div className='film-detail-checkbox'>
                 <label>Použít pro prezenci</label>
-                <input name='blockBuster' type="checkbox" checked={data.blockBuster} onChange={(e: any) => handleInputCheckbox(e)}/>                
+                <input name='blockBuster' type="checkbox" checked={tempData.blockBuster} onChange={(e: any) => handleInputCheckbox(e)}/>                
             </div>
 
             <BeautifulInput label={'Režisér (jméno a příjmení)'}>
@@ -388,7 +402,7 @@ const FilmDetail = ({
                 <input 
                     name={'time'}
                     type={'number'}
-                    value={data.time} 
+                    value={tempData.time} 
                     onChange={handleNumberChange} />
             </SmartInput>   
 
@@ -396,7 +410,7 @@ const FilmDetail = ({
                 <input 
                     name={'pg'}
                     type={'number'}
-                    value={data.pg} 
+                    value={tempData.pg} 
                     onChange={handleNumberChange} />
             </SmartInput>   
 
@@ -404,7 +418,7 @@ const FilmDetail = ({
                 <input 
                     name={'defaultCost'}
                     type={'number'}
-                    value={data.defaultCost} 
+                    value={tempData.defaultCost} 
                     onChange={handleNumberChange} />
             </SmartInput>
             
@@ -412,7 +426,7 @@ const FilmDetail = ({
                 <input 
                     name={'production'}
                     type={'text'}
-                    value={data.production} 
+                    value={tempData.production} 
                     onChange={(e: any) => handleInputText(e)} />
             </SmartInput>
 
@@ -420,7 +434,7 @@ const FilmDetail = ({
                 <input 
                     name={'premier'}
                     type={'date'}
-                    value={formatDate(data.premier)} 
+                    value={formatDate(tempData.premier)} 
                     onChange={handleDateChange} />
             </SmartInput>
         </>

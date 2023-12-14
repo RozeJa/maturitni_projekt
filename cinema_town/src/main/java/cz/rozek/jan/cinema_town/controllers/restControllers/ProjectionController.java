@@ -54,7 +54,27 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
+        }
+    }
+
+    @GetMapping("/archived")
+    public ResponseEntity<String> getArchived(Map<String, String> headers) {
+        try {
+
+            List<Projection> entities = service.readAll(headers.get(authorization));
+            entities = entities.stream().filter(e -> e.getDateTime().isBefore(LocalDateTime.now())).toList();
+
+            return new ResponseEntity<>(objectMapper.writeValueAsString(entities), HttpStatus.OK); 
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // TODO vytvořit prebuild pro lístek 

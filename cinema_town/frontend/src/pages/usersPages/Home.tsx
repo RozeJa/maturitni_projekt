@@ -3,12 +3,10 @@ import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI';
 import Cinema from '../../models/Cinema';
 import Film from '../../models/Film';
 import './Home.css'
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { defaultCinema } from '../../models/Cinema';
-import ProjectionComponent from '../../components/home/Projection';
 import Projection from '../../models/Projection';
 import DaySelection from '../../components/home/DaySelection';
-import { setgroups } from 'process';
 import ProjectionGroup from '../../components/home/ProjectionGroup';
 
 const defFilms: Film[] = []
@@ -52,7 +50,22 @@ const Home = () => {
         const groups: { [key: number]: Projection[] } = {}
         const sections = {...defSections}
 
-        filtredProjections.forEach(p => {
+        filtredProjections.filter(p => {
+            if (p.dateTime instanceof(Date))
+                return true
+
+            const date = new Date()
+            date.setDate(date.getDate() + 13)
+
+            const term = new Date(parseInt(p.dateTime[0]), parseInt(p.dateTime[1])-1, parseInt(p.dateTime[2]))
+
+            const utcDiference = new Date(date.getTime() - term.getTime())
+
+            console.log(utcDiference);
+            
+
+            return utcDiference.getDate() <= 14 && utcDiference.getMonth() === 0
+        }).forEach(p => {
             if (!(p.dateTime instanceof Date)) {
                 if (groups[parseInt(p.dateTime[2])] === undefined) {
                     sections[parseInt(p.dateTime[2])] = '#' + p.dateTime[2]
@@ -166,8 +179,8 @@ const Home = () => {
                         <button>Vyhledat</button>
                     </div>
                 </div>
-                <DaySelection sections={sections} />
             </div>
+            <DaySelection sections={sections} />
             {/* filmy  */}
             <div className="home-films">
                 {

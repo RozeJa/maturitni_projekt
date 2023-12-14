@@ -18,7 +18,8 @@ interface Film extends Entity {
     pg: number,
     defaultCost: number,
     production: string,
-    premier: Date | string[]
+    premier: Date | string[],
+    file?: any
 }
 
 export default Film

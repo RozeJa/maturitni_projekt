@@ -7,8 +7,14 @@
     text-align: center;
     width: 100%;
     padding: 1em 0;
-    border-bottom: 1px solid var(--color--grey--medium);
     font-size: 1.5em;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    background-color: white;
+    border-bottom: 1px solid var(--color--grey--medium);
 }
 
 .day-selection > div {
@@ -16,6 +22,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  position: static;
 }
 .day-selection a {
     font-weight: bold;

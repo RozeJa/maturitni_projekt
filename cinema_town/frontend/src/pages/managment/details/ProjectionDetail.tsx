@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import Projection from '../../../models/Projection'
+import Projection, { defaultProjection } from '../../../models/Projection'
 import './ProjectionDetail.css'
 import Cinema, { defaultCinema } from '../../../models/Cinema'
 import Film, { defaultFilm } from '../../../models/Film'
-import DialogErr from '../../../components/DialogErr'
 import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
 import { defaultHall } from '../../../models/Hall'
 import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 import { useParams } from 'react-router-dom'
 import SmartInput from '../../../components/SmartInput'
+import { storeDetailData } from './Detail'
 
 export const validateProjection = (data: Projection): Array<string> => {
     let errs: Array<string> = []
@@ -17,17 +17,17 @@ export const validateProjection = (data: Projection): Array<string> => {
         errs.push("Promítání musí probýhat v nějakém sále.")
     if (data.film.id === null)
         errs.push("Musí se promítat nějaký film.")
-    if (data.cost < 0) 
+    if (data.cost < 0)
         errs.push("Naše společnost lidem za návštěvu kin neplatí :D.")
-    
+
     const date = new Date()
     date.setDate(date.getDate() + 1)
     console.log(date);
     if (data.dateTime instanceof Date)
         if (date.getTime() > data.dateTime.getTime())
             errs.push("Nejdřive můžete zadat promítání JEDEN den dopředu!")
-    
-    
+
+
     return errs
 }
 
@@ -35,20 +35,22 @@ const defCinemas: Cinema[] = []
 const defFilms: Film[] = []
 
 const ProjectionDetail = ({
-    data, 
-    handleInputText, 
-    handleInputCheckbox, 
-    setData, 
+    data,
     setErr
 }: {
-    data: Projection, 
-    handleInputText: Function, 
-    handleInputCheckbox: Function, 
-    setData: Function, 
+    data: Projection,
     setErr: Function
 }) => {
-    
-    const [selectedCinema, setSelectedCinema] = useState({...defaultCinema})
+    const [tempData, setTempData] = useState(defaultProjection)
+    useEffect(() => {
+        setTempData(data)
+        storeDetailData(tempData)
+    }, [data])
+    useEffect(() => {
+        storeDetailData(tempData)
+    }, [tempData])
+
+    const [selectedCinema, setSelectedCinema] = useState({ ...defaultCinema })
     const [cinemas, setCinemas] = useState(defCinemas)
     const [films, setFilms] = useState(defFilms)
     const [changeDefData, setChangeDefData] = useState(true)
@@ -61,17 +63,17 @@ const ProjectionDetail = ({
     useEffect(() => {
         loadData<Cinema>(ModesEndpoints.Cinama)
             .then(data => {
-                data.unshift({...defaultCinema})
+                data.unshift({ ...defaultCinema })
                 setCinemas(data)
             })
             .catch(err => handleErrRedirect(setErr, err))
-            
-         loadData<Film>(ModesEndpoints.Film)
+
+        loadData<Film>(ModesEndpoints.Film)
             .then(data => {
-                data.unshift({...defaultFilm})
-                  setFilms(data)
-               })
-           .catch(err => handleErrRedirect(setErr, err))
+                data.unshift({ ...defaultFilm })
+                setFilms(data)
+            })
+            .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
     useEffect(() => {
@@ -82,92 +84,91 @@ const ProjectionDetail = ({
             setHallsSelect(
                 <>
                     <label>Sál</label>
-                    <select value={data.hall.id !== null ? data.hall.id : ''}
-                        onChange={(e:any) => {
+                    <select value={tempData.hall.id !== null ? tempData.hall.id : ''}
+                        onChange={(e: any) => {
                             const { value } = e.target
 
                             if (selectedCinema.halls[value] !== undefined) {
-                                data.hall = selectedCinema.halls[value]
+                                tempData.hall = selectedCinema.halls[value]
 
-    
-                                setData({...data})
+                                setTempData({ ...tempData })
                             }
                         }}
                     >
                         {
-                            halls.map((h, index) => 
+                            halls.map((h, index) =>
                                 <option key={index} value={h.id !== null ? h.id : ''}>{h.designation}</option>
                             )
                         }
-                    </select>   
+                    </select>
                 </>
             )
         }
-    }, [selectedCinema]) 
+    }, [selectedCinema])
 
     useEffect(() => {
         const cinema = cinemas.find(c => Object.keys(c.halls).filter(hid => hid === data.hall.id).length > 0)
-        
+
         if (cinema !== undefined)
-            setSelectedCinema({...cinema})
-    }, [data, cinemas])
+            setSelectedCinema({ ...cinema })
+    }, [tempData, cinemas])
 
     useEffect(() => {
-        
+
         // ! TOTO převede, čas ze servru na správný 
-        if (!(data.dateTime instanceof Date)) {
+        if (!(tempData.dateTime instanceof Date)) {
             const dateTime = new Date()
-            dateTime.setFullYear(parseInt(data.dateTime[0]))
-            dateTime.setMonth(parseInt(data.dateTime[1])-1)
-            dateTime.setDate(parseInt(data.dateTime[2]))
-            dateTime.setHours(parseInt(data.dateTime[3])+1)
-            dateTime.setMinutes(parseInt(data.dateTime[4]))
-            data.dateTime = dateTime          
-            setData({...data})
-        } 
-    }, [data])
+            dateTime.setFullYear(parseInt(tempData.dateTime[0]))
+            dateTime.setMonth(parseInt(tempData.dateTime[1]) - 1)
+            dateTime.setDate(parseInt(tempData.dateTime[2]))
+            dateTime.setHours(parseInt(tempData.dateTime[3]) + 1)
+            dateTime.setMinutes(parseInt(tempData.dateTime[4]))
+            tempData.dateTime = dateTime
+            setTempData({ ...tempData })
+        }
+    }, [tempData])
 
     useEffect(() => {
-        if (data.film.id !== null) {
+        if (tempData.film.id !== null) {
             if (changeDefData && id === undefined) {
-                data.cost = data.film.defaultCost
-                data.dabing = data.film.dabings[0]
+                tempData.cost = tempData.film.defaultCost
+                tempData.dabing = tempData.film.dabings[0]
                 setChangeDefData(false)
-                setData({...data})   
-            }            
+                setTempData({ ...tempData })
+            }
 
-            const cost = data.cost
-            const titles = [...data.film.titles]
+            const cost = tempData.cost
+            const titles = [...tempData.film.titles]
             titles.unshift("")
 
             setFilmExtendedForm(
                 <>
                     <SmartInput label={'Cena lístku:'}>
-                        <input 
+                        <input
                             name={'cost'}
                             type={'number'}
                             value={cost}
-                            onChange={(e:any) => { 
+                            onChange={(e: any) => {
                                 const { value } = e.target
-        
+
                                 const cost = Math.max(0, parseFloat(value))
-        
-                                data.cost = cost
-                                setData({...data})
+
+                                tempData.cost = cost
+                                setTempData({ ...tempData })
                             }} />
                     </SmartInput>
 
                     <label>Titulky</label>
-                    <select value={data.title} 
-                        onChange={(e:any) => {
+                    <select value={tempData.title}
+                        onChange={(e: any) => {
                             const { value } = e.target
 
-                            data.title = value
-                            setData({...data})
+                            tempData.title = value
+                            setTempData({ ...tempData })
                         }}
                     >
                         {
-                            titles.map((t,index) => 
+                            titles.map((t, index) =>
                                 <option key={`title ${index}`} value={t}>
                                     {t}
                                 </option>
@@ -175,16 +176,16 @@ const ProjectionDetail = ({
                         }
                     </select>
                     <label>Dabing</label>
-                    <select value={data.dabing} 
-                        onChange={(e:any) => {
+                    <select value={tempData.dabing}
+                        onChange={(e: any) => {
                             const { value } = e.target
 
-                            data.dabing = value
-                            setData({...data})
+                            tempData.dabing = value
+                            setTempData({ ...tempData })
                         }}
                     >
                         {
-                            data.film.dabings.map((d,index) => 
+                            tempData.film.dabings.map((d, index) =>
                                 <option key={`dabing ${index}`} value={d}>
                                     {d}
                                 </option>
@@ -192,56 +193,56 @@ const ProjectionDetail = ({
                         }
                     </select>
                     <SmartInput label={'Datum'}>
-                        <input 
+                        <input
                             name={'date'}
                             type={'date'}
-                            value={formatDate(data.dateTime)}
-                            onChange={(e:any) => {
-                                if (data.dateTime instanceof Date) {
+                            value={formatDate(tempData.dateTime)}
+                            onChange={(e: any) => {
+                                if (tempData.dateTime instanceof Date) {
                                     const { value } = e.target
-            
+
                                     const newDate = new Date(value)
-                                    newDate.setHours(data.dateTime.getHours())
-                                    newDate.setMinutes(data.dateTime.getMinutes())
-            
-                                    data.dateTime = newDate
-            
-                                    console.log(data.dateTime);
-            
-                                    setData({...data})
+                                    newDate.setHours(tempData.dateTime.getHours())
+                                    newDate.setMinutes(tempData.dateTime.getMinutes())
+
+                                    tempData.dateTime = newDate
+
+                                    console.log(tempData.dateTime);
+
+                                    setTempData({ ...tempData })
                                 }
                             }} />
                     </SmartInput>
                     <SmartInput label={'Čas'}>
-                        <input 
+                        <input
                             name={'time'}
                             type={'time'}
-                            value={parseTime(data.dateTime)} 
-                            onChange={(e:any) => {
-                                if (data.dateTime instanceof Date) {
+                            value={parseTime(tempData.dateTime)}
+                            onChange={(e: any) => {
+                                if (tempData.dateTime instanceof Date) {
                                     const { value } = e.target
 
                                     const hours = parseInt(value.split(":")[0])
                                     const minutes = parseInt(value.split(":")[1])
-                                    
-                                    data.dateTime.setHours(hours)
-                                    data.dateTime.setMinutes(minutes)
-                                    setData({...data})     
-                                }                      
+
+                                    tempData.dateTime.setHours(hours)
+                                    tempData.dateTime.setMinutes(minutes)
+                                    setTempData({ ...tempData })
+                                }
                             }} />
                     </SmartInput>
                 </>
             )
         }
-    }, [data, changeDefData])
+    }, [tempData, changeDefData])
 
     return (
         <>
             <label>Multikino</label>
             <select value={selectedCinema.id !== null ? selectedCinema.id : ''}
-                onChange={(e:any) => {
+                onChange={(e: any) => {
 
-                    const {value} = e.target
+                    const { value } = e.target
 
                     const cinema = cinemas.find(c => c.id === value)
                     if (cinema !== undefined)
@@ -249,44 +250,44 @@ const ProjectionDetail = ({
                 }}
             >
                 {
-                    cinemas.map((c, index) => 
+                    cinemas.map((c, index) =>
                         <option key={`cinema ${index}`} value={c.id !== null ? c.id : ''}>{`${c.city.name}, ${c.street}, ${c.houseNumber}`}</option>
                     )
                 }
             </select>
-            { hallsSelect }
+            {hallsSelect}
             <label>Film</label>
-            <select value={data.film.id !== null ? data.film.id : ''}
-                onChange={(e:any) => {
+            <select value={tempData.film.id !== null ? tempData.film.id : ''}
+                onChange={(e: any) => {
 
-                    const {value} = e.target
+                    const { value } = e.target
 
                     const film = films.find(f => f.id === value)
                     if (film !== undefined) {
                         setChangeDefData(true)
-                        data.film = film
-                        setData({...data})
+                        tempData.film = film
+                        setTempData({ ...tempData })
                     }
                 }}
             >
                 {
-                    films.map((f, index) => 
+                    films.map((f, index) =>
                         <option key={`film ${index}`} value={f.id !== null ? f.id : ''}>
                             {f.name}
                         </option>
                     )
                 }
             </select>
-            { filmExtendedForm }
+            {filmExtendedForm}
         </>
     )
 }
 
 export default ProjectionDetail
 
-function parseTime(date: Date | string[]): string {        
+function parseTime(date: Date | string[]): string {
     let hours
-    let minutes 
+    let minutes
     if (date instanceof Date) {
         hours = date.getHours().toString().padStart(2, '0')
         minutes = date.getMinutes().toString().padStart(2, '0')
