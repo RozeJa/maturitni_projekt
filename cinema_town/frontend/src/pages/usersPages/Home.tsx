@@ -180,6 +180,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            {/* část s kalendářem */}
             <DaySelection sections={sections} />
             {/* filmy  */}
             <div className="home-films">

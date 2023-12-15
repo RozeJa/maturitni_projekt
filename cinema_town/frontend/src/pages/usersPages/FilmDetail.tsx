@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom'
+    import { useParams } from 'react-router-dom'
 import './FilmDetail.css'
 import { useEffect, useState } from 'react'
 import Film, { defaultFilm } from '../../models/Film'
 import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
 import { handleErr } from '../../global_functions/constantsAndFunction'
+import TicketReservation from '../../components/filmDetail/TicketReservation'
 
 const defFilm: Film = defaultFilm
 
@@ -12,6 +13,7 @@ const FilmDetail = () => {
     const [film, setFilm] = useState({...defFilm})
 
     const [err, setErr] = useState(<></>)
+    const [ticketReservation, setTicketReservation] = useState(<></>)
 
     const { fimlId } = useParams()
 
@@ -32,10 +34,14 @@ const FilmDetail = () => {
     return (
         <div className='film-detail'>
             {err}
+            {ticketReservation}
 
             <div className="film-detail-header">
                 <h1>{film.name}</h1>
-                <button>Zakoupit lístky</button>
+                <button
+                    onClick={() => setTicketReservation(
+                        <TicketReservation setTicketReservation={setTicketReservation} film={film} />
+                    )}>Zakoupit lístky</button>
             </div>
             <div className="film-detail-trailer">
                 <iframe 

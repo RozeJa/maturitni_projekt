@@ -62,6 +62,7 @@
 .projection h1 > a {
     color: var(--color--red--bright);
     text-decoration: none;
+    text-align: center;
 }
 .projection h1 > a:hover {
     color: var(--color--red--dark);

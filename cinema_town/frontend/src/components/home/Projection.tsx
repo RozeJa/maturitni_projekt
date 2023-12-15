@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import Film from '../../models/Film'
 import './Projection.css'
 import { useState } from 'react'
