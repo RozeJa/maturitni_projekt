@@ -6,7 +6,7 @@ import User, { defaultUser } from "./User";
 interface Reservation extends Entity {
     projection: Projection,
     user: User,
-    seat: Seat,
+    seats: Seat[],
     reserved: Date
 }
 
@@ -16,6 +16,6 @@ export let defaultReservation: Reservation = {
     id: null,
     projection: defaultProjection,
     user: defaultUser,
-    seat: defaultSeat,
+    seats: [],
     reserved: new Date()
 }

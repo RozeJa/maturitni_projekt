@@ -1,6 +1,7 @@
 package cz.rozek.jan.cinema_town.models.dynamic;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -35,7 +36,7 @@ public class Reservation implements Entity {
     // rezervované sedadlo
     @NotNull
     @DBRef
-    private Seat seat;
+    private List<Seat> seats;
     // kód pro identifikaci 
     private String code;
     // čas, kdy byla rezervace zadána do systému
@@ -48,7 +49,7 @@ public class Reservation implements Entity {
             throw new ValidationException("Projection cant be null.");
         if (user == null)
             throw new ValidationException("User cant be null.");
-        if (seat == null) 
-            throw new ValidationException("Seat cant be null.");
+        if (seats.isEmpty()) 
+            throw new ValidationException("Seats cant be empty.");
     }
 }  

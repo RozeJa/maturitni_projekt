@@ -57,6 +57,25 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
         }
     }
 
+    @GetMapping("/by/film/{filmId}")
+    public ResponseEntity<String> getByFilmId(@PathVariable String filmId, @RequestHeader Map<String, String> headers) {
+        try {
+
+            List<Projection> entities = service.readByFilmId(filmId, headers.get(authorization));
+
+            return new ResponseEntity<>(objectMapper.writeValueAsString(entities), HttpStatus.OK); 
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/archived")
     public ResponseEntity<String> getArchived(Map<String, String> headers) {
         try {
@@ -78,6 +97,7 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
     }
 
     // TODO vytvořit prebuild pro lístek 
+    // TODO zvalidovat, zda se ve vybraném sálu v zadaný čas probýhat promítání
     @Override
     @PostMapping("/")
     public ResponseEntity<String> post(@RequestBody Projection data, @RequestHeader Map<String, String> headers) {

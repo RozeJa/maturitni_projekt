@@ -1,5 +1,8 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +42,16 @@ public class ProjectionService extends CrudService<Projection, ProjectionReposit
     @Override
     public String deletePermissionRequired() {
         return "projection-delete";
+    }
+
+    public List<Projection> readByFilmId(String filmId, String accessJWT) {
+        List<Projection> entities = readAll(accessJWT);
+            entities = entities.stream()
+            .filter(e -> e.getDateTime().isAfter(LocalDateTime.now()))
+            .filter(e -> e.getFilm().getId().equals(filmId))
+            .toList();
+        
+        return entities;
     }
 
     @Override

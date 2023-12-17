@@ -40,7 +40,7 @@ const FilmDetail = () => {
                 <h1>{film.name}</h1>
                 <button
                     onClick={() => setTicketReservation(
-                        <TicketReservation setTicketReservation={setTicketReservation} film={film} />
+                        <TicketReservation setTicketReservation={setTicketReservation} film={film} setErr={setErr} />
                     )}>Zakoupit lístky</button>
             </div>
             <div className="film-detail-trailer">
