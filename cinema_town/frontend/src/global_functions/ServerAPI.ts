@@ -23,6 +23,7 @@ export enum ModesEndpoints {
     ProjectionByFilm = "api/projections/by/film/",
     ProjectionArchived = "api/projections/archived",
     Reservation = "api/reservations/",
+    ReservationCensured = "api/reservations/censured/",
     Role = "api/roles/",
     Seat = "api/seats/",
     User = "api/users/"
@@ -39,7 +40,13 @@ export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, 
     if (ids.length > 0) {
         // pokud se jedná o sérii id, načti si postupně data
         for (let i = 0; i < ids.length; i++) {
-            data.push((await axios.get<T>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data);
+            let temp = (await axios.get<T|T[]>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data;
+            
+            if (Array.isArray(temp)) {
+                data = [...data, ...temp]
+            } else {
+                data.push(temp)
+            }
         }
     } else {
         // jinak načti všechna data

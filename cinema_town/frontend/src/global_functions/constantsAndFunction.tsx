@@ -25,6 +25,9 @@ export const formatDate = (date: Date | string[]): string => {
 }
 export const handleErr = (setErr: Function, err: AxiosError, redirect: boolean = false) => {
     
+    console.log(err);
+    
+
     const status = err.request.status
 
     switch (status) {

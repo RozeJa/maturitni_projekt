@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +27,21 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     
     @Autowired
     private EmailService emailService; 
+
+    // Metoda slouží pro cenzurované načtení rezervací, na konkrétní promítání
+    @GetMapping("/censured/{projectionId}")
+    public ResponseEntity<List<Reservation>> getAllCensored(@PathVariable String projectionId) {
+        try {
+            List<Reservation> reservations = service.readCensored(projectionId);
+
+            return new ResponseEntity<>(reservations, HttpStatus.OK);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     // TODO když bude rezervace zaplacena | budou rezervace zaplaceny, přijde uživateli email se vstupenkami
     @Override

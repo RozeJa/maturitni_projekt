@@ -1,18 +1,24 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.dynamic.Projection;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
 import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service
 public class ReservationService extends CrudService<Reservation, ReservationRepository> {
+
+    @Autowired
+    private ProjectionRepository projectionRepository;
     
     @Autowired
     @Override
@@ -53,6 +59,21 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         } else {
             return reservations.stream().filter(r -> r.getUser().getId().equals(user.getId())).toList();
         }
+    }
+
+    public List<Reservation> readCensored(String projectionId) {
+        Projection p = projectionRepository.findById(projectionId).get();
+
+        List<Reservation> reservations = repository.findByProjection(p);
+
+        return reservations.stream()
+            .map(r -> {
+                r.setCode("");
+                r.setUser(null);
+                r.setReserved(null);
+                return r;
+            })
+            .collect(Collectors.toList());
     }
 
     @Override
