@@ -13,7 +13,7 @@ const defFilms: Film[] = []
 const defCinemas: Cinema[] = [{...defaultCinema}]
 const defProjections: Projection[] = []
 const defAny: any = null
-const defGroups: { [key: number]: Projection[] } = {}
+const defGroups: { [key: number]: Projection[][] } = {}
 const defSections: { [key: number]: string } = {}
 
 const Home = () => {
@@ -47,7 +47,7 @@ const Home = () => {
         filter(lastEvent)
     }, [selectedCinema])
     useEffect(() => {
-        const groups: { [key: number]: Projection[] } = {}
+        const groups: { [key: number]: Projection[][] } = {}
         const sections = {...defSections}
 
         filtredProjections.filter(p => {
@@ -62,16 +62,19 @@ const Home = () => {
             const utcDiference = new Date(date.getTime() - term.getTime())
 
             console.log(utcDiference);
-            
 
             return utcDiference.getDate() <= 14 && utcDiference.getMonth() === 0
         }).forEach(p => {
             if (!(p.dateTime instanceof Date)) {
                 if (groups[parseInt(p.dateTime[2])] === undefined) {
                     sections[parseInt(p.dateTime[2])] = '#' + p.dateTime[2]
-                    groups[parseInt(p.dateTime[2])] = [p]
+                    groups[parseInt(p.dateTime[2])] = [[p]]
                 } else {
-                    groups[parseInt(p.dateTime[2])].push(p)
+                    groups[parseInt(p.dateTime[2])].map(arr => {
+                        if (arr[0].film.id === p.film.id)
+                            arr.push(p)
+                        return arr
+                    })
                 }
             }
         })
@@ -191,7 +194,7 @@ const Home = () => {
                     //return <ProjectionComponent key={index} film={f} i={index} />
                     //})
                     Object.keys(projectionsGroups).map(((pg, index) => 
-                        <ProjectionGroup key={index} projections={projectionsGroups[parseInt(pg)]} day={parseInt(pg)} />
+                        <ProjectionGroup key={index} projections={projectionsGroups[parseInt(pg)]} day={parseInt(pg)} selectedCinemaId={selectedCinema.id} />
                     ))
                 } 
                 { 

@@ -76,6 +76,29 @@
     margin-bottom: 15px;
 }
 
+.projection-text-content-terms {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: .4em;
+}
+
+.projection-text-content-terms a {
+    background-color: var(--color--red--bright);
+    padding: .4em .6em;
+    border-radius: .4em;
+    margin: 0 .2em;
+    font-weight: bold;
+    font-size: 1.1em;
+    cursor: pointer;
+    width: fit-content;
+    color: white;
+    text-decoration: none;
+    transition-duration: var(--transition-delay--long);
+}
+.projection-text-content-terms a:hover {
+    background-color: var(--color--red--dark);
+}
+
 .projection-text-content-actors p {
     font-size: 1em;
     margin: 0;
@@ -106,5 +129,10 @@
     .projection-content {
         display: flex;
         flex-direction: column;
+    }
+    
+    .projection-text-content-terms {
+        justify-content: center;
+        font-size: 1.3em;
     }
 }

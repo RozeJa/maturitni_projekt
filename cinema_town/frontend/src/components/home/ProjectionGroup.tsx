@@ -5,10 +5,12 @@ import { daysInWeek } from '../../global_functions/constantsAndFunction';
 
 const ProjectionGroup = ({
         projections,
-        day
+        day,
+        selectedCinemaId
     }:{
-        projections: Projection[],
-        day: number
+        projections: Projection[][],
+        day: number,
+        selectedCinemaId: string | null
     }) => {
 
 
@@ -17,11 +19,11 @@ const ProjectionGroup = ({
 
     return (
         <div id={day.toLocaleString()} className='projection-group'>
-            <h2>{daysInWeek[date.getDay()]} {date.getDate()}.{date.getMonth()} <div></div></h2>
+            <h2>{daysInWeek[date.getDay()]} {date.getDate()}.{date.getMonth()+1} <div></div></h2>
             {
-                projections.sort((a,b) => a.film.name.localeCompare(b.film.name)).map(p => p.film)
-                .map((f, index) => {
-                    return <ProjectionComponent key={index} film={f} i={index} />
+                projections.sort((a,b) => a[0].film.name.localeCompare(b[0].film.name))
+                .map((ps, index) => {
+                    return <ProjectionComponent key={index} projections={ps} i={index} selectedCinemaId={selectedCinemaId} />
                 })
             }
         </div>

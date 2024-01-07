@@ -1,22 +1,30 @@
-import Film from '../../models/Film'
 import './Projection.css'
 import { useState } from 'react'
 import Trailer from './Trailer'
+import ProjectioData from '../../models/Projection'
 
 const Projection = ({
-        film,
-        i
+        projections,
+        i,
+        selectedCinemaId
     }: {
-        film: Film,
-        i: number
+        projections: ProjectioData[],
+        i: number,
+        selectedCinemaId: string | null
     }) => {
 
     const [trailer, setTrailer] = useState(<></>)
 
+    const film = projections[0].film
+    const referal = `/film/${film.id}?cid=${selectedCinemaId}`
+
+    console.log(projections);
+    
+
     return (
         <div className='projection'>
             {trailer}
-            <h1 className='projection-responsive-header'><a href={`/film/${film.id}`}>{film.name}</a></h1>
+            <h1 className='projection-responsive-header'><a href={referal}>{film.name}</a></h1>
             <div className="projection-content">
                 <div className="projection-img"
                     onClick={() => setTrailer(<Trailer url={film.trailer} onClick={() => setTrailer(<></>)} />)}>
@@ -24,9 +32,21 @@ const Projection = ({
                     <img src={require(`../../assets/imgs/favicons/play-favicon2.png`)} alt="favicon-play" />
                 </div>
                 <div className="projection-text-content">
-                    <h1><a href={`/film/${film.id}`}>{film.name}</a></h1>
-                    <div>
-                        <p>{film.description}</p>
+                    <h1><a href={referal}>{film.name}</a></h1>
+                    <p>{film.description}</p>
+                    <div className="projection-text-content-terms">
+                        {                   
+                            projections.map((p,index) => {
+
+                                let date: string = ''
+
+                                if (!(p.dateTime instanceof Date)){
+                                    date = `${p.dateTime[3]+1}:${p.dateTime[4].toString().padStart(2, '0')}` 
+                                }                                
+
+                                return <a key={index} href={`${referal}&pid=${p.id}`}>{date}</a>
+                            })
+                        }
                     </div>
                     <div className="projection-text-content-actors">
                         <p><b>Věkové omezení:</b> {film.pg}+</p>

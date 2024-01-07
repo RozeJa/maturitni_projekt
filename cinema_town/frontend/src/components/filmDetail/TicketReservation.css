@@ -14,15 +14,109 @@
 .ticket-reservation {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 
     width: 70%;
     height: 80%;
-    background-color: var(--color--grey--light);
+    background-color: #000000;
+    color: white;
     border-radius: 1em;
+    overflow: auto;
+}
+.ticket-reservation .header {
+    align-self: flex-start;
+    margin-left: 20%;
+    margin-bottom: 2%;
+}
+.ticket-reservation table {
+    margin-bottom: 2em;
+}
+.ticket-reservation td {
+    width: fit-content;
+    background-color: var(--color--grey--medium);
+}
+.ticket-reservation td > input {
+    display: flex;
+    width: 2em;
+    height: 2em;
+    padding: .2em;
+    border: none;
+    cursor: pointer;
+}
+
+.ticket-reservation .header h1 {
+    font-size: 2.2em;
+}
+
+.ticket-reservation .header label, .ticket-reservation .header select{ 
+    font-size: 1.1em;
+}
+
+.ticket-reservation .header > div > label {
+    margin-right: 1em;
+}
+
+.ticket-reservation-film-by-dab {
+    width: 70%;
+    flex-wrap: wrap;
+}
+
+.ticket-reservation-film-by-dab > h3 {
+    font-size: 1.3em;
+}
+
+.ticket-reservation-film-by-dab > div {
+    display: flex;
+}
+
+.ticket-reservation-film-by-dab > div > div{
+    background-color: var(--color--red--bright);
+    padding: .4em .8em;
+    border-radius: 1em;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    width: fit-content;
+    margin: .1em .2em;
+}
+
+.ticket-reservation-film-by-dab .ticket-reservation-selected-projection {
+    color: var(--color--red--bright);
+    background-color: white;
+}
+
+.ticket-reservation-unreservable {
+    accent-color: var(--color--grey--light);
+}
+
+.ticket-reservation-non-seat {
+    visibility: hidden;
+}
+
+.ticket-reservation-selected {
+    accent-color: #00ff00;
 }
 
 .ticket-reservation-btns {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin-bottom: 2em;
+}
 
+.ticket-reservation-btns button {
+    margin: .5em;
+    margin-top: 1em;
+    font-size: 1.3em;
+    padding: .7em;
+    border: none;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    transition-duration: var(--transition-delay--long);
+    cursor: pointer;
+}
+.ticket-reservation-btns button:hover {
+    background-color: var(--color--red--dark);
 }
