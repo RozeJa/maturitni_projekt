@@ -128,7 +128,6 @@ const TicketReservation = ({
             setSelectedProjection(projection)
 
             const cinema = cinemas.find(c => Object.values(c.halls).find(h => projection.hall.id === h.id) !== undefined)
-            console.log(cinema);
             
             if (cinema !== undefined) 
                 setSelectedCinema(cinema)
@@ -177,8 +176,6 @@ const TicketReservation = ({
                         const date = p.dateTime
                         let dateToShow: string = ''
                         if (Array.isArray(date)) {
-                            console.log(date[3]);
-
                             dateToShow = `${date[1]}. ${date[2]}. ${date[3].toString().padStart(2, "0")}:${date[4].toString().padStart(2, "0")}`
                         }
                         return {
@@ -202,9 +199,18 @@ const TicketReservation = ({
                             {projections}
                         </div>
                     </div>
-                })}{
-                            seatsField.length !== 0 ? <p><hr />Zde se nachází promítací plátno<hr /></p> : <></> 
-                        }
+                })}
+
+                {/** //TODO přidat pasáž pro navolení počtu lístků a kategorií lístků  
+                 * bude zde kategorie nepřiřazené listky, a pak kategorie načtené z backendu
+                 * formulář půjde odeslat jeďině pokud bude vybrané alespoň jedno sedadlo a pokud budou všechny lístky přiřazeny
+                 * // TODO je třeba nejprve vytvořit interface pro přidávání a zobrazování věkových kategorií
+                */}
+
+                
+                
+                { seatsField.length !== 0 ? <h3><hr />Zde se nachází promítací plátno<hr /></h3> : <></> }
+                
                 <table>
                     <tbody>
                     { /**TODO předělat není to komponenta, jsou to data */
@@ -246,6 +252,9 @@ const TicketReservation = ({
                             })
 
                             return <tr key={index}>
+                                <td>
+                                    <p>{row.find(s => s !== undefined)?.rowDesignation}</p>
+                                </td>
                                 {rowCells}
                             </tr>
                         })

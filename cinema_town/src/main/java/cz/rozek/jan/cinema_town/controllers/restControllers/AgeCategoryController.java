@@ -9,7 +9,7 @@ import cz.rozek.jan.cinema_town.servicies.crudServicies.AgeCategoryService;
 
 @RestController
 @CrossOrigin // TODO přidat restrikci
-@RequestMapping(path = "/api/age-categories")
+@RequestMapping(path = "/api/age_categories")
 public class AgeCategoryController extends cz.rozek.jan.cinema_town.controllers.RestController<AgeCategory, AgeCategoryService> {
     
 }

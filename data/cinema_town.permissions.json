@@ -333,4 +333,32 @@
   },
   "permission": "city-delete",
   "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "659c67efb7a817380f09304e"
+  },
+  "permission": "ageCategory-read",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "659c6808b7a817380f093050"
+  },
+  "permission": "ageCategory-create",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "659c680db7a817380f093051"
+  },
+  "permission": "ageCategory-update",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
+},
+{
+  "_id": {
+    "$oid": "659c6811b7a817380f093052"
+  },
+  "permission": "ageCategory-delete",
+  "_class": "cz.rozek.jan.cinema_town.models.stable.Permission"
 }]

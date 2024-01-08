@@ -15,7 +15,7 @@ import Management from './pages/managment/Management';
 import UserDetail, { validateUser } from './pages/managment/details/UserDetail';
 import ProjectionDetail, { validateProjection } from './pages/managment/details/ProjectionDetail';
 import CinemaDetail, { validateCinema } from './pages/managment/details/CinemaDetail';
-import HallDetail, { validateHall } from './pages/managment/details/HallDetail';
+import HallDetail from './pages/managment/details/HallDetail';
 import GenreDetail, { validateGenre } from './pages/managment/details/GenreDetail';
 import ProjectionsSpreadsheet from './pages/managment/spreadsheets/ProjectionsSpreadSheet';
 import CinemasSpreadsheet from './pages/managment/spreadsheets/CinemasSpreadsheet';
@@ -29,11 +29,13 @@ import User, { defaultUser } from './models/User';
 import { ModesEndpoints } from './global_functions/ServerAPI';
 import Projection, { defaultProjection } from './models/Projection';
 import Cinema, { defaultCinema } from './models/Cinema';
-import Hall, { defaultHall } from './models/Hall';
 import Genre, { defaultGerne } from './models/Genre';
 import Role, { defaultRole } from './models/Role';
 import Film, { defaultFilm } from './models/Film';
 import FilmDetailEdit, { validateFilm } from './pages/managment/details/FilmDetail';
+import AgeCategory, { defaultAgeCategory } from './models/AgeCategory';
+import AgeCategoryDetail, { validateAgeCategory } from './pages/managment/details/AgeCategoryDetail';
+import AgeCategoriSpreadsheet from './pages/managment/spreadsheets/AgeCategoriSpreadsheet';
 
 function App() {
 
@@ -99,6 +101,15 @@ function App() {
                         validateData={validateFilm}
                         readRepresentData={(data: Film) => data.name}
                         InnerForm={FilmDetailEdit} />
+  const ageCategoryDetail = <Detail 
+                        defaultData={defaultAgeCategory}
+                        modesEndpoint={ModesEndpoints.AgeCategory}
+                        spreadsheetURL='/management/age_categories'
+                        titleNew='Nová kategorie'
+                        titleEdit='Kategorie'
+                        validateData={validateAgeCategory}
+                        readRepresentData={(data:AgeCategory) => data.name}
+                        InnerForm={AgeCategoryDetail}/>
 
   return (
     <BrowserRouter>
@@ -122,6 +133,7 @@ function App() {
           <Route path='/management/films' element={ (verifyAccess("film-update") ? <FilmsSpreadsheet /> : accessDenite) }/>
           <Route path='/management/genres' element={ (verifyAccess("genre-update") ? <GenresSpreadsheet /> : accessDenite) }/>
           <Route path='/management/roles' element={ (verifyAccess("role-update") ? <RolesSpreadsheet /> : accessDenite) }/>
+          <Route path='/management/age_categories' element={ (verifyAccess("role-update") ? <AgeCategoriSpreadsheet /> : accessDenite) }/>
 
           <Route path='/management/users/new' element={ (verifyAccess("user-create") ? userDetail : accessDenite) } />
           <Route path='/management/projections/new' element={ (verifyAccess("projection-create") ? projectionDetail : accessDenite ) }/>
@@ -129,6 +141,7 @@ function App() {
           <Route path='/management/halls/:cinemaId/new' element={ (verifyAccess("hall-create") ? hallDetail : accessDenite) } />
           <Route path='/management/genres/new' element={ (verifyAccess("genre-create") ? genreDetail : accessDenite) } />
           <Route path='/management/films/new' element={ (verifyAccess("film-create") ? filmDetail : accessDenite) } />
+          <Route path='/management/age_categories/new' element={ (verifyAccess("ageCategory-create") ? ageCategoryDetail : accessDenite) } />
 
           <Route path='/management/users/:id' element={ (verifyAccess("user-update") ? userDetail : accessDenite) } />
           <Route path='/management/projections/:id' element={ (verifyAccess("projection-update") ? projectionDetail : accessDenite) }/>
@@ -137,6 +150,7 @@ function App() {
           <Route path='/management/genres/:id' element={ (verifyAccess("genre-update") ? genreDetail : accessDenite) } />
           <Route path='/management/roles/:id' element={ (verifyAccess("role-update") ? roleDetail : accessDenite) } />
           <Route path='/management/films/:id' element={ (verifyAccess("film-update") ? filmDetail : accessDenite) } />
+          <Route path='/management/age_categories/:id' element={ (verifyAccess("ageCategory-update") ? ageCategoryDetail : accessDenite) } />
           
           <Route path='*' element={ <Err />}/>
         </Route>

@@ -597,6 +597,30 @@
       "$id": {
         "$oid": "655900e84451955f428df09d"
       }
+    },
+    "659c680db7a817380f093051": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "659c680db7a817380f093051"
+      }
+    },
+    "659c67efb7a817380f09304e": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "659c67efb7a817380f09304e"
+      }
+    },
+    "659c6811b7a817380f093052": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "659c6811b7a817380f093052"
+      }
+    },
+    "659c6808b7a817380f093050": {
+      "$ref": "permissions",
+      "$id": {
+        "$oid": "659c6808b7a817380f093050"
+      }
     }
   },
   "_class": "cz.rozek.jan.cinema_town.models.stable.Role"

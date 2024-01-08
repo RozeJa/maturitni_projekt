@@ -24,7 +24,6 @@ public class AgeCategoryService extends CrudService<AgeCategory, AgeCategoryRepo
         this.authService = authService;
     }
 
-    // TODO přidat oprávnění do db
     @Override
     public String readPermissionRequired() {
         return "ageCategory-read";

@@ -56,7 +56,7 @@ public class ProjectionService extends CrudService<Projection, ProjectionReposit
 
     @Override
     public User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
-        
+                
         if (requiredPermission.equals(readPermissionRequired())) {
             return null;
         } 

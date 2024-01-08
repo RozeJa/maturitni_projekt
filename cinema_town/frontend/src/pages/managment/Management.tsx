@@ -12,7 +12,11 @@ const Management = () => {
 
     const roles = verifyAccess('role-update') ? <ManagementReferation imgName='role-favicon.png' url='/management/roles/' text='Správa rolí' /> : <></>
     
-    // přidat rezervace
+    // TODO přidat rezervace
+
+    // TODO veměnit favikon
+    const ageCategories = verifyAccess('ageCategory-update') ? <ManagementReferation imgName='user-favicon.png' url='/management/age_categories/' text='Správa věkových kategorií' /> : <></>
+
 
     return (
         <div className='management'>
@@ -23,6 +27,7 @@ const Management = () => {
                 {genres}
                 {users}
                 {roles}
+                {ageCategories}
             </div>
         </div>
     )
