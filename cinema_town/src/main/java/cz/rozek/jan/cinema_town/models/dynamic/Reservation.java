@@ -1,6 +1,8 @@
 package cz.rozek.jan.cinema_town.models.dynamic;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import cz.rozek.jan.cinema_town.models.Entity;
 import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,8 +40,8 @@ public class Reservation implements Entity {
     @NotNull
     @DBRef
     private List<Seat> seats;
-    // kód pro identifikaci 
-    private String code;
+    // kód pro identifikaci vstupenek
+    private Map<String, AgeCategory> codes = new HashMap<>();
     // čas, kdy byla rezervace zadána do systému
     @NotNull
     private LocalDateTime reserved = LocalDateTime.now();

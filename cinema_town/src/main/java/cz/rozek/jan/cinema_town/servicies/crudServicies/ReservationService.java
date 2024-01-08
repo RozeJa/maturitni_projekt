@@ -1,6 +1,7 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import java.util.List;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
 
         return reservations.stream()
             .map(r -> {
-                r.setCode("");
+                r.setCodes(new HashMap<>());
                 r.setUser(null);
                 r.setReserved(null);
                 return r;
