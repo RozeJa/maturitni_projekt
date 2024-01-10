@@ -42,10 +42,9 @@ const AgeCategoryDetail = ({
     const handleInputNumber = (e:any) => {
         const {name, value} = e.target
 
-        const number = parseFloat(value)
+        const number = parseFloat(value.replace(",","."))
 
-        if (number >= 0)
-            setTempData({... tempData, [name]: number})
+        setTempData({... tempData, [name]: number})
     }
 
     return (

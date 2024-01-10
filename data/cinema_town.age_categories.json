@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "659e477115ff202a96bd7549"
+  },
+  "name": "Dítě (do 15 let)",
+  "priceModificator": 0.75,
+  "_class": "cz.rozek.jan.cinema_town.models.stable.AgeCategory"
+},
+{
+  "_id": {
+    "$oid": "659e479215ff202a96bd754a"
+  },
+  "name": "Důchodce (65+)",
+  "priceModificator": 0.75,
+  "_class": "cz.rozek.jan.cinema_town.models.stable.AgeCategory"
+},
+{
+  "_id": {
+    "$oid": "659e47d715ff202a96bd754b"
+  },
+  "name": "Dospělí",
+  "priceModificator": 1,
+  "_class": "cz.rozek.jan.cinema_town.models.stable.AgeCategory"
+},
+{
+  "_id": {
+    "$oid": "659e47e215ff202a96bd754c"
+  },
+  "name": "Student",
+  "priceModificator": 0.75,
+  "_class": "cz.rozek.jan.cinema_town.models.stable.AgeCategory"
+}]

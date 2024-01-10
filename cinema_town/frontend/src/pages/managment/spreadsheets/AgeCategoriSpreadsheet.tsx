@@ -57,7 +57,7 @@ const AgeCategoriSpreadsheet = () => {
                 { filtredData.map((d,index) => {      
                     return <Tile key={index.toString()}
                             header={d.name} 
-                            onClick={()=>navigate(`/management/genres/${d.id}`)}
+                            onClick={()=>navigate(`/management/age_categories/${d.id}`)}
                             actions={
                                 <input type='button' value='Odebrat' onClick={() => remove(d)} />
                             }

@@ -8,6 +8,8 @@ import { handleErrRedirect } from '../../global_functions/constantsAndFunction'
 import Reservation from '../../models/Reservation'
 import Seat from '../../models/Seat'
 import queryString from 'query-string'
+import AgeCategory from '../../models/AgeCategory'
+import BlockBusters from '../home/BlockBusters'
 
 type SeparedProjections = { [key: string]: Projection[] }
 
@@ -15,6 +17,8 @@ const defSeparedProjections: SeparedProjections = {}
 
 const defCinemas: Cinema[] = []
 const defProjections: Projection[] = []
+const defAgeCategories: AgeCategory[] = []
+const defAgeCategoriesCount: { [key: string]: number} = {}
 const defReservations: Reservation[] = []
 const defSeatsField: (Seat|undefined)[][] = []
 const defSeats: Seat[] = []
@@ -33,6 +37,7 @@ const TicketReservation = ({
 }) => {
     const [cinemas, setCinemas] = useState([...defCinemas])
     const [projections, setProjections] = useState([...defProjections])
+    const [ageCategories, setAgeCategories] = useState([...defAgeCategories])
     const [reservations, setReservations] = useState([...defReservations])
 
     const [selectedCinema, setSelectedCinema] = useState({ ...defCinema })
@@ -41,10 +46,14 @@ const TicketReservation = ({
 
     const [seatsField, setSeatsFiel] = useState([...defSeatsField])
     const [selectedSeats, setSelectedSeats] = useState([...defSeats])
+    const [ageCategoriesCount, setAgeCategoriesCount] = useState({...defAgeCategoriesCount})
    
     useEffect(() => {        
         loadData<Projection>(ModesEndpoints.ProjectionByFilm, [film.id ? film.id : ""])
             .then(data => setProjections([...data]))
+            .catch(err => handleErrRedirect(setErr, err))
+        loadData<AgeCategory>(ModesEndpoints.AgeCategory)
+            .then(data => setAgeCategories([...data]))
             .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
@@ -61,6 +70,11 @@ const TicketReservation = ({
             .then(data => setCinemas(data))
             .catch(err => handleErrRedirect(setErr, err))
     }, [projections])
+
+    useEffect(() => {  
+        ageCategories.forEach(ac => ageCategoriesCount[ac.id !== null ? ac.id : ''] = 0)
+        setAgeCategoriesCount({...ageCategoriesCount})
+    }, [ageCategories])
 
     useEffect(() => {
         const projectionsByDabTit: { [key: string]: Projection[] } = {}
@@ -135,10 +149,18 @@ const TicketReservation = ({
 
     }, [projections, cinemas])
 
+    const countTickets = (): number => {
+        let sum = 0
+
+        Object.values(ageCategoriesCount).forEach(ac => sum += ac)
+
+        return sum
+    }
+
     return (
         <div className='ticket-reservation-dialog'>
             <div className='ticket-reservation'>
-                <div className="header">
+                <div className="ticket-reservation-header">
                     <h1>{film.name}</h1>
                     <div>
                         <label>Vyberte kino:</label>
@@ -201,13 +223,48 @@ const TicketReservation = ({
                     </div>
                 })}
 
-                {/** //TODO přidat pasáž pro navolení počtu lístků a kategorií lístků  
-                 * bude zde kategorie nepřiřazené listky, a pak kategorie načtené z backendu
-                 * formulář půjde odeslat jeďině pokud bude vybrané alespoň jedno sedadlo a pokud budou všechny lístky přiřazeny
-                 * // TODO je třeba nejprve vytvořit interface pro přidávání a zobrazování věkových kategorií
-                */}
+                <table className='ticket-reservation-ticket-table'>
+                    <thead>
+                        <tr>
+                            <th>Cenová kategorie</th>
+                            <th>Cena lístku</th>
+                            <th>Počet lístků</th>
+                            <th>Cena celkem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ageCategories.map((ac,index) => {
+  
+                            const inputVal = ac.id !== null ? ageCategoriesCount[ac.id] : 0
 
-                
+
+                            return <tr key={index}>
+                                <td>{ac.name}</td>
+                                <td>{Math.round(ac.priceModificator * selectedProjection.cost)} Kč</td>
+                                <td>
+                                    <input 
+                                        type="number" 
+                                        name={ac.id !== null ? ac.id : ''} 
+                                        value={inputVal}
+                                        onChange={(e:any) => {
+                                            const { name, value } = e.target
+
+                                            const count = parseInt(value)
+                                            
+                                            if (count < ageCategoriesCount[name]) {
+                                                if (count >= 0 && countTickets() - ageCategoriesCount[name] + count >= selectedSeats.length) 
+                                                    setAgeCategoriesCount({...ageCategoriesCount, [name]: count})
+                                                
+                                            } else if (count >= 0)                                                 
+                                                setAgeCategoriesCount({...ageCategoriesCount, [name]: count})
+
+                                        }} />
+                                </td>
+                                <td>{Math.round(ac.priceModificator * selectedProjection.cost) * inputVal} Kč</td>
+                            </tr>}
+                        )}
+                    </tbody>
+                </table>
                 
                 { seatsField.length !== 0 ? <h3><hr />Zde se nachází promítací plátno<hr /></h3> : <></> }
                 
@@ -240,9 +297,9 @@ const TicketReservation = ({
                                             if (!isReserved) {
                                                 const {checked} = e.target
 
-                                                if (checked) {
-                                                    selectedSeats.push(seat)
-                                                    setSelectedSeats([...selectedSeats])
+                                                if (checked && selectedSeats.length + 1 <= countTickets()) {
+                                                        selectedSeats.push(seat)
+                                                        setSelectedSeats([...selectedSeats])
                                                 } else {
                                                     setSelectedSeats([...selectedSeats.filter(s => s.id !== seat.id)])
                                                 }
@@ -264,7 +321,16 @@ const TicketReservation = ({
 
                 <div className="ticket-reservation-btns">
                     <button onClick={() => setTicketReservation(<></>)}>Zrušit</button>
-                    <button>Dokončit</button>
+                    <button 
+                        className={countTickets() === selectedSeats.length && selectedSeats.length > 0 ? "" : "ticket-reservation-btns-disable"}
+                        onClick={() => {
+                            if (countTickets() === selectedSeats.length && selectedSeats.length > 0) {
+                                // vyhoď pop up, který od uživatele vezme platební údaje
+
+                            }
+                        }} >
+                        Dokončit
+                    </button>
                 </div>
             </div>
         </div>

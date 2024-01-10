@@ -23,7 +23,7 @@
     border-radius: 1em;
     overflow: auto;
 }
-.ticket-reservation .header {
+.ticket-reservation-header {
     align-self: flex-start;
     margin-left: 20%;
     margin-bottom: 2%;
@@ -31,17 +31,43 @@
 .ticket-reservation table {
     margin-bottom: 2em;
 }
+.ticket-reservation tr > td {
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    font-size: 1.2em;
+
+}
+.ticket-reservation-ticket-table {
+    margin-top: 2em;
+}
+.ticket-reservation-ticket-table th {
+    font-size: 1.3em;
+}
+.ticket-reservation-ticket-table tr td:first-child, .ticket-reservation-ticket-table th {
+    padding: 0 .5em;
+}
+
 .ticket-reservation td {
     width: fit-content;
     background-color: var(--color--grey--medium);
 }
-.ticket-reservation td > input {
+.ticket-reservation td > input[type="checkbox"] {
     display: flex;
     width: 2em;
     height: 2em;
     padding: .2em;
     border: none;
     cursor: pointer;
+}
+.ticket-reservation td > input[type="number"] {
+    
+    width: 2em;
+    padding: .2em;
+    padding-left: .3em;
+    border: none;
+    cursor: pointer;
+    background-color: var(--color--grey--medium);
 }
 
 .ticket-reservation td > p {
@@ -52,15 +78,15 @@
     font-weight: bold;
 }
 
-.ticket-reservation .header h1 {
+.ticket-reservation-header h1 {
     font-size: 2.2em;
 }
 
-.ticket-reservation .header label, .ticket-reservation .header select { 
+.ticket-reservation-header label, .ticket-reservation-header select { 
     font-size: 1.1em;
 }
 
-.ticket-reservation .header > div > label {
+.ticket-reservation-header > div > label {
     margin-right: 1em;
 }
 
@@ -127,4 +153,12 @@
 }
 .ticket-reservation-btns button:hover {
     background-color: var(--color--red--dark);
+}
+.ticket-reservation-btns .ticket-reservation-btns-disable {
+    background-color: var(--color--grey--light);
+    color: black;
+    cursor: not-allowed;
+}
+.ticket-reservation-btns .ticket-reservation-btns-disable:hover {
+    background-color: var(--color--grey--light);
 }
