@@ -23,6 +23,22 @@ export const formatDate = (date: Date | string[]): string => {
         
     return `${year}-${month}-${day}`;
 }
+
+export const formatDateTime = (date: string[] | Date): string => {
+    let dateToShow: string = ''
+
+    if (date instanceof Date) {
+        dateToShow = `${date.getMonth()+1}. ${date.getDate()}. ${date.getHours()}:${date.getMinutes()}`
+
+    } else {
+        if (Array.isArray(date)) {
+            dateToShow = `${date[1]}. ${date[2]}. ${date[3].toString().padStart(2, "0")}:${date[4].toString().padStart(2, "0")}`
+        }
+    }
+
+    return dateToShow
+}
+
 export const handleErr = (setErr: Function, err: AxiosError, redirect: boolean = false) => {
     
     console.log(err);

@@ -22,4 +22,51 @@
     border-radius: 1em;
     overflow: auto;
 }
+.reservation-confirm h3 {
+    font-size: 1.5em;
+    margin-top: 1em;
+    margin-bottom: .5em;
+}
+.reservation-confirm-header {
+    text-align: center;
+}
+.reservation-confirm > table {
+    border-collapse: collapse;
+}
+.reservation-confirm > table tr:hover {
+    background-color: var(--color--grey--light);
+    color: #000000;
+}
+.reservation-confirm > table td, .reservation-confirm > table th {
+    text-align: center;
+    font-size: 1.3em;
+    padding: .3em .6em;
+}
 
+.reservation-confirm > table:nth-child(3) tr:last-child > td {
+    font-weight: bold;
+}
+
+.reservation-confirm-btns {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin-bottom: 2em;
+}
+
+.reservation-confirm-btns button {
+    margin: .5em;
+    margin-top: 1em;
+    font-size: 1.3em;
+    padding: .7em;
+    border: none;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: var(--color--red--bright);
+    color: var(--color--white);
+    transition-duration: var(--transition-delay--long);
+    cursor: pointer;
+}
+.reservation-confirm-btns button:hover {
+    background-color: var(--color--red--dark);
+}

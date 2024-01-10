@@ -4,12 +4,12 @@ import './TicketReservation.css'
 import Cinema, { defaultCinema } from '../../models/Cinema'
 import Projection, { defaultProjection } from '../../models/Projection'
 import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
-import { handleErrRedirect } from '../../global_functions/constantsAndFunction'
+import { formatDateTime, handleErrRedirect } from '../../global_functions/constantsAndFunction'
 import Reservation from '../../models/Reservation'
 import Seat from '../../models/Seat'
 import queryString from 'query-string'
 import AgeCategory from '../../models/AgeCategory'
-import BlockBusters from '../home/BlockBusters'
+import ReservationConfirm from './ReservationConfirm'
 
 type SeparedProjections = { [key: string]: Projection[] }
 
@@ -47,6 +47,8 @@ const TicketReservation = ({
     const [seatsField, setSeatsFiel] = useState([...defSeatsField])
     const [selectedSeats, setSelectedSeats] = useState([...defSeats])
     const [ageCategoriesCount, setAgeCategoriesCount] = useState({...defAgeCategoriesCount})
+
+    const [reservationConfirm, setReservationConfirm] = useState(<></>)
    
     useEffect(() => {        
         loadData<Projection>(ModesEndpoints.ProjectionByFilm, [film.id ? film.id : ""])
@@ -159,6 +161,7 @@ const TicketReservation = ({
 
     return (
         <div className='ticket-reservation-dialog'>
+            {reservationConfirm}
             <div className='ticket-reservation'>
                 <div className="ticket-reservation-header">
                     <h1>{film.name}</h1>
@@ -195,11 +198,8 @@ const TicketReservation = ({
 
                     const projections = projectionsByDabTit[index]
                     .map(p => {
-                        const date = p.dateTime
-                        let dateToShow: string = ''
-                        if (Array.isArray(date)) {
-                            dateToShow = `${date[1]}. ${date[2]}. ${date[3].toString().padStart(2, "0")}:${date[4].toString().padStart(2, "0")}`
-                        }
+                        let dateToShow: string = formatDateTime(p.dateTime)
+
                         return {
                             'projection': p,
                             'date': dateToShow
@@ -325,8 +325,20 @@ const TicketReservation = ({
                         className={countTickets() === selectedSeats.length && selectedSeats.length > 0 ? "" : "ticket-reservation-btns-disable"}
                         onClick={() => {
                             if (countTickets() === selectedSeats.length && selectedSeats.length > 0) {
-                                // vyhoď pop up, který od uživatele vezme platební údaje
 
+                                console.log(ageCategoriesCount);
+                                
+                                // vyhoď pop up, který od uživatele vezme platební údaje
+                                setReservationConfirm(
+                                    <ReservationConfirm 
+                                        setReservationConfirm={() => setReservationConfirm(<></>)}
+                                        ageCategories={ageCategories} 
+                                        ageCategoriesCount={ageCategoriesCount} 
+                                        seats={selectedSeats}
+                                        projection={selectedProjection}
+                                        cinema={selectedCinema}
+                                        />
+                                )
                             }
                         }} >
                         Dokončit
