@@ -5,6 +5,8 @@ import Film, { defaultFilm } from '../../models/Film'
 import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
 import { handleErr } from '../../global_functions/constantsAndFunction'
 import TicketReservation from '../../components/filmDetail/TicketReservation'
+import { getSessionStorageItem } from '../../global_functions/storagesActions'
+import Err from '../Err'
 
 const defFilm: Film = defaultFilm
 
@@ -28,9 +30,6 @@ const FilmDetail = () => {
     }, [])
 
 
-    console.log(film);
-    
-
     return (
         <div className='film-detail'>
             {err}
@@ -39,9 +38,14 @@ const FilmDetail = () => {
             <div className="film-detail-header">
                 <h1>{film.name}</h1>
                 <button
-                    onClick={() => setTicketReservation(
-                        <TicketReservation setTicketReservation={setTicketReservation} film={film} setErr={setErr} />
-                    )}>Zakoupit lístky</button>
+                    onClick={() => {
+
+                        if (getSessionStorageItem('loginToken') !== undefined) {
+                            return setTicketReservation(<TicketReservation setTicketReservation={setTicketReservation} film={film} setErr={setErr} />)
+                        } else {
+                            // TODO přesměrovat uživatele na přihlášení
+                        }
+                    }}>Zakoupit lístky</button>
             </div>
             <div className="film-detail-trailer">
                 <iframe 

@@ -70,3 +70,13 @@
 .reservation-confirm-btns button:hover {
     background-color: var(--color--red--dark);
 }
+
+
+.reservation-confirm-btns .reservation-confirm-btns-disable {
+    background-color: var(--color--grey--light);
+    color: black;
+    cursor: not-allowed;
+}
+.reservation-confirm-btns .reservation-confirm-btns-disable:hover {
+    background-color: var(--color--grey--light);
+}

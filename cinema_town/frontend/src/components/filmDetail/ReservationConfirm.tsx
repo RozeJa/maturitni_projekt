@@ -5,8 +5,8 @@ import Cinema from '../../models/Cinema'
 import Projection from '../../models/Projection'
 import Seat from '../../models/Seat'
 import './ReservationConfirm.css'
-import Payment from './Payment'
 import PaymentOption from './PaymentOption'
+import VisaPayment from './payments/VisaPayment'
 
 const defSeatsRows: Seat[][] = []
 const defPaymentData: { [key:string]: string } = {}
@@ -137,18 +137,27 @@ const ReservationConfirm = ({
                         <PaymentOption
                             setPayment={(payload: ReactElement) => setPayment(payload)}
                             payment={
-                                <Payment
+                                <VisaPayment
                                     setPaymentData={(data: { [key:string]: string }) => setPaymentData(data)}
-                                    paymentData={paymentData}
-                                    InnerForm={<></>}/>}
-                            imgUrl=''
-                            label='Debitní/kreditní kartou' />
+                                    paymentData={paymentData} />
+                                }
+                            imgUrl='visa.png'
+                            label='Debetní/kreditní karta' />
                     </form>
                     {payment}
                 </div>
+                {/** TODO přidat souhlas se smluvními podmínkami */}
                 <div className="reservation-confirm-btns">
                     <button onClick={() => setReservationConfirm()}>Zpět</button>
-                    <button>Zaplatit</button>
+                    <button 
+                        className={paymentData["valid"] == "true" ? '' : 'reservation-confirm-btns-disable'}
+                        onClick={() => {
+                            if (paymentData["valid"] == "true") {
+
+                            }
+                        }}
+                        >Zaplatit
+                    </button>
                 </div>
             </div>
         </div>

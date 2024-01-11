@@ -1,0 +1,27 @@
+.payment-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .25em .5em;
+    border: 1px solid var(--color--grey--light);
+    border-radius: 1em;
+
+    font-size: 1.3em;
+    font-weight: bold;
+    background-color: white;
+    color: black;
+}
+
+.payment-option img {
+    height: 5em;
+}
+
+.payment-option > * {
+    margin: 0 .5em;
+}
+
+.payment-option > input {
+    height: 1em;
+    width: 1em;
+    cursor: pointer;
+}

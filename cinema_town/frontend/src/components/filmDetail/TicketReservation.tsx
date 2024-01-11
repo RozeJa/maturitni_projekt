@@ -167,7 +167,9 @@ const TicketReservation = ({
                     <h1>{film.name}</h1>
                     <div>
                         <label>Vyberte kino:</label>
-                        <select name="selectedCinema"
+                        <select 
+                            name="selectedCinema"
+                            value={selectedCinema.id !== null ? selectedCinema.id : ''}
                             onChange={(e: any) => {
                                 const { value } = e.target
 
@@ -182,7 +184,7 @@ const TicketReservation = ({
                             }}>
                             {cinemas
                                 .map((c, index) =>
-                                    <option key={index} value={c.id ? c.id : ''} selected={selectedCinema.id === c.id}>
+                                    <option key={index} value={c.id ? c.id : ''}>
                                         {`${c.city.name}, ${c.street}, ${c.houseNumber}`}
                                     </option>
                                 )}

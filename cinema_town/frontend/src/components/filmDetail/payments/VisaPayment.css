@@ -1,0 +1,18 @@
+.visa-payment {
+    color: black;
+}
+
+.visa-payment > div {
+    margin-top: 2em;
+}
+
+.visa-payment input {
+    border: none;
+    border-bottom: 2px black solid;
+    padding: .5em;
+    margin: .3em 0;
+}
+
+.visa-payment input:focus {
+    outline: none;
+}

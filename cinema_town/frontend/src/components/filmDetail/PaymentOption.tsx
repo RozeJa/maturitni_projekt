@@ -15,10 +15,10 @@ const PaymentOption = ({
     return (
         <div className='payment-option'>
             <input type="radio" name='payment' onChange={(e:any) => {
-                console.log(e.target);
+                const { checked } = e.target
 
                 // TODO podmínka
-                if (false) {
+                if (checked) {
                     setPayment(payment)
                 } else {
                     setPayment(<></>)
@@ -26,8 +26,8 @@ const PaymentOption = ({
                 
             }} />
             <label>{label}</label>
-            {/** //TODO vytvořit složku a nahrát do ní obrázek/y 
-            <img src={require(`../../assets/imgs/${imgUrl}`)} alt="" />*/}
+            {/** //TODO vytvořit složku a nahrát do ní obrázek/y */}
+            <img src={require(`../../assets/imgs/payment-options/${imgUrl}`)} alt="" />
         </div>
     )
 }
