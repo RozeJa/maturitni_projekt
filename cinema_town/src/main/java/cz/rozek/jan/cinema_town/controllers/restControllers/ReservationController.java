@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ReservationService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
@@ -43,25 +45,31 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
         }
     }
     
-    // TODO když bude rezervace zaplacena | budou rezervace zaplaceny, přijde uživateli email se vstupenkami
     @Override
     @PostMapping("/")
     public ResponseEntity<String> post(@RequestBody Reservation data, @RequestHeader Map<String, String> headers) {
-        // TODO Auto-generated method stub
-        return super.post(data, headers);
-    }
-
-    @PostMapping("multiple/")
-    public ResponseEntity<String> postMultiple(@RequestBody List<Reservation> data, @RequestHeader Map<String,String> headers) {
-        // TODO
-        return null;
-    }
-
-    // TODO když bude rezervace zaplacena pošli uživateli "lístky"
-    @Override
-    @PutMapping("/{id}")
-    public ResponseEntity<String> put(@PathVariable String id, @RequestBody Reservation data, @RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+    // TODO když bude rezervace zaplacena | budou rezervace zaplaceny, přijde uživateli email se vstupenkami
+    @PostMapping("/reservate/")
+    public ResponseEntity<String> reservate(@RequestBody ReservationDTO data, @RequestHeader Map<String,String> headers) {
+        
+            
+
+        return null;
+    }
+
+    // TODO zrušení rezervace 
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<String> put(@PathVariable String id, @RequestBody Reservation data, @RequestHeader Map<String, String> headers) {
+        return new ResponseEntity<>(null);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
+        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 }

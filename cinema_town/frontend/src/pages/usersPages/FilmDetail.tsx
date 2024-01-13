@@ -1,4 +1,4 @@
-    import { useParams } from 'react-router-dom'
+    import { useNavigate, useParams } from 'react-router-dom'
 import './FilmDetail.css'
 import { useEffect, useState } from 'react'
 import Film, { defaultFilm } from '../../models/Film'
@@ -18,6 +18,8 @@ const FilmDetail = () => {
     const [ticketReservation, setTicketReservation] = useState(<></>)
 
     const { fimlId } = useParams()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadData<Film>(ModesEndpoints.Film, [fimlId ? fimlId : 'undefined'])
@@ -43,7 +45,7 @@ const FilmDetail = () => {
                         if (getSessionStorageItem('loginToken') !== undefined) {
                             return setTicketReservation(<TicketReservation setTicketReservation={setTicketReservation} film={film} setErr={setErr} />)
                         } else {
-                            // TODO přesměrovat uživatele na přihlášení
+                            navigate("/register")
                         }
                     }}>Zakoupit lístky</button>
             </div>

@@ -159,7 +159,6 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
         try {
-
             boolean deleted = service.delete(id, headers.get(authorization));
 
             if (deleted) 

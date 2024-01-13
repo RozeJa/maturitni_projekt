@@ -1,6 +1,5 @@
 package cz.rozek.jan.cinema_town.servicies;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -153,7 +153,7 @@ const ReservationConfirm = ({
                         className={paymentData["valid"] == "true" ? '' : 'reservation-confirm-btns-disable'}
                         onClick={() => {
                             if (paymentData["valid"] == "true") {
-
+                                
                             }
                         }}
                         >Zaplatit

@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
 import cz.rozek.jan.cinema_town.models.dynamic.Projection;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
+import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
@@ -20,6 +24,8 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
 
     @Autowired
     private ProjectionRepository projectionRepository;
+    @Autowired 
+    private AgeCategoryService ageCategoryService;
     
     @Autowired
     @Override
@@ -91,4 +97,33 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
 
         throw new SecurityException("Access denied");
     }
+
+    public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) {
+
+        // ověř učivatele
+        User user = verifyAccess(accessJWT, createPermissionRequired());
+
+        // validuj rezervaci
+        if (!reservationDTO.isValid())
+            throw new ValidationException("Reservation count of seats have to equal tickets count.");
+
+        // vytvoř objekt rezervace a vyplň ho daty
+        Reservation reservation = new Reservation();
+
+        reservation.setUser(user);
+        reservation.setProjection(reservationDTO.getProjection());
+        reservation.setSeats(reservationDTO.getSeats());
+
+        // načti si věkové kategorie
+        List<AgeCategory> ageCategories = ageCategoryService.readAll(accessJWT);
+        
+        for (String acId : reservationDTO.getAgesCategories().keySet()) {
+            // pokud enexistuje vyhodí nosuchelement exception
+            AgeCategory ac = ageCategories.stream().filter(acdc -> acdc.getId().equals(acId)).findFirst().get();
+
+            
+        }
+
+        return reservation;
+    }    
 }
