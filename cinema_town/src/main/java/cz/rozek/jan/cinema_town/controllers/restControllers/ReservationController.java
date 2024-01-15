@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ReservationService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
+import cz.rozek.jan.cinema_town.servicies.paymentService.IPayment;
 
 @RestController
 @CrossOrigin // TODO přidat restrikci
@@ -29,6 +31,12 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     
     @Autowired
     private EmailService emailService; 
+    private final Map<String, IPayment> payments;
+
+    @Autowired
+    public ReservationController(Map<String, IPayment> payments) {
+        this.payments = payments;
+    }
 
     // Metoda slouží pro cenzurované načtení rezervací, na konkrétní promítání
     @GetMapping("/censured/{projectionId}")
@@ -55,7 +63,25 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     @PostMapping("/reservate/")
     public ResponseEntity<String> reservate(@RequestBody ReservationDTO data, @RequestHeader Map<String,String> headers) {
         
+        try {
+            String accessJWT = headers.get(authorization);
+    
+            // ověř učivatele
+            service.verifyAccess(accessJWT, service.createPermissionRequired());
             
+            // načtisi zpracování platby, které máš použít
+            IPayment paymentMethod = payments.get(data.getPaymentData().get("type"));
+    
+            if (paymentMethod != null) {
+                Reservation reservation = service.reservate(data, accessJWT);
+    
+                paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
+            } else {
+    
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         return null;
     }

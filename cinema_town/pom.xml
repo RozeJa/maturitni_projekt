@@ -17,7 +17,14 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-	
+
+		<!-- dependenci for stripe paywall-->
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>24.11.0</version>
+		</dependency>
+
 		<!-- dependenci for email sending -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

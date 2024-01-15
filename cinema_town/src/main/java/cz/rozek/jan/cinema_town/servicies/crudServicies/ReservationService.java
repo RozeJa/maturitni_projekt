@@ -1,6 +1,7 @@
 package cz.rozek.jan.cinema_town.servicies.crudServicies;
 
 import java.util.List;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
+import cz.rozek.jan.cinema_town.servicies.auth.RandomStringGenerator;
 
 @Service
 public class ReservationService extends CrudService<Reservation, ReservationRepository> {
@@ -32,6 +34,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
     public void setRepository(ReservationRepository repository) {
         this.repository = repository;
     }
+    
     @Autowired
     @Override
     public void setAuthService(AuthService authService) {
@@ -106,24 +109,48 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         // validuj rezervaci
         if (!reservationDTO.isValid())
             throw new ValidationException("Reservation count of seats have to equal tickets count.");
+        
+        // vytvoř objekt rezervace a vyplň ho daty
+        Reservation reservation = buildReservationFormDTO(reservationDTO, user, accessJWT);
 
+        return reservation;
+    }
+
+    private Reservation buildReservationFormDTO(ReservationDTO dto, User user, String accessJWT) {
+        
         // vytvoř objekt rezervace a vyplň ho daty
         Reservation reservation = new Reservation();
 
         reservation.setUser(user);
-        reservation.setProjection(reservationDTO.getProjection());
-        reservation.setSeats(reservationDTO.getSeats());
+        reservation.setProjection(dto.getProjection());
+        reservation.setSeats(dto.getSeats());
 
         // načti si věkové kategorie
         List<AgeCategory> ageCategories = ageCategoryService.readAll(accessJWT);
+        Map<String, AgeCategory> codes = new HashMap<>();
         
-        for (String acId : reservationDTO.getAgesCategories().keySet()) {
+        for (String acId : dto.getAgesCategories().keySet()) {
             // pokud enexistuje vyhodí nosuchelement exception
             AgeCategory ac = ageCategories.stream().filter(acdc -> acdc.getId().equals(acId)).findFirst().get();
 
-            
+            insertCategoryUnderCode(ac, codes);
         }
 
+        reservation.setCodes(codes);
+        
         return reservation;
-    }    
+    }
+
+    private void insertCategoryUnderCode(AgeCategory ageCategory, Map<String, AgeCategory> codes) {
+        boolean inserted = false;
+
+        while (!inserted) {
+            String code = RandomStringGenerator.generateRandomString(inserted, 10);
+            
+            if (codes.get(code) == null) {
+                codes.put(code, ageCategory);
+                inserted = true;
+            }
+        }
+    }
 }
