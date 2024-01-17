@@ -7,9 +7,17 @@ import Seat from '../../models/Seat'
 import './ReservationConfirm.css'
 import PaymentOption from './PaymentOption'
 import VisaPayment from './payments/VisaPayment'
+import PaymentInformations from './payments/PaymentInformations'
+import { ModesEndpoints, storeData } from '../../global_functions/ServerAPI'
+import ReservationDTO from '../../models/ReservationDTO'
+import { redirect, useNavigate } from 'react-router-dom'
 
 const defSeatsRows: Seat[][] = []
-const defPaymentData: { [key:string]: string } = {}
+
+const defPaymentInformations: PaymentInformations = {
+    prePostFunction: async (paymentData: { [key:string]: string }) => {},
+    paymentData: {}
+}
 
 const ReservationConfirm = ({
         setReservationConfirm,
@@ -32,7 +40,9 @@ const ReservationConfirm = ({
     const [totalPrice, setTotalPrice] = useState(0)
 
     const [payment, setPayment] = useState(<></>)
-    const [paymentData, setPaymentData] = useState({...defPaymentData})
+    const [paymentInformations, setPaymentInformations] = useState({...defPaymentInformations})
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const seatsRows: Seat[][] = []
@@ -138,8 +148,8 @@ const ReservationConfirm = ({
                             setPayment={(payload: ReactElement) => setPayment(payload)}
                             payment={
                                 <VisaPayment
-                                    setPaymentData={(data: { [key:string]: string }) => setPaymentData(data)}
-                                    paymentData={paymentData} />
+                                    setPaymentInformations={(data: PaymentInformations) => setPaymentInformations(data)}
+                                    paymentInformations={paymentInformations} />
                                 }
                             imgUrl='visa.png'
                             label='Debetní/kreditní karta' />
@@ -150,10 +160,28 @@ const ReservationConfirm = ({
                 <div className="reservation-confirm-btns">
                     <button onClick={() => setReservationConfirm()}>Zpět</button>
                     <button 
-                        className={paymentData["valid"] == "true" ? '' : 'reservation-confirm-btns-disable'}
-                        onClick={() => {
-                            if (paymentData["valid"] == "true") {
-                                
+                        className={paymentInformations["paymentData"]["valid"] == "true" ? '' : 'reservation-confirm-btns-disable'}
+                        onClick={async () => {
+                            if (paymentInformations["paymentData"]["valid"] == "true") {
+                                await paymentInformations.prePostFunction(paymentInformations.paymentData)
+
+                                const reservationDTO: ReservationDTO = {
+                                    id: null,
+                                    agesCategories: ageCategoriesCount,
+                                    paymentData: paymentInformations.paymentData,
+                                    projection: projection,
+                                    seats: seats
+                                } 
+
+                                // TODO postni to na backend
+                                storeData<ReservationDTO>(ModesEndpoints.ReservationReservate, [reservationDTO])
+                                    .then(data => {
+                                        navigate("/")
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        console.log(reservationDTO); 
+                                    })
                             }
                         }}
                         >Zaplatit

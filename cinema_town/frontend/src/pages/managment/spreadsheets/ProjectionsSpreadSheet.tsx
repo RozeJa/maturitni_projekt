@@ -130,7 +130,7 @@ const ProjectionsSpreadsheet = () => {
                     <button onClick={() => setShowArchived(!showArchived)}>{showArchived ? "Archivované" : "Budoucí"} promítání</button>
                 </div>
 
-                <a href="/management/projections/new"><b>Nový</b></a>
+                <a href="/management/projections/new"><b>Nové</b></a>
             </div>
             <div className="sp-body">
                 { filtredProjections.map((d,index) => { 

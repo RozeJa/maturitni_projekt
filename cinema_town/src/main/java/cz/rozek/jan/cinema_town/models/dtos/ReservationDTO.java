@@ -13,10 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ReservationDTO {
+    // tato proměná se k ničemu nepoužije, slouží pouze pro umožnení konverze mezi frontendem a backendem 
+    private String id = "";
     // objekt promítání
     private Projection projection;
     // sedadla, o která má uživatel zájem
-    private List<Seat> seats = new ArrayList<>();
+    private List<Seat> seats = new ArrayList<>();;
     // informece, k uskutečnění platby
     private Map<String, String> paymentData = new HashMap<>();
     // seznam věkových kategorií, o které má uživatel zájem celkový součet lístků jednotlivých kategoriích musí být roven počtu sedadel

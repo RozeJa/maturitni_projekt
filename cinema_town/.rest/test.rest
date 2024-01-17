@@ -1,0 +1,1356 @@
+POST  http://localhost:8080/api/reservations/reservate HTTP/1.1
+Content-Type: application/json
+
+{
+  "agesCategories": {
+    "659e477115ff202a96bd7549": 0,
+    "659e479215ff202a96bd754a": 0,
+    "659e47d715ff202a96bd754b": 0,
+    "659e47e215ff202a96bd754c": 1
+  },
+  "paymentData": {
+    "type": "visa",
+    "card-number": "4242424242424242",
+    "valid": "true",
+    "card-expiration": "0244",
+    "verification-code": "235"
+  },
+  "projection": {
+    "id": "65a7ce9b1fead1423310ed46",
+    "hall": {
+      "id": "656606ac14d47e099168140d",
+      "designation": "1",
+      "rows": 10,
+      "columns": 15,
+      "seats": {
+        "656606ac14d47e0991681406": {
+          "id": "656606ac14d47e0991681406",
+          "rowDesignation": "1",
+          "number": 9,
+          "rowIndex": 0,
+          "columnIndex": 8,
+          "seat": false
+        },
+        "656606ac14d47e0991681407": {
+          "id": "656606ac14d47e0991681407",
+          "rowDesignation": "1",
+          "number": 10,
+          "rowIndex": 0,
+          "columnIndex": 9,
+          "seat": false
+        },
+        "656606ac14d47e0991681408": {
+          "id": "656606ac14d47e0991681408",
+          "rowDesignation": "1",
+          "number": 11,
+          "rowIndex": 0,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e0991681409": {
+          "id": "656606ac14d47e0991681409",
+          "rowDesignation": "1",
+          "number": 12,
+          "rowIndex": 0,
+          "columnIndex": 11,
+          "seat": false
+        },
+        "656606ac14d47e0991681402": {
+          "id": "656606ac14d47e0991681402",
+          "rowDesignation": "1",
+          "number": 5,
+          "rowIndex": 0,
+          "columnIndex": 4,
+          "seat": false
+        },
+        "656606ac14d47e0991681403": {
+          "id": "656606ac14d47e0991681403",
+          "rowDesignation": "1",
+          "number": 6,
+          "rowIndex": 0,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e0991681404": {
+          "id": "656606ac14d47e0991681404",
+          "rowDesignation": "1",
+          "number": 7,
+          "rowIndex": 0,
+          "columnIndex": 6,
+          "seat": false
+        },
+        "656606ac14d47e0991681405": {
+          "id": "656606ac14d47e0991681405",
+          "rowDesignation": "1",
+          "number": 8,
+          "rowIndex": 0,
+          "columnIndex": 7,
+          "seat": false
+        },
+        "656606ac14d47e09916813fe": {
+          "id": "656606ac14d47e09916813fe",
+          "rowDesignation": "1",
+          "number": 1,
+          "rowIndex": 0,
+          "columnIndex": 0,
+          "seat": false
+        },
+        "656606ac14d47e09916813ff": {
+          "id": "656606ac14d47e09916813ff",
+          "rowDesignation": "1",
+          "number": 2,
+          "rowIndex": 0,
+          "columnIndex": 1,
+          "seat": false
+        },
+        "656606ac14d47e0991681400": {
+          "id": "656606ac14d47e0991681400",
+          "rowDesignation": "1",
+          "number": 3,
+          "rowIndex": 0,
+          "columnIndex": 2,
+          "seat": false
+        },
+        "656606ac14d47e0991681401": {
+          "id": "656606ac14d47e0991681401",
+          "rowDesignation": "1",
+          "number": 4,
+          "rowIndex": 0,
+          "columnIndex": 3,
+          "seat": false
+        },
+        "656606ac14d47e09916813fa": {
+          "id": "656606ac14d47e09916813fa",
+          "rowDesignation": "10",
+          "number": 12,
+          "rowIndex": 9,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813fb": {
+          "id": "656606ac14d47e09916813fb",
+          "rowDesignation": "10",
+          "number": 13,
+          "rowIndex": 9,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813fc": {
+          "id": "656606ac14d47e09916813fc",
+          "rowDesignation": "10",
+          "number": 14,
+          "rowIndex": 9,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813fd": {
+          "id": "656606ac14d47e09916813fd",
+          "rowDesignation": "10",
+          "number": 15,
+          "rowIndex": 9,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813ed": {
+          "id": "656606ac14d47e09916813ed",
+          "rowDesignation": "7",
+          "number": 14,
+          "rowIndex": 6,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813ee": {
+          "id": "656606ac14d47e09916813ee",
+          "rowDesignation": "7",
+          "number": 15,
+          "rowIndex": 6,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813ef": {
+          "id": "656606ac14d47e09916813ef",
+          "rowDesignation": "8",
+          "number": 11,
+          "rowIndex": 7,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e09916813ea": {
+          "id": "656606ac14d47e09916813ea",
+          "rowDesignation": "7",
+          "number": 11,
+          "rowIndex": 6,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e09916813eb": {
+          "id": "656606ac14d47e09916813eb",
+          "rowDesignation": "7",
+          "number": 12,
+          "rowIndex": 6,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813ec": {
+          "id": "656606ac14d47e09916813ec",
+          "rowDesignation": "7",
+          "number": 13,
+          "rowIndex": 6,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813f9": {
+          "id": "656606ac14d47e09916813f9",
+          "rowDesignation": "10",
+          "number": 11,
+          "rowIndex": 9,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e09916813f5": {
+          "id": "656606ac14d47e09916813f5",
+          "rowDesignation": "9",
+          "number": 12,
+          "rowIndex": 8,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813f6": {
+          "id": "656606ac14d47e09916813f6",
+          "rowDesignation": "9",
+          "number": 13,
+          "rowIndex": 8,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813f7": {
+          "id": "656606ac14d47e09916813f7",
+          "rowDesignation": "9",
+          "number": 14,
+          "rowIndex": 8,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813f8": {
+          "id": "656606ac14d47e09916813f8",
+          "rowDesignation": "9",
+          "number": 15,
+          "rowIndex": 8,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813f1": {
+          "id": "656606ac14d47e09916813f1",
+          "rowDesignation": "8",
+          "number": 13,
+          "rowIndex": 7,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813f2": {
+          "id": "656606ac14d47e09916813f2",
+          "rowDesignation": "8",
+          "number": 14,
+          "rowIndex": 7,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813f3": {
+          "id": "656606ac14d47e09916813f3",
+          "rowDesignation": "8",
+          "number": 15,
+          "rowIndex": 7,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813f4": {
+          "id": "656606ac14d47e09916813f4",
+          "rowDesignation": "9",
+          "number": 11,
+          "rowIndex": 8,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e09916813f0": {
+          "id": "656606ac14d47e09916813f0",
+          "rowDesignation": "8",
+          "number": 12,
+          "rowIndex": 7,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813dc": {
+          "id": "656606ac14d47e09916813dc",
+          "rowDesignation": "4",
+          "number": 12,
+          "rowIndex": 3,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813dd": {
+          "id": "656606ac14d47e09916813dd",
+          "rowDesignation": "4",
+          "number": 13,
+          "rowIndex": 3,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813de": {
+          "id": "656606ac14d47e09916813de",
+          "rowDesignation": "4",
+          "number": 14,
+          "rowIndex": 3,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813df": {
+          "id": "656606ac14d47e09916813df",
+          "rowDesignation": "4",
+          "number": 15,
+          "rowIndex": 3,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813da": {
+          "id": "656606ac14d47e09916813da",
+          "rowDesignation": "3",
+          "number": 15,
+          "rowIndex": 2,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813db": {
+          "id": "656606ac14d47e09916813db",
+          "rowDesignation": "4",
+          "number": 11,
+          "rowIndex": 3,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e09916813e8": {
+          "id": "656606ac14d47e09916813e8",
+          "rowDesignation": "6",
+          "number": 14,
+          "rowIndex": 5,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813e9": {
+          "id": "656606ac14d47e09916813e9",
+          "rowDesignation": "6",
+          "number": 15,
+          "rowIndex": 5,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813e4": {
+          "id": "656606ac14d47e09916813e4",
+          "rowDesignation": "5",
+          "number": 15,
+          "rowIndex": 4,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813e5": {
+          "id": "656606ac14d47e09916813e5",
+          "rowDesignation": "6",
+          "number": 11,
+          "rowIndex": 5,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e09916813e6": {
+          "id": "656606ac14d47e09916813e6",
+          "rowDesignation": "6",
+          "number": 12,
+          "rowIndex": 5,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813e7": {
+          "id": "656606ac14d47e09916813e7",
+          "rowDesignation": "6",
+          "number": 13,
+          "rowIndex": 5,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813e0": {
+          "id": "656606ac14d47e09916813e0",
+          "rowDesignation": "5",
+          "number": 11,
+          "rowIndex": 4,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e09916813e1": {
+          "id": "656606ac14d47e09916813e1",
+          "rowDesignation": "5",
+          "number": 12,
+          "rowIndex": 4,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813e2": {
+          "id": "656606ac14d47e09916813e2",
+          "rowDesignation": "5",
+          "number": 13,
+          "rowIndex": 4,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813e3": {
+          "id": "656606ac14d47e09916813e3",
+          "rowDesignation": "5",
+          "number": 14,
+          "rowIndex": 4,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813cf": {
+          "id": "656606ac14d47e09916813cf",
+          "rowDesignation": "10",
+          "number": 9,
+          "rowIndex": 9,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e09916813cb": {
+          "id": "656606ac14d47e09916813cb",
+          "rowDesignation": "10",
+          "number": 5,
+          "rowIndex": 9,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e09916813cc": {
+          "id": "656606ac14d47e09916813cc",
+          "rowDesignation": "10",
+          "number": 6,
+          "rowIndex": 9,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e09916813cd": {
+          "id": "656606ac14d47e09916813cd",
+          "rowDesignation": "10",
+          "number": 7,
+          "rowIndex": 9,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e09916813ce": {
+          "id": "656606ac14d47e09916813ce",
+          "rowDesignation": "10",
+          "number": 8,
+          "rowIndex": 9,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e09916813ca": {
+          "id": "656606ac14d47e09916813ca",
+          "rowDesignation": "10",
+          "number": 4,
+          "rowIndex": 9,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e09916813d7": {
+          "id": "656606ac14d47e09916813d7",
+          "rowDesignation": "3",
+          "number": 12,
+          "rowIndex": 2,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e09916813d8": {
+          "id": "656606ac14d47e09916813d8",
+          "rowDesignation": "3",
+          "number": 13,
+          "rowIndex": 2,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813d9": {
+          "id": "656606ac14d47e09916813d9",
+          "rowDesignation": "3",
+          "number": 14,
+          "rowIndex": 2,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813d3": {
+          "id": "656606ac14d47e09916813d3",
+          "rowDesignation": "2",
+          "number": 13,
+          "rowIndex": 1,
+          "columnIndex": 12,
+          "seat": true
+        },
+        "656606ac14d47e09916813d4": {
+          "id": "656606ac14d47e09916813d4",
+          "rowDesignation": "2",
+          "number": 14,
+          "rowIndex": 1,
+          "columnIndex": 13,
+          "seat": true
+        },
+        "656606ac14d47e09916813d5": {
+          "id": "656606ac14d47e09916813d5",
+          "rowDesignation": "2",
+          "number": 15,
+          "rowIndex": 1,
+          "columnIndex": 14,
+          "seat": true
+        },
+        "656606ac14d47e09916813d6": {
+          "id": "656606ac14d47e09916813d6",
+          "rowDesignation": "3",
+          "number": 11,
+          "rowIndex": 2,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e099168139d": {
+          "id": "656606ac14d47e099168139d",
+          "rowDesignation": "5",
+          "number": 9,
+          "rowIndex": 4,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e099168139e": {
+          "id": "656606ac14d47e099168139e",
+          "rowDesignation": "5",
+          "number": 10,
+          "rowIndex": 4,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e09916813d0": {
+          "id": "656606ac14d47e09916813d0",
+          "rowDesignation": "10",
+          "number": 10,
+          "rowIndex": 9,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e09916813d1": {
+          "id": "656606ac14d47e09916813d1",
+          "rowDesignation": "2",
+          "number": 11,
+          "rowIndex": 1,
+          "columnIndex": 10,
+          "seat": false
+        },
+        "656606ac14d47e099168139f": {
+          "id": "656606ac14d47e099168139f",
+          "rowDesignation": "6",
+          "number": 1,
+          "rowIndex": 5,
+          "columnIndex": 0,
+          "seat": true
+        },
+        "656606ac14d47e09916813d2": {
+          "id": "656606ac14d47e09916813d2",
+          "rowDesignation": "2",
+          "number": 12,
+          "rowIndex": 1,
+          "columnIndex": 11,
+          "seat": true
+        },
+        "656606ac14d47e099168139a": {
+          "id": "656606ac14d47e099168139a",
+          "rowDesignation": "5",
+          "number": 6,
+          "rowIndex": 4,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e099168139b": {
+          "id": "656606ac14d47e099168139b",
+          "rowDesignation": "5",
+          "number": 7,
+          "rowIndex": 4,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e099168139c": {
+          "id": "656606ac14d47e099168139c",
+          "rowDesignation": "5",
+          "number": 8,
+          "rowIndex": 4,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e09916813be": {
+          "id": "656606ac14d47e09916813be",
+          "rowDesignation": "9",
+          "number": 2,
+          "rowIndex": 8,
+          "columnIndex": 1,
+          "seat": true
+        },
+        "656606ac14d47e09916813bf": {
+          "id": "656606ac14d47e09916813bf",
+          "rowDesignation": "9",
+          "number": 3,
+          "rowIndex": 8,
+          "columnIndex": 2,
+          "seat": true
+        },
+        "656606ac14d47e09916813ba": {
+          "id": "656606ac14d47e09916813ba",
+          "rowDesignation": "8",
+          "number": 8,
+          "rowIndex": 7,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e09916813bb": {
+          "id": "656606ac14d47e09916813bb",
+          "rowDesignation": "8",
+          "number": 9,
+          "rowIndex": 7,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e09916813bc": {
+          "id": "656606ac14d47e09916813bc",
+          "rowDesignation": "8",
+          "number": 10,
+          "rowIndex": 7,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e09916813bd": {
+          "id": "656606ac14d47e09916813bd",
+          "rowDesignation": "9",
+          "number": 1,
+          "rowIndex": 8,
+          "columnIndex": 0,
+          "seat": true
+        },
+        "656606ac14d47e09916813c6": {
+          "id": "656606ac14d47e09916813c6",
+          "rowDesignation": "9",
+          "number": 10,
+          "rowIndex": 8,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e09916813c7": {
+          "id": "656606ac14d47e09916813c7",
+          "rowDesignation": "10",
+          "number": 1,
+          "rowIndex": 9,
+          "columnIndex": 0,
+          "seat": true
+        },
+        "656606ac14d47e09916813c8": {
+          "id": "656606ac14d47e09916813c8",
+          "rowDesignation": "10",
+          "number": 2,
+          "rowIndex": 9,
+          "columnIndex": 1,
+          "seat": true
+        },
+        "656606ac14d47e09916813c9": {
+          "id": "656606ac14d47e09916813c9",
+          "rowDesignation": "10",
+          "number": 3,
+          "rowIndex": 9,
+          "columnIndex": 2,
+          "seat": true
+        },
+        "656606ac14d47e09916813c2": {
+          "id": "656606ac14d47e09916813c2",
+          "rowDesignation": "9",
+          "number": 6,
+          "rowIndex": 8,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e09916813c3": {
+          "id": "656606ac14d47e09916813c3",
+          "rowDesignation": "9",
+          "number": 7,
+          "rowIndex": 8,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e09916813c4": {
+          "id": "656606ac14d47e09916813c4",
+          "rowDesignation": "9",
+          "number": 8,
+          "rowIndex": 8,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e09916813c5": {
+          "id": "656606ac14d47e09916813c5",
+          "rowDesignation": "9",
+          "number": 9,
+          "rowIndex": 8,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e099168138c": {
+          "id": "656606ac14d47e099168138c",
+          "rowDesignation": "4",
+          "number": 2,
+          "rowIndex": 3,
+          "columnIndex": 1,
+          "seat": false
+        },
+        "656606ac14d47e099168138d": {
+          "id": "656606ac14d47e099168138d",
+          "rowDesignation": "4",
+          "number": 3,
+          "rowIndex": 3,
+          "columnIndex": 2,
+          "seat": false
+        },
+        "656606ac14d47e099168138e": {
+          "id": "656606ac14d47e099168138e",
+          "rowDesignation": "4",
+          "number": 4,
+          "rowIndex": 3,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e09916813c0": {
+          "id": "656606ac14d47e09916813c0",
+          "rowDesignation": "9",
+          "number": 4,
+          "rowIndex": 8,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e099168138f": {
+          "id": "656606ac14d47e099168138f",
+          "rowDesignation": "4",
+          "number": 5,
+          "rowIndex": 3,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e09916813c1": {
+          "id": "656606ac14d47e09916813c1",
+          "rowDesignation": "9",
+          "number": 5,
+          "rowIndex": 8,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e099168138a": {
+          "id": "656606ac14d47e099168138a",
+          "rowDesignation": "3",
+          "number": 10,
+          "rowIndex": 2,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e099168138b": {
+          "id": "656606ac14d47e099168138b",
+          "rowDesignation": "4",
+          "number": 1,
+          "rowIndex": 3,
+          "columnIndex": 0,
+          "seat": false
+        },
+        "656606ac14d47e09916813ad": {
+          "id": "656606ac14d47e09916813ad",
+          "rowDesignation": "7",
+          "number": 5,
+          "rowIndex": 6,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e09916813ae": {
+          "id": "656606ac14d47e09916813ae",
+          "rowDesignation": "7",
+          "number": 6,
+          "rowIndex": 6,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e09916813af": {
+          "id": "656606ac14d47e09916813af",
+          "rowDesignation": "7",
+          "number": 7,
+          "rowIndex": 6,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e0991681398": {
+          "id": "656606ac14d47e0991681398",
+          "rowDesignation": "5",
+          "number": 4,
+          "rowIndex": 4,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e0991681399": {
+          "id": "656606ac14d47e0991681399",
+          "rowDesignation": "5",
+          "number": 5,
+          "rowIndex": 4,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e09916813aa": {
+          "id": "656606ac14d47e09916813aa",
+          "rowDesignation": "7",
+          "number": 2,
+          "rowIndex": 6,
+          "columnIndex": 1,
+          "seat": true
+        },
+        "656606ac14d47e09916813ab": {
+          "id": "656606ac14d47e09916813ab",
+          "rowDesignation": "7",
+          "number": 3,
+          "rowIndex": 6,
+          "columnIndex": 2,
+          "seat": true
+        },
+        "656606ac14d47e09916813ac": {
+          "id": "656606ac14d47e09916813ac",
+          "rowDesignation": "7",
+          "number": 4,
+          "rowIndex": 6,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e0991681394": {
+          "id": "656606ac14d47e0991681394",
+          "rowDesignation": "4",
+          "number": 10,
+          "rowIndex": 3,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e0991681395": {
+          "id": "656606ac14d47e0991681395",
+          "rowDesignation": "5",
+          "number": 1,
+          "rowIndex": 4,
+          "columnIndex": 0,
+          "seat": true
+        },
+        "656606ac14d47e0991681396": {
+          "id": "656606ac14d47e0991681396",
+          "rowDesignation": "5",
+          "number": 2,
+          "rowIndex": 4,
+          "columnIndex": 1,
+          "seat": true
+        },
+        "656606ac14d47e0991681397": {
+          "id": "656606ac14d47e0991681397",
+          "rowDesignation": "5",
+          "number": 3,
+          "rowIndex": 4,
+          "columnIndex": 2,
+          "seat": true
+        },
+        "656606ac14d47e0991681390": {
+          "id": "656606ac14d47e0991681390",
+          "rowDesignation": "4",
+          "number": 6,
+          "rowIndex": 3,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e09916813b9": {
+          "id": "656606ac14d47e09916813b9",
+          "rowDesignation": "8",
+          "number": 7,
+          "rowIndex": 7,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e0991681391": {
+          "id": "656606ac14d47e0991681391",
+          "rowDesignation": "4",
+          "number": 7,
+          "rowIndex": 3,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e0991681392": {
+          "id": "656606ac14d47e0991681392",
+          "rowDesignation": "4",
+          "number": 8,
+          "rowIndex": 3,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e0991681393": {
+          "id": "656606ac14d47e0991681393",
+          "rowDesignation": "4",
+          "number": 9,
+          "rowIndex": 3,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e09916813b5": {
+          "id": "656606ac14d47e09916813b5",
+          "rowDesignation": "8",
+          "number": 3,
+          "rowIndex": 7,
+          "columnIndex": 2,
+          "seat": true
+        },
+        "656606ac14d47e09916813b6": {
+          "id": "656606ac14d47e09916813b6",
+          "rowDesignation": "8",
+          "number": 4,
+          "rowIndex": 7,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e09916813b7": {
+          "id": "656606ac14d47e09916813b7",
+          "rowDesignation": "8",
+          "number": 5,
+          "rowIndex": 7,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e09916813b8": {
+          "id": "656606ac14d47e09916813b8",
+          "rowDesignation": "8",
+          "number": 6,
+          "rowIndex": 7,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e099168137f": {
+          "id": "656606ac14d47e099168137f",
+          "rowDesignation": "2",
+          "number": 9,
+          "rowIndex": 1,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e09916813b1": {
+          "id": "656606ac14d47e09916813b1",
+          "rowDesignation": "7",
+          "number": 9,
+          "rowIndex": 6,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e09916813b2": {
+          "id": "656606ac14d47e09916813b2",
+          "rowDesignation": "7",
+          "number": 10,
+          "rowIndex": 6,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e09916813b3": {
+          "id": "656606ac14d47e09916813b3",
+          "rowDesignation": "8",
+          "number": 1,
+          "rowIndex": 7,
+          "columnIndex": 0,
+          "seat": true
+        },
+        "656606ac14d47e09916813b4": {
+          "id": "656606ac14d47e09916813b4",
+          "rowDesignation": "8",
+          "number": 2,
+          "rowIndex": 7,
+          "columnIndex": 1,
+          "seat": true
+        },
+        "656606ac14d47e099168137b": {
+          "id": "656606ac14d47e099168137b",
+          "rowDesignation": "2",
+          "number": 5,
+          "rowIndex": 1,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e099168137c": {
+          "id": "656606ac14d47e099168137c",
+          "rowDesignation": "2",
+          "number": 6,
+          "rowIndex": 1,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e099168137d": {
+          "id": "656606ac14d47e099168137d",
+          "rowDesignation": "2",
+          "number": 7,
+          "rowIndex": 1,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e099168137e": {
+          "id": "656606ac14d47e099168137e",
+          "rowDesignation": "2",
+          "number": 8,
+          "rowIndex": 1,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e09916813b0": {
+          "id": "656606ac14d47e09916813b0",
+          "rowDesignation": "7",
+          "number": 8,
+          "rowIndex": 6,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e099168137a": {
+          "id": "656606ac14d47e099168137a",
+          "rowDesignation": "2",
+          "number": 4,
+          "rowIndex": 1,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e0991681387": {
+          "id": "656606ac14d47e0991681387",
+          "rowDesignation": "3",
+          "number": 7,
+          "rowIndex": 2,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e0991681388": {
+          "id": "656606ac14d47e0991681388",
+          "rowDesignation": "3",
+          "number": 8,
+          "rowIndex": 2,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e0991681389": {
+          "id": "656606ac14d47e0991681389",
+          "rowDesignation": "3",
+          "number": 9,
+          "rowIndex": 2,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e0991681383": {
+          "id": "656606ac14d47e0991681383",
+          "rowDesignation": "3",
+          "number": 3,
+          "rowIndex": 2,
+          "columnIndex": 2,
+          "seat": false
+        },
+        "656606ac14d47e0991681384": {
+          "id": "656606ac14d47e0991681384",
+          "rowDesignation": "3",
+          "number": 4,
+          "rowIndex": 2,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e0991681385": {
+          "id": "656606ac14d47e0991681385",
+          "rowDesignation": "3",
+          "number": 5,
+          "rowIndex": 2,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e0991681386": {
+          "id": "656606ac14d47e0991681386",
+          "rowDesignation": "3",
+          "number": 6,
+          "rowIndex": 2,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e09916813a8": {
+          "id": "656606ac14d47e09916813a8",
+          "rowDesignation": "6",
+          "number": 10,
+          "rowIndex": 5,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e0991681380": {
+          "id": "656606ac14d47e0991681380",
+          "rowDesignation": "2",
+          "number": 10,
+          "rowIndex": 1,
+          "columnIndex": 9,
+          "seat": true
+        },
+        "656606ac14d47e09916813a9": {
+          "id": "656606ac14d47e09916813a9",
+          "rowDesignation": "7",
+          "number": 1,
+          "rowIndex": 6,
+          "columnIndex": 0,
+          "seat": true
+        },
+        "656606ac14d47e0991681381": {
+          "id": "656606ac14d47e0991681381",
+          "rowDesignation": "3",
+          "number": 1,
+          "rowIndex": 2,
+          "columnIndex": 0,
+          "seat": false
+        },
+        "656606ac14d47e0991681382": {
+          "id": "656606ac14d47e0991681382",
+          "rowDesignation": "3",
+          "number": 2,
+          "rowIndex": 2,
+          "columnIndex": 1,
+          "seat": false
+        },
+        "656606ac14d47e099168140b": {
+          "id": "656606ac14d47e099168140b",
+          "rowDesignation": "1",
+          "number": 14,
+          "rowIndex": 0,
+          "columnIndex": 13,
+          "seat": false
+        },
+        "656606ac14d47e09916813a4": {
+          "id": "656606ac14d47e09916813a4",
+          "rowDesignation": "6",
+          "number": 6,
+          "rowIndex": 5,
+          "columnIndex": 5,
+          "seat": false
+        },
+        "656606ac14d47e099168140c": {
+          "id": "656606ac14d47e099168140c",
+          "rowDesignation": "1",
+          "number": 15,
+          "rowIndex": 0,
+          "columnIndex": 14,
+          "seat": false
+        },
+        "656606ac14d47e09916813a5": {
+          "id": "656606ac14d47e09916813a5",
+          "rowDesignation": "6",
+          "number": 7,
+          "rowIndex": 5,
+          "columnIndex": 6,
+          "seat": true
+        },
+        "656606ac14d47e09916813a6": {
+          "id": "656606ac14d47e09916813a6",
+          "rowDesignation": "6",
+          "number": 8,
+          "rowIndex": 5,
+          "columnIndex": 7,
+          "seat": true
+        },
+        "656606ac14d47e09916813a7": {
+          "id": "656606ac14d47e09916813a7",
+          "rowDesignation": "6",
+          "number": 9,
+          "rowIndex": 5,
+          "columnIndex": 8,
+          "seat": true
+        },
+        "656606ac14d47e09916813a0": {
+          "id": "656606ac14d47e09916813a0",
+          "rowDesignation": "6",
+          "number": 2,
+          "rowIndex": 5,
+          "columnIndex": 1,
+          "seat": true
+        },
+        "656606ac14d47e09916813a1": {
+          "id": "656606ac14d47e09916813a1",
+          "rowDesignation": "6",
+          "number": 3,
+          "rowIndex": 5,
+          "columnIndex": 2,
+          "seat": true
+        },
+        "656606ac14d47e09916813a2": {
+          "id": "656606ac14d47e09916813a2",
+          "rowDesignation": "6",
+          "number": 4,
+          "rowIndex": 5,
+          "columnIndex": 3,
+          "seat": true
+        },
+        "656606ac14d47e099168140a": {
+          "id": "656606ac14d47e099168140a",
+          "rowDesignation": "1",
+          "number": 13,
+          "rowIndex": 0,
+          "columnIndex": 12,
+          "seat": false
+        },
+        "656606ac14d47e09916813a3": {
+          "id": "656606ac14d47e09916813a3",
+          "rowDesignation": "6",
+          "number": 5,
+          "rowIndex": 5,
+          "columnIndex": 4,
+          "seat": true
+        },
+        "656606ac14d47e0991681377": {
+          "id": "656606ac14d47e0991681377",
+          "rowDesignation": "2",
+          "number": 1,
+          "rowIndex": 1,
+          "columnIndex": 0,
+          "seat": false
+        },
+        "656606ac14d47e0991681378": {
+          "id": "656606ac14d47e0991681378",
+          "rowDesignation": "2",
+          "number": 2,
+          "rowIndex": 1,
+          "columnIndex": 1,
+          "seat": false
+        },
+        "656606ac14d47e0991681379": {
+          "id": "656606ac14d47e0991681379",
+          "rowDesignation": "2",
+          "number": 3,
+          "rowIndex": 1,
+          "columnIndex": 2,
+          "seat": false
+        }
+      }
+    },
+    "film": {
+      "id": "654fe9bf7285413e5ade2663",
+      "name": "Napoleon",
+      "description": "Epické drama zachycuje život francouzského císaře Napoleona Bonaparte, jeho vzestup k moci a vztah k životní lásce Josephine, a ukazuje jeho vizionářské vojenské a politické taktiky na pozadí nejdynamičtějších bitevních scén jaké kdy byly natočeny. ",
+      "picture": "5977S2R.jpg",
+      "trailer": "aX2G64lTxnE",
+      "original": "EN",
+      "blockBuster": true,
+      "director": {
+        "id": "654fe9bf7285413e5ade2662",
+        "name": "Scott",
+        "surname": "Ridley"
+      },
+      "actors": {
+        "0": {
+          "id": "654fe9bf7285413e5ade2657",
+          "name": "Phoenix",
+          "surname": "Joaquin"
+        },
+        "1": {
+          "id": "654fe9bf7285413e5ade2658",
+          "name": "Kirby",
+          "surname": "Vanessa"
+        },
+        "2": {
+          "id": "654fe9bf7285413e5ade2659",
+          "name": "Rahim",
+          "surname": "Tahar"
+        },
+        "3": {
+          "id": "654fe9bf7285413e5ade265a",
+          "name": "Chivers",
+          "surname": "Benjamin"
+        },
+        "4": {
+          "id": "654fe9bf7285413e5ade265b",
+          "name": "Sagnier",
+          "surname": "Ludivine"
+        },
+        "5": {
+          "id": "654fe9bf7285413e5ade265c",
+          "name": "McNeice",
+          "surname": "Ian"
+        },
+        "6": {
+          "id": "654fe9bf7285413e5ade265d",
+          "name": "Needham",
+          "surname": "Matthew"
+        },
+        "7": {
+          "id": "654fe9bf7285413e5ade265e",
+          "name": "Miles",
+          "surname": "Ben"
+        },
+        "8": {
+          "id": "654fe9bf7285413e5ade265f",
+          "name": "Rhys",
+          "surname": "Paul"
+        },
+        "9": {
+          "id": "654fe9bf7285413e5ade2660",
+          "name": "Kerkour",
+          "surname": "Youssef"
+        },
+        "10": {
+          "id": "654fe9bf7285413e5ade2661",
+          "name": "Handy",
+          "surname": "Scott"
+        }
+      },
+      "genres": [
+        {
+          "id": "652d845f1526991bb7fa07bb",
+          "name": "Drama"
+        },
+        {
+          "id": "652d84701526991bb7fa07bc",
+          "name": "Historický"
+        },
+        {
+          "id": "652d858e1526991bb7fa07cf",
+          "name": "Válečné"
+        }
+      ],
+      "titles": [
+        "CZ"
+      ],
+      "dabings": [
+        "EN",
+        "CZ"
+      ],
+      "time": 154,
+      "pg": 15,
+      "defaultCost": 300,
+      "production": "FR2023",
+      "premier": [
+        2023,
+        11,
+        26
+      ]
+    },
+    "cost": 300,
+    "title": "",
+    "dabing": "EN",
+    "dateTime": [
+      2024,
+      1,
+      19,
+      12,
+      56
+    ]
+  },
+  "seats": [
+    {
+      "id": "656606ac14d47e09916813fa",
+      "rowDesignation": "10",
+      "number": 12,
+      "rowIndex": 9,
+      "columnIndex": 11,
+      "seat": true
+    }
+  ]
+}
+
+###
+POST url HTTP/1.1
+header name: header value
+
+content

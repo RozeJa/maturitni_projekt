@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mongodb.DuplicateKeyException;
+
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
 import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ReservationService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 import cz.rozek.jan.cinema_town.servicies.paymentService.IPayment;
@@ -60,9 +64,8 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     }
 
     // TODO když bude rezervace zaplacena | budou rezervace zaplaceny, přijde uživateli email se vstupenkami
-    @PostMapping("/reservate/")
+    @PostMapping("/reservate")
     public ResponseEntity<String> reservate(@RequestBody ReservationDTO data, @RequestHeader Map<String,String> headers) {
-        
         try {
             String accessJWT = headers.get(authorization);
     
@@ -75,12 +78,28 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
             if (paymentMethod != null) {
                 Reservation reservation = service.reservate(data, accessJWT);
     
-                paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
+                try {
+                    paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
+                } catch (Exception e) {
+                    
+                    service.delete(reservation.getId(), accessJWT);
+
+                    e.printStackTrace();
+                    throw new SecurityException("Payment was denite.");
+                }
             } else {
-    
+                throw new ValidationException("Invalid payment method.");
             }
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (ValidationException | DuplicateKeyException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return null;

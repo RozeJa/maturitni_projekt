@@ -112,6 +112,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         
         // vytvoř objekt rezervace a vyplň ho daty
         Reservation reservation = buildReservationFormDTO(reservationDTO, user, accessJWT);
+        reservation = repository.save(reservation);
 
         return reservation;
     }

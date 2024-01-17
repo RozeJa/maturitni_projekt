@@ -277,13 +277,13 @@ const TicketReservation = ({
                             const rowCells = row.map((seat,index) => {
 
                                 if (seat === undefined) {
-                                    return <td key={index}  >
-                                    <input 
-                                        className='ticket-reservation-non-seat' 
-                                        type="checkbox" 
-                                        disabled
-                                        />
-                                </td>
+                                    return <td key={index} >
+                                        <input 
+                                            className='ticket-reservation-non-seat' 
+                                            type="checkbox" 
+                                            disabled
+                                            />
+                                    </td>
                                 }
 
                                 const isReserved = !seat.seat
@@ -291,6 +291,7 @@ const TicketReservation = ({
 
                                 return <td key={index}>
                                     <input 
+                                        key={index}
                                         className={isReserved ? 'ticket-reservation-unreservable' : isSelected ? 'ticket-reservation-selected' : ''} 
                                         type="checkbox" 
                                         checked={isReserved || isSelected} 
@@ -327,8 +328,6 @@ const TicketReservation = ({
                         className={countTickets() === selectedSeats.length && selectedSeats.length > 0 ? "" : "ticket-reservation-btns-disable"}
                         onClick={() => {
                             if (countTickets() === selectedSeats.length && selectedSeats.length > 0) {
-
-                                console.log(ageCategoriesCount);
                                 
                                 // vyhoď pop up, který od uživatele vezme platební údaje
                                 setReservationConfirm(

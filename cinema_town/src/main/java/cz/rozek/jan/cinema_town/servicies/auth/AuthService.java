@@ -57,6 +57,7 @@ public class AuthService {
     // mapa je ve stylu userID => token
     private Map<String, SecondVerificationToken> secondVerification = new HashMap<>();
 
+    // TODO sprovozdnit obnovení hesla
     // mapa ve které je uložen kód pro reserování => userID
     private Map<String, String> forgottenPWs = new HashMap<>();
 
