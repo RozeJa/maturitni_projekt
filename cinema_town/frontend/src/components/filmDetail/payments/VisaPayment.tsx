@@ -3,58 +3,64 @@ import SmartInput from '../../SmartInput'
 import './VisaPayment.css'
 import PaymentInformations from './PaymentInformations'
 
-const VisaPayment = ({
-    setPaymentInformations,
-    paymentInformations
-}:{
-    setPaymentInformations: Function,
-    paymentInformations: PaymentInformations
-}) => {
+const Stripe = require('stripe');
+const stripe = Stripe("pk_test_51OYl1pGYcwjrKZZTUzabFaNopHJDRbTosxWe0JuLr7GSIlptNEzv1UES29xs6Lveh8YmoJeqXGHJfw3KjL3p3RMi00CiEVhlB2");
 
-    const [data, setData] = useState({...paymentInformations})
 
-    useEffect(() => {                
-        setPaymentInformations({...data})
-    }, [data])
-    
-    const registerPrePostFunction = async () => {
-        const Stripe = require('stripe');
-        const stripe = await Stripe("pk_test_51OYl1pGYcwjrKZZTUzabFaNopHJDRbTosxWe0JuLr7GSIlptNEzv1UES29xs6Lveh8YmoJeqXGHJfw3KjL3p3RMi00CiEVhlB2");
+const defPaymentInformations: PaymentInformations = {
+    prePostFunction: async (paymentData: { [key:string]: string }) => {
+        let month = paymentData["card-expiration"].substring(0,2)
+        let year = "20" + paymentData["card-expiration"].substring(2)
 
-        const prePostFunction = async (paymentData: { [key:string]: string }) => {
 
-            const splitedExpiration = paymentData["card-expiration"].split(/[0-9]{2}/)
-
-            let month = splitedExpiration[0]
-            let year = "20" + splitedExpiration[1]
-
-            if (month.startsWith("0")) {
-                month = month.substring(1)
-            }
-
-            const token = await stripe.tokens.create({
-                card: {
-                  number: paymentData["card-number"],
-                  exp_month: month,
-                  exp_year: year,
-                  cvc: paymentData["verification-code"], 
-                },
-              })
-
-            delete paymentData["card-expiration"]
-            delete paymentData["card-number"]
-            delete paymentData["verification-code"]
-            paymentData["token"] = token
+        if (month.startsWith("0")) {
+            month = month.substring(1)
         }
 
-        data["prePostFunction"] = prePostFunction
-        setData({ ...data });
-    }
+        const token = await stripe.tokens.create({
+            card: {
+              number: paymentData["card-number"],
+              exp_month: month,
+              exp_year: year,
+              cvc: paymentData["verification-code"], 
+            },
+          })
 
+          /**
+           * delete paymentData["card-expiration"]
+           * delete paymentData["card-number"]
+           * delete paymentData["verification-code"]
+           * 
+           */
+        paymentData["token"] = token.id
+     
+        return paymentData
+    },
+    paymentData: {}
+}
+
+const VisaPayment = ({
+    setPaymentInformations
+}:{
+    setPaymentInformations: Function
+}) => {
+
+    const [data, setData] = useState({...defPaymentInformations})
+
+    useEffect(() => {      
+        //const a = async () =>  console.log(await data.prePostFunction(data.paymentData), await prePostFunction(data.paymentData), data)
+        //a()
+        
+        console.log(data);
+        
+        setPaymentInformations({ ...data })
+    }, [data])
+    
     if (data["paymentData"]["type"] !== "visa") {
         data["paymentData"]["type"] = "visa"
 
-        registerPrePostFunction()
+        console.log("pridelena funkce",data);
+        
 
         setData({ ...data })
     }

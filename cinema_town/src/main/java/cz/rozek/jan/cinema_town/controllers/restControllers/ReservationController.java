@@ -22,7 +22,6 @@ import com.mongodb.DuplicateKeyException;
 import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
-import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ReservationService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
@@ -80,6 +79,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     
                 try {
                     paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
+                    // TODO pošly na email zprávu o úpěšném rezervování
                 } catch (Exception e) {
                     
                     service.delete(reservation.getId(), accessJWT);
@@ -87,9 +87,10 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
                     e.printStackTrace();
                     throw new SecurityException("Payment was denite.");
                 }
-            } else {
-                throw new ValidationException("Invalid payment method.");
+                return new ResponseEntity<>(HttpStatus.OK);
             }
+            
+            throw new ValidationException("Invalid payment method.");
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
@@ -101,8 +102,6 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return null;
     }
 
     // TODO zrušení rezervace 

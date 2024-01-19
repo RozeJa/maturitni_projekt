@@ -36,6 +36,6 @@ public class VisaPayment implements IPayment {
         chargeParams.put("amount", (int)(price * 100));
         chargeParams.put("currency", "CZK");
         chargeParams.put("source", token);
-        Charge charge = Charge.create(chargeParams);        
+        Charge.create(chargeParams);
     }
 }

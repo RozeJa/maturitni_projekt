@@ -112,6 +112,8 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         
         // vytvoř objekt rezervace a vyplň ho daty
         Reservation reservation = buildReservationFormDTO(reservationDTO, user, accessJWT);
+
+        // ověř zda místo už nemá nikdo rezervované
         reservation = repository.save(reservation);
 
         return reservation;
@@ -131,10 +133,13 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         Map<String, AgeCategory> codes = new HashMap<>();
         
         for (String acId : dto.getAgesCategories().keySet()) {
-            // pokud enexistuje vyhodí nosuchelement exception
-            AgeCategory ac = ageCategories.stream().filter(acdc -> acdc.getId().equals(acId)).findFirst().get();
-
-            insertCategoryUnderCode(ac, codes);
+            if (dto.getAgesCategories().get(acId) != 0) {
+                // pokud enexistuje vyhodí nosuchelement exception
+                AgeCategory ac = ageCategories.stream().filter(acdc -> acdc.getId().equals(acId)).findFirst().get();
+                for (int i = 0; i < dto.getAgesCategories().get(acId); i++) {
+                    insertCategoryUnderCode(ac, codes);   
+                }
+            }
         }
 
         reservation.setCodes(codes);

@@ -68,6 +68,7 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
             
                 <div className="login-form-confirm">
                     <button onClick={sendRequest}>Přihlásit se</button>
+                    <p>Zapomenuté heslo</p>
                 </div>
             </div>
         </>

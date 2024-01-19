@@ -41,8 +41,7 @@ const FilmDetail = () => {
                 <h1>{film.name}</h1>
                 <button
                     onClick={() => {
-
-                        if (getSessionStorageItem('loginToken') !== undefined) {
+                        if (getSessionStorageItem('loginToken') !== '') {
                             return setTicketReservation(<TicketReservation setTicketReservation={setTicketReservation} film={film} setErr={setErr} />)
                         } else {
                             navigate("/register")

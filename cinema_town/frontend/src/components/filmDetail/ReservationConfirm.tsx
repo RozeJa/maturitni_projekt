@@ -11,11 +11,15 @@ import PaymentInformations from './payments/PaymentInformations'
 import { ModesEndpoints, storeData } from '../../global_functions/ServerAPI'
 import ReservationDTO from '../../models/ReservationDTO'
 import { redirect, useNavigate } from 'react-router-dom'
+import DialogErr from '../DialogErr'
+import LoadingSpinner from '../../LoadingSpiner'
 
 const defSeatsRows: Seat[][] = []
 
 const defPaymentInformations: PaymentInformations = {
-    prePostFunction: async (paymentData: { [key:string]: string }) => {},
+    prePostFunction: async (paymentData: { [key:string]: string }) => {
+        return {}
+    },
     paymentData: {}
 }
 
@@ -41,6 +45,11 @@ const ReservationConfirm = ({
 
     const [payment, setPayment] = useState(<></>)
     const [paymentInformations, setPaymentInformations] = useState({...defPaymentInformations})
+
+    const [confirmable, setConfirmable] = useState(true)
+    const [loadingComp, setLoadingComp] = useState(<></>)
+
+    const [err, setErr] = useState(<></>)
 
     const navigate = useNavigate()
 
@@ -71,15 +80,58 @@ const ReservationConfirm = ({
             const costOfOne = Math.round(priceModificator * projection.cost)
 
             count += acc[1]
-            price += costOfOne * count
+            price += costOfOne * acc[1]
         })
 
         setQuantitiOfTickets(count)
         setTotalPrice(price)
     }, [ageCategoriesCount])
+
+    const handleSubmit = async () => { 
+        
+        if (!confirmable)
+            return
+
+        setConfirmable(false)
+        setLoadingComp(<LoadingSpinner loading={true} />)
+        setTimeout(() => setConfirmable(true), 1000) 
+        
+        if (paymentInformations["paymentData"]["valid"] == "true") {
+            const paymentData = await paymentInformations.prePostFunction(paymentInformations.paymentData)
+                .catch(err => {
+                    setErr(<DialogErr description='Na paywallu Stripe se nepodařilo ověřit vaše platební údaje.' err='Platební údaje nejsou validní' dialogSetter={setErr} okText="Ok"/>)
+                    setLoadingComp(<></>)
+                    
+                    return undefined
+                })
+
+            if (paymentData === undefined) 
+                return
+            
+            const reservationDTO: ReservationDTO = {
+                id: null,
+                agesCategories: ageCategoriesCount,
+                paymentData: paymentData,
+                projection: projection,
+                seats: seats
+            }             
+
+            storeData<ReservationDTO>(ModesEndpoints.ReservationReservate, [reservationDTO])
+                .then(data => {
+                    navigate("/")
+                })
+                .catch(err => {
+                    
+                    setLoadingComp(<></>)
+                    setErr(<DialogErr description='Platbuse rezervaci se nepodařilo rezervovat.' err='Rezervace se nezdařila' dialogSetter={setErr} okText="Ok"/>)
+                })
+        }
+    }
     
     return (
         <div className='reservation-confirm-dialog'>
+            {err}
+            {loadingComp}
             <div className="reservation-confirm">
                 <div className="reservation-confirm-header">
                     <h1>{projection.film.name} {formatDateTime(projection.dateTime)}</h1>
@@ -148,8 +200,7 @@ const ReservationConfirm = ({
                             setPayment={(payload: ReactElement) => setPayment(payload)}
                             payment={
                                 <VisaPayment
-                                    setPaymentInformations={(data: PaymentInformations) => setPaymentInformations(data)}
-                                    paymentInformations={paymentInformations} />
+                                    setPaymentInformations={(data: PaymentInformations) => setPaymentInformations(data)}/>
                                 }
                             imgUrl='visa.png'
                             label='Debetní/kreditní karta' />
@@ -161,29 +212,7 @@ const ReservationConfirm = ({
                     <button onClick={() => setReservationConfirm()}>Zpět</button>
                     <button 
                         className={paymentInformations["paymentData"]["valid"] == "true" ? '' : 'reservation-confirm-btns-disable'}
-                        onClick={async () => {
-                            if (paymentInformations["paymentData"]["valid"] == "true") {
-                                await paymentInformations.prePostFunction(paymentInformations.paymentData)
-
-                                const reservationDTO: ReservationDTO = {
-                                    id: null,
-                                    agesCategories: ageCategoriesCount,
-                                    paymentData: paymentInformations.paymentData,
-                                    projection: projection,
-                                    seats: seats
-                                } 
-
-                                // TODO postni to na backend
-                                storeData<ReservationDTO>(ModesEndpoints.ReservationReservate, [reservationDTO])
-                                    .then(data => {
-                                        navigate("/")
-                                    })
-                                    .catch(err => {
-                                        console.log(err);
-                                        console.log(reservationDTO); 
-                                    })
-                            }
-                        }}
+                        onClick={handleSubmit}
                         >Zaplatit
                     </button>
                 </div>

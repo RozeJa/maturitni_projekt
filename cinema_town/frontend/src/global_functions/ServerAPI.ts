@@ -4,6 +4,7 @@ import User from '../models/User';
 import { TokenDeviceId } from '../models/TokenDeviceId';
 import { getSessionStorageItem } from './storagesActions';
 import Entity from '../models/Entity';
+import logout from './logout';
 
 // url na server 
 const BASE_URL = 'http://localhost:8080/'
@@ -253,6 +254,7 @@ async function getAccessToken(): Promise<string> {
 
         return accessToken         
     } catch (error) {
+        logout()
         return ""
     }
 
