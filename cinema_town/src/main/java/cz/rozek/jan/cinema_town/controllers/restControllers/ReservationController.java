@@ -22,6 +22,7 @@ import com.mongodb.DuplicateKeyException;
 import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
+import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ReservationService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
@@ -69,17 +70,18 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
             String accessJWT = headers.get(authorization);
     
             // ověř učivatele
-            service.verifyAccess(accessJWT, service.createPermissionRequired());
+            User user = service.verifyAccess(accessJWT, service.createPermissionRequired());
             
             // načtisi zpracování platby, které máš použít
             IPayment paymentMethod = payments.get(data.getPaymentData().get("type"));
     
             if (paymentMethod != null) {
                 Reservation reservation = service.reservate(data, accessJWT);
-    
+
                 try {
                     paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
-                    // TODO pošly na email zprávu o úpěšném rezervování
+                    // TODO pošly na email zprávu o úpěšném rezervování, který bude obsahovat přílohu, kterou půjde vytisknout.
+                    emailService.sendSimpleMessage(user.getEmail(), "Vaše rezervace", "Děkujeme, že jste si u nás rezervovaly promítání jednoho z námi promýtaných filmů. TOTO je pouze demo informace o rezervaci.");
                 } catch (Exception e) {
                     
                     service.delete(reservation.getId(), accessJWT);
