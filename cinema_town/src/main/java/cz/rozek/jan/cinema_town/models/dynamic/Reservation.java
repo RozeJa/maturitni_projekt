@@ -45,6 +45,7 @@ public class Reservation implements Entity {
     // čas, kdy byla rezervace zadána do systému
     @NotNull
     private LocalDateTime reserved = LocalDateTime.now();
+    private boolean removed = false;
 
 
     public Double countPrice() {

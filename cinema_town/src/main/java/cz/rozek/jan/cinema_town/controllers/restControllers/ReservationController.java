@@ -26,7 +26,9 @@ import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ReservationService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
+import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 import cz.rozek.jan.cinema_town.servicies.paymentService.IPayment;
+import cz.rozek.jan.cinema_town.servicies.pdfService.PdfService;
 
 @RestController
 @CrossOrigin // TODO přidat restrikci
@@ -35,6 +37,8 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     
     @Autowired
     private EmailService emailService; 
+    @Autowired
+    private PdfService pdfService;
     private final Map<String, IPayment> payments;
 
     @Autowired
@@ -81,7 +85,14 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
                 try {
                     paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
                     // TODO pošly na email zprávu o úpěšném rezervování, který bude obsahovat přílohu, kterou půjde vytisknout.
-                    emailService.sendEmail(user.getEmail(), "Vaše rezervace", "Děkujeme, že jste si u nás rezervovaly promítání jednoho z námi promýtaných filmů. TOTO je pouze demo informace o rezervaci.");
+
+                    EmailTemplate et = emailService.loadTemplate("header-user-info");
+                    et.replace("[@header]", "Rezervace sedaděl na filmové představení " + reservation.getProjection().getFilm().getName());
+                    et.replace("[@user]", reservation.getUser().getEmail());
+                    et.replace("[@important-data]", "Budeme se na vás těšit.");
+                    et.replace("[@info]", "Doufáme, že si představení užijete.");
+
+                    emailService.sendEmail(user.getEmail(), "Vaše rezervace", et, pdfService.generatePdfTickets(reservation));
                 } catch (Exception e) {
                     
                     service.delete(reservation.getId(), accessJWT);

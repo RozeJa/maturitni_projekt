@@ -77,6 +77,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         List<Reservation> reservations = repository.findByProjection(p);
 
         return reservations.stream()
+            .filter(r -> !r.isRemoved())
             .map(r -> {
                 r.setCodes(new HashMap<>());
                 r.setUser(null);
@@ -99,6 +100,21 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         }
 
         throw new SecurityException("Access denied");
+    }
+
+    @Override
+    public boolean delete(String id, String accessJWT) {
+
+        Reservation reservation = repository.findById(id).get();
+
+        if (reservation.isRemoved()) {
+            reservation.setRemoved(true);
+
+            repository.save(reservation);
+            return true;
+        }
+
+        return false;
     }
 
     public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) {

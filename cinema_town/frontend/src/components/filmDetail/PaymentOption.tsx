@@ -26,7 +26,6 @@ const PaymentOption = ({
                 
             }} />
             <label>{label}</label>
-            {/** //TODO vytvořit složku a nahrát do ní obrázek/y */}
             <img src={require(`../../assets/imgs/payment-options/${imgUrl}`)} alt="" />
         </div>
     )

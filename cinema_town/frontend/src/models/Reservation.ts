@@ -9,7 +9,8 @@ interface Reservation extends Entity {
     user: User,
     seats: Seat[],
     codes: {[key:string]: AgeCategory },
-    reserved: Date
+    reserved: Date,
+    removed: boolean
 }
 
 export default Reservation
@@ -20,5 +21,6 @@ export let defaultReservation: Reservation = {
     user: defaultUser,
     seats: [],
     codes: {},
-    reserved: new Date()
+    reserved: new Date(),
+    removed: false
 }

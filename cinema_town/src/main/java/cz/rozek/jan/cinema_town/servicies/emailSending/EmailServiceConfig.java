@@ -15,7 +15,6 @@ public class EmailServiceConfig {
         emailService.setTemplatesPath("./templates/");
 
         File file = new File(emailService.getTemplatesPath());
-
         file.mkdirs();
 
         return emailService;
