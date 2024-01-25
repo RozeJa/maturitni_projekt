@@ -46,6 +46,15 @@ public class Reservation implements Entity {
     @NotNull
     private LocalDateTime reserved = LocalDateTime.now();
 
+
+    public Double countPrice() {
+        double price = 0;
+        for (AgeCategory ac : getCodes().values()) {
+            price += Math.round(ac.getPriceModificator() * getProjection().getCost());
+        }
+        return price;
+    }
+
     @Override
     public void validate() throws ValidationException {
         if (projection == null)

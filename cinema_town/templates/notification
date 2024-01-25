@@ -1,0 +1,6 @@
+<h1>[@header]</h1>
+<p>
+    [@text-1]
+    <b>[@text-bold]</b>
+    [@text-2]
+</p>

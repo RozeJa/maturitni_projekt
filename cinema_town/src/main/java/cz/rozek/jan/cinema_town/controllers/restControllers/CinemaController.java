@@ -18,6 +18,7 @@ import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.CinemaService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
+import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @RestController
 @CrossOrigin // TODO přidat restrikci
@@ -51,8 +52,15 @@ public class CinemaController extends cz.rozek.jan.cinema_town.controllers.RestC
     }
 
     private void notifySubs(List<User> subs, Cinema cinema) {
+        EmailTemplate et = emailService.loadTemplate("notification");
+
+        et.replace("[@header]", "Otevíráme pro vás nové multikino");
+        et.replace("[@text-1]", "Těšíme se na vaši návštěvu v novém multikině, které najdete na adrese");
+        et.replace("[@text-bold]", cinema.getCity() + " " + cinema.getStreet() + " " + cinema.getHouseNumber());
+        et.replace("[@text-2]", ". Rádi vás tu uvidíme.");
+
         for (User sub : subs) {
-            emailService.sendSimpleMessage(sub.getEmail(), "New Cinema in " + cinema.getCity(), "Hello, we are openind new cinema for you in " + cinema.getCity() + " " + cinema.getStreet() + " " + cinema.getHouseNumber() + ".");
+            emailService.sendEmail(sub.getEmail(), "Nové multikino ve městě " + cinema.getCity(), et);
         }
     }
 }

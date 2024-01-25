@@ -24,6 +24,7 @@ import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
+import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin // TODO přidat restrikci
@@ -65,8 +66,15 @@ public class AuthController {
             // registruj uživatele a vystav mu aktivační kód
             String activationCode = authService.register(user);
 
+            // načti si template a vyplňho daty
+            EmailTemplate et = emailService.loadTemplate("header-user-info");
+            et.replace("[@header]", "Aktivujte svůj účet");
+            et.replace("[@user]", user.getEmail());
+            et.replace("[@important-data]", activationCode);
+            et.replace("[@info]", "Pokud jste se u nás neregistrovali, tak se omlouváme za obtěžování, ale někdo se pokusil založit účet na váš email.");
+
             // pošly mu kód na email
-            emailService.sendSimpleMessage(user.getEmail(), "Activation Code", "Your activation token is: " + activationCode);
+            emailService.sendEmail(user.getEmail(), "Aktivační kód", et);
 
             // vrať login JWT
             return new ResponseEntity<>(HttpStatus.OK);
@@ -119,8 +127,15 @@ public class AuthController {
 
             String newActivationCode = authService.resetActivationCode(user);
 
+            // načti si template a vyplňho daty
+            EmailTemplate et = emailService.loadTemplate("header-user-info");
+            et.replace("[@header]", "Aktivujte svůj účet");
+            et.replace("[@user]", user.getEmail());
+            et.replace("[@important-data]", newActivationCode);
+            et.replace("[@info]", "Pokud jste se u nás neregistrovali, tak se omlouváme za obtěžování, ale někdo se pokusil založit účet na váš email.");
+
             // pošly mu kód na email
-            emailService.sendSimpleMessage(user.getEmail(), "Activation Code", "Your new activation token is: " + newActivationCode);
+            emailService.sendEmail(user.getEmail(), "Náhradní aktivační kód", et);
 
             if (!newActivationCode.isEmpty())
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -157,7 +172,17 @@ public class AuthController {
                 return new ResponseEntity<>(token, HttpStatus.OK);
             // pokud ne vrať status 100
             else {
-                emailService.sendSimpleMessage(user.getEmail(), "Second Verification", "Your access token is: " + token);
+                    
+                // načti si template a vyplňho daty
+                EmailTemplate et = emailService.loadTemplate("header-user-info");
+                et.replace("[@header]", "Dvoufázové ověření");
+                et.replace("[@user]", user.getEmail());
+                et.replace("[@important-data]", token);
+                et.replace("[@info]", "Protože se přihlašujete, na pro nás neznámém zařízení je třeba, aby jste se prokázaly tímto kódem.");
+
+                // pošly mu kód na email
+                emailService.sendEmail(user.getEmail(), "Dvoufázové ověření", et);
+                
                 return new ResponseEntity<>("", HttpStatus.ACCEPTED);
             }
         } catch (NullPointerException e) {

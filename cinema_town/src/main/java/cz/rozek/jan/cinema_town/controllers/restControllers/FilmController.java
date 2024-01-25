@@ -31,6 +31,7 @@ import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.FilmService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
+import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @RestController
 @CrossOrigin // TODO přidat restrikci
@@ -182,8 +183,15 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
     }
 
     private void notifySubs(List<User> subs, Film film) {
+        EmailTemplate et = emailService.loadTemplate("notification");
+
+        et.replace("[@header]", "Nový film ve vašich kinech už od " + film.getPremier());
+        et.replace("[@text-1]", "Nepropásněte premiéru ");
+        et.replace("[@text-bold]", film.getName());
+        et.replace("[@text-2]", ". Již brzy ve vašich kinech.");
+        
         for (User sub : subs) {
-            emailService.sendSimpleMessage(sub.getEmail(), "New Film: " + film.getName(), "Hello we are introducing new film, " + film.getName() + ", at " + film.getPremier() + " in yours cinemas.");
+            emailService.sendEmail(sub.getEmail(), "Navý film", et, "./frontend/src/assets/imgs/films-imgs/" + film.getId() + "/" + film.getPicture());
         } 
     }
 }

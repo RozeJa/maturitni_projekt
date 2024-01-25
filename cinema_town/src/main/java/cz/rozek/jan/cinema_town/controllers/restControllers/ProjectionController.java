@@ -24,6 +24,7 @@ import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ProjectionService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
+import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @RestController
 @CrossOrigin // TODO přidat restrikci
@@ -164,14 +165,29 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
     }
 
     private void notifyUserOnRemoveReservation(List<Reservation> reservations) {
-        for (Reservation reservation : reservations) {
-            emailService.sendSimpleMessage(reservation.getUser().getEmail(), "Reservation had to be cancelled", "We are very sorry, but there has been an unexpected change in the screening of the movie, " + reservation.getProjection().getFilm().getName() +", you made a reservation for. For this reason, we preferred to remove your reservation. We will be very happy if you decide to book a screening again. Thank you for your understanding.");
+
+        for (Reservation reservation : reservations) { 
+            EmailTemplate et = emailService.loadTemplate("notification");
+
+            et.replace("[@header]", "Zrušení rezervace");
+            et.replace("[@text-1]", "Moc se Vám omlouváme, ale nastaly neočekávané změny u filmového předstvení ");
+            et.replace("[@text-bold]", reservation.getProjection().getFilm().getName() + " " + reservation.getProjection().getDateTime());
+            et.replace("[@text-2]", ", na které jste si rezervovali místa. Z tohoto důvodu jsme vám odebrali rezervaci. Budeme moc rádi, když se rozhodnete rezervovat si znovu. Děkujeme za pochopení. <br><br>Protože neuchováváme Vaše platební údaje, ohledně návratu částky " + reservation.countPrice() + " Kč se nám ozvěte na tento email.");
+    
+            emailService.sendEmail(reservation.getUser().getEmail(), "Vaše rezervace byla zrušena", et);
         }
     }
 
     private void notifyUserOnCancledProjection(List<Reservation> reservations) {
         for (Reservation reservation : reservations) {
-            emailService.sendSimpleMessage(reservation.getUser().getEmail(), "Projection had to be cancelled", "We are very sorry, but we were unfortunately forced to cancel the screening of the film, " + reservation.getProjection().getFilm().getName() +", for which you made a reservation, thank you for your understanding.");
+            EmailTemplate et = emailService.loadTemplate("notification");
+
+            et.replace("[@header]", "Zrušení rezervace");
+            et.replace("[@text-1]", "Moc se Vám omlouváme, ale z neočekávaného důvodu jsme museli odebrat promítání ");
+            et.replace("[@text-bold]", reservation.getProjection().getFilm().getName() + " " + reservation.getProjection().getDateTime());
+            et.replace("[@text-2]", ", na které jste si rezervovali místa. Z tohoto důvodu jsme Vám odebrali rezervaci. Děkujeme za pochopení. <br><br>Protože neuchováváme Vaše platební údaje, ohledně návratu částky " + reservation.countPrice() + " Kč se nám ozvěte na tento email.");
+    
+            emailService.sendEmail(reservation.getUser().getEmail(), "Vaše rezervace byla zrušena", et);
         }
     }
 }

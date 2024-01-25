@@ -81,7 +81,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
                 try {
                     paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
                     // TODO pošly na email zprávu o úpěšném rezervování, který bude obsahovat přílohu, kterou půjde vytisknout.
-                    emailService.sendSimpleMessage(user.getEmail(), "Vaše rezervace", "Děkujeme, že jste si u nás rezervovaly promítání jednoho z námi promýtaných filmů. TOTO je pouze demo informace o rezervaci.");
+                    emailService.sendEmail(user.getEmail(), "Vaše rezervace", "Děkujeme, že jste si u nás rezervovaly promítání jednoho z námi promýtaných filmů. TOTO je pouze demo informace o rezervaci.");
                 } catch (Exception e) {
                     
                     service.delete(reservation.getId(), accessJWT);

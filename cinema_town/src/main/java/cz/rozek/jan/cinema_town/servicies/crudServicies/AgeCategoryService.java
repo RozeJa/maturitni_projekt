@@ -6,12 +6,16 @@ import org.springframework.stereotype.Service;
 import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.AgeCategoryRepository;
+import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 
 @Service 
 public class AgeCategoryService extends CrudService<AgeCategory, AgeCategoryRepository> {
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Autowired
     @Override
@@ -39,6 +43,15 @@ public class AgeCategoryService extends CrudService<AgeCategory, AgeCategoryRepo
     @Override
     public String deletePermissionRequired() {
         return "ageCategory-delete";
+    }
+
+    @Override
+    public boolean delete(String id, String accessJWT) {
+
+        AgeCategory ac = repository.findById(id).get();
+        if (reservationRepository.findByAgeCategory(ac).isEmpty())
+            return super.delete(id, accessJWT);
+        return false;
     }
 
     @Override
