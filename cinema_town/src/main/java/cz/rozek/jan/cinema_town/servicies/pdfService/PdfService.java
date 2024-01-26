@@ -7,6 +7,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
@@ -203,7 +204,7 @@ public class PdfService {
     }
 
     private void addTicket(Document document, String category, String seats, String hall, String startTime, String code, String dirPath) throws DocumentException, IOException, WriterException {
-
+        /*
         // Ohraničení pro lístek
         Rectangle border = new Rectangle(PageSize.A6);
         border.setBorder(Rectangle.BOX);
@@ -214,7 +215,6 @@ public class PdfService {
         PdfPTable ticketTable = new PdfPTable(1);
         ticketTable.setWidthPercentage(100);
         ticketTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-        ticketTable.addCell(new PdfPCell(new Phrase("Informace o lístku:")));
         ticketTable.addCell(new PdfPCell(new Phrase("Věková kategorie: " + category)));
         ticketTable.addCell(new PdfPCell(new Phrase("Sedadla: " + seats)));
         
@@ -228,6 +228,65 @@ public class PdfService {
 
         ticketTable.addCell(new PdfPCell(new Phrase("Sál: " + hall)));
         ticketTable.addCell(new PdfPCell(new Phrase("Čas začátku promítání: " + startTime)));
+
+        // Přidání lístku s ohraničením do dokumentu
+        PdfPCell ticketCell = new PdfPCell(ticketTable);
+        ticketCell.setBorder(Rectangle.NO_BORDER);
+        ticketCell.setBorder(Rectangle.BOX);
+        ticketCell.setBorderWidth(2);
+        ticketCell.setBorderColor(BaseColor.BLACK);
+
+        PdfPTable tableWithBorder = new PdfPTable(1);
+        tableWithBorder.setWidthPercentage(100);
+        tableWithBorder.addCell(ticketCell);
+
+        document.add(tableWithBorder);
+        */
+        
+        // Ohraničení pro lístek
+        Rectangle border = new Rectangle(PageSize.A6);
+        border.setBorder(Rectangle.BOX);
+        border.setBorderWidth(2);
+        border.setBorderColor(BaseColor.BLACK);
+
+        // Vytvoření lístku s ohraničením
+        PdfPTable ticketTable = new PdfPTable(2);
+        ticketTable.setWidthPercentage(100);
+        ticketTable.setWidths(new float[]{1, 1});
+
+        PdfPCell dataCell = new PdfPCell();
+        dataCell.setPadding(8);
+        dataCell.setBorder(Rectangle.NO_BORDER);
+        dataCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        dataCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        dataCell.addElement(new Phrase("Věková kategorie: " + category));
+        dataCell.addElement(new Phrase("Sedadla: " + seats));
+        dataCell.addElement(new Phrase("Sál: " + hall));
+        dataCell.addElement(new Phrase("Čas začátku promítání: " + startTime));
+
+        PdfPCell qrCodeCell = new PdfPCell();
+        qrCodeCell.setBorder(Rectangle.NO_BORDER);
+        qrCodeCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        qrCodeCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        
+        ticketTable.addCell(dataCell);
+        
+        // Generování QR kódu
+        Path qrCodePath = generateQRCodeImage(code, dirPath);
+        Image qrCodeImage = Image.getInstance(qrCodePath.toString());
+
+        // Získání velikosti dat a nastavení velikosti QR kódu
+        float dataWidth = 100;
+        float dataHeight = 100;
+        qrCodeImage.scaleToFit(dataWidth, dataHeight);
+
+        qrCodeCell.addElement(qrCodeImage);
+
+        ticketTable.addCell(qrCodeCell);
+
+        
+        // Přidání mezeru pod lístkem
+        ticketTable.setSpacingAfter(20f);
 
         // Přidání lístku s ohraničením do dokumentu
         PdfPCell ticketCell = new PdfPCell(ticketTable);
