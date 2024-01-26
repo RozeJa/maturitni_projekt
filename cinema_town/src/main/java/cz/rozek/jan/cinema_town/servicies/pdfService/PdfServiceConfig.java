@@ -9,9 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class PdfServiceConfig {
     
     @Bean
-    public PdfService getEmailService() {
-        PdfService pdfService = new PdfService();
-
+    public PdfService getPdfService(PdfService pdfService) {
         pdfService.setRootDir("./tickets/");
 
         File file = new File(pdfService.getRootDir());

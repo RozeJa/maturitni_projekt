@@ -18,9 +18,6 @@ const Projection = ({
     const film = projections[0].film
     const referal = `/film/${film.id}?cid=${selectedCinemaId}`
 
-    console.log(projections);
-    
-
     return (
         <div className='projection'>
             {trailer}
@@ -41,7 +38,7 @@ const Projection = ({
                                 let date: string = ''
 
                                 if (!(p.dateTime instanceof Date)){
-                                    date = `${p.dateTime[3]}:${p.dateTime[4].toString().padStart(2, '0')}` 
+                                    date = `${p.dateTime[3]+1}:${p.dateTime[4].toString().padStart(2, '0')}` 
                                 }                                
 
                                 return <a key={index} href={`${referal}&pid=${p.id}`}>{date}</a>
