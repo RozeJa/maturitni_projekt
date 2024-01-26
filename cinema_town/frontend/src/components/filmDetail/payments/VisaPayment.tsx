@@ -51,16 +51,11 @@ const VisaPayment = ({
         //const a = async () =>  console.log(await data.prePostFunction(data.paymentData), await prePostFunction(data.paymentData), data)
         //a()
         
-        console.log(data);
-        
         setPaymentInformations({ ...data })
     }, [data])
     
     if (data["paymentData"]["type"] !== "visa") {
         data["paymentData"]["type"] = "visa"
-
-        console.log("pridelena funkce",data);
-        
 
         setData({ ...data })
     }

@@ -12,7 +12,6 @@ const MainLayout = () => {
 
     useEffect(() => {
         if (menuSettted) {
-            console.log("nastavuju hambáč");
             setHamburger(                    
                 <div className='nav-burger-content'>
                     {edit}

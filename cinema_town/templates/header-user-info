@@ -1,4 +1,12 @@
-<h1>[@header]</h1>
-<p>[@user]</p>
-<h2>[@important-data]</h2>
-<p>[@info]</p>
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>[@header]</h1>
+    <p>[@user]</p>
+    <h2>[@important-data]</h2>
+    <p>[@info]</p>
+</body>
+</html>

@@ -207,8 +207,6 @@ const ProjectionDetail = ({
 
                                     tempData.dateTime = newDate
 
-                                    console.log(tempData.dateTime);
-
                                     setTempData({ ...tempData })
                                 }
                             }} />

@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class EmailServiceConfig {
 
     @Bean
-    public EmailService getEmailService() {
-        EmailService emailService = new EmailService();
+    public EmailService getEmailService(EmailService emailService) {
 
         emailService.setTemplatesPath("./templates/");
 

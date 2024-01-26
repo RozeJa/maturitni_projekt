@@ -13,7 +13,7 @@ const defFilms: Film[] = []
 const defCinemas: Cinema[] = [{...defaultCinema}]
 const defProjections: Projection[] = []
 const defAny: any = null
-const defGroups: { [key: number]: Projection[][] } = {}
+const defGroups: { [key: string]: Projection[][] } = {}
 const defSections: { [key: number]: string } = {}
 
 const Home = () => {
@@ -47,7 +47,7 @@ const Home = () => {
         filter(lastEvent)
     }, [selectedCinema])
     useEffect(() => {
-        const groups: { [key: number]: Projection[][] } = {}
+        const groups: { [key: string]: Projection[][] } = {}
         const sections = {...defSections}
 
         filtredProjections.filter(p => {
@@ -61,16 +61,16 @@ const Home = () => {
 
             const utcDiference = new Date(date.getTime() - term.getTime())
 
-            console.log(utcDiference);
-
             return utcDiference.getDate() <= 14 && utcDiference.getMonth() === 0
         }).forEach(p => {
             if (!(p.dateTime instanceof Date)) {
-                if (groups[parseInt(p.dateTime[2])] === undefined) {
+                console.log(p.dateTime[1]);
+                
+                if (groups[`${p.dateTime[1]}#${p.dateTime[2]}`] === undefined) {
                     sections[parseInt(p.dateTime[2])] = '#' + p.dateTime[2]
-                    groups[parseInt(p.dateTime[2])] = [[p]]
+                    groups[`${p.dateTime[1]}#${p.dateTime[2]}`] = [[p]]
                 } else {
-                    groups[parseInt(p.dateTime[2])].map(arr => {
+                    groups[`${p.dateTime[1]}#${p.dateTime[2]}`].map(arr => {
                         if (arr[0].film.id === p.film.id)
                             arr.push(p)
                         return arr
@@ -86,7 +86,7 @@ const Home = () => {
     const loadFilms = async () => {
         try {
             const films = (await loadData<Film>(ModesEndpoints.Film))
-
+            
             setFilms(films)
         } catch (err) {
             //console.log(err)
@@ -121,7 +121,9 @@ const Home = () => {
     const loadProjections = async () => {
         try {
             const projections = (await loadData<Projection>(ModesEndpoints.Projection))
-
+            	
+            console.log(projections);
+            
             setProjections(projections)
         } catch (err) {
             //console.log(err)
@@ -193,8 +195,8 @@ const Home = () => {
                     //.map((f, index) => {
                     //return <ProjectionComponent key={index} film={f} i={index} />
                     //})
-                    Object.keys(projectionsGroups).map(((pg, index) => 
-                        <ProjectionGroup key={index} projections={projectionsGroups[parseInt(pg)]} day={parseInt(pg)} selectedCinemaId={selectedCinema.id} />
+                    Object.keys(projectionsGroups).sort((a,b) => a.localeCompare(b)).map(((pg, index) => 
+                        <ProjectionGroup key={index} projections={projectionsGroups[pg]} month={parseInt(pg.split("#")[0])} day={parseInt(pg.split("#")[1])} selectedCinemaId={selectedCinema.id} />
                     ))
                 } 
                 { 

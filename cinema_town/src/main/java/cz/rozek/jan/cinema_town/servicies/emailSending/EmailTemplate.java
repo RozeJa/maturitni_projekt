@@ -17,8 +17,8 @@ public class EmailTemplate {
     public boolean replace(String paleceHolder, String data) {
         String defText = text;
 
-        text = text.replaceAll(paleceHolder, data);
+        text = text.replace(paleceHolder, data);
         
-        return !text.equals(defText);
+        return !text.equals(defText) && !defText.equals("");
     } 
 }

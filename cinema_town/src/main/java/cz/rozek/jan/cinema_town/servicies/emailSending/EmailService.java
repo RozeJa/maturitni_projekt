@@ -24,7 +24,6 @@ public class EmailService  {
 
     @Autowired
     private JavaMailSender emailSender;
-
     private String templatesPath;
 
     public String getTemplatesPath() {
@@ -75,9 +74,10 @@ public class EmailService  {
         try {
             // Use the true flag to enable multipart mode
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("ciname.t0wn@gmail.com");
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text.getText(), true); // Set the second parameter to true for HTML content
+            helper.setText(text.getText(), true);
 
             if (attachmentPath != null) {
                 // Attach the file

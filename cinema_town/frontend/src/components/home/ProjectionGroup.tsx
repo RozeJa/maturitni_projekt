@@ -5,21 +5,28 @@ import { daysInWeek } from '../../global_functions/constantsAndFunction';
 
 const ProjectionGroup = ({
         projections,
+        month,
         day,
         selectedCinemaId
     }:{
         projections: Projection[][],
+        month: number,
         day: number,
         selectedCinemaId: string | null
     }) => {
 
 
     const date = new Date()
+    date.setMonth(month-1);
     date.setDate(day);
+
+    console.log(month);
+    console.log(day);
+    
 
     return (
         <div id={day.toLocaleString()} className='projection-group'>
-            <h2>{daysInWeek[date.getDay()]} {date.getDate()}.{date.getMonth()+1} <div></div></h2>
+            <h2>{daysInWeek[date.getDay()]} {day}.{month} <div></div></h2>
             {
                 projections.sort((a,b) => a[0].film.name.localeCompare(b[0].film.name))
                 .map((ps, index) => {

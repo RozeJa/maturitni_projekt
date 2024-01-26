@@ -36,9 +36,9 @@ import cz.rozek.jan.cinema_town.servicies.pdfService.PdfService;
 public class ReservationController extends cz.rozek.jan.cinema_town.controllers.RestController<Reservation, ReservationService> {
     
     @Autowired
-    private EmailService emailService; 
-    @Autowired
     private PdfService pdfService;
+    @Autowired
+    private EmailService emailService; 
     private final Map<String, IPayment> payments;
 
     @Autowired
@@ -87,7 +87,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
                     // TODO pošly na email zprávu o úpěšném rezervování, který bude obsahovat přílohu, kterou půjde vytisknout.
 
                     EmailTemplate et = emailService.loadTemplate("header-user-info");
-                    et.replace("[@header]", "Rezervace sedaděl na filmové představení " + reservation.getProjection().getFilm().getName());
+                    et.replace("[@header]", "Rezervace sedadel na filmové představení " + reservation.getProjection().getFilm().getName());
                     et.replace("[@user]", reservation.getUser().getEmail());
                     et.replace("[@important-data]", "Budeme se na vás těšit.");
                     et.replace("[@info]", "Doufáme, že si představení užijete.");

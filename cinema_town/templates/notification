@@ -1,6 +1,14 @@
-<h1>[@header]</h1>
-<p>
-    [@text-1]
-    <b>[@text-bold]</b>
-    [@text-2]
-</p>
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>[@header]</h1>
+    <p>
+        [@text-1]
+        <b>[@text-bold]</b>
+        [@text-2]
+    </p>
+</body>
+</html>

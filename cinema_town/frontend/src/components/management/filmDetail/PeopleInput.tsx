@@ -26,7 +26,6 @@ const PeopleInput = (
         }
 
         if (newSelected !== undefined) {
-            console.log(newSelected);
             
             onChange(newSelected)
         } else {

@@ -119,7 +119,6 @@ const HallDetail = () => {
         }
         
         hall.seats = seats
-        console.log(hall);
         
         loadData<Cinema>(ModesEndpoints.Cinama, [cinemaId !== undefined ? cinemaId : ''])
             .then(data => {

@@ -107,7 +107,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
 
         Reservation reservation = repository.findById(id).get();
 
-        if (reservation.isRemoved()) {
+        if (!reservation.isRemoved()) {
             reservation.setRemoved(true);
 
             repository.save(reservation);

@@ -19,6 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
 import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
 import cz.rozek.jan.cinema_town.models.stable.Cinema;
+import cz.rozek.jan.cinema_town.models.stable.Hall;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.repositories.CinemaRepository;
 
@@ -30,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.util.TreeMap;
+import java.util.List;
 import java.util.Map;
 
 import java.nio.file.Path;
@@ -53,20 +55,18 @@ public class PdfService {
     public String generatePdfTickets(Reservation reservation) throws DocumentException, IOException, WriterException {
         // vytvoř složku pro rezervaci
         String dirPath = rootDir + reservation.getId();
-        String filePath = "./rezervace" + reservation.getId()  + ".pdf";
+        String filePath = "./rezervace.pdf";
 
         File f = new File(dirPath);
         f.mkdir();
 
         Document document = new Document();
+        // TODO document.setHtmlStyleClass();
         PdfWriter.getInstance(document, new FileOutputStream(dirPath + filePath));
         document.open();
 
         // Informace o rezervaci
         addReservationInfo(document, reservation);
-
-        // Oddělovač
-        document.add(new Paragraph("\n-----------------------------------\n"));
 
         // Informace o lístcích
         addTickets(document, reservation, dirPath);
@@ -82,7 +82,7 @@ public class PdfService {
 
     private void addReservationInfo(Document document, Reservation reservation) throws DocumentException {
 
-        Cinema cinema = cinemaRepository.findByHall(reservation.getProjection().getHall());
+        Cinema cinema = findCinema(reservation);
 
         String filmName = reservation.getProjection().getFilm().getName();
         String hallDes = reservation.getProjection().getHall().getDesignation();
@@ -131,7 +131,7 @@ public class PdfService {
             table.addCell(cell4);
         }
 
-        cell1 = new PdfPCell(new Phrase(""));
+        cell1 = new PdfPCell(new Phrase("Celkem"));
         cell2 = new PdfPCell(new Phrase(grupedCategories.values().stream().count()));
         cell3 = new PdfPCell(new Phrase());
         cell4 = new PdfPCell(new Phrase(String.valueOf(totalCost)));
@@ -142,6 +142,21 @@ public class PdfService {
         table.addCell(cell4);
 
         document.add(table);
+    }
+
+    private Cinema findCinema(Reservation reservation) {
+        List<Cinema> cinemas = cinemaRepository.findAll();
+        reservation.getProjection().getHall();
+
+        for (Cinema c : cinemas) {
+            for (Hall h : c.getHalls().values()) {
+                if (h.getId().equals(reservation.getProjection().getHall().getId())) {
+                    return c;
+                }
+            }
+        }
+
+        return null;
     }
 
     private Map<String, Float> groupCategories(Reservation reservation) {        
