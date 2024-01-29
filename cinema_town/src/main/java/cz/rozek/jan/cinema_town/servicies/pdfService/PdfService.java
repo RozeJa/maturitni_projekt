@@ -88,15 +88,15 @@ public class PdfService {
         String filmName = reservation.getProjection().getFilm().getName();
         String hallDes = reservation.getProjection().getHall().getDesignation();
         String address = String.format("%s, %s, %s", cinema.getCity().getName(), cinema.getStreet(), cinema.getHouseNumber());
-        String datetime = reservation.getProjection().getDateTime().toString(); 
+        String datetime = reservation.getProjection().getDateTime().toString().replace("T", " "); 
 
-        document.add(new Paragraph(String.format("Rezervace filmového promítání: %s\nMíto promítání: %s \tHala: \nDatum a čas konání promátání %s", filmName, address, hallDes, datetime)));
+        document.add(new Paragraph(String.format("Rezervace filmového promítání: %s\nMísto promítání: %s \nHala: %s\nDatum a čas konání promátání %s", filmName, address, hallDes, datetime)));
 
 
         Map<String, Float> grupedCategories = groupCategories(reservation);
-        float[] tableColumns = new float[grupedCategories.size() + 2];
+        float[] tableColumns = new float[4];
         for (int i = 0; i < tableColumns.length; i++) {
-            tableColumns[i] = (float) 1;
+            tableColumns[i] = (float) grupedCategories.size() + 2;
         }
 
         PdfPTable table = new PdfPTable(tableColumns);
@@ -122,7 +122,7 @@ public class PdfService {
             totalCost += priceForAll;
             
             cell1 = new PdfPCell(new Phrase(ac.getName()));
-            cell2 = new PdfPCell(new Phrase(grupedCategories.get(categoryId)));
+            cell2 = new PdfPCell(new Phrase(grupedCategories.get(categoryId).toString().replace(".0", "")));
             cell3 = new PdfPCell(new Phrase(String.valueOf(pricePerOne)));
             cell4 = new PdfPCell(new Phrase(String.valueOf(priceForAll)));
 
@@ -204,44 +204,6 @@ public class PdfService {
     }
 
     private void addTicket(Document document, String category, String seats, String hall, String startTime, String code, String dirPath) throws DocumentException, IOException, WriterException {
-        /*
-        // Ohraničení pro lístek
-        Rectangle border = new Rectangle(PageSize.A6);
-        border.setBorder(Rectangle.BOX);
-        border.setBorderWidth(2);
-        border.setBorderColor(BaseColor.BLACK);
-
-        // Vytvoření lístku s ohraničením
-        PdfPTable ticketTable = new PdfPTable(1);
-        ticketTable.setWidthPercentage(100);
-        ticketTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-        ticketTable.addCell(new PdfPCell(new Phrase("Věková kategorie: " + category)));
-        ticketTable.addCell(new PdfPCell(new Phrase("Sedadla: " + seats)));
-        
-        // Generování QR kódu
-        
-        Path qrCodePath = generateQRCodeImage(code, dirPath);
-        Image qrCodeImage = Image.getInstance(qrCodePath.toString());
-        PdfPCell qrCodeCell = new PdfPCell(qrCodeImage);
-        qrCodeCell.setBorder(Rectangle.NO_BORDER);
-        ticketTable.addCell(qrCodeCell);
-
-        ticketTable.addCell(new PdfPCell(new Phrase("Sál: " + hall)));
-        ticketTable.addCell(new PdfPCell(new Phrase("Čas začátku promítání: " + startTime)));
-
-        // Přidání lístku s ohraničením do dokumentu
-        PdfPCell ticketCell = new PdfPCell(ticketTable);
-        ticketCell.setBorder(Rectangle.NO_BORDER);
-        ticketCell.setBorder(Rectangle.BOX);
-        ticketCell.setBorderWidth(2);
-        ticketCell.setBorderColor(BaseColor.BLACK);
-
-        PdfPTable tableWithBorder = new PdfPTable(1);
-        tableWithBorder.setWidthPercentage(100);
-        tableWithBorder.addCell(ticketCell);
-
-        document.add(tableWithBorder);
-        */
         
         // Ohraničení pro lístek
         Rectangle border = new Rectangle(PageSize.A6);
@@ -257,12 +219,12 @@ public class PdfService {
         PdfPCell dataCell = new PdfPCell();
         dataCell.setPadding(8);
         dataCell.setBorder(Rectangle.NO_BORDER);
-        dataCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        dataCell.setHorizontalAlignment(Element.ALIGN_LEFT);
         dataCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         dataCell.addElement(new Phrase("Věková kategorie: " + category));
         dataCell.addElement(new Phrase("Sedadla: " + seats));
         dataCell.addElement(new Phrase("Sál: " + hall));
-        dataCell.addElement(new Phrase("Čas začátku promítání: " + startTime));
+        dataCell.addElement(new Phrase("Čas začátku promítání: " + startTime.toString().replace("T", " ")));
 
         PdfPCell qrCodeCell = new PdfPCell();
         qrCodeCell.setBorder(Rectangle.NO_BORDER);
