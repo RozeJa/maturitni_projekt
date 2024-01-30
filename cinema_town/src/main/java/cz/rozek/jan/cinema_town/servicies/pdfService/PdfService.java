@@ -8,11 +8,13 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -45,6 +47,14 @@ public class PdfService {
 
     private String rootDir = "";
 
+    private Font font;
+
+    public PdfService() throws IOException, DocumentException {
+
+        BaseFont unicodeFont = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H,BaseFont.EMBEDDED);
+        font = new Font(unicodeFont, 12);
+    }
+
     public String getRootDir() {
         return rootDir;
     }
@@ -74,10 +84,10 @@ public class PdfService {
 
         document.close();
 
-        // Smaž qr kód 
+        // Smaž qr kód
         f = new File(dirPath + "/qrcode.png");
         f.delete();
-        
+
         return dirPath + filePath;
     }
 
@@ -87,11 +97,13 @@ public class PdfService {
 
         String filmName = reservation.getProjection().getFilm().getName();
         String hallDes = reservation.getProjection().getHall().getDesignation();
-        String address = String.format("%s, %s, %s", cinema.getCity().getName(), cinema.getStreet(), cinema.getHouseNumber());
-        String datetime = reservation.getProjection().getDateTime().toString().replace("T", " "); 
+        String address = String.format("%s, %s, %s", cinema.getCity().getName(), cinema.getStreet(),
+                cinema.getHouseNumber());
+        String datetime = reservation.getProjection().getDateTime().toString().replace("T", " ");
 
-        document.add(new Paragraph(String.format("Rezervace filmového promítání: %s\nMísto promítání: %s \nHala: %s\nDatum a čas konání promátání %s", filmName, address, hallDes, datetime)));
-
+        document.add(new Paragraph(String.format(
+                "Rezervace filmového promítání: %s\nMísto promítání: %s \nHala: %s\nDatum a čas konání promátání %s",
+                filmName, address, hallDes, datetime)));
 
         Map<String, Float> grupedCategories = groupCategories(reservation);
         float[] tableColumns = new float[4];
@@ -104,10 +116,10 @@ public class PdfService {
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
 
-        PdfPCell cell1 = new PdfPCell(new Phrase("Věková kategorie"));
-        PdfPCell cell2 = new PdfPCell(new Phrase("Počet kusů"));
-        PdfPCell cell3 = new PdfPCell(new Phrase("Cena za kus"));
-        PdfPCell cell4 = new PdfPCell(new Phrase("Cena celkem"));
+        PdfPCell cell1 = new PdfPCell(mkPhrase("Věková kategorie"));
+        PdfPCell cell2 = new PdfPCell(mkPhrase("Počet kusů"));
+        PdfPCell cell3 = new PdfPCell(mkPhrase("Cena za kus"));
+        PdfPCell cell4 = new PdfPCell(mkPhrase("Cena celkem"));
 
         table.addCell(cell1);
         table.addCell(cell2);
@@ -116,15 +128,16 @@ public class PdfService {
 
         double totalCost = 0;
         for (String categoryId : grupedCategories.keySet()) {
-            AgeCategory ac = reservation.getCodes().values().stream().filter(ageCategory -> ageCategory.getId().equals(categoryId)).toList().get(0);
+            AgeCategory ac = reservation.getCodes().values().stream()
+                    .filter(ageCategory -> ageCategory.getId().equals(categoryId)).toList().get(0);
             double pricePerOne = Math.round(ac.getPriceModificator() * reservation.getProjection().getCost());
             double priceForAll = pricePerOne * grupedCategories.get(categoryId);
             totalCost += priceForAll;
-            
-            cell1 = new PdfPCell(new Phrase(ac.getName()));
-            cell2 = new PdfPCell(new Phrase(grupedCategories.get(categoryId).toString().replace(".0", "")));
-            cell3 = new PdfPCell(new Phrase(String.valueOf(pricePerOne)));
-            cell4 = new PdfPCell(new Phrase(String.valueOf(priceForAll)));
+
+            cell1 = new PdfPCell(mkPhrase(ac.getName()));
+            cell2 = new PdfPCell(mkPhrase(grupedCategories.get(categoryId).toString().replace(".0", "")));
+            cell3 = new PdfPCell(mkPhrase(String.valueOf(pricePerOne)));
+            cell4 = new PdfPCell(mkPhrase(String.valueOf(priceForAll)));
 
             table.addCell(cell1);
             table.addCell(cell2);
@@ -132,10 +145,10 @@ public class PdfService {
             table.addCell(cell4);
         }
 
-        cell1 = new PdfPCell(new Phrase("Celkem"));
-        cell2 = new PdfPCell(new Phrase(grupedCategories.values().stream().count()));
-        cell3 = new PdfPCell(new Phrase());
-        cell4 = new PdfPCell(new Phrase(String.valueOf(totalCost)));
+        cell1 = new PdfPCell(mkPhrase("Celkem"));
+        cell2 = new PdfPCell(mkPhrase(String.valueOf(grupedCategories.values().stream().count())));
+        cell3 = new PdfPCell(mkPhrase(""));
+        cell4 = new PdfPCell(mkPhrase(String.valueOf(totalCost)));
 
         table.addCell(cell1);
         table.addCell(cell2);
@@ -160,11 +173,11 @@ public class PdfService {
         return null;
     }
 
-    private Map<String, Float> groupCategories(Reservation reservation) {        
+    private Map<String, Float> groupCategories(Reservation reservation) {
         Map<String, Float> tableRows = new TreeMap<>();
         for (AgeCategory ac : reservation.getCodes().values()) {
             if (tableRows.get(ac.getId()) != null) {
-                tableRows.put(ac.getId(), tableRows.get(ac.getId()) +1);
+                tableRows.put(ac.getId(), tableRows.get(ac.getId()) + 1);
             } else {
                 tableRows.put(ac.getId(), (float) 1);
             }
@@ -173,7 +186,8 @@ public class PdfService {
         return tableRows;
     }
 
-    private void addTickets(Document document, Reservation reservation, String dirPath) throws DocumentException, IOException, WriterException {
+    private void addTickets(Document document, Reservation reservation, String dirPath)
+            throws DocumentException, IOException, WriterException {
         for (String code : reservation.getCodes().keySet()) {
             String category = reservation.getCodes().get(code).getName();
             String seats = getSeats(reservation);
@@ -189,9 +203,9 @@ public class PdfService {
 
         for (Seat s : reservation.getSeats()) {
             if (seats.get(s.getRowDesignation()) == null) {
-                seats.put(s.getRowDesignation(), String.valueOf(s.getNumber()));  
+                seats.put(s.getRowDesignation(), String.valueOf(s.getNumber()));
             } else {
-                seats.put(s.getRowDesignation(), seats.get(s.getRowDesignation()) + ", " + s.getNumber()); 
+                seats.put(s.getRowDesignation(), seats.get(s.getRowDesignation()) + ", " + s.getNumber());
             }
         }
 
@@ -203,8 +217,9 @@ public class PdfService {
         return sb.toString();
     }
 
-    private void addTicket(Document document, String category, String seats, String hall, String startTime, String code, String dirPath) throws DocumentException, IOException, WriterException {
-        
+    private void addTicket(Document document, String category, String seats, String hall, String startTime, String code,
+            String dirPath) throws DocumentException, IOException, WriterException {
+
         // Ohraničení pro lístek
         Rectangle border = new Rectangle(PageSize.A6);
         border.setBorder(Rectangle.BOX);
@@ -214,25 +229,25 @@ public class PdfService {
         // Vytvoření lístku s ohraničením
         PdfPTable ticketTable = new PdfPTable(2);
         ticketTable.setWidthPercentage(100);
-        ticketTable.setWidths(new float[]{1, 1});
+        ticketTable.setWidths(new float[] { 1, 1 });
 
         PdfPCell dataCell = new PdfPCell();
         dataCell.setPadding(8);
         dataCell.setBorder(Rectangle.NO_BORDER);
         dataCell.setHorizontalAlignment(Element.ALIGN_LEFT);
         dataCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        dataCell.addElement(new Phrase("Věková kategorie: " + category));
-        dataCell.addElement(new Phrase("Sedadla: " + seats));
-        dataCell.addElement(new Phrase("Sál: " + hall));
-        dataCell.addElement(new Phrase("Čas začátku promítání: " + startTime.toString().replace("T", " ")));
+        dataCell.addElement(mkPhrase("Věková kategorie: " + category));
+        dataCell.addElement(mkPhrase("Sedadla: " + seats));
+        dataCell.addElement(mkPhrase("Sál: " + hall));
+        dataCell.addElement(mkPhrase("Čas začátku promítání: " + startTime.toString().replace("T", " ")));
 
         PdfPCell qrCodeCell = new PdfPCell();
         qrCodeCell.setBorder(Rectangle.NO_BORDER);
         qrCodeCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         qrCodeCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        
+
         ticketTable.addCell(dataCell);
-        
+
         // Generování QR kódu
         Path qrCodePath = generateQRCodeImage(code, dirPath);
         Image qrCodeImage = Image.getInstance(qrCodePath.toString());
@@ -245,10 +260,6 @@ public class PdfService {
         qrCodeCell.addElement(qrCodeImage);
 
         ticketTable.addCell(qrCodeCell);
-
-        
-        // Přidání mezeru pod lístkem
-        ticketTable.setSpacingAfter(20f);
 
         // Přidání lístku s ohraničením do dokumentu
         PdfPCell ticketCell = new PdfPCell(ticketTable);
@@ -274,4 +285,7 @@ public class PdfService {
         return qrCodePath;
     }
 
+    private Phrase mkPhrase(String text) {
+        return new Phrase(text, font);
+    }
 }

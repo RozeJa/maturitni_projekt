@@ -4,6 +4,7 @@ import User, { defaultUser } from '../../models/User'
 import { register } from '../../global_functions/ServerAPI'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'
 import { emailRegex, pwRegex } from '../../global_functions/constantsAndFunction'
+import DialogErr from '../DialogErr'
 
 let user: User = defaultUser
 let passwordAgain: string
@@ -20,6 +21,8 @@ const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 
     const [pwAgErr, setPwAgErr] = useState('')
+
+    const [err, setErr] = useState(<></>)
 
     const validate = (user: User): boolean => {
         let isUserValid = true
@@ -51,17 +54,26 @@ const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
     const sendRequest = async () => {
         
         if (validate(user)) {
-            const requestSuccess = await register(user)
-            if (requestSuccess) {
-
-                sessionStorage.setItem('email', user.email)
-                onSuccess(user.password)
+            try {
+                const requestSuccess = await register(user)
+                if (requestSuccess) {
+    
+                    sessionStorage.setItem('email', user.email)
+                    onSuccess(user.password)
+                }
+            } catch (error) {
+                setErr(<DialogErr 
+                    err="Registrace se nezdařila"
+                    description="Je nám líto ale registrace se nezdařila, zkuste použít jiný email, je možné, že tento je už zabraný." 
+                    dialogSetter={() => setErr(<></>)} 
+                    okText={"Zkusit znovu"} />)
             }
         }
     }
 
     return (        
         <>
+            {err}
             <div className='register-motivation'>
                 <h1>
                     Získej možnost rezervování míst na své oblíbené filmy a nenech si tuto příležitost už nikdy utéct.

@@ -183,11 +183,15 @@ const TicketReservation = ({
                                 setSelectedProjection({...defProjection})
                             }}>
                             {cinemas
-                                .map((c, index) =>
-                                    <option key={index} value={c.id ? c.id : ''}>
-                                        {`${c.city.name}, ${c.street}, ${c.houseNumber}`}
+                                .map((c, index) => {
+                                    let cinemaName = `${c.city.name}, ${c.street}, ${c.houseNumber}`
+
+                                    if (cinemaName.trim() === ", ,")
+                                        cinemaName = "Vyberte multikino"
+                                    return  <option key={index} value={c.id ? c.id : ''}>
+                                        {cinemaName}
                                     </option>
-                                )}
+                                })}
                         </select>
                     </div>
                 </div>

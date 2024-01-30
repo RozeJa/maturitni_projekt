@@ -29,6 +29,8 @@ public class User implements Entity {
     private String email;
     // heslo
     private String password;
+    // heslo
+    private String password2;
 
     // zda byl účet aktivován
     private boolean active = false;
@@ -75,7 +77,5 @@ public class User implements Entity {
         }
         if (role == null) 
             throw new ValidationException("Role cant be null.");
-        if (trustedDevicesId == null) 
-            throw new ValidationException("TrustedDevicesId cant be null.");
     }   
 }

@@ -28,7 +28,8 @@ const SendCode = (data:any) => {
         
                 if (typeof loginToken === 'string') {
                     sessionStorage.setItem("loginToken", loginToken)
-                    navigate('/')
+                    
+                    window.location.href = '/'
                 } else {
                     throw new Error()
                 }
