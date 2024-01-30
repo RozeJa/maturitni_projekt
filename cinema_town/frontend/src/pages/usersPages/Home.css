@@ -42,6 +42,7 @@
 .home-search button, select {
   padding: .45em;
   height: 100%;
+  cursor: pointer;
 }
 
 .home-search-form {

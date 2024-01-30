@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
 </head>
 <body>
-    <h1 style="font-family: Arial, sans-serif;">[@header]</h1>
-    <p style="font-family: Arial, sans-serif;">[@user]</p>
-    <h2 style="font-family: Arial, sans-serif;">[@important-data]</h2>
-    <p style="font-family: Arial, sans-serif;">[@info]</p>
+    <h1>[@header]</h1>
+    <p>[@user]</p>
+    <h2>[@important-data]</h2>
+    <p>[@info]</p>
 </body>
 </html>

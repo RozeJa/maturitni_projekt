@@ -14,7 +14,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.util.TreeMap;
 import java.util.List;
@@ -50,9 +51,7 @@ public class PdfService {
     private Font font;
 
     public PdfService() throws IOException, DocumentException {
-
-        BaseFont unicodeFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.IDENTITY_H,BaseFont.EMBEDDED);
-        font = new Font(unicodeFont, 12);
+        font = new Font(FontFamily.HELVETICA);
     }
 
     public String getRootDir() {
@@ -72,8 +71,7 @@ public class PdfService {
         f.mkdir();
 
         Document document = new Document();
-        // TODO document.setHtmlStyleClass();
-        PdfWriter.getInstance(document, new FileOutputStream(dirPath + filePath));
+        PdfWriter.getInstance(document, new FileOutputStream(dirPath + filePath)).setLanguage("czech");;
         document.open();
 
         // Informace o rezervaci
@@ -286,6 +284,8 @@ public class PdfService {
     }
 
     private Phrase mkPhrase(String text) {
-        return new Phrase(text, font);
+        byte[] utf8Bytes = text.getBytes(StandardCharsets.UTF_8);
+        String utf8Text = new String(utf8Bytes, StandardCharsets.UTF_8);
+        return new Paragraph(utf8Text, font);
     }
 }

@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
 </head>
 <body>
-    <h1 style="font-family: Arial, sans-serif;">[@header]</h1>
-    <p style="font-family: Arial, sans-serif;">
+    <h1>[@header]</h1>
+    <p>
         [@text-1]
         <b>[@text-bold]</b>
         [@text-2]
