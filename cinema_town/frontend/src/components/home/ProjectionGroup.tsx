@@ -18,11 +18,7 @@ const ProjectionGroup = ({
 
     const date = new Date()
     date.setMonth(month-1);
-    date.setDate(day);
-
-    console.log(month);
-    console.log(day);
-    
+    date.setDate(day);    
 
     return (
         <div id={day.toLocaleString()} className='projection-group'>

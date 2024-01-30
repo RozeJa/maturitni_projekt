@@ -487,7 +487,6 @@ public class AuthService {
             String userID = jwtClaims.getSubject();
             return userRepository.findById(userID).get();
         } catch (InvalidJwtException | MalformedClaimException e) {
-            e.printStackTrace();
             throw new SecurityException("Invalid Token");
         }
     }

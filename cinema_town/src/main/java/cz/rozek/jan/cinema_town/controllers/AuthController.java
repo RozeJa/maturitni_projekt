@@ -221,7 +221,7 @@ public class AuthController {
             userRepository.save(user);
 
             // přihlaš uživatele
-            String loginJWT = authService.login(user, trustedDeviceID, true);
+            String loginJWT = authService.login(user, trustedDeviceID, true).split("#")[1];
 
             return new ResponseEntity<>(new TokenDeviceId(loginJWT, trustedDeviceID), HttpStatus.OK);
         } catch (IllegalStateException e) {

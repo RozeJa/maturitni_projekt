@@ -64,7 +64,6 @@ const Home = () => {
             return utcDiference.getDate() <= 14 && utcDiference.getMonth() === 0
         }).forEach(p => {
             if (!(p.dateTime instanceof Date)) {
-                console.log(p.dateTime[1]);
                 
                 if (groups[`${p.dateTime[1]}#${p.dateTime[2]}`] === undefined) {
                     sections[parseInt(p.dateTime[2])] = '#' + p.dateTime[2]
@@ -121,8 +120,6 @@ const Home = () => {
     const loadProjections = async () => {
         try {
             const projections = (await loadData<Projection>(ModesEndpoints.Projection))
-            	
-            console.log(projections);
             
             setProjections(projections)
         } catch (err) {

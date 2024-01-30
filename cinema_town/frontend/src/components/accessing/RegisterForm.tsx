@@ -35,7 +35,7 @@ const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
         }
 
         if (!pwRegex.test(user.password)) {
-            setPwErr('Heslo není dostatečně silné. (Alespoň 12 znaků, velký a malí znak a číslice jsou požadovány)')
+            setPwErr('Heslo není dostatečně silné. (Alespoň 12 znaků, velký a malý znak a číslice jsou požadovány)')
             isUserValid = false
         } else {
             setPwErr('')

@@ -73,7 +73,7 @@ public class EmailService  {
 
         try {
             // Use the true flag to enable multipart mode
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setFrom("ciname.t0wn@gmail.com");
             helper.setTo(to);
             helper.setSubject(subject);

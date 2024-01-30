@@ -51,7 +51,7 @@ public class PdfService {
 
     public PdfService() throws IOException, DocumentException {
 
-        BaseFont unicodeFont = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H,BaseFont.EMBEDDED);
+        BaseFont unicodeFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.IDENTITY_H,BaseFont.EMBEDDED);
         font = new Font(unicodeFont, 12);
     }
 

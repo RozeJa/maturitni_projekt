@@ -50,9 +50,10 @@ const SendCode = (data:any) => {
     const handleLogin = async () => {
         try {
             const tokenDeviceId = await secondVerify(code)
+
             localStorage.setItem("deviceID", tokenDeviceId.deviceId)
             sessionStorage.setItem("loginToken", tokenDeviceId.loginToken);
-            
+
             window.location.href = '/'
         } catch (error) {
         
