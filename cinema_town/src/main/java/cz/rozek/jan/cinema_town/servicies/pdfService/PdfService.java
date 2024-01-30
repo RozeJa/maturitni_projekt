@@ -14,7 +14,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -32,7 +32,6 @@ import org.springframework.stereotype.Service;
 import java.io.FileOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.util.TreeMap;
 import java.util.List;
@@ -51,7 +50,8 @@ public class PdfService {
     private Font font;
 
     public PdfService() throws IOException, DocumentException {
-        font = new Font(FontFamily.HELVETICA);
+        BaseFont baseFont = BaseFont.createFont("Arial Unicode MS.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        this.font = new Font(baseFont, 12);
     }
 
     public String getRootDir() {
@@ -71,7 +71,7 @@ public class PdfService {
         f.mkdir();
 
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(dirPath + filePath)).setLanguage("czech");;
+        PdfWriter.getInstance(document, new FileOutputStream(dirPath + filePath));
         document.open();
 
         // Informace o rezervaci
@@ -101,7 +101,7 @@ public class PdfService {
 
         document.add(new Paragraph(String.format(
                 "Rezervace filmového promítání: %s\nMísto promítání: %s \nHala: %s\nDatum a čas konání promátání %s",
-                filmName, address, hallDes, datetime)));
+                filmName, address, hallDes, datetime), font));
 
         Map<String, Float> grupedCategories = groupCategories(reservation);
         float[] tableColumns = new float[4];
@@ -284,8 +284,6 @@ public class PdfService {
     }
 
     private Phrase mkPhrase(String text) {
-        byte[] utf8Bytes = text.getBytes(StandardCharsets.UTF_8);
-        String utf8Text = new String(utf8Bytes, StandardCharsets.UTF_8);
-        return new Paragraph(utf8Text, font);
+        return new Paragraph(text, font);
     }
 }
