@@ -186,8 +186,7 @@ export const reactivateCode = async (email: string) => {
         console.log(status)
 
     } catch (error) {
-
-        throw error
+        // TODO dej vedet, ze se nezdarilo
     }
 }
 
@@ -207,12 +206,12 @@ export const secondVerify = async (code: string): Promise<TokenDeviceId> => {
     }
 }
 
-export const login = async (email: string, password: string, deviceId: string): Promise<string|null> => {
+export const login = async (email: string, password: string, trustToken: string): Promise<string|null> => {
     try {
 
         const headers = {
             "Content-Type": "application/json",
-            "deviceID": deviceId
+            "trust-token": trustToken
         }
         const config = {
             headers: headers
@@ -222,12 +221,16 @@ export const login = async (email: string, password: string, deviceId: string): 
             password: password,
             role: {}
         }        
+
+        console.log(config);
       
         const res = (await axios.post(BASE_URL + "auth/login", user, config))
 
         if (res.status === 200) {
             return res.data
         } else {
+            console.log(res.status);
+            
             return null
         }
     } catch (error) {

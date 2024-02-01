@@ -77,15 +77,12 @@ public class UserService extends CrudService<User, UserRepository> {
                 ) 
                 throw new SecurityException("Last admin cant change his role.");
             
-
             userFromDB.setRole(entity.getRole());
         }
 
         if (editor.getId().equals(id)) {
-            userFromDB.setTrustedDevicesId(entity.getTrustedDevicesId());
             userFromDB.setSubscriber(entity.isSubscriber());
         }
-
 
         return super.update(id, userFromDB, accessJWT);
     }

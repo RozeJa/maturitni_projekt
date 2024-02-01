@@ -20,16 +20,24 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
     const [pwErr, setPwErr] = useState('') 
 
     const sendRequest = async () => {
+        const trustedTokensString = getLocalStorageItem("trustedTokens")
+        const trustedTokens = JSON.parse(trustedTokensString === '' ? '{}' : trustedTokensString)
+
+        console.log(trustedTokens);
         
-        const deviceID = getLocalStorageItem('deviceID')
         try {
-            const loginToken = await login(user.email, user.password, deviceID)
+            const trustToken = trustedTokens[user.email] !== undefined ? trustedTokens[user.email] : ''
+            console.log(trustToken);
+            const loginToken = await login(user.email, user.password, trustToken)
             if (typeof loginToken === 'string') {
                 sessionStorage.setItem('loginToken', loginToken)
             
                 window.location.href = '/'
             } else {
-                localStorage.removeItem('deviceID')
+                delete trustedTokens[user.email]
+                
+                localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
+
                 sessionStorage.setItem('email', user.email)
                 onSuccess(user.password)
             }
@@ -38,7 +46,7 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
         } catch (error) {
             console.log(error)
             
-            if (error instanceof AxiosError && error.code === 'ERR_BAD_REQUEST') {
+            if (error instanceof AxiosError && error.status === 400) {
                 sessionStorage.setItem('email', user.email)
                 isNotActive(user.password)
             } else {
@@ -46,7 +54,6 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
                 setPwErr('Zkontrolujte heslo')
             }
         }
-        
     }
 
     return (        

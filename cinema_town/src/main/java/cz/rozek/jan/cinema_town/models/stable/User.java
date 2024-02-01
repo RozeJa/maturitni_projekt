@@ -43,7 +43,8 @@ public class User implements Entity {
     @DBRef
     private Role role;
 
-    private Set<String> trustedDevicesId = new TreeSet<>();
+    // Token důvěry, jsou platné pokud nevyexpirovaly a pokud se nachází v této kolekci
+    // private Set<String> trustToken = new TreeSet<String>();
 
     public boolean validateEmail() {
         Pattern emailReg = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");

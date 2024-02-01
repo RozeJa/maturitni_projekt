@@ -35,7 +35,7 @@ public class AuthController {
     // definice konstanty, pod kterou bude očekávat v headru JWT
     protected static final String authorization = "authorization";
     // definice konstanty, pod kterou bude očekávat v headru id zařízení
-    protected static final String deviceID = "deviceid";
+    protected static final String trustToken = "trust-token";
 
     // složba pro ověření oprávnění
     @Autowired
@@ -101,10 +101,10 @@ public class AuthController {
         try {
 
             // zkus ověřit
-            String deviceID = authService.activateUser(activationCode.split("=")[0]);
+            String trustToken = authService.activateUser(activationCode.split("=")[0]);
 
-            if (deviceID != null)
-                return new ResponseEntity<>(deviceID, HttpStatus.OK);
+            if (trustToken != null)
+                return new ResponseEntity<>(trustToken, HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (SecurityException e) {
@@ -153,14 +153,14 @@ public class AuthController {
      * Metoda pro přihlášení
      * 
      * @param user     objekt uživatele, s přihlašovacím jménem a heslem
-     * @param deviceID id zařízení, ze kterého se uživatel přihlašuje
+     * @param trustToken id zařízení, ze kterého se uživatel přihlašuje
      * @return pokud se uživatel přihlašuje ze známého zařízení varátí login JWT
      */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user, @RequestHeader Map<String, String> headers) {
         try {
             // přihlaš uživatele
-            String jwt = authService.login(user, headers.get(deviceID), false);
+            String jwt = authService.login(user, headers.get(trustToken), false);
 
             String identification = jwt.split("#")[0];
 
@@ -208,55 +208,23 @@ public class AuthController {
      * @return pokud se uživatel prověří, ta vrátí login JWT
      */
     @PostMapping("/second-verify")
-    public ResponseEntity<TokenDeviceId> secondVerify(@RequestBody String verifycationToken) {
+    public ResponseEntity<TokenDeviceId> secondVerify(@RequestBody String verificationToken) {
         try {
 
             // ověř zda je i druhá fáze přihlášení provedena správně
-            User user = authService.secondVerification(verifycationToken.split("=")[0]);
+            User user = authService.secondVerification(verificationToken.split("=")[0]);
 
-            // přidej uživateli id d;věryhodného zařízení
-            String trustedDeviceID = authService.addDeviceIDToUser(user);
-
-            // uživatele ulož
-            userRepository.save(user);
+            // vygeneruj pro uživatele token pro dvoufázové ověřen
+            String trustToken = authService.generateTrustToken(user);
 
             // přihlaš uživatele
-            String loginJWT = authService.login(user, trustedDeviceID, true).split("#")[1];
+            String loginJWT = authService.login(user, trustToken, true).split("#")[1];
 
-            return new ResponseEntity<>(new TokenDeviceId(loginJWT, trustedDeviceID), HttpStatus.OK);
+            return new ResponseEntity<>(new TokenDeviceId(loginJWT, trustToken), HttpStatus.OK);
         } catch (IllegalStateException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (SecurityException | NullPointerException | NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Metoda pro odebrání důvěryhodného zařízení
-     */
-    @PostMapping("/remove-device")
-    public ResponseEntity<String> removeDevice(@RequestHeader Map<String, String> headers, @RequestBody String deviceId) {
-        try {
-
-            // získej si id uživatele
-            String userID = authService.verifyLoginJWT(headers.get(authorization));
-
-            User user = userRepository.findById(userID).get();
-
-            boolean removed = user.getTrustedDevicesId().remove(deviceId);
-
-            userRepository.save(user);
-
-            if (removed)
-                return new ResponseEntity<>(HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        } catch (SecurityException e) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

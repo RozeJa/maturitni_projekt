@@ -29,14 +29,13 @@ import cz.rozek.jan.cinema_town.models.stable.Role;
 import cz.rozek.jan.cinema_town.models.stable.User;
 import cz.rozek.jan.cinema_town.repositories.RoleRepository;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
-import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 // třída poskytuje služby pro přihlášení, odhlášení a ověření přístupových práv
 @Service
 public class AuthService {
 
-    // klíč používaný k ověřování pravosti JWT, který se loužívá při registraci
-    private RsaJsonWebKey rsaTempTokenKey;
+    // klíč používaný k ověřování pravosti JWT, který se používá pro dvoufázové ověření
+    private RsaJsonWebKey rsaTrustTokenKey;
     // klíč používaný k ověřování pravosti JWT, který se používá pro login
     private RsaJsonWebKey rsaLoginTokenKey;
     // klíč používaný k ověřování pravosti JWT, který se používá jako přístupový
@@ -79,15 +78,15 @@ public class AuthService {
     public AuthService() {
         try {
             // vygenerování klíče pro registraci
-            rsaTempTokenKey = RsaJwkGenerator.generateJwk(2048);
-            rsaTempTokenKey.setKeyId("register-key");
+            rsaTrustTokenKey = RsaJwkGenerator.generateJwk(8192);
+            rsaTrustTokenKey.setKeyId("token-key");
 
             // vygenerování klíče pro login
-            rsaLoginTokenKey = RsaJwkGenerator.generateJwk(2048);
+            rsaLoginTokenKey = RsaJwkGenerator.generateJwk(8192);
             rsaLoginTokenKey.setKeyId("login-key");
 
             // vygenerování klíče pro přístup
-            rsaAccessTokenKey = RsaJwkGenerator.generateJwk(2048);
+            rsaAccessTokenKey = RsaJwkGenerator.generateJwk(8192);
             rsaAccessTokenKey.setKeyId("access-key");
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,7 +115,7 @@ public class AuthService {
         newUser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         // vygeneruj pro něj jednorázový aktivační kód
-        String activationCode = RandomStringGenerator.generateRandomString(true, 10);
+        String activationCode = RandomStringGenerator.generateRandomString(false, 10);
         // načti si uživatele
         newUser = userRepository.save(newUser);
 
@@ -129,12 +128,11 @@ public class AuthService {
      * Metoda pro aktivaci uživatelského účtu
      * 
      * @param activationCode kód pro oktivaci uživatele
-     * @return vrátí true pokud uživatel byl aktivován. V opačném řípadě vrátí
-     *         false.
+     * @return vrátí JWT, který je použitý pro dvoufázové ověření
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
      *                           podvržený, nebo neplatný
      */
-    public String activateUser(String activationCode) throws SecurityException {
+    public String activateUser(String activationCode) throws SecurityException, JoseException {
 
         // zjisti zda pod aktivačním kódem někoho máš
         String expectedUserID = inactiveUsers.get(activationCode);
@@ -145,8 +143,8 @@ public class AuthService {
             // pokud je, aktivuj ho
             user.setActive(true);
 
-            // přidej uživateli id důvěryhodného zařízení
-            String deviceID = addDeviceIDToUser(user);
+            // vygeneruj uživateli token pro důvěru zařízení
+            String trustToken = generateTrustToken(user);
 
             // ulož změny
             userRepository.save(user);
@@ -154,7 +152,7 @@ public class AuthService {
             // odeber aktivovaného uživatele z mapy pro neaktivované
             inactiveUsers.remove(activationCode);
 
-            return deviceID;
+            return trustToken;
         }
 
         // když buť pod kódem nikoho nemáš, nebo pokud se uživatel neshoduje vtať null
@@ -204,7 +202,7 @@ public class AuthService {
      * @throws SecurityException výjimka je vyvolány při nesprávném hesle
      * @throws JoseException     nastala chyba při vytváření tokenu
      */
-    public String login(User user, String deviceID, boolean isSecond)
+    public String login(User user, String trustJWT, boolean isSecond)
             throws SecurityException, JoseException, NotActiveException {
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
@@ -214,7 +212,14 @@ public class AuthService {
 
             // uživatel se přihásil správně zkontroluj, zda se přihlašuje ze známého
             // zařízení
-            if (userFromDB.getTrustedDevicesId().contains(deviceID)) {
+
+            String userId = "";
+            try {
+                userId = verifyJWT(trustJWT, rsaTrustTokenKey, null);
+            } catch (Exception e) {
+            }
+
+            if (userId.equals(userFromDB.getId())) {
 
                 // heslo je správné => vytvoř token
                 String jwt = generateLoginJWT(userFromDB);
@@ -226,7 +231,7 @@ public class AuthService {
                 // uživatel se nepřihlašuje, ze známého zařízení
             } else {
                 // vygeneruj přístupový token
-                String token = RandomStringGenerator.generateRandomString(true, 10);
+                String token = RandomStringGenerator.generateRandomString(false, 10);
 
                 SecondVerificationToken svt = new SecondVerificationToken();
                 svt.setUserID(userFromDB.getId());
@@ -263,6 +268,12 @@ public class AuthService {
         return userRepository.findById(userID).get();
     }
 
+    /**
+     * ověří přihlášení uživatele
+     * @param user
+     * @return
+     * @throws NotActiveException
+     */
     private boolean verifyUserLogin(User user) throws NotActiveException {
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
@@ -309,6 +320,37 @@ public class AuthService {
      */
     public void logout(String loginJWT) {
         loggedIn.remove(loginJWT);
+    }
+
+    /**
+     * Metoda pro vygenerování JWT pro dvoufázové ověření
+     * 
+     * @param user uživatel pro, kterého bude token vygenerován
+     * @return login JWT
+     * @throws JoseException chyba při generování tokenu vyvolá tuto vyjímku
+     */
+    public String generateTrustToken(User user) throws JoseException {
+        // nastavení parametrů JWT
+        JwtClaims claims = new JwtClaims();
+        claims.setIssuer(ISSUER); // vydavatel
+        claims.setAudience(AUDIENCE); // publikum
+        claims.setGeneratedJwtId();
+        claims.setIssuedAtToNow(); // kdy byl vydán
+        claims.setExpirationTimeMinutesInTheFuture(60 * 24 * 30); // jak dlouho bude použitelný
+        claims.setSubject(user.getId()); // nastav předmět na id uživatele
+        claims.setClaim("active", user.isActive()); // nastav informaci o tom, zda je účet aktivován
+
+        // převeď claimy na JWS
+        JsonWebSignature jws = new JsonWebSignature();
+        jws.setPayload(claims.toJson());
+
+        // přidej šifrování
+        jws.setKey(rsaTrustTokenKey.getPrivateKey());
+        jws.setKeyIdHeaderValue(rsaTrustTokenKey.getKeyId());
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_PSS_USING_SHA256);
+
+        // skompiluj do tokenu
+        return jws.getCompactSerialization();
     }
 
     /**
@@ -377,26 +419,6 @@ public class AuthService {
         return jws.getCompactSerialization();
     }
 
-    /**
-     * Metoda vygeneruje pro uživatele nové id pro zařízení a přidá mu ho
-     * 
-     * @param user
-     * @return přidané id pro zařízení
-     */
-    public String addDeviceIDToUser(User user) {
-        boolean generatedSuccessly = false;
-        String deviceID = null;
-
-        while (!generatedSuccessly) {
-            deviceID = RandomStringGenerator.generateRandomString(true, 64);
-
-            generatedSuccessly = !user.getTrustedDevicesId().contains(deviceID);
-        }
-
-        user.getTrustedDevicesId().add(deviceID);
-        return deviceID;
-    }
-
     public String verifyLoginJWT(String loginJWT) {
         return verifyJWT(loginJWT, rsaLoginTokenKey, loggedIn);
     }
@@ -404,7 +426,7 @@ public class AuthService {
     /**
      * Metoda ověří zda je login JWT pravý
      * 
-     * @param loginJWT login JWT, u kterého se ověřuje provost
+     * @param JWT login JWT, u kterého se ověřuje provost
      * @return id uživatele, kterému byl token vystaven
      * @throws SecurityException k vyvolání výjimky dojde pokud je token podvržený,
      *                           nebo pokud už není platný
@@ -424,15 +446,17 @@ public class AuthService {
             // zkus získat claimy
             JwtClaims jwtClaims = jwtConsumer.processToClaims(JWT);
 
+            // pokud jsou povolené jen nějaké token, tak se v nich musí token nacházet
+            if (availavbleTokens == null) 
+                return jwtClaims.getSubject();
             // pokud je token v množině aktivnch vrať id uživatele
-            if (availavbleTokens.contains(JWT))
+            else if (availavbleTokens.contains(JWT))
                 return jwtClaims.getSubject();
             else
                 throw new SecurityException("Invalid Permition");
         } catch (MalformedClaimException | InvalidJwtException e) {
             throw new SecurityException("Invalid Token");
         }
-
     }
 
     /**

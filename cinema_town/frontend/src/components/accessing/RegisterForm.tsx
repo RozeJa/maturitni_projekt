@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './RegisterFrom.css'
+import './RegisterForm.css'
 import User, { defaultUser } from '../../models/User'
 import { register } from '../../global_functions/ServerAPI'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'

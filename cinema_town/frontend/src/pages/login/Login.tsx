@@ -16,7 +16,7 @@ const Login = () => {
         err='Neplatný aktivační kód'
         submit='Aktivovat'
         label='Aktivační kód'
-        register={true} />)} />
+        register={false} />)} />
 
     const [content, setContent] = useState(firstComponent)
 

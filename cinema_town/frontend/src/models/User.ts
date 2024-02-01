@@ -7,8 +7,7 @@ interface User extends Entity {
     password2: string,
     active: boolean,
     subscriber: boolean,
-    role: Role,
-    trustedDevicesId: Set<string> | null
+    role: Role
 }
 export default User
 
@@ -19,6 +18,5 @@ export let defaultUser: User = {
     password2: '',
     active: false,
     subscriber: false,
-    role: defaultRole,
-    trustedDevicesId: null
+    role: defaultRole
 }
