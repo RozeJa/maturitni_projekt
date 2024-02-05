@@ -1,4 +1,4 @@
-    import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import './FilmDetail.css'
 import { useEffect, useState } from 'react'
 import Film, { defaultFilm } from '../../models/Film'
@@ -6,7 +6,6 @@ import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
 import { handleErr } from '../../global_functions/constantsAndFunction'
 import TicketReservation from '../../components/filmDetail/TicketReservation'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'
-import Err from '../Err'
 
 const defFilm: Film = defaultFilm
 
