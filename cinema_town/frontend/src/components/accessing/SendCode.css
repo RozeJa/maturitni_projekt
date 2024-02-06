@@ -16,6 +16,10 @@
     min-width: 20%;
 }
 
+.register-form > input {
+    text-align: center;
+}
+
 .trust-form {
     width: 20%;
     position: absolute;

@@ -5,6 +5,10 @@ import Reservation from '../../models/Reservation'
 import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
 import { handleErr } from '../../global_functions/constantsAndFunction'
 import Filter from '../../components/management/Filter'
+import ReservationGroup from '../../components/myReservations/ReservationGroup'
+import { getSessionStorageItem } from '../../global_functions/storagesActions'
+import readTokenProperty from '../../global_functions/readTokenProperty'
+import { useParams } from 'react-router-dom'
 
 type ReservationGroup = { 
     [key: string] : Reservation[]
@@ -22,11 +26,14 @@ const MyReservations = () => {
     const [user, setUser] = useState({...defUser})
     const [reservations, setReservations] = useState([...defReservations])
 
-    const [fsReservations, setFsReservations] = useState({...defReservations})
+    const [fsReservations, setFsReservations] = useState([...defReservations])
     const [groupedReservations, setGroupedReservations] = useState({...defGrouped})
 
+    const { userId } = useParams<string>()
+
     useEffect(() => {
-        loadData<User>(ModesEndpoints.User, ["TODO"])
+
+        loadData<User>(ModesEndpoints.User, [userId !== undefined ? userId : ''])
             .then(data => setUser(data[0]))
             .catch(err => handleErr(setErr, err))
         loadData<Reservation>(ModesEndpoints.Reservation)
@@ -36,9 +43,9 @@ const MyReservations = () => {
 
     useEffect(() => {
         const newGroups: ReservationGroup = {}
-
         // získej uniqu datumi
         const dates = new Set<string>()
+
         fsReservations.forEach(r => {
             let date = ''
             if (!(r.projection.dateTime instanceof Date)) {
@@ -49,10 +56,8 @@ const MyReservations = () => {
 
         dates.forEach(date => {
             const dateReservations = fsReservations.filter(r => {
-                
                 if (!(r.projection.dateTime instanceof Date)) 
                     return r.projection.dateTime.join(" ") === date
-
                 return false
             })
 
@@ -60,16 +65,13 @@ const MyReservations = () => {
         })
 
         setGroupedReservations({...newGroups})
-
     }, [fsReservations])
 
     const filter = (e:any) => {
         const { value } = e.target
-
         const patern = value.toLowerCase()
 
-        const newData = reservations
-            .filter(r => {
+        const newData = reservations.filter(r => {
                 let date = ''
                 let time = ''
 
@@ -99,6 +101,7 @@ const MyReservations = () => {
                 return aDate.localeCompare(bDate)
                 // return bDate.localeCompare(aDate)
             })*/
+      
 
         setFsReservations([...newData])
     }
@@ -107,14 +110,28 @@ const MyReservations = () => {
         <div className='my-reservations'>
             {err}
             <div className="my-reservations-header">
-
+                
             </div>
             <div className="my-reservations-reservations">
                 <div className="my-reservations-reservations-header">
                     <Filter filter={filter} />
                 </div>
                 <div className="my-reservations-reservations-body">
-
+                    {
+                        Object.keys(groupedReservations)
+                            .sort((a,b) => {
+                            
+                                return a.localeCompare(b)
+                                // return b.localeCompare(a)
+                            })
+                            .map((key, index) => {
+                                return <ReservationGroup 
+                                    key={index}
+                                    date={key}
+                                    reservations={groupedReservations[key]}
+                                    />
+                            })
+                    }
                 </div>
             </div>
         </div>
