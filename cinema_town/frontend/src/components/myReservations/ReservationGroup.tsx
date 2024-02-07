@@ -4,23 +4,31 @@ import ReservationPanel from './ReservationPanel'
 
 const ReservationGroup = ({
         reservations,
-        date
+        date,
+        setFsReservations
     } : {
         reservations: Reservation[],
-        date: string
+        date: string,
+        setFsReservations: Function
     }) => {
 
+    const dateAsArr = date.split(" ")
+    const presentDate = `${dateAsArr[2]}.${dateAsArr[1]}.${dateAsArr[0]}`
 
     return (
-        <div className='reservation-groupp'>
-            <h1>{date}</h1>
-            {
-                reservations.map((r,index) => {
-                    return <ReservationPanel key={index}
-                        reservation={r}
-                        />
-                })
-            }
+        <div className='reservation-group'>
+            <div><h2>{presentDate}</h2> <p>Počet rezervací {reservations.length}</p></div>
+            <div className="reservation-group-content">
+                {
+                    reservations.map((r,index) => {
+                        return <ReservationPanel 
+                            key={index}
+                            reservation={r}
+                            setFsReservations={setFsReservations}
+                            />
+                    })
+                }
+            </div>
         </div>
     )
 }

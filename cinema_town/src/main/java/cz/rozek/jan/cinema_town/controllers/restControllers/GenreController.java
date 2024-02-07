@@ -8,7 +8,7 @@ import cz.rozek.jan.cinema_town.models.stable.Genre;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.GenreService;
 
 @RestController
-@CrossOrigin // TODO přidat restrikci
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
 @RequestMapping(path = "/api/genres")
 public class GenreController extends cz.rozek.jan.cinema_town.controllers.RestController<Genre, GenreService> {
     

@@ -31,7 +31,7 @@ import cz.rozek.jan.cinema_town.servicies.paymentService.IPayment;
 import cz.rozek.jan.cinema_town.servicies.pdfService.PdfService;
 
 @RestController
-@CrossOrigin // TODO přidat restrikci
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
 @RequestMapping(path = "/api/reservations")
 public class ReservationController extends cz.rozek.jan.cinema_town.controllers.RestController<Reservation, ReservationService> {
     
@@ -117,16 +117,28 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
         }
     }
 
-    // TODO zrušení rezervace 
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable String id, @RequestBody Reservation data, @RequestHeader Map<String, String> headers) {
-        return new ResponseEntity<>(null);
+        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable String id, @RequestHeader Map<String,String> headers) {
-        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        try {
+            
+            if (service.removeReservation(id, headers.get(authorization)))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

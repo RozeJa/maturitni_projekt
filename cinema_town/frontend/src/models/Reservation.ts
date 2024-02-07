@@ -9,7 +9,7 @@ interface Reservation extends Entity {
     user: User,
     seats: Seat[],
     codes: {[key:string]: AgeCategory },
-    reserved: Date,
+    reserved: Date | string[],
     removed: boolean
 }
 

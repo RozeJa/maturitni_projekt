@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
-import './MyReservation.css'
+import './MyReservations.css'
 import User, { defaultUser } from '../../models/User'
 import Reservation from '../../models/Reservation'
-import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
+import { ModesEndpoints, loadData, storeData } from '../../global_functions/ServerAPI'
 import { handleErr } from '../../global_functions/constantsAndFunction'
 import Filter from '../../components/management/Filter'
 import ReservationGroup from '../../components/myReservations/ReservationGroup'
-import { getSessionStorageItem } from '../../global_functions/storagesActions'
-import readTokenProperty from '../../global_functions/readTokenProperty'
 import { useParams } from 'react-router-dom'
 
 type ReservationGroup = { 
@@ -42,6 +40,10 @@ const MyReservations = () => {
     }, [])
 
     useEffect(() => {
+        setFsReservations([...reservations])
+    }, [reservations])
+
+    useEffect(() => {
         const newGroups: ReservationGroup = {}
         // získej uniqu datumi
         const dates = new Set<string>()
@@ -49,7 +51,7 @@ const MyReservations = () => {
         fsReservations.forEach(r => {
             let date = ''
             if (!(r.projection.dateTime instanceof Date)) {
-                date = r.projection.dateTime.join(" ")
+                date = r.projection.dateTime.slice(0,3).join(" ")
                 dates.add(date)
             }
         })
@@ -57,7 +59,7 @@ const MyReservations = () => {
         dates.forEach(date => {
             const dateReservations = fsReservations.filter(r => {
                 if (!(r.projection.dateTime instanceof Date)) 
-                    return r.projection.dateTime.join(" ") === date
+                    return r.projection.dateTime.slice(0,3).join(" ") === date
                 return false
             })
 
@@ -76,9 +78,13 @@ const MyReservations = () => {
                 let time = ''
 
                 if (!(r.projection.dateTime instanceof Date)) {
-                    date = `${r.projection.dateTime[2]}. ${r.projection.dateTime[1]}. ${r.projection.dateTime[0]}`
+                    date = `${r.projection.dateTime[2]}.${r.projection.dateTime[1]}.${r.projection.dateTime[0]}`
                     time = `${r.projection.dateTime[3]}:${r.projection.dateTime[4]}`
                 }
+
+                console.log(date);
+                console.log(time);
+                
 
                 return (
                     r.projection.film.name.toLowerCase() === patern ||
@@ -88,20 +94,7 @@ const MyReservations = () => {
                     time === patern ||
                     time.split(patern).length > 1
                 )
-            })
-            // TODO setřídí podle data konání jednotlivá promítání použít u genetování stránky
-            /*.sort((a,b) => {
-                let aDate = ''
-                let bDate = ''
-                if (!(a.projection.dateTime instanceof Date) && !(b.projection.dateTime instanceof Date)) {
-                    aDate = a.projection.dateTime.join(" ")
-                    bDate = b.projection.dateTime.join(" ")
-                }
-            
-                return aDate.localeCompare(bDate)
-                // return bDate.localeCompare(aDate)
-            })*/
-      
+            })      
 
         setFsReservations([...newData])
     }
@@ -110,7 +103,25 @@ const MyReservations = () => {
         <div className='my-reservations'>
             {err}
             <div className="my-reservations-header">
-                
+                <div className="my-reservations-header-left">
+                    <h1>Ahoj, {user.email}</h1>
+                    <h2>Odběratel: {user.subscriber ? "Ano" : "Ne"}</h2>
+                </div>
+                <div className="my-reservations-header-right">
+                    <button>
+                        Změnit heslo
+                    </button>
+                    <button onClick={() => {
+                        const newUser = user
+                        newUser.subscriber = !user.subscriber
+
+                        storeData<User>(ModesEndpoints.User, [newUser])
+                        .then(data => setUser({...newUser}))
+                        .catch(err => console.log(err))
+                    }}>
+                        {user.subscriber ? "Odhlásit se od obběru" : "Přihlásit se k odběru"}
+                    </button>
+                </div>
             </div>
             <div className="my-reservations-reservations">
                 <div className="my-reservations-reservations-header">
@@ -121,14 +132,15 @@ const MyReservations = () => {
                         Object.keys(groupedReservations)
                             .sort((a,b) => {
                             
-                                return a.localeCompare(b)
-                                // return b.localeCompare(a)
+                                //return a.localeCompare(b)
+                                return b.localeCompare(a)
                             })
                             .map((key, index) => {
                                 return <ReservationGroup 
                                     key={index}
                                     date={key}
                                     reservations={groupedReservations[key]}
+                                    setFsReservations={(rmReservation: Reservation) => setFsReservations([...fsReservations.filter(r => r.id !== rmReservation.id)])}
                                     />
                             })
                     }

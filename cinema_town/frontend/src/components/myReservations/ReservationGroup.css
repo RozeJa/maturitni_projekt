@@ -1,0 +1,29 @@
+.reservation-group > div:first-child {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: white;
+    padding: 1.5em 0;
+    margin: 0;
+    margin-top: 3em;
+    margin-bottom: 1em;
+
+    border-bottom: 1px solid var(--color--grey--medium);
+    box-shadow: .5em .5em .5em 0em var(--color--grey--light);
+
+    border-radius: .5em;
+}
+
+.reservation-group > div:first-child > p {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.reservation-group-content {
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

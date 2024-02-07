@@ -7,7 +7,8 @@ import Entity from '../models/Entity';
 import logout from './logout';
 
 // url na server 
-const BASE_URL = 'http://localhost:8080/'
+const BASE_URL = window.location.hostname === "localhost" ? 'http://localhost:8080/' : 'https://api.mp.home-lab.rozekja.fun/'
+
 
 // výčtový typ mapovaný na endpointy 
 export enum ModesEndpoints {

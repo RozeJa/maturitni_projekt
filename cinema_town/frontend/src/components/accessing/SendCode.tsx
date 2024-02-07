@@ -101,7 +101,7 @@ const SendCode = (data:any) => {
     return (
         <>
             {tdForm}
-            <div className='register-form' style={{display: (isActivated ? "flex" : "none")}}>
+            <div className='code-form' style={{display: (isActivated ? "flex" : "none")}}>
                 
                 <label>{data.label}:</label>
                 <input type="text" name='code' onChange={(e: any) => {
@@ -112,7 +112,7 @@ const SendCode = (data:any) => {
                 }}/>
                 <p>{codeErr}</p>
 
-                <div className="register-form-confirm">
+                <div className="code-form-confirm">
                     <button onClick={sendRequest}>{data.submit}</button>
                     <p onClick ={() => {
                         try {

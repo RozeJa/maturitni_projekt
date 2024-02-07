@@ -1,0 +1,59 @@
+.reservation-panel {
+    display: flex;
+    flex-direction: column;
+    margin: 2em 15%;     
+    padding: 1.5em;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    cursor: default;
+    box-shadow: none;
+    transition-duration: 1s;
+    width: 70%;
+}
+.reservation-panel:hover {
+    box-shadow: 1em 1em 1em var(--color--grey--medium);
+    transition-duration: 1s;
+}
+
+.reservation-panel a {
+    color: var(--color--red--bright);
+    transition-duration: var(--transition-delay--short);
+    text-decoration: none;
+}
+
+.reservation-panel a:hover {
+    color: var(--color--red--dark);
+}
+
+.reservation-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+}
+
+.reservation-panel-header h2 {
+    padding: 0;
+    margin: 0;
+}
+
+.reservation-panel-header button {
+    padding: .3em 1em;
+    background-color: var(--color--red--bright);
+    transition-duration: var(--transition-delay--long);
+    color: white;
+    border: none;
+    border-radius: .5em;
+    cursor: pointer;
+}
+.reservation-panel-header button:hover {
+    background-color: var(--color--red--dark);
+}
+
+.reservation-panel-info {
+    font-size: 1.4em;
+}
+
+.reservation-panel-info-category {
+    padding-left: 1em;
+}

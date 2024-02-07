@@ -17,7 +17,7 @@ import cz.rozek.jan.cinema_town.models.stable.Role;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.RoleService;
 
 @RestController
-@CrossOrigin // TODO přidat restrikci
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
 @RequestMapping(path = "/api/roles")
 public class RoleController extends cz.rozek.jan.cinema_town.controllers.RestController<Role, RoleService> {
     

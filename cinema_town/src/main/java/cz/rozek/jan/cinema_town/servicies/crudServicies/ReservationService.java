@@ -65,7 +65,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         User user = verifyAccess(accessJWT, readPermissionRequired());
 
         if (user.getRole().getName().equals("admin")) {
-            return reservations;
+            return reservations.stream().filter(r -> !r.isRemoved()).toList();
         } else {
             return reservations.stream().filter(r -> r.getUser().getId().equals(user.getId())).toList();
         }
@@ -114,6 +114,17 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
             return true;
         }
 
+        return false;
+    }
+
+    public boolean removeReservation(String id, String accessJWT) {
+        
+        Reservation reservation = repository.findById(id).get();
+
+        if (reservation.canRemove()) {
+            return delete(id, accessJWT);
+        } 
+        
         return false;
     }
 

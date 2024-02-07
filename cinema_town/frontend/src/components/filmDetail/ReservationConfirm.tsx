@@ -13,6 +13,7 @@ import ReservationDTO from '../../models/ReservationDTO'
 import { redirect, useNavigate } from 'react-router-dom'
 import DialogErr from '../DialogErr'
 import LoadingSpinner from '../../LoadingSpiner'
+import readTokenProperty from '../../global_functions/readTokenProperty'
 
 const defSeatsRows: Seat[][] = []
 
@@ -118,7 +119,7 @@ const ReservationConfirm = ({
 
             storeData<ReservationDTO>(ModesEndpoints.ReservationReservate, [reservationDTO])
                 .then(data => {
-                    navigate("/")
+                    navigate(`/my-reservation/${readTokenProperty("id")}`)
                 })
                 .catch(err => {
                     

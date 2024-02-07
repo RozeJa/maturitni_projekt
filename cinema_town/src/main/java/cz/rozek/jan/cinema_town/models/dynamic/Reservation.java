@@ -56,6 +56,12 @@ public class Reservation implements Entity {
         return price;
     }
 
+    public boolean canRemove() {
+        LocalDateTime before15 = LocalDateTime.now();
+
+        return before15.minusMinutes(15).isBefore(reserved);
+    }
+
     @Override
     public void validate() throws ValidationException {
         if (projection == null)
