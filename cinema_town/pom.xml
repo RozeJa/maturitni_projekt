@@ -123,7 +123,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>my-spring-app</finalName>
+		<finalName>project</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
