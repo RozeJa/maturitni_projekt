@@ -102,7 +102,6 @@ const MyReservations = () => {
     return (
         <div className='my-reservations'>
             {err}
-<<<<<<< Updated upstream
             <div className="my-reservations-header">
                 <div className="my-reservations-header-left">
                     <h1>Ahoj, {user.email}</h1>
@@ -146,26 +145,6 @@ const MyReservations = () => {
                             })
                     }
                 </div>
-=======
-            <div className="my-reservations-reservations-filter">
-                <Filter filter={filter} />
-            </div>
-            <div className="my-reservations-reservations">
-                {
-                    Object.keys(groupedReservations)
-                        .sort((a,b) => {                
-                            return a.localeCompare(b)
-                            // return b.localeCompare(a)
-                        })
-                        .map((key, index) => {
-                            return <ReservationGroup 
-                                key={index}
-                                date={key}
-                                reservations={groupedReservations[key]}
-                                />
-                        })
-                }
->>>>>>> Stashed changes
             </div>
         </div>
     )
