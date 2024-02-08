@@ -50,6 +50,28 @@ public class UserService extends CrudService<User, UserRepository> {
     }
 
     @Override
+    public User readById(String id, String accessJWT) {
+        // načti si uživatele, který požádal o záznam uživatele
+        User userWithInitRequest = verifyAccess(accessJWT, null);
+        
+        // načti záznam
+        User entity = repository.findById(id).get();
+
+        if (!userWithInitRequest.getId().equals(id)) {
+            // ověř oprávnění
+            verifyAccess(accessJWT, readPermissionRequired());
+        }
+
+        // pokud záznam existuje vrať ho 
+        if (entity != null) {
+            return entity;
+        }
+        
+        // jinak vyvolej vyjímku
+        throw new NullPointerException();
+    }
+
+    @Override
     public User create(User entity, String accessJWT) throws ValidationException {
         
         // zvaliduj email

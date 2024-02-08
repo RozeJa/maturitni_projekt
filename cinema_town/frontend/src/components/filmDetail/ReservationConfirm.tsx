@@ -119,7 +119,7 @@ const ReservationConfirm = ({
 
             storeData<ReservationDTO>(ModesEndpoints.ReservationReservate, [reservationDTO])
                 .then(data => {
-                    navigate(`/my-reservation/${readTokenProperty("id")}`)
+                    navigate(`/my-reservation/${readTokenProperty("sub")}`)
                 })
                 .catch(err => {
                     

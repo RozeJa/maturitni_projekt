@@ -480,7 +480,7 @@ public class AuthService {
             throw new SecurityException("Invalid User");
 
         // koukni, zda uživatele má požadovné opávnění
-        if (user.getRole().containsPermission(requiredPermission)) {
+        if (user.getRole().containsPermission(requiredPermission) || requiredPermission.equals("")) {
             return user;
         }
         throw new SecurityException("Invalid Permission");

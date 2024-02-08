@@ -177,6 +177,8 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
             // pokud oprávnění není null ověř zda uživatel má toto oprávnění 
         } else if (requiredPermission != null) {
            return authService.verifyAccess(accessJWT, requiredPermission);
+        } else {
+            return authService.verifyAccess(accessJWT, "");
         }
 
         return null;
