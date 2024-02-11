@@ -1,5 +1,11 @@
 package cz.rozek.jan.cinema_town.servicies.auth;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.NotActiveException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -9,6 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jose4j.jwa.AlgorithmConstraints.ConstraintType;
+import org.jose4j.jwk.JsonWebKey;
+import org.jose4j.jwk.PublicJsonWebKey;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jwk.RsaJwkGenerator;
 import org.jose4j.jws.AlgorithmIdentifiers;
@@ -33,6 +41,12 @@ import cz.rozek.jan.cinema_town.repositories.UserRepository;
 // třída poskytuje služby pro přihlášení, odhlášení a ověření přístupových práv
 @Service
 public class AuthService {
+
+    // délka klíče
+    private static final int rsaKeylength = 8192;
+
+    // kořenová složka pro klíče
+    private static final String rootDir = "./keys/";
 
     // klíč používaný k ověřování pravosti JWT, který se používá pro dvoufázové ověření
     private RsaJsonWebKey rsaTrustTokenKey;
@@ -77,20 +91,72 @@ public class AuthService {
 
     public AuthService() {
         try {
-            // vygenerování klíče pro registraci
-            rsaTrustTokenKey = RsaJwkGenerator.generateJwk(8192);
-            rsaTrustTokenKey.setKeyId("token-key");
-
-            // vygenerování klíče pro login
-            rsaLoginTokenKey = RsaJwkGenerator.generateJwk(8192);
-            rsaLoginTokenKey.setKeyId("login-key");
-
-            // vygenerování klíče pro přístup
-            rsaAccessTokenKey = RsaJwkGenerator.generateJwk(8192);
-            rsaAccessTokenKey.setKeyId("access-key");
+            File file = new File(rootDir);
+            file.mkdirs();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            // získání klíče pro registraci
+            rsaTrustTokenKey = gainRsaJwk("token-key");
+    
+            // získání klíče pro login
+            rsaLoginTokenKey = gainRsaJwk("login-key");
+    
+            // získání klíče pro přístup
+            rsaAccessTokenKey = gainRsaJwk("access-key");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda se pokusí načíst klíč podle keyId, pokud se jí ho nepodaří načíst, vygeneruje si ho, uloží a vrátí. Klíč bude uložen pod keyId. Vrácený klíč bude mít keyId nastavené na to co dostala metoda v parametru
+     * @param keyId keyId vráceného klíče bude mít tento parametr
+     * @return vygenerovaný / načtený klíč
+     * @throws IOException problém se čtením / zápisem 
+     * @throws JoseException problém s generobáním 
+     */
+    private RsaJsonWebKey gainRsaJwk(String keyId) throws IOException, JoseException {
+        // vytvor si objekt souboru
+        File keyFile = new File(rootDir + keyId);
+
+        // zkus najít klíč a načíst ho
+        try (BufferedReader reader = new BufferedReader(new FileReader(keyFile))) {
+            String keyJson = reader.readLine();
+
+            if (keyJson != null)
+                return (RsaJsonWebKey) PublicJsonWebKey.Factory.newPublicJwk(keyJson);
+            else {
+                return generateJwk(keyId, keyFile);
+            }
+        } catch (IOException e) {
+            return generateJwk(keyId, keyFile);
+        }
+    }
+
+    /**
+     * 
+     * @param keyId keyId vráceného klíče bude mít tento parametr
+     * @param keyFile soubor, do kterého se má ulozit klíč
+     * @return vygenerovaný
+     * @throws IOException problém se zápisem 
+     * @throws JoseException problém s generobáním
+     */
+    private RsaJsonWebKey generateJwk(String keyId, File keyFile) throws IOException, JoseException {
+        // Pokud klíč neexistuje, tak ho vygeneruj
+        RsaJsonWebKey key = RsaJwkGenerator.generateJwk(rsaKeylength);
+        key.setKeyId(keyId);
+    
+        // preved ho na json
+        String jwkjson = key.toJson(JsonWebKey.OutputControlLevel.INCLUDE_PRIVATE);
+        // a uloz ho
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(keyFile))) {
+            writer.write(jwkjson);       
+        }
+    
+        // vrat vygenerovaný klíč
+        return key;
     }
 
     /**
