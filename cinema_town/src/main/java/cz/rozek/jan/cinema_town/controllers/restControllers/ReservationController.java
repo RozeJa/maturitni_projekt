@@ -67,7 +67,6 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
         return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    // TODO když bude rezervace zaplacena | budou rezervace zaplaceny, přijde uživateli email se vstupenkami
     @PostMapping("/reservate")
     public ResponseEntity<String> reservate(@RequestBody ReservationDTO data, @RequestHeader Map<String,String> headers) {
         try {
@@ -84,7 +83,6 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
 
                 try {
                     paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
-                    // TODO pošly na email zprávu o úpěšném rezervování, který bude obsahovat přílohu, kterou půjde vytisknout.
 
                     EmailTemplate et = emailService.loadTemplate("header-user-info");
                     et.replace("[@header]", "Rezervace sedadel na filmové představení " + reservation.getProjection().getFilm().getName());
@@ -108,7 +106,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (ValidationException | DuplicateKeyException e) {
+        } catch (ValidationException | DuplicateKeyException | org.springframework.dao.DuplicateKeyException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {

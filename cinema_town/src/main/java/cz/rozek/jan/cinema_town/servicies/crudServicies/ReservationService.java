@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
@@ -128,7 +129,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         return false;
     }
 
-    public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) {
+    public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) throws DuplicateKeyException {
 
         // ověř učivatele
         User user = verifyAccess(accessJWT, createPermissionRequired());
@@ -141,6 +142,11 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         Reservation reservation = buildReservationFormDTO(reservationDTO, user, accessJWT);
 
         // ověř zda místo už nemá nikdo rezervované
+        List<Reservation> reserved = repository.findByProjectionIdAndSeats(reservation.getProjection(), reservation.getSeats());
+        if (!reserved.isEmpty()) 
+            throw new DuplicateKeyException("Seats are already existing.");
+
+        // pokud nemá ulož rezervaci 
         reservation = repository.save(reservation);
 
         return reservation;

@@ -32,7 +32,8 @@ export const formatDateTime = (date: string[] | Date): string => {
 
     } else {
         if (Array.isArray(date)) {
-            dateToShow = `${date[1]}. ${date[2]}. ${date[3].toString().padStart(2, "0")}:${date[4].toString().padStart(2, "0")}`
+            let hour = parseInt(date[3]) + 1
+            dateToShow = `${date[1]}. ${date[2]}. ${hour.toString().padStart(2, "0")}:${date[4].toString().padStart(2, "0")}`
         }
     }
 

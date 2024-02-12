@@ -132,8 +132,13 @@ const MyReservations = () => {
                         Object.keys(groupedReservations)
                             .sort((a,b) => {
                             
-                                //return a.localeCompare(b)
-                                return b.localeCompare(a)
+                                let bSplited = b.split(" ")                                
+                                let aSplited = a.split(" ")
+                                
+                                let bDate: string = bSplited[0].toString() + bSplited[1].padStart(2, "0") + bSplited[2].padStart(2, "0")
+                                let aDate: string = aSplited[0].toString() + aSplited[1].padStart(2, "0") + aSplited[2].padStart(2, "0")
+                                
+                                return bDate.localeCompare(aDate)
                             })
                             .map((key, index) => {
                                 return <ReservationGroup 

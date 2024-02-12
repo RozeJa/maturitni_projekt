@@ -39,8 +39,7 @@ const ReservationPanel = ({
                 parseInt(reservationDate[2]), 
                 parseInt(reservationDate[3]), 
                 parseInt(reservationDate[4]))
-
-            return reservationDateFromArr.toUTCString().localeCompare(date.toUTCString()) >= 0
+            return reservationDateFromArr.toISOString().localeCompare(date.toISOString()) >= 0
         }
     }
 
