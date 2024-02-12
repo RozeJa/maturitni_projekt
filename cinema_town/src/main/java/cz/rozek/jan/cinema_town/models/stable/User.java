@@ -1,13 +1,12 @@
 package cz.rozek.jan.cinema_town.models.stable;
 
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,6 +25,7 @@ public class User implements Entity {
     private String id;
 
     // email
+    @Indexed(unique = true)
     private String email;
     // heslo
     private String password;

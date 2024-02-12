@@ -189,4 +189,124 @@
     "$date": "2023-12-10T14:06:00.000Z"
   },
   "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "659ad4cc90a5dc44bcd20aaa"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654fe9bf7285413e5ade2663"
+    }
+  },
+  "cost": 300,
+  "title": "",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2024-01-12T15:43:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "659ad87590a5dc44bcd20aab"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654fe9bf7285413e5ade2663"
+    }
+  },
+  "cost": 300,
+  "title": "CZ",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2024-01-13T15:59:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "659aefa290a5dc44bcd20aac"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654fe9bf7285413e5ade2663"
+    }
+  },
+  "cost": 300,
+  "title": "",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2024-01-12T17:38:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "65b4113f7200471224053813"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654fe9bf7285413e5ade2663"
+    }
+  },
+  "cost": 300,
+  "title": "",
+  "dabing": "EN",
+  "dateTime": {
+    "$date": "2024-02-02T19:08:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
+},
+{
+  "_id": {
+    "$oid": "65c3af2d1c94bc421f8fcb5f"
+  },
+  "hall": {
+    "$ref": "halls",
+    "$id": {
+      "$oid": "656606ac14d47e099168140d"
+    }
+  },
+  "film": {
+    "$ref": "films",
+    "$id": {
+      "$oid": "654fec687285413e5ade2682"
+    }
+  },
+  "cost": 150,
+  "title": "",
+  "dabing": "CZ",
+  "dateTime": {
+    "$date": "2024-02-09T15:25:00.000Z"
+  },
+  "_class": "cz.rozek.jan.cinema_town.models.dynamic.Projection"
 }]

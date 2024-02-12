@@ -16,7 +16,7 @@ EXPOSE 3000
 # Příkaz pro spuštění aplikace
 CMD ["npm", "start"]
 
-# docker build mp-frontend .
+# docker build --tag mp-frontend .
 # docker run --rm -p 3000:3000 \
 # --mount source=mp-film-images,target=/app/src/assets/imgs/films-imgs \
 # --name mp-frontend-container \ 
