@@ -74,6 +74,9 @@ public class AuthService {
     // mapa ve které je uložen kód pro reserování => userID
     private Map<String, String> forgottenPWs = new HashMap<>();
 
+    // množina obsahuje emaily uživatelů, kteří se přihlásili pod špatným heslem => snaha o spomalení útoku hrubou silou
+    private Set<String> wrongLogin = new HashSet<String>();
+
     // repozitář pro přístup k uživatelúm
     private UserRepository userRepository;
     private RoleRepository roleRepository;
@@ -269,7 +272,12 @@ public class AuthService {
      * @throws JoseException     nastala chyba při vytváření tokenu
      */
     public String login(User user, String trustJWT, boolean isSecond)
-            throws SecurityException, JoseException, NotActiveException {
+            throws SecurityException, JoseException, NotActiveException, InterruptedException {
+        
+        // pokud se email, na který se uživatel snaží přihlásit v kolekci, tak dál nepokračuj
+        if (wrongLogin.contains(user.getEmail())) 
+            throw new SecurityException("To fast login");
+
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
@@ -309,9 +317,20 @@ public class AuthService {
 
                 return "token#" + token;
             }
-        } else
+        } else {
+
+            // ulož email do momentálně nedostupných
+            wrongLogin.add(user.getEmail());
+
+            // počkej 2 sekundy
+            Thread.sleep(2000);
+
+            // umožni uživateli se znovu přihlásit
+            wrongLogin.remove(user.getEmail());
+    
             // heslo není správné vyvolej SecurityException
             throw new SecurityException("Password isn´t right.");
+        }
     }
 
     /**
@@ -341,7 +360,11 @@ public class AuthService {
      * @throws NotActiveException
      */
     public boolean verifyUserLogin(User user) throws NotActiveException {
-        User userFromDB = userRepository.findByEmail(user.getEmail());
+        User userFromDB = null;
+        
+        if (!user.getEmail().equals(""))
+            userFromDB = userRepository.findByEmail(user.getEmail());
+         else userFromDB = userRepository.findById(user.getId()).get();
 
         if (userFromDB == null)
             return false;

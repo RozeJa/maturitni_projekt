@@ -261,7 +261,7 @@ public class AuthController {
 
                 // získej si uživatele z db
                 User userFromDB = userRepository.findById(userID).get();
-                userFromDB.setPassword(user.getPassword());
+                userFromDB.setPassword(user.getPassword2());
                 
                 // zvaliduj uživatele
                 userFromDB.validate();

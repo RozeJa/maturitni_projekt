@@ -32,6 +32,8 @@ const PwChange = () => {
     }, [userID])
 
     const handleChange = () => {
+        console.log("sad");
+        
         if (newPassword === newPasswordAgain) {
             if (pwRegex.test(newPassword)) {
                 const changedUser = {...user, ["password2"] : newPassword}
@@ -48,10 +50,12 @@ const PwChange = () => {
                         // spatne heslo
                         setAuthErr(true)
                     })
+                    setRequirementshErr(false)
             } else {
                 // nesplnuji bezp podminky 
                 setRequirementshErr(true)
             }
+            setNotSameErr(false)
         } else {
             // hesla se neshoduj9
             setNotSameErr(true)
@@ -99,7 +103,7 @@ const PwChange = () => {
             
             <div className="pw-change-btns">
                 <a href={`/my-reservation/${userID}`}>Zpět</a>
-                <button onChange={handleChange}>Změnit</button>
+                <button onClick={handleChange}>Změnit</button>
             </div>
         </div>
 
