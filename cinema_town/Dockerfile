@@ -22,12 +22,12 @@ EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# docker build --tag mp-backend .
+# docker build mp-backend .
 # docker volume create mp-film-images
-# docker run --rm \
-# -p 8081:8080 \ 
-# --mount source=mp-film-images,target=/app/frontend/src/assets/imgs/films-imgs \ 
-# --mount type=bind,src=mp-data/tickets/,dst=/app/tickets \
+# docker run -d \
+# -p 8081:8080 \
+# --mount source=mp-film-images,target=/app/frontend/src/assets/imgs/films-imgs \
+# --mount type=bind,src=/home/john/mp-data/tickets/,dst=/app/tickets \
 # --name mp-backend-container \
-# mp-backend 
-# docker network connect mp-net mp-backend-container 
+# mp-backend
+# docker network connect mp-net mp-backend-container

@@ -87,7 +87,7 @@ public class UserService extends CrudService<User, UserRepository> {
 
         User userFromDB = repository.findById(id).get();
 
-        User editor = authService.verifyAccess(accessJWT, "user-update");
+        User editor = authService.verifyAccess(accessJWT, updatePermissionRequired());
 
         if (editor.getRole().getName().equals("admin")) {
 
@@ -106,7 +106,13 @@ public class UserService extends CrudService<User, UserRepository> {
             userFromDB.setSubscriber(entity.isSubscriber());
         }
 
-        return super.update(id, userFromDB, accessJWT);
+        userFromDB.validate();
+
+        // ulož změny
+        repository.save(entity);
+        User data = repository.findById(id).get();
+
+        return data;
     }
 
     @Override
