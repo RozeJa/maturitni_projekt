@@ -6,7 +6,7 @@ import { ModesEndpoints, loadData, storeData } from '../../global_functions/Serv
 import { handleErr } from '../../global_functions/constantsAndFunction'
 import Filter from '../../components/management/Filter'
 import ReservationGroup from '../../components/myReservations/ReservationGroup'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 type ReservationGroup = { 
     [key: string] : Reservation[]
@@ -27,6 +27,8 @@ const MyReservations = () => {
     const [fsReservations, setFsReservations] = useState([...defReservations])
     const [groupedReservations, setGroupedReservations] = useState({...defGrouped})
 
+    const navigate = useNavigate()
+
     const { userId } = useParams<string>()
 
     useEffect(() => {
@@ -36,7 +38,7 @@ const MyReservations = () => {
             .catch(err => handleErr(setErr, err))
         loadData<Reservation>(ModesEndpoints.Reservation)
             .then(data => setReservations(data))
-            .catch(err => handleErr(setErr, err))
+            .catch(err => {})
     }, [])
 
     useEffect(() => {
@@ -108,7 +110,9 @@ const MyReservations = () => {
                     <h2>Odběratel: {user.subscriber ? "Ano" : "Ne"}</h2>
                 </div>
                 <div className="my-reservations-header-right">
-                    <button>
+                    <button onClick={() => {
+                        navigate("/pw-change")
+                    }}>
                         Změnit heslo
                     </button>
                     <button onClick={() => {

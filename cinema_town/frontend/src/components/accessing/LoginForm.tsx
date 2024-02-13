@@ -4,6 +4,7 @@ import './LoginForm.css'
 import { login } from '../../global_functions/ServerAPI'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
 import { AxiosError } from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 let user: User = defaultUser
 
@@ -18,6 +19,8 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
     
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 
+    
+    const navigate = useNavigate()
 
     const sendRequest = async () => {
         const trustedTokensString = getLocalStorageItem("trustedTokens")
@@ -75,7 +78,7 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
             
                 <div className="login-form-confirm">
                     <button onClick={sendRequest}>Přihlásit se</button>
-                    <p>Zapomenuté heslo</p>
+                    <p onClick={() => navigate("/pw-reset")}>Zapomenuté heslo?</p>
                 </div>
             </div>
         </>

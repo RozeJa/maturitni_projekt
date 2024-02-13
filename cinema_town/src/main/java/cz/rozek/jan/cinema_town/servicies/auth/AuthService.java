@@ -340,7 +340,7 @@ public class AuthService {
      * @return
      * @throws NotActiveException
      */
-    private boolean verifyUserLogin(User user) throws NotActiveException {
+    public boolean verifyUserLogin(User user) throws NotActiveException {
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
         if (userFromDB == null)

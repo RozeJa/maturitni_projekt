@@ -249,30 +249,35 @@ public class AuthController {
     /**
      * Metoda pro změnu hesla
      */
-    @PostMapping("/chande-pw")
+    @PostMapping("/change-pw")
     public ResponseEntity<String> chandePw(@RequestBody User user, @RequestHeader Map<String, String> headers) {
-        // TODO dopsat vyjímky pro heslo, které neodpovídá požadavkům
         try {
 
             // ověř token
             String userID = authService.verifyLoginJWT(headers.get(authorization));
 
             // pokud jsou id stejná změň helo
-            if (user.getId().equals(userID)) {
+            if (user.getId().equals(userID) && authService.verifyUserLogin(user)) {
 
                 // získej si uživatele z db
                 User userFromDB = userRepository.findById(userID).get();
+                userFromDB.setPassword(user.getPassword());
+                
+                // zvaliduj uživatele
+                userFromDB.validate();
+
                 // změň mu heslo
-                userFromDB.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+                userFromDB.setPassword(BCrypt.hashpw(user.getPassword2(), BCrypt.gensalt()));
 
                 // ulož změnu
                 userRepository.save(userFromDB);
-
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
+                return new ResponseEntity<>("", HttpStatus.OK);
+            } 
 
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (ValidationException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,5 +5,5 @@ docker run -d \
 --mount source=mp-film-images,target=/app/frontend/src/assets/imgs/films-imgs \
 --mount type=bind,src=/home/john/mp-data/tickets/,dst=/app/tickets \
 --name mp-backend-container \
-mp-backend
+mp-backend:latest
 docker network connect mp-net mp-backend-container

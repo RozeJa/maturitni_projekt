@@ -97,17 +97,6 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
         }
     }
 
-    // TODO vytvořit prebuild pro lístek 
-    // TODO zvalidovat, zda se ve vybraném sálu v zadaný čas probýhat promítání
-    @Override
-    @PostMapping("/")
-    public ResponseEntity<String> post(@RequestBody Projection data, @RequestHeader Map<String, String> headers) {
-
-        
-
-        return super.post(data, headers);
-    }
-
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable String id, @RequestBody Projection data, @RequestHeader Map<String,String> headers) {

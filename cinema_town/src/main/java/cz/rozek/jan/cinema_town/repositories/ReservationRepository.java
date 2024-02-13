@@ -22,4 +22,6 @@ public interface ReservationRepository extends MongoRepository<Reservation, Stri
     // TODO ZKONTROLOVAT, ZDA hledá správně
     @Query("{ 'projection.id': ?0.id, 'seats': { $elemMatch: { $in: ?1 } } }")
     List<Reservation> findByProjectionIdAndSeats(Projection projection, List<Seat> seats);
+    @Query("{ 'user.id': ?0.id }")
+    List<Reservation> findByUserId(User user);
 }

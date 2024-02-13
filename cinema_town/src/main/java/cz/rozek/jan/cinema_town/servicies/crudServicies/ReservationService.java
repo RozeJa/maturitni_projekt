@@ -5,12 +5,11 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
 import cz.rozek.jan.cinema_town.models.dynamic.Projection;
 import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
@@ -61,15 +60,13 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
 
     @Override
     public List<Reservation> readAll(String accessJWT) {
-        List<Reservation> reservations = super.readAll(accessJWT);
 
+        // ověř oprávnění
         User user = verifyAccess(accessJWT, readPermissionRequired());
 
-        if (user.getRole().getName().equals("admin")) {
-            return reservations.stream().filter(r -> !r.isRemoved()).toList();
-        } else {
-            return reservations.stream().filter(r -> r.getUser().getId().equals(user.getId())).toList();
-        }
+        // načti záznamy
+        List<Reservation> entities = repository.findByUser(user);
+        return entities;
     }
 
     public List<Reservation> readCensored(String projectionId) {
@@ -129,7 +126,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         return false;
     }
 
-    public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) throws DuplicateKeyException {
+    public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) throws DuplicateKeyException, ValidationException {
 
         // ověř učivatele
         User user = verifyAccess(accessJWT, createPermissionRequired());

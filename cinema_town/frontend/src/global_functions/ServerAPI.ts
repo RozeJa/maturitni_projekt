@@ -157,6 +157,7 @@ export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints
     return data
 }
 
+// funkce pro registraci 
 export const register = async (user: User): Promise<boolean> => {
     try {
         return (await axios.post(BASE_URL + "auth/register", user)).status === 200
@@ -239,6 +240,25 @@ export const login = async (email: string, password: string, trustToken: string)
     }
 }
 
+// funkce pro změnu hesla 
+export const changePw = async (user: User): Promise<boolean> => {
+    try {
+
+        const headers = {
+            "Content-Type": "application/json",
+            "authorization": getSessionStorageItem("loginToken")
+        }
+        const config = {
+            headers: headers
+        }
+      
+        const res = (await axios.post(BASE_URL + "auth/change-pw", user, config))
+
+        return res.status === 200
+    } catch (error) {
+        throw error
+    }
+}
 
 // funkce získá přístupový token
 async function getAccessToken(): Promise<string> {

@@ -1,7 +1,6 @@
 import jwt_decode from "jwt-decode"
 
 const readTokenProperty = (propertyName) => {
-    
     const token = sessionStorage.getItem("loginToken")
 
     if (token !== null) {
@@ -9,7 +8,6 @@ const readTokenProperty = (propertyName) => {
 
         return decodedToken[propertyName]
     }
-
     return undefined
 } 
 

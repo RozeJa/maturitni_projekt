@@ -48,11 +48,11 @@
     background-color: var(--color--red--bright);
     color: var(--color--white);
     transition-duration: var(--transition-delay--long);
+    cursor: pointer;
 }
 
 .detail button:hover {
     background-color: var(--color--red--dark);
-    cursor: pointer;
 }
 
 .chechbox {

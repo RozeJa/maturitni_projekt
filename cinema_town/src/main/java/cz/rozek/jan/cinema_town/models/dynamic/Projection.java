@@ -2,7 +2,6 @@ package cz.rozek.jan.cinema_town.models.dynamic;
 
 import java.time.LocalDateTime;
 
-import javax.validation.ValidationException;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import cz.rozek.jan.cinema_town.models.Entity;
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.stable.Film;
 import cz.rozek.jan.cinema_town.models.stable.Hall;
 import lombok.Data;
