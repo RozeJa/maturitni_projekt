@@ -68,7 +68,7 @@ const PwChange = () => {
                     onChange={(e: any) => {
                         const { name, value } = e.target
 
-                        setUser({...user, [name]: value})
+                        setUser({...user, ["password"]: value})
                     }} />
             </SmartInput>
             { authErr ? <p className='pw-change-err'>Nesprávné heslo</p> : <></> }
