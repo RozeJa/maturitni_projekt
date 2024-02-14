@@ -1,4 +1,4 @@
-.pw-reset {
+.pw-reset-request {
     display: flex;
     margin: auto;
     margin-top: 10%;
@@ -12,19 +12,19 @@
     background-color: var(--color--grey--light);
 }
 
-.pw-reset input {
+.pw-reset-request input {
     border: none;
     font-size: 1.5em;
     padding: .5em;
     outline: none;
 }
 
-.pw-reset input {
+.pw-reset-request input {
     border-bottom: 2px var(--color--black) solid;
     padding-bottom: .2em;
 }
 
-.pw-reset-btns > button, .pw-reset-btns > a {
+.pw-reset-request-btns > button, .pw-reset-request-btns > a {
     margin: .5em;
     margin-top: 1em;
     font-size: 1.3em;
@@ -38,9 +38,9 @@
     cursor: pointer;
 }
 
-.pw-reset-btns *:hover {
+.pw-reset-request-btns *:hover {
     background-color: var(--color--red--dark);
 }
-.pw-reset-err {
+.pw-reset-request-err {
     color: var(--color--red--bright);
 }

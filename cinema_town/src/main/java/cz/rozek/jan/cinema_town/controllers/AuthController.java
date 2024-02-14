@@ -4,6 +4,7 @@ import java.io.NotActiveException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.jose4j.lang.JoseException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -157,7 +158,7 @@ public class AuthController {
      * @return pokud se uživatel přihlašuje ze známého zařízení varátí login JWT
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user, @RequestHeader Map<String, String> headers) {
+    public ResponseEntity<TokenDeviceId> login(@RequestBody User user, @RequestHeader Map<String, String> headers) {
         try {
             // přihlaš uživatele
             String jwt = authService.login(user, headers.get(trustToken), false);
@@ -168,10 +169,14 @@ public class AuthController {
 
             // pokud se uživatele přihlašuje ze známého zařízení (metoda login vrátila
             // token) vrať login JWT
-            if (identification.equals("login"))
-                return new ResponseEntity<>(token, HttpStatus.OK);
+            if (identification.equals("login")) {
+                TokenDeviceId tokenDeviceId = new TokenDeviceId();
+                tokenDeviceId.setLoginToken(token);
+                tokenDeviceId.setTrustToken(authService.generateTrustToken(user));
+
+                return new ResponseEntity<>(tokenDeviceId, HttpStatus.OK);
             // pokud ne vrať status 100
-            else {
+            } else {
                     
                 // načti si template a vyplňho daty
                 EmailTemplate et = emailService.loadTemplate("header-user-info");
@@ -183,14 +188,14 @@ public class AuthController {
                 // pošly mu kód na email
                 emailService.sendEmail(user.getEmail(), "Dvoufázové ověření", et);
                 
-                return new ResponseEntity<>("", HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
             }
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (NotActiveException e) {
             resetActivationCode(user);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (SecurityException e) {
+        } catch (SecurityException | JoseException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             e.printStackTrace();
@@ -261,6 +266,7 @@ public class AuthController {
 
                 // získej si uživatele z db
                 User userFromDB = userRepository.findById(userID).get();
+
                 userFromDB.setPassword(user.getPassword2());
                 
                 // zvaliduj uživatele
@@ -288,16 +294,50 @@ public class AuthController {
     /**
      * Metoda pro zažádání o reset hesla
      * pošle na email kód, který pošle uživatel spátky s novým heslem
-     * TODO 
      */
-    //@PostMapping("/forgotten-password/reset-code")
-    
+    @PostMapping("/forgotten-password/reset-code")
+    public ResponseEntity<String> generateReserCode(@RequestBody User user) {
+        try {
+            String resetCode = authService.makePWResetCode(user);
+
+            // načti si template a vyplňho daty
+            EmailTemplate et = emailService.loadTemplate("header-user-info");
+            et.replace("[@header]","Kód pro reset hesla.");
+            et.replace("[@user]", user.getEmail());
+            et.replace("[@important-data]", resetCode);
+            et.replace("[@info]", "Někdo požádal o změnu vaše ho hesla. Pokud jste to nebyly Vy, tak se ujistěte, že máte tuto emailovou schránku pevně pod kontrolou.");
+            
+            // pošly mu kód na email
+            emailService.sendEmail(user.getEmail(), "Obnova hesla", et);
+
+            return new ResponseEntity<>(HttpStatus.CONTINUE);
+        } catch (SecurityException | NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     /**
      * Metoda která resetuje heslo pokud ho užvatel nezná
-     * TODO 
      */
-    //@PostMapping("/forgotten_password/")
+    @PostMapping("/forgotten_password/")
+    public ResponseEntity<TokenDeviceId> resetPassword(@RequestBody User user) {
+        try {
 
+            String loginToken = authService.resetPassword(user);
+            String trustToken = authService.generateTrustToken(user);
+
+            return new ResponseEntity<>(new TokenDeviceId(loginToken, trustToken), HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (SecurityException | NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     /**
      * Metoda pro získání přístupového JWT
      */

@@ -3,6 +3,7 @@ import './SendCode.css'
 import { activateAccount, login, reactivateCode, secondVerify } from '../../global_functions/ServerAPI'
 import { getLocalStorageItem, getSessionStorageItem } from '../../global_functions/storagesActions'
 import { useNavigate } from 'react-router-dom'
+import DeviceTrust from './DeviceTrust'
 
 const SendCode = (data:any) => {
     
@@ -12,22 +13,10 @@ const SendCode = (data:any) => {
     const [isTrustedDevice, setTrustedDevice] = useState(false)
     const [isActivated, setActivated] = useState(false)
     const [tdForm, setTDForm] = useState(
-        <div className='register-form'>
-            <h2>Chcete důvěřovat tomuto zařízení</h2>
-
-            <div className="register-form-confirm">
-                <button onClick={() =>{
-                    setTrustedDevice(false)
-                    setTDForm(<></>)
-                    setActivated(true)
-                }}>Nedůvěřovat</button>  
-                <button onClick={() => {
-                    setTrustedDevice(true) 
-                    setTDForm(<></>)     
-                    setActivated(true) 
-                }}>Důvěřovat</button>
-            </div>
-        </div>
+        <DeviceTrust 
+            setTrustedDevice={(trust: boolean) => setTrustedDevice(trust)}
+            setTDForm={() => setTDForm(<></>)} 
+            setActivated={() => setActivated(true)} />
     )
     
     const navigate = useNavigate()

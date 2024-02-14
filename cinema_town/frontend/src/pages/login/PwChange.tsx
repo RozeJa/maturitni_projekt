@@ -32,7 +32,6 @@ const PwChange = () => {
     }, [userID])
 
     const handleChange = () => {
-        console.log("sad");
         
         if (newPassword === newPasswordAgain) {
             if (pwRegex.test(newPassword)) {

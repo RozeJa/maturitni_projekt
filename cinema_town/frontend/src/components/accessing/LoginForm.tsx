@@ -25,16 +25,17 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
     const sendRequest = async () => {
         const trustedTokensString = getLocalStorageItem("trustedTokens")
         const trustedTokens = JSON.parse(trustedTokensString === '' ? '{}' : trustedTokensString)
-
-        console.log(trustedTokens);
         
         try {
             const trustToken = trustedTokens[user.email] !== undefined ? trustedTokens[user.email] : ''
-            console.log(trustToken);
-            const loginToken = await login(user.email, user.password, trustToken)
-            if (typeof loginToken === 'string') {
-                sessionStorage.setItem('loginToken', loginToken)
+
+            const token = await login(user.email, user.password, trustToken)
             
+            if (token !== null) {
+                sessionStorage.setItem('loginToken', token.loginToken)
+                trustedTokens[user.email] = token.trustToken
+                localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
+
                 window.location.href = '/'
             } else {
                 delete trustedTokens[user.email]

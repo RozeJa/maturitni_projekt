@@ -86,18 +86,3 @@
     background-color: var(--color--red--dark);
     cursor: pointer;
 }
-
-.code-form-confirm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-.code-form-confirm a {
-    text-decoration: none;
-    color: var(--color--red--bright);
-}
-
-.code-form-confirm > *:hover {
-    cursor: pointer;
-}

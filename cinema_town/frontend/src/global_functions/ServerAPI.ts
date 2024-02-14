@@ -208,7 +208,7 @@ export const secondVerify = async (code: string): Promise<TokenDeviceId> => {
     }
 }
 
-export const login = async (email: string, password: string, trustToken: string): Promise<string|null> => {
+export const login = async (email: string, password: string, trustToken: string): Promise<TokenDeviceId|null> => {
     try {
 
         const headers = {
@@ -223,16 +223,14 @@ export const login = async (email: string, password: string, trustToken: string)
             password: password,
             role: {}
         }        
-
-        console.log(config);
       
-        const res = (await axios.post(BASE_URL + "auth/login", user, config))
+        const res = (await axios.post<TokenDeviceId>(BASE_URL + "auth/login", user, config))
 
-        if (res.status === 200) {
+        if (res.status === 200) {  
+            console.log(res.data);
+                      
             return res.data
-        } else {
-            console.log(res.status);
-            
+        } else {            
             return null
         }
     } catch (error) {
@@ -255,6 +253,42 @@ export const changePw = async (user: User): Promise<boolean> => {
         const res = (await axios.post(BASE_URL + "auth/change-pw", user, config))
 
         return res.status === 200
+    } catch (error) {
+        throw error
+    }
+}
+
+export const resetPwRequest = async (user: User): Promise<boolean> => {
+    try {
+
+        const headers = {
+            "Content-Type": "application/json"
+        }
+        const config = {
+            headers: headers
+        }
+      
+        const res = (await axios.post(BASE_URL + "auth/forgotten-password/reset-code", user, config))
+
+        return res.status === 100
+    } catch (error) {
+        throw error
+    }
+}
+
+export const resetPw = async (user: User): Promise<TokenDeviceId> => {
+    try {
+
+        const headers = {
+            "Content-Type": "application/json"
+        }
+        const config = {
+            headers: headers
+        }
+      
+        const res = (await axios.post(BASE_URL + "auth/forgotten-password/", user, config))
+
+        return res.data
     } catch (error) {
         throw error
     }

@@ -36,6 +36,7 @@ import FilmDetailEdit, { validateFilm } from './pages/managment/details/FilmDeta
 import AgeCategory, { defaultAgeCategory } from './models/AgeCategory';
 import AgeCategoryDetail, { validateAgeCategory } from './pages/managment/details/AgeCategoryDetail';
 import AgeCategoriSpreadsheet from './pages/managment/spreadsheets/AgeCategoriSpreadsheet';
+import PwResetRequest from './pages/login/PwResetRequest';
 
 function App() {
 
@@ -119,7 +120,8 @@ function App() {
           
           <Route path='/register' element={ (verifyAccess() ? loginErr : <Register />) }/> 
           <Route path='/login' element={ (verifyAccess() ? loginErr : <Login />) }/>
-          <Route path='/pw-reset' element={ (verifyAccess() ? loginErr : <PwReset />) }/>
+          <Route path='/pw-reset/' element={ (verifyAccess() ? loginErr : <PwResetRequest />) }/>
+          <Route path='/pw-reset/:email' element={ (verifyAccess() ? loginErr : <PwReset />) }/>
           <Route path='/pw-change' element={ (verifyAccess() ? <PwChange /> : pwChangeErr) } />
 
           <Route path='/film/:fimlId' element={ <FilmDetail /> }/>

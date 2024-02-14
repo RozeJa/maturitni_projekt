@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
+import cz.rozek.jan.cinema_town.models.dtos.ResetPWCode;
 import cz.rozek.jan.cinema_town.models.dtos.SecondVerificationToken;
 import cz.rozek.jan.cinema_town.models.stable.Role;
 import cz.rozek.jan.cinema_town.models.stable.User;
@@ -70,9 +71,8 @@ public class AuthService {
     // mapa je ve stylu userID => token
     private Map<String, SecondVerificationToken> secondVerification = new HashMap<>();
 
-    // TODO sprovozdnit obnovení hesla
-    // mapa ve které je uložen kód pro reserování => userID
-    private Map<String, String> forgottenPWs = new HashMap<>();
+    // mapa ve které je uložen Email => kód pro reserování
+    private Map<String, ResetPWCode> forgottenPWs = new HashMap<>();
 
     // množina obsahuje emaily uživatelů, kteří se přihlásili pod špatným heslem => snaha o spomalení útoku hrubou silou
     private Set<String> wrongLogin = new HashSet<String>();
@@ -168,7 +168,7 @@ public class AuthService {
      * @param user // nový uživatel
      * @return objekt, reprezentující uživatele, i s id
      */
-    public String register(User user) throws JoseException, ValidationException {
+    public synchronized String register(User user) throws JoseException, ValidationException {
 
         User newUser = new User();
 
@@ -201,7 +201,7 @@ public class AuthService {
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
      *                           podvržený, nebo neplatný
      */
-    public String activateUser(String activationCode) throws SecurityException, JoseException {
+    public synchronized String activateUser(String activationCode) throws SecurityException, JoseException {
 
         // zjisti zda pod aktivačním kódem někoho máš
         String expectedUserID = inactiveUsers.get(activationCode);
@@ -236,7 +236,7 @@ public class AuthService {
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
      *                           podvržený, nebo neplatný
      */
-    public String resetActivationCode(User user) throws SecurityException {
+    public synchronized String resetActivationCode(User user) throws SecurityException {
 
         // TODO omezit časově
 
@@ -274,9 +274,11 @@ public class AuthService {
     public String login(User user, String trustJWT, boolean isSecond)
             throws SecurityException, JoseException, NotActiveException, InterruptedException {
         
-        // pokud se email, na který se uživatel snaží přihlásit v kolekci, tak dál nepokračuj
-        if (wrongLogin.contains(user.getEmail())) 
-            throw new SecurityException("To fast login");
+        synchronized (wrongLogin) {
+            // pokud se email, na který se uživatel snaží přihlásit v kolekci, tak dál nepokračuj
+            if (wrongLogin.contains(user.getEmail())) 
+                throw new SecurityException("To fast login");
+        }
 
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
@@ -297,8 +299,10 @@ public class AuthService {
 
                 // heslo je správné => vytvoř token
                 String jwt = generateLoginJWT(userFromDB);
-                // přidej do množiny přihlášených ten token
-                loggedIn.add(jwt);
+                synchronized (loggedIn) {
+                    // přidej do množiny přihlášených ten token
+                    loggedIn.add(jwt);
+                }
                 // vrať login JWT
                 return "login#" + jwt;
 
@@ -313,20 +317,28 @@ public class AuthService {
                 svt.setMinutesToExpire(10);
 
                 // přidej do mapy pro druhé ověření pod token id uživatele
-                secondVerification.put(token, svt);
+                synchronized(secondVerification) {
+                    secondVerification.put(token, svt);
+                }
 
                 return "token#" + token;
             }
         } else {
 
-            // ulož email do momentálně nedostupných
-            wrongLogin.add(user.getEmail());
+            synchronized (wrongLogin) {
+                // ulož email do momentálně nedostupných
+                wrongLogin.add(user.getEmail());
+            }
 
             // počkej 2 sekundy
             Thread.sleep(2000);
 
-            // umožni uživateli se znovu přihlásit
-            wrongLogin.remove(user.getEmail());
+            
+            synchronized (wrongLogin) {
+                // umožni uživateli se znovu přihlásit
+                wrongLogin.remove(user.getEmail());
+            }
+            // umožni uživateli se znovu přihlás
     
             // heslo není správné vyvolej SecurityException
             throw new SecurityException("Password isn´t right.");
@@ -339,7 +351,7 @@ public class AuthService {
      * @param verificationCode kód, kterým se má uživatel prokázat
      * @return uživatel
      */
-    public User secondVerification(String verificationCode) throws NullPointerException, SecurityException {
+    public synchronized User secondVerification(String verificationCode) throws NullPointerException, SecurityException {
 
         String userID = secondVerification.get(verificationCode).getUserID();
 
@@ -408,7 +420,9 @@ public class AuthService {
      * @param loginJWT login JWT
      */
     public void logout(String loginJWT) {
-        loggedIn.remove(loginJWT);
+        synchronized(loggedIn) {
+            loggedIn.remove(loginJWT);
+        }
     }
 
     /**
@@ -419,6 +433,9 @@ public class AuthService {
      * @throws JoseException chyba při generování tokenu vyvolá tuto vyjímku
      */
     public String generateTrustToken(User user) throws JoseException {
+
+        User userFromDB = userRepository.findByEmail(user.getEmail());
+
         // nastavení parametrů JWT
         JwtClaims claims = new JwtClaims();
         claims.setIssuer(ISSUER); // vydavatel
@@ -426,8 +443,8 @@ public class AuthService {
         claims.setGeneratedJwtId();
         claims.setIssuedAtToNow(); // kdy byl vydán
         claims.setExpirationTimeMinutesInTheFuture(60 * 24 * 30); // jak dlouho bude použitelný
-        claims.setSubject(user.getId()); // nastav předmět na id uživatele
-        claims.setClaim("active", user.isActive()); // nastav informaci o tom, zda je účet aktivován
+        claims.setSubject(userFromDB.getId()); // nastav předmět na id uživatele
+        claims.setClaim("active", userFromDB.isActive()); // nastav informaci o tom, zda je účet aktivován
 
         // převeď claimy na JWS
         JsonWebSignature jws = new JsonWebSignature();
@@ -535,14 +552,17 @@ public class AuthService {
             // zkus získat claimy
             JwtClaims jwtClaims = jwtConsumer.processToClaims(JWT);
 
+            
+
             // pokud jsou povolené jen nějaké token, tak se v nich musí token nacházet
             if (availavbleTokens == null) 
                 return jwtClaims.getSubject();
-            // pokud je token v množině aktivnch vrať id uživatele
-            else if (availavbleTokens.contains(JWT))
-                return jwtClaims.getSubject();
-            else
-                throw new SecurityException("Invalid Permition");
+            // pokud je token v množině aktivnch vrať id uživatele            
+            synchronized (availavbleTokens) {
+                if (availavbleTokens.contains(JWT)) 
+                    return jwtClaims.getSubject();
+                else throw new SecurityException("Invalid Permition");
+            }
         } catch (MalformedClaimException | InvalidJwtException e) {
             throw new SecurityException("Invalid Token");
         }
@@ -603,4 +623,60 @@ public class AuthService {
             throw new SecurityException("Invalid Token");
         }
     }
+
+    public synchronized String makePWResetCode(User user) throws SecurityException {
+        User userFromDB = userRepository.findByEmail(user.getEmail());
+        if (!userFromDB.isActive())
+            throw new SecurityException("User is already removed");
+
+        ResetPWCode rc = forgottenPWs.get(userFromDB.getEmail());
+
+        if (rc != null) {
+            if (!rc.isFrequencyGood()) {
+                rc.increaseFactor();
+                throw new SecurityException("To fast request for reseting password.");
+            } 
+            rc.increaseFactor();
+        } else {
+            rc = new ResetPWCode(10, RandomStringGenerator.generateRandomString(false, 10));
+        }
+
+
+        forgottenPWs.put(userFromDB.getEmail(), rc);
+        return rc.getCode();
+    }
+
+    public String resetPassword(User user) throws ValidationException, InterruptedException, JoseException {
+        ResetPWCode rc = null;
+        synchronized(forgottenPWs) {
+            rc = forgottenPWs.get(user.getEmail());
+        }
+        synchronized (rc) {
+            if (rc.compareCodes(user.getPassword2())) {
+
+                User userFromDB = userRepository.findByEmail(user.getEmail());
+
+                userFromDB.setPassword(user.getPassword());
+                userFromDB.validate();
+                
+                userFromDB.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+                userRepository.save(userFromDB);
+
+                String loginToken = generateLoginJWT(userFromDB);
+
+                synchronized(loggedIn) {
+                    loggedIn.add(loginToken);
+                }
+
+                return loginToken;
+            } else {
+                // počkej 10 sekund
+                Thread.sleep(10000);
+
+                // kód pro resetování není správný
+                throw new SecurityException("Reset code isnt right.");
+            }
+        }
+    }
+
 }
