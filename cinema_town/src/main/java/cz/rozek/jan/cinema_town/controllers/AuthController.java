@@ -30,7 +30,6 @@ import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
 @RequestMapping(path = "/auth")
-// TODO implementovat metody
 public class AuthController {
 
     // definice konstanty, pod kterou bude očekávat v headru JWT

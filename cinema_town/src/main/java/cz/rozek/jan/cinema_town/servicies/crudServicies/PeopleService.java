@@ -51,7 +51,6 @@ public class PeopleService extends CrudService<People, PeopleRepository> {
     @Override
     public boolean delete(String id, String accessJWT) {
 
-        // TODO funguje to??
         People toRemove = repository.findById(id).get();
 
         // najdi ty filmy, ve kterých se vyskytuje daný člověk

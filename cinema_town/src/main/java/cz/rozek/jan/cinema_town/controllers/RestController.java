@@ -28,7 +28,6 @@ import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 // ve třídě jsou definované metody pro obsloužení základních http requestů
 // pokud bude třeba metodu přepsat, tak nad anotaci @Override je třeba doplnit i mapování
 // pokud dojde k přidávání dalších endpointů bude potřeba pro ně využít jiné mapování než "/" příp "/{id}" s vyjímkou přepisování stávajících metod
-// TODO vymyslet jak serializovat záznamy z db aby se snížila režie (tok dal, která potečou) - otestovat
 public abstract class RestController<E extends Entity, S extends CrudService<E,?>> {
     
     // definice konstanty, pod kterou bude očekávat v headru JWT

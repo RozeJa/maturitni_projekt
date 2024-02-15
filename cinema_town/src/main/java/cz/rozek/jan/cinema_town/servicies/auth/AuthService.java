@@ -236,9 +236,7 @@ public class AuthService {
      * @throws SecurityException k vyvolání výjimky dojde když by byl loginToken
      *                           podvržený, nebo neplatný
      */
-    public synchronized String resetActivationCode(User user) throws SecurityException {
-
-        // TODO omezit časově
+    public synchronized String resetActivationCode(User user) throws SecurityException, InterruptedException {
 
         // pokud účet ještě není aktivovaný, vygeneruj nový token
         User loaded = userRepository.findByEmail(user.getEmail());
@@ -247,18 +245,22 @@ public class AuthService {
 
         String oldActivationCode = "";
         String newActivationCode = "";
-        for (String activationCode : inactiveUsers.keySet()) {
-            if (inactiveUsers.get(activationCode).equals(loaded.getId())) {
-                newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
-                oldActivationCode = activationCode;
-                break;
+        synchronized(inactiveUsers) {
+            for (String activationCode : inactiveUsers.keySet()) {
+                if (inactiveUsers.get(activationCode).equals(loaded.getId())) {
+                    newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
+                    oldActivationCode = activationCode;
+                    break;
+                }
             }
+    
+            newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
+    
+            inactiveUsers.remove(oldActivationCode);
+            inactiveUsers.put(newActivationCode, loaded.getId());
         }
 
-        newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
-
-        inactiveUsers.remove(oldActivationCode);
-        inactiveUsers.put(newActivationCode, loaded.getId());
+        Thread.sleep(2000);
 
         return newActivationCode;
     }

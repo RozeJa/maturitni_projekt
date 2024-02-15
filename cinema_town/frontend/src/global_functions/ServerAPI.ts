@@ -74,7 +74,6 @@ export const storeData = async <T extends Entity>(modelEntpoint: ModesEndpoints,
      
         const url = BASE_URL + modelEntpoint
 
-        // TODO zkontrolovat zda podmínka funguje
         if (data[i].id === undefined || data[i].id === null) {
             // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
             if (modelEntpoint === ModesEndpoints.Film) {

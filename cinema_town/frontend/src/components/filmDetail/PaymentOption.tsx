@@ -17,7 +17,6 @@ const PaymentOption = ({
             <input type="radio" name='payment' onChange={(e:any) => {
                 const { checked } = e.target
 
-                // TODO podmínka
                 if (checked) {
                     setPayment(payment)
                 } else {
