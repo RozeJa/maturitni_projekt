@@ -107,7 +107,6 @@ const ProjectionsSpreadsheet = () => {
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
-                <p className='sp-header-title'>Správa promítání</p>
                 <div className="projection-header-filter-cinema">
                     <label>Multikino:</label>
                     <select onChange={(e:any) => {

@@ -7,6 +7,7 @@ import { handleErr } from '../../global_functions/constantsAndFunction'
 import Filter from '../../components/management/Filter'
 import ReservationGroup from '../../components/myReservations/ReservationGroup'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { getLocalStorageItem } from '../../global_functions/storagesActions'
 
 type ReservationGroup = { 
     [key: string] : Reservation[]
@@ -100,6 +101,9 @@ const MyReservations = () => {
 
         setFsReservations([...newData])
     }
+    const trustedTokensString = getLocalStorageItem("trustedTokens")
+    const trustedTokens = JSON.parse(trustedTokensString === '' ? '{}' : trustedTokensString)
+    const trustToDevice = trustedTokens[user.email] !== undefined
 
     return (
         <div className='my-reservations'>
@@ -108,6 +112,7 @@ const MyReservations = () => {
                 <div className="my-reservations-header-left">
                     <h1>Ahoj, {user.email}</h1>
                     <h2>Odběratel: {user.subscriber ? "Ano" : "Ne"}</h2>
+                    <h2>Důvěřovat tomuto zařízení: {trustToDevice ? "Ano" : "Ne"}</h2>
                 </div>
                 <div className="my-reservations-header-right">
                     <button onClick={() => {
@@ -125,6 +130,16 @@ const MyReservations = () => {
                     }}>
                         {user.subscriber ? "Odhlásit se od odběru" : "Přihlásit se k odběru"}
                     </button>
+                    {
+                        trustToDevice ? <button onClick={() => {
+
+                            delete trustedTokens[user.email]
+                            localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
+                            setUser({...user})
+                        }}>
+                            Přestat důvěřovat
+                        </button> : <></>
+                    }
                 </div>
             </div>
             <div className="my-reservations-reservations">

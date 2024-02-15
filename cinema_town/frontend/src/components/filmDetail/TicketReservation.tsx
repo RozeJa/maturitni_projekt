@@ -243,7 +243,6 @@ const TicketReservation = ({
   
                             const inputVal = ac.id !== null ? ageCategoriesCount[ac.id] : 0
 
-
                             return <tr key={index}>
                                 <td>{ac.name}</td>
                                 <td>{Math.round(ac.priceModificator * selectedProjection.cost)} Kč</td>

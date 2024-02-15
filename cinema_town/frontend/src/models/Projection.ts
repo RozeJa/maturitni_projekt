@@ -17,7 +17,7 @@ export let defaultProjection: Projection = {
     id: null,
     hall: defaultHall,
     film: defaultFilm,
-    cost: -1,
+    cost: 0,
     title: '',
     dabing: '',
     dateTime: new Date()
