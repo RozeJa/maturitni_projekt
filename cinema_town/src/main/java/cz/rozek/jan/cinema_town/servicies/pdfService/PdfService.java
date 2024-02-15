@@ -65,7 +65,7 @@ public class PdfService {
     public String generatePdfTickets(Reservation reservation) throws DocumentException, IOException, WriterException {
         // vytvoř složku pro rezervaci
         String dirPath = rootDir + reservation.getId();
-        String filePath = "./rezervace.pdf";
+        String filePath = "/rezervace.pdf";
 
         File f = new File(dirPath);
         f.mkdir();

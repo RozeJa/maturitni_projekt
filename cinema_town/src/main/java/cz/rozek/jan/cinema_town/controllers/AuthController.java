@@ -183,7 +183,7 @@ public class AuthController {
                 et.replace("[@header]", "Dvoufázové ověření");
                 et.replace("[@user]", user.getEmail());
                 et.replace("[@important-data]", token);
-                et.replace("[@info]", "Protože se přihlašujete, na pro nás neznámém zařízení je třeba, aby jste se prokázaly tímto kódem.");
+                et.replace("[@info]", "Jelikož se přihlašujete na neznámém zařízení, je potřeba, abyste se prokázali tímto kódem.");
 
                 // pošly mu kód na email
                 emailService.sendEmail(user.getEmail(), "Dvoufázové ověření", et);

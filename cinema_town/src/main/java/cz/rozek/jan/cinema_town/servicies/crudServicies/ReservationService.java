@@ -141,7 +141,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         // ověř zda místo už nemá nikdo rezervované
         List<Reservation> reserved = repository.findByProjectionIdAndSeats(reservation.getProjection(), reservation.getSeats());
         if (!reserved.isEmpty()) 
-            throw new DuplicateKeyException("Seats are already existing.");
+            throw new DuplicateKeyException("Seats are already reservated.");
 
         // pokud nemá ulož rezervaci 
         reservation = repository.save(reservation);

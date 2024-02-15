@@ -124,7 +124,7 @@ const ReservationConfirm = ({
                 .catch(err => {
                     
                     setLoadingComp(<></>)
-                    setErr(<DialogErr description='Platbuse rezervaci se nepodařilo rezervovat.' err='Rezervace se nezdařila' dialogSetter={setErr} okText="Ok"/>)
+                    setErr(<DialogErr description='Platba neproběhla. Rezervace nebyla dokončena.' err='Rezervace se nezdařila' dialogSetter={setErr} okText="Ok"/>)
                 })
         }
     }

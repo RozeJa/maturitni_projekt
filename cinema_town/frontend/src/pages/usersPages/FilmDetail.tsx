@@ -64,7 +64,7 @@ const FilmDetail = () => {
                             <p>{Object.values(film.genres).map(g => g.name).join(', ')}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Režíroval</p>
+                            <p>Režije</p>
                             <p>{`${film.director.surname} ${film.director.name}`}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
@@ -72,7 +72,7 @@ const FilmDetail = () => {
                             <p>{Object.values(film.actors ? film.actors : {}).map(a => `${a.surname} ${a.name}`).join(', ')}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Půvorni znění</p>
+                            <p>Původní znění</p>
                             <p>{film.original}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
@@ -96,7 +96,7 @@ const FilmDetail = () => {
                             <p>{film.time}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Produce</p>
+                            <p>Produkce</p>
                             <p>{film.production}</p>
                         </div>
                         <div className="film-detail-description-data-stat">

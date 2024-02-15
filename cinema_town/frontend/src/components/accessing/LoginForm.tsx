@@ -64,7 +64,7 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
         <>
             <div className='login-motivation'>
                 <h1>
-                    Buď o krok před ostatnímy a přihlas se k odběru noviken. Dozvíš se o nových filmech jako první.
+                    Buď o krok před ostatními a přihlaš se k odběru novinek. Dozvíš se o nových filmech jako první.
                 </h1>
             </div>
             <div className='login-form'>

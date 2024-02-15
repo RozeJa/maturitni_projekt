@@ -123,7 +123,7 @@ const MyReservations = () => {
                         .then(data => setUser({...newUser}))
                         .catch(err => console.log(err))
                     }}>
-                        {user.subscriber ? "Odhlásit se od obběru" : "Přihlásit se k odběru"}
+                        {user.subscriber ? "Odhlásit se od odběru" : "Přihlásit se k odběru"}
                     </button>
                 </div>
             </div>
