@@ -7,9 +7,12 @@
     align-items: center;
     
     flex-direction: column;
+}
+
+.pw-reset-view {
+    background-color: var(--color--grey--light);
     padding: 3em 1.5em .2em 1.5em;
     border-radius: 15px;
-    background-color: var(--color--grey--light);
 }
 
 .pw-reset-none {

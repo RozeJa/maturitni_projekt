@@ -23,7 +23,7 @@ const PwReset = () => {
     const [notSameErr, setNotSameErr] = useState(false)
 
     const [trustForm, setTrustForm] = useState(<></>)
-    const [formViewable, setFormViewable] = useState(true)
+    const [formViewable, setFormViewable] = useState(true);
 
     useEffect(() => {
         setUser({...user, ["email"]: email ? email : ""})        
@@ -47,11 +47,10 @@ const PwReset = () => {
 
                                         trustedTokens[user.email] = token.trustToken
                                         localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
-
-                                        
-                                        window.location.href = '/'
                                     }
                                     sessionStorage.setItem('loginToken', token.loginToken)
+                                    
+                                    window.location.href = '/'
                                 }}
                             />
                         )
@@ -75,7 +74,7 @@ const PwReset = () => {
         <div className='pw-reset'>
             {trustForm}
 
-            <div className={formViewable ? '' : 'pw-reset-none'}>
+            <div className={formViewable ? 'pw-reset-view' : 'pw-reset-none'}>
                 <SmartInput label='Obnovovací kód'>
                     <input 
                         type='text' 
