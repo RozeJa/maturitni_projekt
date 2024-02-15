@@ -37,7 +37,7 @@ const ReservationPanel = ({
                 parseInt(reservationDate[0]), 
                 parseInt(reservationDate[1]) - 1, 
                 parseInt(reservationDate[2]), 
-                parseInt(reservationDate[3]), 
+                parseInt(reservationDate[3]) + 1, 
                 parseInt(reservationDate[4]))
             return reservationDateFromArr.toISOString().localeCompare(date.toISOString()) >= 0
         }
