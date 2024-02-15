@@ -66,7 +66,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
 
         // načti záznamy
         List<Reservation> entities = repository.findByUser(user);
-        return entities;
+        return entities.stream().filter(r -> !r.isRemoved()).toList();
     }
 
     public List<Reservation> readCensored(String projectionId) {

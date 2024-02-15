@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -27,7 +26,7 @@ import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
 @RequestMapping(path = "/api/projections")
 public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.RestController<Projection, ProjectionService> {
     

@@ -18,7 +18,7 @@ import cz.rozek.jan.cinema_town.models.stable.Permission;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.PermissionService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
 @RequestMapping(path = "/api/permissions")
 public class PermissionController extends cz.rozek.jan.cinema_town.controllers.RestController<Permission, PermissionService> {
     

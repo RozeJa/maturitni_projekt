@@ -31,7 +31,7 @@ import cz.rozek.jan.cinema_town.servicies.paymentService.IPayment;
 import cz.rozek.jan.cinema_town.servicies.pdfService.PdfService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
 @RequestMapping(path = "/api/reservations")
 public class ReservationController extends cz.rozek.jan.cinema_town.controllers.RestController<Reservation, ReservationService> {
     

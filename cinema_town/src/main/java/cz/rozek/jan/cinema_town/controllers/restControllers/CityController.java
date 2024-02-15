@@ -18,7 +18,7 @@ import cz.rozek.jan.cinema_town.models.stable.City;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.CityService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
 @RequestMapping(path = "/api/cities")
 public class CityController extends cz.rozek.jan.cinema_town.controllers.RestController<City, CityService> {
         

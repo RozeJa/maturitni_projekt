@@ -8,7 +8,7 @@ import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.AgeCategoryService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost", "*"}) // TODO odebrat divoukou kartu
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
 @RequestMapping(path = "/api/age_categories")
 public class AgeCategoryController extends cz.rozek.jan.cinema_town.controllers.RestController<AgeCategory, AgeCategoryService> {
     
