@@ -65,6 +65,7 @@ const CinemasSpreadsheet = () => {
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
+                <h2>Multikina</h2>
                 <a href="/management/cinemas/new"><b>Nový</b></a>
             </div>
             <div className="sp-body">

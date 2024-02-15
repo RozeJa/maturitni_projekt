@@ -49,6 +49,7 @@ const RolesSpreadsheet = () => {
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
+                <h2>Role</h2>
                 <a href="/management/roles/new"><b>Nový</b></a>
             </div>
             <div className="sp-body">

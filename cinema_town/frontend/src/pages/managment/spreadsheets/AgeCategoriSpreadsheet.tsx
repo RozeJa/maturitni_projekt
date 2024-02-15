@@ -51,6 +51,7 @@ const AgeCategoriSpreadsheet = () => {
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
+                <h2>Cenvé/věkové kategorie</h2>
                 <a href="/management/age_categories/new"><b>Nový</b></a>
             </div>
             <div className="sp-body age_categories-sp-body">

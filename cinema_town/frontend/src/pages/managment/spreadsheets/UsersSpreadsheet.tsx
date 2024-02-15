@@ -53,6 +53,7 @@ const UsersSpreadsheet = () => {
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
+                <h2>Uživatelé</h2>
                 <a href="/management/users/new"><b>Nový</b></a>
             </div>
             <div className="sp-body">

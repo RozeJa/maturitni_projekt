@@ -56,7 +56,7 @@ public class CinemaController extends cz.rozek.jan.cinema_town.controllers.RestC
 
         et.replace("[@header]", "Otevíráme pro vás nové multikino");
         et.replace("[@text-1]", "Těšíme se na vaši návštěvu v novém multikině, které najdete na adrese");
-        et.replace("[@text-bold]", cinema.getCity() + " " + cinema.getStreet() + " " + cinema.getHouseNumber());
+        et.replace("[@text-bold]", cinema.getCity().getName() + " " + cinema.getStreet() + " " + cinema.getHouseNumber());
         et.replace("[@text-2]", ". Rádi vás tu uvidíme.");
 
         for (User sub : subs) {

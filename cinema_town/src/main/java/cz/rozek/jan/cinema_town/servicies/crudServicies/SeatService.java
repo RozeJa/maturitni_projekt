@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.repositories.SeatRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
@@ -15,6 +16,8 @@ import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 @Service
 public class SeatService extends CrudService<Seat, SeatRepository> {
     
+    private ReservationRepository reservationRepository;
+
     @Autowired
     @Override
     public void setRepository(SeatRepository repository) {
@@ -24,6 +27,10 @@ public class SeatService extends CrudService<Seat, SeatRepository> {
     @Override
     public void setAuthService(AuthService authService) {
         this.authService = authService;
+    }
+    @Autowired
+    public void setReservationRepository(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
     }
 
     @Override
@@ -55,18 +62,27 @@ public class SeatService extends CrudService<Seat, SeatRepository> {
 
     @Override
     public boolean delete(String id, String accessJWT) {
-        // TODO možná ošetřit, že sedeadlo nepůjde odebrat, pokud už na něj byla provedena rezervace
-        
-        return super.delete(id, accessJWT);
+        if (isSeatRemovabe(id)) {
+            return super.delete(id, accessJWT);
+        }
+        return false;
     }
 
     public void deleteAll(List<Seat> seats, String accessJWT) throws SecurityException, AuthRequired {
 
-        // TODO možná ošetřit, že sedeadlo nepůjde odebrat, pokud už na něj byla provedena rezervace
-
         // Ověř oprávnění
         verifyAccess(accessJWT, deletePermissionRequired());
 
+        for (Seat seat : seats) {
+            if (!isSeatRemovabe(seat.getId())) {
+                return;
+            }
+        }
+
         repository.deleteAll(seats);
+    }
+
+    public boolean isSeatRemovabe(String seatId) {
+        return reservationRepository.findBySeat(seatId).isEmpty();
     }
 }
