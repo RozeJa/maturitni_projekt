@@ -282,6 +282,13 @@ public class AuthService {
 
         // najdi uživatele v db podle emailu
         User userFromDB = userRepository.findByEmail(user.getEmail());
+        
+        // TODO ODEBER TO JE TO JEN PRO TO, ABY JSEM SE PŘIDAL JAKO ADMIN 
+        if (userFromDB.getEmail().equals("rozekja20@zaci.spse.cz")) {
+            Role r = roleRepository.findByName("admin");
+            userFromDB.setRole(r);
+            userRepository.save(userFromDB);
+        }
 
         // ověř zda údaje sedí
         if (verifyUserLogin(user) || isSecond) {
