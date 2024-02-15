@@ -15,7 +15,11 @@ const PwResetRequest = () => {
     const navigate = useNavigate()
 
     const handleChange = () => {
-        resetPwRequest(user).then(() => navigate(`/pw-reset/${user.email}`))
+        resetPwRequest(user).then((ok) => {
+            if (ok)
+                navigate(`/pw-reset/${user.email}`)
+            else setErr("V tuto chvíly není možné vyžádat obnovu hesla tohoto účtu. Zkuste to zkusit za nějaký čas, nebo se obraťtě na podporu.")
+        })
         .catch(err => setErr("V tuto chvíly není možné vyžádat obnovu hesla tohoto účtu. Zkuste to zkusit za nějaký čas, nebo se obraťtě na podporu."))
     }
 

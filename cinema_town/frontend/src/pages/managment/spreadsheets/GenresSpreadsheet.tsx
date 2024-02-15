@@ -52,7 +52,7 @@ const GenresSpreadsheet = () => {
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
-                <h2>Žánry</h2>
+                <p className='sp-header-title'>Správa žánrů</p>
                 <a href="/management/genres/new"><b>Nový</b></a>
             </div>
             <div className="sp-body genres-sp-body">

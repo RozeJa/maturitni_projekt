@@ -23,6 +23,7 @@ const PwReset = () => {
     const [notSameErr, setNotSameErr] = useState(false)
 
     const [trustForm, setTrustForm] = useState(<></>)
+    const [formViewable, setFormViewable] = useState(true)
 
     useEffect(() => {
         setUser({...user, ["email"]: email ? email : ""})        
@@ -36,6 +37,7 @@ const PwReset = () => {
     
                 resetPw(changedUser)
                     .then(token => {
+                        setFormViewable(false)
                         setTrustForm(
                             <DeviceTrust setActivated={() => {}} setTDForm={() => setTrustForm(<></>)}
                                 setTrustedDevice={(trusted: boolean) => {
@@ -45,6 +47,9 @@ const PwReset = () => {
 
                                         trustedTokens[user.email] = token.trustToken
                                         localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
+
+                                        
+                                        window.location.href = '/'
                                     }
                                     sessionStorage.setItem('loginToken', token.loginToken)
                                 }}
@@ -69,46 +74,49 @@ const PwReset = () => {
     return (
         <div className='pw-reset'>
             {trustForm}
-            <SmartInput label='Obnovovací kód'>
-                <input 
-                    type='text' 
-                    name='code' 
-                    value={user.password2}
-                    onChange={(e: any) => {
-                        const { value } = e.target
 
-                        setUser({...user, ["password2"]: value})
-                    }} />
-            </SmartInput>
-            { authErr ? <p className='pw-reset-err'>Nesprávný obnovovací kód</p> : <></> }
-            <SmartInput label='Nové heslo'>
-                <input 
-                    type='password' 
-                    name='new-password' 
-                    value={newPassword} 
-                    onChange={(e: any) => {
-                        const { value } = e.target 
+            <div className={formViewable ? '' : 'pw-reset-none'}>
+                <SmartInput label='Obnovovací kód'>
+                    <input 
+                        type='text' 
+                        name='code' 
+                        value={user.password2}
+                        onChange={(e: any) => {
+                            const { value } = e.target
 
-                        setNewPassword(value)
-                    }}/>
-            </SmartInput>
-            { requirementshErr ? <p className='pw-reset-err'>Nové heslo nesplňuje požadavky (Alespoň 12 znaků, velký a malý znak a číslice jsou požadovány)</p> : <></> }
-            <SmartInput label='Nové heslo znovu'>
-                <input 
-                    type='password' 
-                    name='new-password-again' 
-                    value={newPasswordAgain} 
-                    onChange={(e: any) => {
-                        const { value } = e.target;
+                            setUser({...user, ["password2"]: value})
+                        }} />
+                </SmartInput>
+                { authErr ? <p className='pw-reset-err'>Nesprávný obnovovací kód</p> : <></> }
+                <SmartInput label='Nové heslo'>
+                    <input 
+                        type='password' 
+                        name='new-password' 
+                        value={newPassword} 
+                        onChange={(e: any) => {
+                            const { value } = e.target 
 
-                        setNewPasswordAgain(value)
-                    }}/>
-            </SmartInput>
-            { notSameErr ? <p className='pw-reset-err'>Hesla se neshodují</p> : <></> }
-            
-            <div className="pw-reset-btns">
-                <a href='/login'>Zpět</a>
-                <button onClick={handleChange}>Změnit</button>
+                            setNewPassword(value)
+                        }}/>
+                </SmartInput>
+                { requirementshErr ? <p className='pw-reset-err'>Nové heslo nesplňuje požadavky (Alespoň 12 znaků, velký a malý znak a číslice jsou požadovány)</p> : <></> }
+                <SmartInput label='Nové heslo znovu'>
+                    <input 
+                        type='password' 
+                        name='new-password-again' 
+                        value={newPasswordAgain} 
+                        onChange={(e: any) => {
+                            const { value } = e.target;
+
+                            setNewPasswordAgain(value)
+                        }}/>
+                </SmartInput>
+                { notSameErr ? <p className='pw-reset-err'>Hesla se neshodují</p> : <></> }
+                
+                <div className="pw-reset-btns">
+                    <a href='/login'>Zpět</a>
+                    <button onClick={handleChange}>Změnit</button>
+                </div>
             </div>
         </div>
 

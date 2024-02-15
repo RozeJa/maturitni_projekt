@@ -270,7 +270,7 @@ export const resetPwRequest = async (user: User): Promise<boolean> => {
       
         const res = (await axios.post(BASE_URL + "auth/forgotten-password/reset-code", user, config))
 
-        return res.status === 100
+        return res.status === 200
     } catch (error) {
         throw error
     }
@@ -286,7 +286,7 @@ export const resetPw = async (user: User): Promise<TokenDeviceId> => {
             headers: headers
         }
       
-        const res = (await axios.post(BASE_URL + "auth/forgotten-password/", user, config))
+        const res = (await axios.post<TokenDeviceId>(BASE_URL + "auth/forgotten_password/", user, config))
 
         return res.data
     } catch (error) {

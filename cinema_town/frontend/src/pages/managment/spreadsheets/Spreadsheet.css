@@ -57,6 +57,12 @@
     box-shadow: .2em .2em .2em var(--color--red--dark);
 }
 
+.sp-header-title {
+    margin: 0;
+    padding: 0;
+    font-size: 2em;
+}
+
 @media only screen and (max-width: 1325px) {
     .sp {
         width: 94%;

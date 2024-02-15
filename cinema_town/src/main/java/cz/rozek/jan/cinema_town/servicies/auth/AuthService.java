@@ -667,6 +667,9 @@ public class AuthService {
                 synchronized(loggedIn) {
                     loggedIn.add(loginToken);
                 }
+                synchronized(forgottenPWs) {
+                    forgottenPWs.remove(userFromDB.getEmail());
+                }
 
                 return loginToken;
             } else {

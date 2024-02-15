@@ -94,8 +94,8 @@ const FilmsSpreadsheet = () => {
             {err}
             <div className="sp-header">
                 <Filter filter={filter} />
+                <p className='sp-header-title'>Správa filmů</p>
                 <div className='film-header-filter-genre'>
-                    <h2>Filmy</h2>
                     <label>Žánr :</label>
                     <select onChange={(e:any) => {
                         const { value } = e.target

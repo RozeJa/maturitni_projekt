@@ -310,7 +310,7 @@ public class AuthController {
             // pošly mu kód na email
             emailService.sendEmail(user.getEmail(), "Obnova hesla", et);
 
-            return new ResponseEntity<>(HttpStatus.CONTINUE);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (SecurityException | NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {

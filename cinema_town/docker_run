@@ -1,8 +1,10 @@
-docker build --tag mp-backend .
 docker volume create mp-film-images
+docker volume create mp-rsa-keys
+docker build --tag mp-backend .
 docker run -d \
 -p 8081:8080 \
 --mount source=mp-film-images,target=/app/frontend/src/assets/imgs/films-imgs \
+--mount source=mp-rsa-keys,target=/app/keys \
 --mount type=bind,src=/home/john/mp-data/tickets/,dst=/app/tickets \
 --name mp-backend-container \
 mp-backend:latest

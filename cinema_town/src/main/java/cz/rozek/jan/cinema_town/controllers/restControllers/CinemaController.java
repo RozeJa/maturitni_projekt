@@ -60,7 +60,7 @@ public class CinemaController extends cz.rozek.jan.cinema_town.controllers.RestC
         et.replace("[@text-2]", ". Rádi vás tu uvidíme.");
 
         for (User sub : subs) {
-            emailService.sendEmail(sub.getEmail(), "Nové multikino ve městě " + cinema.getCity(), et);
+            emailService.sendEmail(sub.getEmail(), "Nové multikino ve městě " + cinema.getCity().getName(), et);
         }
     }
 }

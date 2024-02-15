@@ -12,6 +12,10 @@
     background-color: var(--color--grey--light);
 }
 
+.pw-reset-none {
+    display: none;
+}
+
 .pw-reset input {
     border: none;
     font-size: 1.5em;
@@ -22,6 +26,11 @@
 .pw-reset input {
     border-bottom: 2px var(--color--black) solid;
     padding-bottom: .2em;
+}
+
+.pw-reset-btns {
+    display: flex;
+    justify-content: space-between;
 }
 
 .pw-reset-btns > button, .pw-reset-btns > a {
