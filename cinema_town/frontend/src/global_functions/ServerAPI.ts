@@ -13,7 +13,8 @@ const BASE_URL = window.location.hostname === "localhost" ? 'http://localhost:80
 // výčtový typ mapovaný na endpointy 
 export enum ModesEndpoints {
     AgeCategory = "api/age_categories/",    
-    Cinama =  "api/cinemas/",
+    Cinama = "api/cinemas/",
+    CinamaByHall = "api/cinemas/by_hall/",
     City = "api/cities/",
     Film = "api/films/",
     FilmBlockBuster = "api/films/block-busters",

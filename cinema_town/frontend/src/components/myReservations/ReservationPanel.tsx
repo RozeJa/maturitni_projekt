@@ -1,6 +1,9 @@
-import { ModesEndpoints, deleteData } from '../../global_functions/ServerAPI'
+import { useEffect, useState } from 'react'
+import { ModesEndpoints, deleteData, loadData } from '../../global_functions/ServerAPI'
 import Reservation from '../../models/Reservation'
 import './ReservationPanel.css'
+import Cinema, { defaultCinema } from '../../models/Cinema'
+import { formatDateTime } from '../../global_functions/constantsAndFunction'
 
 const ReservationPanel = ({
         reservation,
@@ -10,12 +13,23 @@ const ReservationPanel = ({
         setFsReservations: Function
     }) => {
 
-    const reservedDate = reservation.reserved
-    let rezerved = ''
+    const [cinema, setCinema] = useState({...defaultCinema})
     
-    if (reservedDate instanceof Date) 
-        rezerved = `${reservedDate.getDay()}.${reservedDate.getMonth() + 1}.${reservedDate.getFullYear()} ${reservedDate.getHours()}:${reservedDate.getMinutes()}`
-    else rezerved = `${reservedDate[2]}.${reservedDate[1]}.${reservedDate[0]} ${reservedDate[3].toString().padStart(2,"0")}:${reservedDate[4].toString().padStart(2,"0")}`
+    useEffect(() => {
+        const hallId = reservation.projection.hall.id !== null ? reservation.projection.hall.id : ""
+        loadData<Cinema>(ModesEndpoints.CinamaByHall, [hallId])
+            .then(data => {
+                console.log(data);
+                
+                setCinema({...data[0]})
+            })
+            .catch(err => {
+                console.log("problem");
+            })
+    }, [])
+
+    let rezerved = formatDateTime(reservation.reserved)
+    let projectionDate = formatDateTime(reservation.projection.dateTime)
 
     const tickets: { [key: string]: number} = {}
 
@@ -60,7 +74,9 @@ const ReservationPanel = ({
                 }
             </div>
             <div className="reservation-panel-info">
-                <p><b>Rezervováno</b>: {rezerved}</p>
+                <p><b>Multikino</b>: {cinema.street} {cinema.houseNumber}, {cinema.city.name}</p>
+                <p><b>Konání představení</b>: {projectionDate}</p>
+                <p><b>Rezervace vytvořena</b>: {rezerved}</p>
                 <p><b>Počet lístků</b>: {Object.values(reservation.codes).length}</p>
                 {
                     Object.keys(tickets).map((ticketCategory, index) => {

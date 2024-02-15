@@ -83,6 +83,24 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
         return super.create(entity, accessJWT);
     }
 
+    public Cinema readByHallId(String id, String accessJWT) {
+        
+
+        // ověř oprávnění
+        verifyAccess(accessJWT, readPermissionRequired());
+
+        // načti záznam
+        Cinema entity = repository.findByHall(id);
+
+        // pokud záznam existuje vrať ho 
+        if (entity != null) {
+            return entity;
+        }
+        
+        // jinak vyvolej vyjímku
+        throw new NullPointerException();
+    }
+
     @Override
     public Cinema update(String id, Cinema entity, String accessJWT) throws ValidationException {
 
