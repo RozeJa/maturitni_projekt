@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import Film from '../models/Film';
 import User from '../models/User';
 import { TokenDeviceId } from '../models/TokenDeviceId';
-import { getSessionStorageItem } from './storagesActions';
+import { getSessionStorageItem, setSessionsStorageItem } from './storagesActions';
 import Entity from '../models/Entity';
 import logout from './logout';
 
@@ -33,19 +33,17 @@ export enum ModesEndpoints {
     User = "api/users/"
 }
 
-let onLoading: () => void = () => {}
-let onLoad: () => void = () => {}
-
-export const setOnLoading = (newOnLoading: () => void) => {
-    onLoading = newOnLoading
+let onLoading: () => void = () => {
+    setSessionsStorageItem("loading", "true")
 }
-export const setLoad = (newonLoad: () => void) => {
-    onLoad = newonLoad
+let onLoad: () => void = () => {
+    setSessionsStorageItem("loading", "false")
 }
 
 // funkce pro načtení dat z api
 export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
     onLoading()
+    
     let data: T[] = []
 
     // načti si config

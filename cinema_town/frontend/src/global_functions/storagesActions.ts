@@ -15,3 +15,7 @@ export function getLocalStorageItem(key: string): string {
         return ''
     }
 }
+
+export function setSessionsStorageItem(key: string, value: string) {
+    sessionStorage.setItem(key, value)
+}

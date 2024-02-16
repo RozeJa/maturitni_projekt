@@ -18,9 +18,7 @@ const ReservationPanel = ({
     useEffect(() => {
         const hallId = reservation.projection.hall.id !== null ? reservation.projection.hall.id : ""
         loadData<Cinema>(ModesEndpoints.CinamaByHall, [hallId])
-            .then(data => {
-                console.log(data);
-                
+            .then(data => {                
                 setCinema({...data[0]})
             })
             .catch(err => {

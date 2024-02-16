@@ -5,6 +5,8 @@ import verifyAccess from '../global_functions/verifyAccess'
 import './MainLayout.css'
 import { Outlet, useNavigate } from "react-router-dom"
 import { setOnLoading } from '../global_functions/ServerAPI'
+import LoadingSpinner from '../LoadingSpiner'
+import { getSessionStorageItem } from '../global_functions/storagesActions'
 
 const MainLayout = () => {
 
@@ -12,16 +14,17 @@ const MainLayout = () => {
     const [menuSettted, setMenuSetted] = useState(false)
     const [loadingComp, setLoadingComp] = useState(<></>)
 
-    setOnLoading(() => {
-        setLoadingComp(<LoadingSpinner loading={true} />)
-    })
-    setOnLoading(() => {
-        setLoadingComp(<></>)
-    })
+    setInterval(() => {
+        let loading = getSessionStorageItem("loading")
+        
+        if (loading == "true") {
+            setLoadingComp(<LoadingSpinner loading={true} />)
+        } else  setLoadingComp(<></>)
+    }, 50)
 
     useEffect(() => {
         if (menuSettted) {
-            setHamburger(                    
+            setHamburger(
                 <div className='nav-burger-content'>
                     {edit}
                     {auth}
