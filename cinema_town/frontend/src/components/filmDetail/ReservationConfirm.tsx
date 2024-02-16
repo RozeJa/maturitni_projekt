@@ -10,9 +10,8 @@ import VisaPayment from './payments/VisaPayment'
 import PaymentInformations from './payments/PaymentInformations'
 import { ModesEndpoints, storeData } from '../../global_functions/ServerAPI'
 import ReservationDTO from '../../models/ReservationDTO'
-import { redirect, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import DialogErr from '../DialogErr'
-import LoadingSpinner from '../../LoadingSpiner'
 import readTokenProperty from '../../global_functions/readTokenProperty'
 
 const defSeatsRows: Seat[][] = []
@@ -48,7 +47,6 @@ const ReservationConfirm = ({
     const [paymentInformations, setPaymentInformations] = useState({...defPaymentInformations})
 
     const [confirmable, setConfirmable] = useState(true)
-    const [loadingComp, setLoadingComp] = useState(<></>)
 
     const [err, setErr] = useState(<></>)
 
@@ -94,14 +92,12 @@ const ReservationConfirm = ({
             return
 
         setConfirmable(false)
-        setLoadingComp(<LoadingSpinner loading={true} />)
         setTimeout(() => setConfirmable(true), 1000) 
         
         if (paymentInformations["paymentData"]["valid"] == "true") {
             const paymentData = await paymentInformations.prePostFunction(paymentInformations.paymentData)
                 .catch(err => {
                     setErr(<DialogErr description='Na paywallu Stripe se nepodařilo ověřit vaše platební údaje.' err='Platební údaje nejsou validní' dialogSetter={setErr} okText="Ok"/>)
-                    setLoadingComp(<></>)
                     
                     return undefined
                 })
@@ -122,8 +118,6 @@ const ReservationConfirm = ({
                     navigate(`/my-reservation/${readTokenProperty("sub")}`)
                 })
                 .catch(err => {
-                    
-                    setLoadingComp(<></>)
                     setErr(<DialogErr description='Platba neproběhla. Rezervace nebyla dokončena.' err='Rezervace se nezdařila' dialogSetter={setErr} okText="Ok"/>)
                 })
         }
@@ -132,7 +126,6 @@ const ReservationConfirm = ({
     return (
         <div className='reservation-confirm-dialog'>
             {err}
-            {loadingComp}
             <div className="reservation-confirm">
                 <div className="reservation-confirm-header">
                     <h1>{projection.film.name} {formatDateTime(projection.dateTime)}</h1>

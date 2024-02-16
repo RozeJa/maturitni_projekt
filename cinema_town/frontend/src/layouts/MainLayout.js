@@ -4,11 +4,20 @@ import readTokenProperty from '../global_functions/readTokenProperty'
 import verifyAccess from '../global_functions/verifyAccess'
 import './MainLayout.css'
 import { Outlet, useNavigate } from "react-router-dom"
+import { setOnLoading } from '../global_functions/ServerAPI'
 
 const MainLayout = () => {
 
     const [hamburger, setHamburger] = useState(<></>)
     const [menuSettted, setMenuSetted] = useState(false)
+    const [loadingComp, setLoadingComp] = useState(<></>)
+
+    setOnLoading(() => {
+        setLoadingComp(<LoadingSpinner loading={true} />)
+    })
+    setOnLoading(() => {
+        setLoadingComp(<></>)
+    })
 
     useEffect(() => {
         if (menuSettted) {
@@ -21,6 +30,7 @@ const MainLayout = () => {
             setHamburger(<></>)
         }
     }, [menuSettted])
+
 
     const auth = verifyAccess() ? (
         <> 
@@ -54,6 +64,7 @@ const MainLayout = () => {
             }
         }>
             <nav>
+                { loadingComp }
                 <div className='nav-logo'>
                     <a href='/'>Cinema Town</a>
                 </div>

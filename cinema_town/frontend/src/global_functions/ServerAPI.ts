@@ -9,7 +9,6 @@ import logout from './logout';
 // url na server 
 const BASE_URL = window.location.hostname === "localhost" ? 'http://localhost:8080/' : 'https://api.mp.home-lab.rozekja.fun/'
 
-
 // výčtový typ mapovaný na endpointy 
 export enum ModesEndpoints {
     AgeCategory = "api/age_categories/",    
@@ -34,9 +33,19 @@ export enum ModesEndpoints {
     User = "api/users/"
 }
 
+let onLoading: () => void = () => {}
+let onLoad: () => void = () => {}
+
+export const setOnLoading = (newOnLoading: () => void) => {
+    onLoading = newOnLoading
+}
+export const setLoad = (newonLoad: () => void) => {
+    onLoad = newonLoad
+}
 
 // funkce pro načtení dat z api
 export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
+    onLoading()
     let data: T[] = []
 
     // načti si config
@@ -58,11 +67,13 @@ export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, 
         data = (await axios.get<T[]>(BASE_URL + modelEndpoint, config)).data
     }
 
+    onLoad()
     return data
 }
 
 // funkce pro uložení dat na server
 export const storeData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<Entity[]> => {
+    onLoading()
     let reseavedData: Entity[] = []
 
     let config = await getRequestConfig()
@@ -94,6 +105,7 @@ export const storeData = async <T extends Entity>(modelEntpoint: ModesEndpoints,
         }
     }
 
+    onLoad()
     return reseavedData
 }
 
@@ -146,6 +158,7 @@ const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>
 
 // funkce pro odstranění dat
 export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
+    onLoading()
     for (let i = 0; i < data.length; i++) {
      
         // načti si config
@@ -154,19 +167,25 @@ export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints
         await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
     }
 
+    onLoad()
     return data
 }
 
 // funkce pro registraci 
 export const register = async (user: User): Promise<boolean> => {
+    onLoading()
     try {
-        return (await axios.post(BASE_URL + "auth/register", user)).status === 200
+        let registred = (await axios.post(BASE_URL + "auth/register", user)).status === 200
+        onLoad()
+        return registred
     } catch (error) {
+        onLoad()
         throw error
     }
 }
 
 export const reactivateCode = async (email: string) => {
+    onLoading()
     try {
 
         const headers = {
@@ -185,30 +204,37 @@ export const reactivateCode = async (email: string) => {
 
         const status = (await axios.post(BASE_URL + "auth/reset-activation-code", user, config)).status
 
-        console.log(status)
-
+        onLoad()
     } catch (error) {
         // TODO dej vedet, ze se nezdarilo
+        onLoad()
     }
 }
 
 export const activateAccount = async (code: string): Promise<string> => {
+    onLoading()
     try {        
-        return (await axios.post<string>(BASE_URL + "auth/activate-account", code)).data
+        let resp = (await axios.post<string>(BASE_URL + "auth/activate-account", code)).data  
+        onLoad()
+        return resp
     } catch (error) {
         throw error
     }
 }
 
 export const secondVerify = async (code: string): Promise<TokenDeviceId> => {
+    onLoading()
     try {
-        return (await axios.post<TokenDeviceId>(BASE_URL + "auth/second-verify", code)).data
+        let resp = (await axios.post<TokenDeviceId>(BASE_URL + "auth/second-verify", code)).data
+        onLoad()
+        return resp
     } catch (error) {
         throw error
     }
 }
 
 export const login = async (email: string, password: string, trustToken: string): Promise<TokenDeviceId|null> => {
+    onLoading()
     try {
 
         const headers = {
@@ -227,19 +253,21 @@ export const login = async (email: string, password: string, trustToken: string)
         const res = (await axios.post<TokenDeviceId>(BASE_URL + "auth/login", user, config))
 
         if (res.status === 200) {  
-            console.log(res.data);
-                      
+            onLoad()          
             return res.data
-        } else {            
+        } else {
+            onLoad()
             return null
         }
     } catch (error) {
+        onLoad()
         throw error
     }
 }
 
 // funkce pro změnu hesla 
 export const changePw = async (user: User): Promise<boolean> => {
+    onLoading()
     try {
 
         const headers = {
@@ -252,6 +280,7 @@ export const changePw = async (user: User): Promise<boolean> => {
       
         const res = (await axios.post(BASE_URL + "auth/change-pw", user, config))
 
+        onLoad()
         return res.status === 200
     } catch (error) {
         throw error
@@ -259,6 +288,7 @@ export const changePw = async (user: User): Promise<boolean> => {
 }
 
 export const resetPwRequest = async (user: User): Promise<boolean> => {
+    onLoading()
     try {
 
         const headers = {
@@ -270,13 +300,16 @@ export const resetPwRequest = async (user: User): Promise<boolean> => {
       
         const res = (await axios.post(BASE_URL + "auth/forgotten-password/reset-code", user, config))
 
+        onLoad()
         return res.status === 200
     } catch (error) {
+        onLoad()
         throw error
     }
 }
 
 export const resetPw = async (user: User): Promise<TokenDeviceId> => {
+    onLoading()
     try {
 
         const headers = {
@@ -288,8 +321,10 @@ export const resetPw = async (user: User): Promise<TokenDeviceId> => {
       
         const res = (await axios.post<TokenDeviceId>(BASE_URL + "auth/forgotten_password/", user, config))
 
+        onLoad()
         return res.data
     } catch (error) {
+        onLoad()
         throw error
     }
 }
