@@ -91,7 +91,9 @@ const SendCode = (data:any) => {
     return (
         <>
             {tdForm}
-            <div className='code-form' style={{display: (isActivated ? "flex" : "none")}}>
+            <div className='code-form' 
+                style={{display: (isActivated ? "flex" : "none")}}
+                onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>
                 
                 <label>{data.label}:</label>
                 <input type="text" name='code' onChange={(e: any) => {
@@ -103,9 +105,8 @@ const SendCode = (data:any) => {
                 <p>{codeErr}</p>
 
                 <div className="code-form-confirm">
-                    <button 
-                        onClick={sendRequest}
-                        onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>{data.submit}</button>
+                    <button onClick={sendRequest}
+                        >{data.submit}</button>
                     <p onClick ={() => {
                         try {
                             if (data.register)

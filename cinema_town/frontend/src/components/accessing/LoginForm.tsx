@@ -68,7 +68,8 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
                     Buď o krok před ostatními a přihlaš se k odběru novinek. Dozvíš se o nových filmech jako první.
                 </h1>
             </div>
-            <div className='login-form'>
+            <div className='login-form'
+                onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>
                 <label>Email</label>
                 <input name='email' type="email" placeholder='email@email.com' onChange={setValue} />
                 <p>{emailErr}</p>
@@ -79,9 +80,7 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
                 <p>{pwErr}</p>
             
                 <div className="login-form-confirm">
-                    <button 
-                        onClick={sendRequest}
-                        onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>Přihlásit se</button>
+                    <button onClick={sendRequest}>Přihlásit se</button>
                     <p onClick={() => navigate("/pw-reset")}>Zapomenuté heslo?</p>
                 </div>
             </div>

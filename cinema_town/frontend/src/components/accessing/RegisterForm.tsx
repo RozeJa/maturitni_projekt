@@ -82,7 +82,8 @@ const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
                     Registruj se nyní.
                 </h2>
             </div>
-            <div className='register-form'>
+            <div className='register-form'
+                onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>
                 <label>Email</label>
                 <input name='email' type="email" placeholder='email@email.com' onChange={setValue} />
                 <p>{emailErr}</p>
@@ -102,9 +103,7 @@ const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
                 <p>{pwAgErr}</p>
 
                 <div className="register-form-confirm">
-                    <button 
-                        onClick={sendRequest}
-                        onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>Registrovat</button>
+                    <button onClick={sendRequest}>Registrovat</button>
                     <p onClick={() => {
 
                         if (user.email === '' && getSessionStorageItem('email') === '') {

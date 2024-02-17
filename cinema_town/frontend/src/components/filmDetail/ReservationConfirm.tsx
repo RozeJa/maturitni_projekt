@@ -124,7 +124,8 @@ const ReservationConfirm = ({
     }
     
     return (
-        <div className='reservation-confirm-dialog'>
+        <div className='reservation-confirm-dialog'
+            onKeyDown={(event: any) => callbackOnEnter(event, handleSubmit)}>
             {err}
             <div className="reservation-confirm">
                 <div className="reservation-confirm-header">
@@ -207,7 +208,6 @@ const ReservationConfirm = ({
                     <button 
                         className={paymentInformations["paymentData"]["valid"] == "true" ? '' : 'reservation-confirm-btns-disable'}
                         onClick={handleSubmit}
-                        onKeyDown={(event: any) => callbackOnEnter(event, handleSubmit)}
                         >Zaplatit
                     </button>
                 </div>

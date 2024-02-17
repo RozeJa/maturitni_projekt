@@ -71,7 +71,8 @@ const PwReset = () => {
     }
 
     return (
-        <div className='pw-reset'>
+        <div className='pw-reset'
+            onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>
             {trustForm}
 
             <div className={formViewable ? 'pw-reset-view' : 'pw-reset-none'}>
@@ -114,7 +115,7 @@ const PwReset = () => {
                 
                 <div className="pw-reset-btns">
                     <a href='/login'>Zpět</a>
-                    <button onClick={handleChange} onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>Změnit</button>
+                    <button onClick={handleChange}>Změnit</button>
                 </div>
             </div>
         </div>

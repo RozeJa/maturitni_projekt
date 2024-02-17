@@ -62,7 +62,8 @@ const PwChange = () => {
     }
 
     return (
-        <div className='pw-change'>
+        <div className='pw-change'
+            onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>
             <SmartInput label='Stávající heslo'>
                 <input 
                     type='password' 
@@ -102,7 +103,7 @@ const PwChange = () => {
             
             <div className="pw-change-btns">
                 <a href={`/my-reservation/${userID}`}>Zpět</a>
-                <button onClick={handleChange} onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>Změnit</button>
+                <button onClick={handleChange}>Změnit</button>
             </div>
         </div>
 

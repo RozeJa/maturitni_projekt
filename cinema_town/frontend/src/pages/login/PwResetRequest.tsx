@@ -25,7 +25,8 @@ const PwResetRequest = () => {
     }
 
     return (
-        <div className='pw-reset-request'>
+        <div className='pw-reset-request'
+            onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>
             <SmartInput label='Váš email'>
                 <input 
                     type='email' 
@@ -40,7 +41,7 @@ const PwResetRequest = () => {
             <p className='pw-reset-request-err'>{err}</p>
             <div className="pw-reset-request-btns">
                 <a href='/login'>Zpět</a>
-                <button onClick={handleChange} onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>Vyžádat obnovu</button>
+                <button onClick={handleChange}>Vyžádat obnovu</button>
             </div>
         </div>
     )
