@@ -22,7 +22,7 @@ public class VisaPayment implements IPayment {
     }
 
     @Override
-    public void pay(Reservation reservation, Map<String, String> paymentData, String accessJWT) throws Exception {
+    public double pay(Reservation reservation, Map<String, String> paymentData, String accessJWT) throws Exception {
         
         String token = paymentData.get("token");
 
@@ -37,5 +37,7 @@ public class VisaPayment implements IPayment {
         chargeParams.put("currency", "CZK");
         chargeParams.put("source", token);
         Charge.create(chargeParams);
+        
+        return price;
     }
 }

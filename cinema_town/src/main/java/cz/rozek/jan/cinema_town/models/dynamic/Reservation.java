@@ -48,6 +48,8 @@ public class Reservation implements Entity {
     private LocalDateTime reserved = LocalDateTime.now();
     private boolean removed = false;
 
+    // proměná slouží pro archivaci ceny
+    private double totalCost = 0;
 
     public Double countPrice() {
         double price = 0;

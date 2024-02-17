@@ -82,7 +82,8 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
                 Reservation reservation = service.reservate(data, accessJWT);
 
                 try {
-                    paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
+                    double price = paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
+                    reservation.setTotalCost(price);
 
                     EmailTemplate et = emailService.loadTemplate("header-user-info");
                     et.replace("[@header]", "Rezervace sedadel na filmové představení " + reservation.getProjection().getFilm().getName());

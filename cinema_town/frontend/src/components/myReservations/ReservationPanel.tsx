@@ -75,6 +75,7 @@ const ReservationPanel = ({
                 <p><b>Multikino</b>: {cinema.street} {cinema.houseNumber}, {cinema.city.name}</p>
                 <p><b>Konání představení</b>: {projectionDate}</p>
                 <p><b>Rezervace vytvořena</b>: {rezerved}</p>
+                <p><b>Cena rezervace</b>: {reservation.totalCost} Kč</p>
                 <p><b>Počet lístků</b>: {Object.values(reservation.codes).length}</p>
                 {
                     Object.keys(tickets).map((ticketCategory, index) => {
