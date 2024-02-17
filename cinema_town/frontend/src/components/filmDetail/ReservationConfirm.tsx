@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { formatDateTime } from '../../global_functions/constantsAndFunction'
+import { callbackOnEnter, formatDateTime } from '../../global_functions/constantsAndFunction'
 import AgeCategory from '../../models/AgeCategory'
 import Cinema from '../../models/Cinema'
 import Projection from '../../models/Projection'
@@ -207,6 +207,7 @@ const ReservationConfirm = ({
                     <button 
                         className={paymentInformations["paymentData"]["valid"] == "true" ? '' : 'reservation-confirm-btns-disable'}
                         onClick={handleSubmit}
+                        onKeyDown={(event: any) => callbackOnEnter(event, handleSubmit)}
                         >Zaplatit
                     </button>
                 </div>

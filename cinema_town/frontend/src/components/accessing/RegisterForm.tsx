@@ -3,7 +3,7 @@ import './RegisterForm.css'
 import User, { defaultUser } from '../../models/User'
 import { register } from '../../global_functions/ServerAPI'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'
-import { emailRegex, pwRegex } from '../../global_functions/constantsAndFunction'
+import { callbackOnEnter, emailRegex, pwRegex } from '../../global_functions/constantsAndFunction'
 import DialogErr from '../DialogErr'
 
 let user: User = defaultUser
@@ -102,7 +102,9 @@ const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
                 <p>{pwAgErr}</p>
 
                 <div className="register-form-confirm">
-                    <button onClick={sendRequest}>Registrovat</button>
+                    <button 
+                        onClick={sendRequest}
+                        onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>Registrovat</button>
                     <p onClick={() => {
 
                         if (user.email === '' && getSessionStorageItem('email') === '') {

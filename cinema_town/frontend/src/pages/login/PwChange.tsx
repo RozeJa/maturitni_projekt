@@ -3,7 +3,7 @@ import SmartInput from '../../components/SmartInput'
 import readTokenProperty from '../../global_functions/readTokenProperty'
 import './PwChange.css'
 import User, { defaultUser } from '../../models/User'
-import { pwRegex } from '../../global_functions/constantsAndFunction'
+import { callbackOnEnter, pwRegex } from '../../global_functions/constantsAndFunction'
 import { changePw } from '../../global_functions/ServerAPI'
 import { useNavigate } from 'react-router-dom'
 
@@ -102,7 +102,7 @@ const PwChange = () => {
             
             <div className="pw-change-btns">
                 <a href={`/my-reservation/${userID}`}>Zpět</a>
-                <button onClick={handleChange}>Změnit</button>
+                <button onClick={handleChange} onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>Změnit</button>
             </div>
         </div>
 

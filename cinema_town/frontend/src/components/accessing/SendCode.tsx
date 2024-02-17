@@ -4,6 +4,7 @@ import { activateAccount, login, reactivateCode, secondVerify } from '../../glob
 import { getLocalStorageItem, getSessionStorageItem } from '../../global_functions/storagesActions'
 import { useNavigate } from 'react-router-dom'
 import DeviceTrust from './DeviceTrust'
+import { callbackOnEnter } from '../../global_functions/constantsAndFunction'
 
 const SendCode = (data:any) => {
     
@@ -102,7 +103,9 @@ const SendCode = (data:any) => {
                 <p>{codeErr}</p>
 
                 <div className="code-form-confirm">
-                    <button onClick={sendRequest}>{data.submit}</button>
+                    <button 
+                        onClick={sendRequest}
+                        onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>{data.submit}</button>
                     <p onClick ={() => {
                         try {
                             if (data.register)

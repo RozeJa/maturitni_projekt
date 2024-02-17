@@ -3,7 +3,7 @@ import SmartInput from '../../components/SmartInput'
 import './PwReset.css'
 import User, { defaultUser } from '../../models/User'
 import { useParams } from 'react-router-dom'
-import { pwRegex } from '../../global_functions/constantsAndFunction'
+import { callbackOnEnter, pwRegex } from '../../global_functions/constantsAndFunction'
 import { resetPw } from '../../global_functions/ServerAPI'
 import DeviceTrust from '../../components/accessing/DeviceTrust'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
@@ -114,7 +114,7 @@ const PwReset = () => {
                 
                 <div className="pw-reset-btns">
                     <a href='/login'>Zpět</a>
-                    <button onClick={handleChange}>Změnit</button>
+                    <button onClick={handleChange} onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>Změnit</button>
                 </div>
             </div>
         </div>

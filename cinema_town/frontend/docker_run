@@ -1,7 +1,8 @@
 docker build --tag mp-frontend .
-    docker run -d \ 
+docker run -d \ 
     -p 3000:3000 \
     --mount source=mp-film-images,target=/app/src/assets/imgs/films-imgs \
+    --restart always \
     --name mp-frontend-container \
     mp-frontend:latest
 docker network connect mp-net mp-frontend-container

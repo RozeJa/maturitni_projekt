@@ -5,6 +5,7 @@ import { login } from '../../global_functions/ServerAPI'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
 import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { callbackOnEnter } from '../../global_functions/constantsAndFunction'
 
 let user: User = defaultUser
 
@@ -78,7 +79,9 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
                 <p>{pwErr}</p>
             
                 <div className="login-form-confirm">
-                    <button onClick={sendRequest}>Přihlásit se</button>
+                    <button 
+                        onClick={sendRequest}
+                        onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>Přihlásit se</button>
                     <p onClick={() => navigate("/pw-reset")}>Zapomenuté heslo?</p>
                 </div>
             </div>

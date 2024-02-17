@@ -70,3 +70,12 @@ export const handleErr = (setErr: Function, err: AxiosError, redirect: boolean =
 export const handleErrRedirect = (setErr: Function, err: AxiosError) => {
     handleErr(setErr, err, true);
 }
+
+export const callbackOnEnter = (event: any, callBack: Function) => {
+    const { key } = event
+    console.log(event.key);
+    
+    if (key === "Enter") {
+        callBack()
+    }
+}

@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { KeyboardEventHandler, useState } from 'react'
 import SmartInput from '../../components/SmartInput'
 import User, { defaultUser } from '../../models/User'
 import './PwResetRequest.css'
 import { useNavigate } from 'react-router-dom'
 import { resetPwRequest } from '../../global_functions/ServerAPI'
+import { callbackOnEnter } from '../../global_functions/constantsAndFunction'
 
 const defUser: User = defaultUser
 
@@ -39,7 +40,7 @@ const PwResetRequest = () => {
             <p className='pw-reset-request-err'>{err}</p>
             <div className="pw-reset-request-btns">
                 <a href='/login'>Zpět</a>
-                <button onClick={handleChange}>Vyžádat obnovu</button>
+                <button onClick={handleChange} onKeyDown={(event: any) => callbackOnEnter(event, handleChange)}>Vyžádat obnovu</button>
             </div>
         </div>
     )
