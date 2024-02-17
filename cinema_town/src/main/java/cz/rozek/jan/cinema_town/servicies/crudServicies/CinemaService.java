@@ -103,6 +103,11 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
 
     @Override
     public Cinema update(String id, Cinema entity, String accessJWT) throws ValidationException {
+        
+        // ověř oprávnění
+        verifyAccess(accessJWT, updatePermissionRequired());
+        
+        entity.validate();
 
         Cinema cinemaFormDB = repository.findById(entity.getId()).get();
         // pokud je jiné kino vyměň a pokud to co je v db už není nikde použité, tak ho odeber
@@ -128,8 +133,9 @@ public class CinemaService extends CrudService<Cinema, CinemaRepository> {
             }
         }
 
-        Cinema updated = super.update(id, entity, accessJWT);
-
+        // ulož změny
+        repository.save(entity);
+        Cinema updated = repository.findById(id).get();
         return updated;
     }
 

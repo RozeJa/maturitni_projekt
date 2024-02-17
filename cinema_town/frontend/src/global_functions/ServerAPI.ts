@@ -42,69 +42,81 @@ let onLoad: () => void = () => {
 
 // funkce pro načtení dat z api
 export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
-    onLoading()
-    
-    let data: T[] = []
+    try {
+        onLoading()
+        
+        let data: T[] = []
 
-    // načti si config
-    const config = await getRequestConfig()
+        // načti si config
+        const config = await getRequestConfig()
 
-    if (ids.length > 0) {
-        // pokud se jedná o sérii id, načti si postupně data
-        for (let i = 0; i < ids.length; i++) {
-            let temp = (await axios.get<T|T[]>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data;
-            
-            if (Array.isArray(temp)) {
-                data = [...data, ...temp]
-            } else {
-                data.push(temp)
+        if (ids.length > 0) {
+            // pokud se jedná o sérii id, načti si postupně data
+            for (let i = 0; i < ids.length; i++) {
+                let temp = (await axios.get<T|T[]>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data;
+                
+                if (Array.isArray(temp)) {
+                    data = [...data, ...temp]
+                } else {
+                    data.push(temp)
+                }
             }
+        } else {
+            // jinak načti všechna data
+            data = (await axios.get<T[]>(BASE_URL + modelEndpoint, config)).data
         }
-    } else {
-        // jinak načti všechna data
-        data = (await axios.get<T[]>(BASE_URL + modelEndpoint, config)).data
+
+        onLoad()
+        return data        
+    } catch (error) {
+        onLoad()
+        throw error
     }
 
-    onLoad()
-    return data
 }
 
 // funkce pro uložení dat na server
 export const storeData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<Entity[]> => {
-    onLoading()
-    let reseavedData: Entity[] = []
-
-    let config = await getRequestConfig()
+    try {
+        onLoading()
+        let reseavedData: Entity[] = []
     
-    if (config.headers !== undefined)
-        config.headers["Content-Type"] = "application/json"
-
-    for (let i = 0; i < data.length; i++) {
-     
-        const url = BASE_URL + modelEntpoint
-
-        if (data[i].id === undefined || data[i].id === null) {
-            // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
-            if (modelEntpoint === ModesEndpoints.Film) {
-
-                reseavedData.push(await handleFilm(url, data[i], config))
+        let config = await getRequestConfig()
+        
+        if (config.headers !== undefined)
+            config.headers["Content-Type"] = "application/json"
+    
+        for (let i = 0; i < data.length; i++) {
+         
+            const url = BASE_URL + modelEntpoint
+    
+            if (data[i].id === undefined || data[i].id === null) {
+                // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
+                if (modelEntpoint === ModesEndpoints.Film) {
+    
+                    reseavedData.push(await handleFilm(url, data[i], config))
+                } else {
+                    // pokud je id undefinited vytváříš záznam
+                    reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
+                }
             } else {
-                // pokud je id undefinited vytváříš záznam
-                reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
-            }
-        } else {
-            // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
-            if (modelEntpoint === ModesEndpoints.Film) {
-                reseavedData.push(await handleFilm(url, data[i], config))
-            } else {
-                // pokud id není undefinited záznam edituješ
-                reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
+                // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
+                if (modelEntpoint === ModesEndpoints.Film) {
+                    reseavedData.push(await handleFilm(url, data[i], config))
+                } else {
+                    // pokud id není undefinited záznam edituješ
+                    reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
+                }
             }
         }
+    
+        onLoad()
+        return reseavedData
+    } catch (error) {
+        onLoad()
+        throw error
     }
-
-    onLoad()
-    return reseavedData
+    
 }
 
 const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>): Promise<Film> => {
@@ -156,23 +168,28 @@ const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>
 
 // funkce pro odstranění dat
 export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
-    onLoading()
-    for (let i = 0; i < data.length; i++) {
-     
-        // načti si config
-        const config = await getRequestConfig()
-
-        await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
+    try {
+        onLoading()
+        for (let i = 0; i < data.length; i++) {
+         
+            // načti si config
+            const config = await getRequestConfig()
+    
+            await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
+        }
+    
+        onLoad()
+        return data
+    } catch (error) {
+        onLoad()
+        throw error
     }
-
-    onLoad()
-    return data
 }
 
 // funkce pro registraci 
 export const register = async (user: User): Promise<boolean> => {
-    onLoading()
     try {
+        onLoading()
         let registred = (await axios.post(BASE_URL + "auth/register", user)).status === 200
         onLoad()
         return registred
@@ -183,8 +200,8 @@ export const register = async (user: User): Promise<boolean> => {
 }
 
 export const reactivateCode = async (email: string) => {
-    onLoading()
     try {
+        onLoading()
 
         const headers = {
             "Content-Type": "application/json"
@@ -204,36 +221,37 @@ export const reactivateCode = async (email: string) => {
 
         onLoad()
     } catch (error) {
-        // TODO dej vedet, ze se nezdarilo
         onLoad()
     }
 }
 
 export const activateAccount = async (code: string): Promise<string> => {
-    onLoading()
     try {        
+        onLoading()
         let resp = (await axios.post<string>(BASE_URL + "auth/activate-account", code)).data  
         onLoad()
         return resp
     } catch (error) {
+        onLoad()
         throw error
     }
 }
 
 export const secondVerify = async (code: string): Promise<TokenDeviceId> => {
-    onLoading()
     try {
+        onLoading()
         let resp = (await axios.post<TokenDeviceId>(BASE_URL + "auth/second-verify", code)).data
         onLoad()
         return resp
     } catch (error) {
+        onLoad()
         throw error
     }
 }
 
 export const login = async (email: string, password: string, trustToken: string): Promise<TokenDeviceId|null> => {
-    onLoading()
     try {
+        onLoading()
 
         const headers = {
             "Content-Type": "application/json",
@@ -250,13 +268,10 @@ export const login = async (email: string, password: string, trustToken: string)
       
         const res = (await axios.post<TokenDeviceId>(BASE_URL + "auth/login", user, config))
 
-        if (res.status === 200) {  
-            onLoad()          
+        onLoad()      
+        if (res.status === 200)     
             return res.data
-        } else {
-            onLoad()
-            return null
-        }
+        return null
     } catch (error) {
         onLoad()
         throw error
@@ -265,8 +280,8 @@ export const login = async (email: string, password: string, trustToken: string)
 
 // funkce pro změnu hesla 
 export const changePw = async (user: User): Promise<boolean> => {
-    onLoading()
     try {
+        onLoading()
 
         const headers = {
             "Content-Type": "application/json",
@@ -281,13 +296,14 @@ export const changePw = async (user: User): Promise<boolean> => {
         onLoad()
         return res.status === 200
     } catch (error) {
+        onLoad()
         throw error
     }
 }
 
 export const resetPwRequest = async (user: User): Promise<boolean> => {
-    onLoading()
     try {
+        onLoading()
 
         const headers = {
             "Content-Type": "application/json"

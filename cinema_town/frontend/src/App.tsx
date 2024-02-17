@@ -118,16 +118,19 @@ function App() {
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Home />} />
           
+          {/** Stránky pro přihlašování */}
           <Route path='/register' element={ (verifyAccess() ? loginErr : <Register />) }/> 
           <Route path='/login' element={ (verifyAccess() ? loginErr : <Login />) }/>
           <Route path='/pw-reset/' element={ (verifyAccess() ? loginErr : <PwResetRequest />) }/>
           <Route path='/pw-reset/:email' element={ (verifyAccess() ? loginErr : <PwReset />) }/>
           <Route path='/pw-change' element={ (verifyAccess() ? <PwChange /> : pwChangeErr) } />
 
+          {/** Stránky pro rezervování */}
           <Route path='/film/:fimlId' element={ <FilmDetail /> }/>
           <Route path='/my-reservation/:userId' element={ (verifyAccess() ? <MyReservations /> : accessDenite) } />
           <Route path='/my-reservation/:userId/:reservationId' element={ (verifyAccess() ? <MyReservation /> : accessDenite) } />
           
+          {/** Stránky pro výpis dat */}
           <Route path='/management' element={ (verifyAccess("projection-create") ? <Management /> : accessDenite) } />
           <Route path='/management/projections' element={ (verifyAccess("projection-update") ? <ProjectionsSpreadsheet /> : accessDenite) }/>
           <Route path='/management/cinemas' element={ (verifyAccess("cinema-update") ? <CinemasSpreadsheet /> : accessDenite) }/>
@@ -137,6 +140,7 @@ function App() {
           <Route path='/management/roles' element={ (verifyAccess("role-update") ? <RolesSpreadsheet /> : accessDenite) }/>
           <Route path='/management/age_categories' element={ (verifyAccess("role-update") ? <AgeCategoriSpreadsheet /> : accessDenite) }/>
 
+          {/** Stránky pro přidávání dat */}
           <Route path='/management/users/new' element={ (verifyAccess("user-create") ? userDetail : accessDenite) } />
           <Route path='/management/projections/new' element={ (verifyAccess("projection-create") ? projectionDetail : accessDenite ) }/>
           <Route path='/management/cinemas/new' element={ (verifyAccess("cinema-create") ? cinemaDetail : accessDenite) }/>
@@ -145,6 +149,7 @@ function App() {
           <Route path='/management/films/new' element={ (verifyAccess("film-create") ? filmDetail : accessDenite) } />
           <Route path='/management/age_categories/new' element={ (verifyAccess("ageCategory-create") ? ageCategoryDetail : accessDenite) } />
 
+          {/** Stránky pro editaci dat */}
           <Route path='/management/users/:id' element={ (verifyAccess("user-update") ? userDetail : accessDenite) } />
           <Route path='/management/projections/:id' element={ (verifyAccess("projection-update") ? projectionDetail : accessDenite) }/>
           <Route path='/management/cinemas/:id' element={ (verifyAccess("cinema-update") ? cinemaDetail : accessDenite) }/>

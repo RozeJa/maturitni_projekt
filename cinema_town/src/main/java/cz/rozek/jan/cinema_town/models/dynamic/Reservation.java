@@ -1,6 +1,7 @@
 package cz.rozek.jan.cinema_town.models.dynamic;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -39,7 +40,7 @@ public class Reservation implements Entity {
     // rezervované sedadlo
     @NotNull
     @DBRef
-    private List<Seat> seats;
+    private List<Seat> seats = new ArrayList<>();
     // kód pro identifikaci vstupenek
     private Map<String, AgeCategory> codes = new HashMap<>();
     // čas, kdy byla rezervace zadána do systému
@@ -64,11 +65,15 @@ public class Reservation implements Entity {
 
     @Override
     public void validate() throws ValidationException {
-        if (projection == null)
-            throw new ValidationException("Projection cant be null.");
-        if (user == null)
-            throw new ValidationException("User cant be null.");
-        if (seats.isEmpty()) 
-            throw new ValidationException("Seats cant be empty.");
+        try {
+            if (projection == null)
+                throw new ValidationException("Musí být bybrané promítání.");
+            if (user == null)
+                throw new ValidationException("Není zadaný uživatel.");
+            if (seats.isEmpty()) 
+                throw new ValidationException("Musí být rezervované alespoň jedno sedadlo.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }  

@@ -34,16 +34,16 @@ public class Film implements Entity {
 
     // název filmu
     @Indexed(unique = true)
-    private String name;
+    private String name = "";
     // popis děje filmu
-    private String description;
+    private String description = "";
     // adresa k filmu
-    private String picture;
+    private String picture = "";
     // adresa k traileru na youtube
-    private String trailer;
+    private String trailer = "";
     // originání znění
     @Size(min = 2, max = 3)
-    private String original;
+    private String original = "";
     // určuje zda se jedná o trhák
     private boolean blockBuster = false;
 
@@ -65,16 +65,16 @@ public class Film implements Entity {
     
     // kolik minut film trvá
     @Min(0)
-    private int time;
+    private int time = 0;
     // věková hranice
     @Min(0)
-    private int pg;
+    private int pg = 0;
     // cena lístku, která bude předvyplněna u promítání
     @Min(0)
-    private double defaultCost;
+    private double defaultCost = 0;
     
     // v jaké zemi a kde byl film produkován
-    private String production;
+    private String production = "";
     // den premiéry 
     @NotNull
     @JsonProperty
@@ -84,34 +84,31 @@ public class Film implements Entity {
     public void validate() throws ValidationException {
         try {
             if (name.isBlank())
-                throw new ValidationException("Film name cant be empty.");
+                throw new ValidationException("Název filmu není vyplněn.");
             if (description.isBlank())
-                throw new ValidationException("Film description cant be empty."); 
+                throw new ValidationException("Popis filmu není vyplněn."); 
             if (original.isBlank())
-                throw new ValidationException("Film original cant be empty.");
+                throw new ValidationException("Původní znění není vyplněno.");
             if (original.length() > 3) 
-                throw new ValidationException("Max lenght of original is 3 chars.");
-        } catch (Exception e) {
-                throw new ValidationException("Some prop is null. Cant be."); 
+                throw new ValidationException("Původní znění musí být uvedeno jako zkratka (max 3 písmena).");
+            if (production.isBlank()) 
+                throw new ValidationException("Produkce musí být vyplněna");
+            if (director == null)
+                throw new ValidationException("Režisér musí být uveden.");
+            if (genres.size() == 0) 
+                throw new ValidationException("Žánr filmu musí být uveden.");
+            if (time < 0)
+                throw new ValidationException("Délka trvání snímku musí být kladné číslo.");
+            if (time > 720)
+                throw new ValidationException("Takto dlouhý film nám není povoleno vysílat.");
+            if (pg < 3) 
+                throw new ValidationException("Věkové omezení začíná od 3 let.");
+            if (pg > 99)
+                throw new ValidationException("Věkové omezení má maximální možnou hodnotu 99, ale od 18 to nedává smysl.");
+            if (defaultCost < 0) 
+                throw new ValidationException("Výchozí cena nemůže být záporná.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
         }
-        if (picture == null)
-            picture = "";
-        if (trailer == null)
-            trailer = "";
-        if (director == null)
-            throw new ValidationException("Director cant be null.");
-        if (genres.size() == 0) 
-            throw new ValidationException("Film must be at least one genre.");
-        if (time <= 0)
-            throw new ValidationException("Time cant be negative or zero.");
-        if (time > 720)
-            throw new ValidationException("Time cant be bigger number that 720 minits.");
-        if (pg < 3) 
-            throw new ValidationException("PG cant be negative or zero.");
-        if (pg > 99)
-            throw new ValidationException("Invalid pg number. Limit is 99");
-        if (defaultCost < 0) 
-            throw new ValidationException("Default cost cant be negative.");
-
     }
 }

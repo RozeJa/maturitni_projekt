@@ -17,20 +17,21 @@ public class AgeCategory implements Entity {
     private String id;
 
     // název kategorie
-    private String name;
+    private String name = "";
     // kolik procent z ceny se má uvažovat, jako cena pro kategorii
     private double priceModificator = 1;
 
     @Override 
     public void validate() throws ValidationException {
-        if (name == null) {
-            throw new ValidationException("Category name cant be null.");
-        }
-        if (name.isEmpty()) {
-            throw new ValidationException("Category name cant be empty.");
-        }
-        if (priceModificator < 0) {
-            throw new ValidationException("Invalid priceModificator.");
+        try {
+            if (name.isEmpty()) {
+                throw new ValidationException("Není uveden název kategorie.");
+            }
+            if (priceModificator < 0) {
+                throw new ValidationException("Cenový monifikátor nemůže být manší než nula.");
+            }
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
         }
     }
 }

@@ -20,13 +20,15 @@ public class City implements Entity {
 
     // název města
     @Indexed(unique = true)
-    private String name;
+    private String name = "";
 
     @Override
     public void validate() throws ValidationException {
-        if (name == null)
-            throw new ValidationException("Name of city cant be null.");
-        if (name.isBlank())
-            throw new ValidationException("Name of city cant be empty.");
+        try {
+            if (name.isBlank())
+                throw new ValidationException("Není zadaný název města.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }

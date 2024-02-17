@@ -119,8 +119,9 @@ const ProjectionsSpreadsheet = () => {
                             setSelectedCinema({...defCinema})
                     }}>
                         {
-                            cinemas.sort((a,b) => a.city.name.localeCompare(b.city.name)).map((c,index) => 
-                                <option key={index} value={c.id !== null ? c.id : ''}>{`${c?.city.name}, ${c?.street}, ${c?.houseNumber}`}</option>
+                            cinemas
+                                .sort((a,b) => a.city.name.localeCompare(b.city.name))
+                                .map((c,index) => <option key={index} value={c.id !== null ? c.id : ''}>{c.id !== null ? `${c?.city.name}, ${c?.street}, ${c?.houseNumber}` : 'Všechna multikina' }</option>
                             )
                         }
                     </select>

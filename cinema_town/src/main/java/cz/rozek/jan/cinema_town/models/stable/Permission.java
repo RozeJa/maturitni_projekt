@@ -21,13 +21,15 @@ public class Permission implements Entity {
 
     // název oprávnění
     @Indexed(unique = true)
-    private String permission;
+    private String permission = "";
 
     @Override
     public void validate() throws ValidationException {
-        if (permission == null)
-            throw new ValidationException("Permission cant be null.");
-        if (permission.isBlank())
-            throw new ValidationException("Permission cant be empty.");
+        try {
+            if (permission.isBlank())
+                throw new ValidationException("Obrávnění musí být vyplněno.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }

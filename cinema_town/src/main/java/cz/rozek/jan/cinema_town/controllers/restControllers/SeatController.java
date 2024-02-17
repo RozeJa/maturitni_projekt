@@ -18,7 +18,7 @@ import cz.rozek.jan.cinema_town.models.stable.Seat;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.SeatService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
 @RequestMapping(path = "/api/seats")
 public class SeatController extends cz.rozek.jan.cinema_town.controllers.RestController<Seat, SeatService> {
     

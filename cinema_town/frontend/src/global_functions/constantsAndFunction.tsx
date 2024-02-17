@@ -41,15 +41,17 @@ export const formatDateTime = (date: string[] | Date): string => {
 }
 
 export const handleErr = (setErr: Function, err: AxiosError, redirect: boolean = false) => {
-    
-    console.log(err);
-    
+    const status = err.response?.status
 
-    const status = err.request.status
+    console.log(typeof err.response?.data);  
+
+    let data: string = 'Chybný požadavek, dále nespecifikovaný'
+    if (typeof err.response?.data === "string") 
+        data = err.response.data
 
     switch (status) {
         case 400:
-            setErr(<DialogErr err='Chybný požadavek' description={"Zkontroujte data, která posíláte a zkuste to znovu."} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
+            setErr(<DialogErr err='Chybný požadavek' description={data} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
             break;
         case 401:
             setErr(<DialogErr err='Tuto akci nemůžete provést nepřihlášeni.' description={""} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
@@ -73,7 +75,6 @@ export const handleErrRedirect = (setErr: Function, err: AxiosError) => {
 
 export const callbackOnEnter = (event: any, callBack: Function) => {
     const { key } = event
-    console.log(event.key);
     
     if (key === "Enter") {
         callBack()

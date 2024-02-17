@@ -31,7 +31,7 @@ import cz.rozek.jan.cinema_town.servicies.paymentService.IPayment;
 import cz.rozek.jan.cinema_town.servicies.pdfService.PdfService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
 @RequestMapping(path = "/api/reservations")
 public class ReservationController extends cz.rozek.jan.cinema_town.controllers.RestController<Reservation, ReservationService> {
     
@@ -101,13 +101,14 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             
-            throw new ValidationException("Invalid payment method.");
+            throw new ValidationException("Neplatný způsob platby.");
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (ValidationException | DuplicateKeyException | org.springframework.dao.DuplicateKeyException e) {
-            e.printStackTrace();
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (DuplicateKeyException | org.springframework.dao.DuplicateKeyException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();

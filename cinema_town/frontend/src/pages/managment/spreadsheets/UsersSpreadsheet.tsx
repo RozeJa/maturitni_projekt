@@ -68,7 +68,7 @@ const UsersSpreadsheet = () => {
                             <>
                               <p><b>Role</b> {d.role.name}</p> 
                               <p><b>{d.active ? "Aktivován" : "Neaktivován" }</b></p>  
-                              <p><b>{d.active ? "Odběratel" : "Není odběratel" }</b></p> 
+                              <p><b>{d.subscriber ? "Odběratel" : "Není odběratel" }</b></p> 
                             </>
                         </Tile>
                     }) }

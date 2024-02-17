@@ -24,7 +24,7 @@ public class Role implements Entity {
 
     // název role
     @Indexed(unique = true)
-    private String name;
+    private String name = "";
 
     // oprávnění mapované id => oprávnění
     @DBRef
@@ -50,9 +50,11 @@ public class Role implements Entity {
 
     @Override
     public void validate() throws ValidationException {
-        if (name == null)
-            throw new ValidationException("Name cant be null.");
-        if (name.isBlank())
-            throw new ValidationException("Name cant be empty.");
+        try {
+            if (name.isBlank())
+                throw new ValidationException("Role musí být pojmenovaná.");  
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }

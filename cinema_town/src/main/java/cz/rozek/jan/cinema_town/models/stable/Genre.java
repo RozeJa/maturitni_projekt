@@ -20,13 +20,15 @@ public class Genre implements Entity {
 
     // název žánru 
     @Indexed(unique = true)
-    private String name;
+    private String name = "";
 
     @Override
     public void validate() throws ValidationException {
-        if (name == null)
-            throw new ValidationException("Name of genre cant be null.");
-        if (name.isBlank())
-            throw new ValidationException("Name of genre cant be empty.");
+        try {
+            if (name.isBlank())
+                throw new ValidationException("Název žánru není vyplněn.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }

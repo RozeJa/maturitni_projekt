@@ -126,14 +126,13 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         return false;
     }
 
-    public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) throws DuplicateKeyException, ValidationException {
+    public Reservation reservate(ReservationDTO reservationDTO, String accessJWT) throws ValidationException {
 
         // ověř učivatele
         User user = verifyAccess(accessJWT, createPermissionRequired());
 
         // validuj rezervaci
-        if (!reservationDTO.isValid())
-            throw new ValidationException("Reservation count of seats have to equal tickets count.");
+        reservationDTO.isValid();
         
         // vytvoř objekt rezervace a vyplň ho daty
         Reservation reservation = buildReservationFormDTO(reservationDTO, user, accessJWT);
@@ -141,7 +140,7 @@ public class ReservationService extends CrudService<Reservation, ReservationRepo
         // ověř zda místo už nemá nikdo rezervované
         List<Reservation> reserved = repository.findByProjectionIdAndSeats(reservation.getProjection(), reservation.getSeats());
         if (!reserved.isEmpty()) 
-            throw new DuplicateKeyException("Seats are already reservated.");
+            throw new ValidationException("Sedadla jiš byla zarezervována.");
 
         // pokud nemá ulož rezervaci 
         reservation = repository.save(reservation);

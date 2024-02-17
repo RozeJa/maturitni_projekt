@@ -24,7 +24,7 @@ public class Hall implements Entity {
     private String id;
     
     // označení sálu
-    private String designation;
+    private String designation = "";
     
     // počet řad
     @Min(1)
@@ -39,16 +39,17 @@ public class Hall implements Entity {
 
     @Override
     public void validate() throws ValidationException {
-
-        if (designation == null)
-            throw new ValidationException("Designation cant be null.");
-        if (designation.isBlank())
-            throw new ValidationException("Designation cant be empty.");
-        if (rows < 1) 
-            throw new ValidationException("Number of rows must be at least 1.");
-        if (columns < 1) 
-            throw new ValidationException("Number of columns must be at least 1.");
-        if (seats.size() == 0) 
-            throw new ValidationException("Seats cant be null");
+        try {
+            if (designation.isBlank())
+                throw new ValidationException("Označení sálu není vyplněno.");
+            if (rows < 1) 
+                throw new ValidationException("Sál musí mít alespoň dvě řady sedadel.");
+            if (columns < 1) 
+                throw new ValidationException("Sál musí mít alespoň dva sloupce sedadel.");
+            if (seats.size() != rows * columns) 
+                throw new ValidationException("Násobek počtu řad a sloupců musí být shodný s počtem sedadel.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }

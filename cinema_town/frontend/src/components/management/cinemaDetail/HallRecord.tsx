@@ -20,7 +20,7 @@ const HallRecord = ({
 
     const removeHall = async (hall: Hall) => {
         
-        if (cinema.halls !== null && unremovableHalls.find(h => h.id === hall.id) !== undefined) {
+        if (cinema.halls !== null && unremovableHalls.find(h => h.id === hall.id) === undefined) {
             // odeber z kina sál 
             delete cinema.halls[hall.id !== null ? hall.id : '']
             // pošli update kina na server
@@ -32,7 +32,7 @@ const HallRecord = ({
         <div className='hall-record' >
             <p onClick={() => navigate(`/management/halls/${cinema.id}/${hall.id}`)}><b>Sál: {hall.designation}</b></p>
             <button
-                className={unremovableHalls.find(h => h.id === hall.id) === undefined ? 'hall-record-dizabled' : ''} 
+                className={unremovableHalls.find(h => h.id === hall.id) === undefined ? '' : 'hall-record-dizabled'} 
                 onClick={() => removeHall(hall)}>Odebrat</button>
         </div>
     )

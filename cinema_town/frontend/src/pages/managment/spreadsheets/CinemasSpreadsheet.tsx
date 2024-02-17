@@ -79,7 +79,10 @@ const CinemasSpreadsheet = () => {
                             }
                             >
                             <>
-                                <p><b>Sály</b> {Object.values(d.halls).map(h=>h.designation).join(", ")}</p>
+                                <p><b>Sály</b> {
+                                    Object.values(d.halls)
+                                        .sort((a,b) => a.designation.localeCompare(b.designation))
+                                        .map(h=>h.designation).join(", ")}</p>
                                 <p><b>Počet sálů</b> {Object.values(d.halls).length}</p>
                             </>
                         </Tile>

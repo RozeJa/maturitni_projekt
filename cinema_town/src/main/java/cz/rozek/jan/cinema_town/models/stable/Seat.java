@@ -20,7 +20,7 @@ public class Seat implements Entity {
     private String id;
 
     // označení řady
-    private String rowDesignation;
+    private String rowDesignation = "";
     // označení sadadla
     @Min(0)
     private int number;
@@ -36,15 +36,17 @@ public class Seat implements Entity {
 
     @Override
     public void validate() throws ValidationException {
-        if (rowDesignation == null)
-            throw new ValidationException("RowDesignation cant be null.");
-        if (rowDesignation.isBlank())
-            throw new ValidationException("RowDesignation cant be empty.");
-        if (number <= 0) 
-            throw new ValidationException("Number of seat must be at least 1.");
-        if (rowIndex < 0) 
-            throw new ValidationException("RowIndex must be at least 0.");
-        if (columnIndex < 0) 
-            throw new ValidationException("ColumnIndex must be at least 0.");
+        try {
+            if (rowDesignation.isBlank())
+                throw new ValidationException("Sedadlo musí mít vyplnění označení řady.");
+            if (number <= 0) 
+                throw new ValidationException("Pořadí sedadla musí být větší 0.");
+            if (rowIndex < 0) 
+                throw new ValidationException("Nejmenší očíslování řady je 0.");
+            if (columnIndex < 0) 
+                throw new ValidationException("Nejmenší očíslování sloupce je 0.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        } 
     }
 }

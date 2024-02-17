@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dynamic.Projection;
 import cz.rozek.jan.cinema_town.models.stable.Seat;
 import lombok.Data;
@@ -24,10 +25,11 @@ public class ReservationDTO {
     // seznam věkových kategorií, o které má uživatel zájem celkový součet lístků jednotlivých kategoriích musí být roven počtu sedadel
     private Map<String, Integer> agesCategories = new HashMap<>();
 
-    public boolean isValid() {
+    public void isValid() throws ValidationException {
         int ticketsCount = agesCategories.values().stream().mapToInt(Integer::intValue).sum();
         
-        return ticketsCount == seats.size();
+        if (ticketsCount != seats.size())
+            throw new ValidationException("V rezervaci neodpovídá počet lístků a vybraných sedadel.");
     }
 }
 

@@ -66,7 +66,9 @@ const CinemaDetail = ({
     useEffect(() => {
         if (tempData.halls !== null) {
         
-            const maped = Object.values(tempData.halls).map((hal, index) => {
+            const maped = Object.values(tempData.halls)
+            .sort((a,b) => a.designation.localeCompare(b.designation))
+            .map((hal, index) => {
                 return <HallRecord key={index} hall={hal} cinema={tempData} unremovableHalls={unremovableHalls} setCinema={(newData: Cinema) => setTempData(newData)} />
             })
             

@@ -18,15 +18,17 @@ public class People implements Entity {
     private String id;
 
     // jméno
-    private String name;
+    private String name = "";
     // přijmení    
-    private String surname;
+    private String surname = "";
 
     @Override
     public void validate() throws ValidationException {
-        if (surname == null)
-            throw new ValidationException("Surname cant be null.");
-        if (surname.isBlank())
-            throw new ValidationException("Surname cant be empty.");
+        try {
+            if (surname.isBlank())
+                throw new ValidationException("Osoba musí mít alespoň vyplněné přijmení.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }

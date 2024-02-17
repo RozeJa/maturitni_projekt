@@ -28,7 +28,7 @@ import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @org.springframework.web.bind.annotation.RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "http://localhost"})
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
 @RequestMapping(path = "/auth")
 public class AuthController {
 

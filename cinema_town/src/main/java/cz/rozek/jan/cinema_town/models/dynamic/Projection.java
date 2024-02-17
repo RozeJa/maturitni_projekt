@@ -38,23 +38,40 @@ public class Projection implements Entity {
     private double cost;
     // titulky
     @Size(max = 3)
-    private String title;
+    private String title = "";
     // dabing
     @Size(max = 3)
-    private String dabing;
+    private String dabing = "";
     // datum kdy se bude film promítat
     @NotNull
     private LocalDateTime dateTime;
 
+    public boolean intersect(Projection projection) {
+        if (id.equals(projection.getId()))
+            return false;
+
+        if (hall.getId().equals(projection.getHall().getId())) {
+            return !(
+                dateTime.plusMinutes(film.getTime()).isBefore(projection.getDateTime()) ||
+                projection.getDateTime().plusMinutes(projection.getFilm().getTime()).isBefore(dateTime)
+            );
+        } 
+        
+        return false;
+    }
+
     @Override
     public void validate() throws ValidationException {
         if (hall == null) 
-            throw new ValidationException("Hall cant be null.");
+            throw new ValidationException("Sál musí být vybraný.");
         if (film == null) 
-            throw new ValidationException("Film cant be null.");
+            throw new ValidationException("Film musí být vybraný.");
         if (cost < 0)
-            throw new ValidationException("Minila cost is '0'.");
-        if (dateTime.isBefore(LocalDateTime.now()))
-            throw new ValidationException("Date of projection must be today or after today."); 
+            throw new ValidationException("Nejmenší povolená cena je 0 Kč.");
+        if (dateTime.isBefore(LocalDateTime.now().plusDays(1)))
+            throw new ValidationException("Promítání musí být naplánováno alespoň 24 hodin předem."); 
+        if (title == null || dabing == null) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        }
     }
 }

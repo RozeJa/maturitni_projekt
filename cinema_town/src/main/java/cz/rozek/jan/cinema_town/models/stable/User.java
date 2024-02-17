@@ -26,11 +26,11 @@ public class User implements Entity {
 
     // email
     @Indexed(unique = true)
-    private String email;
+    private String email = "";
     // heslo
-    private String password;
+    private String password = "";
     // heslo
-    private String password2;
+    private String password2 = "";
 
     // zda byl účet aktivován
     private boolean active = false;
@@ -67,16 +67,16 @@ public class User implements Entity {
     }
 
     @Override
-    public void validate() throws ValidationException {        
+    public void validate() throws ValidationException {       
         try {
             if (!validateEmail()) 
-                throw new ValidationException("Email isnt valid.");
+                throw new ValidationException("Email není validní.");
             if (!validatePassword())
-                throw new ValidationException("Password isnt valid.");
-        } catch (Exception e) {
-                throw new ValidationException("Some prop is null. Cant be."); 
-        }
-        if (role == null) 
-            throw new ValidationException("Role cant be null.");
+                throw new ValidationException("Heslo neodpovídá našim požadavkům.");
+            if (role == null) 
+                throw new ValidationException("Uživatel nemá přiřazenou roly.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
+        } 
     }   
 }

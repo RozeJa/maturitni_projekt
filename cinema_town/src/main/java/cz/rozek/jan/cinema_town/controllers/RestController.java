@@ -114,7 +114,7 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
         } catch (AuthRequired e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (ValidationException | DuplicateKeyException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -138,10 +138,13 @@ public abstract class RestController<E extends Entity, S extends CrudService<E,?
         } catch (NullPointerException | NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (SecurityException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } catch (ValidationException | DuplicateKeyException e) {
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (DuplicateKeyException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();

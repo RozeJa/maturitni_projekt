@@ -28,9 +28,9 @@ public class Cinema implements Entity {
     @DBRef
     private City city;
     // název ulice, z které je vstup do kina
-    private String street;
+    private String street = "";
     // číslo popisné 
-    private String houseNumber;
+    private String houseNumber = "";
 
     // seznam sálů kina; mapování id => sál
     @DBRef
@@ -38,15 +38,15 @@ public class Cinema implements Entity {
 
     @Override
     public void validate() throws ValidationException {
-        if (city == null)
-            throw new ValidationException("City cant be null.");
         try {
+            if (city == null)
+                throw new ValidationException("Není zadané žádné město.");
             if (street.isBlank())
-                throw new ValidationException("Street cant be empty.");
+                throw new ValidationException("Není zadaná žádné ulice.");             
             if (houseNumber.isBlank())
-                throw new ValidationException("HouseNumber cant be empty.");            
-        } catch (Exception e) {
-                throw new ValidationException("Some prop is null. Cant be"); 
+                throw new ValidationException("Není zadané číslo popisné.");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Textové parametry nemohou být null.");
         }
     }
 }
