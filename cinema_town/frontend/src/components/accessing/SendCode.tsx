@@ -44,10 +44,10 @@ const SendCode = (data:any) => {
             } 
             
             try {
-                const loginToken = await login(getSessionStorageItem("email"), data.password, trutToken)
+                const tokens = await login(getSessionStorageItem("email"), data.password, trutToken)
         
-                if (typeof loginToken === 'string') {
-                    sessionStorage.setItem("loginToken", loginToken)
+                if (typeof tokens?.loginToken === 'string') {
+                    sessionStorage.setItem("loginToken", tokens.loginToken)
                     
                     window.location.href = '/'
                 } else {
@@ -69,10 +69,10 @@ const SendCode = (data:any) => {
 
     const handleLogin = async () => {
         try {
-            const tokenDeviceId = await secondVerify(code)
-
             const trustedTokensString = getLocalStorageItem("trustedTokens")
             const trustedTokens = JSON.parse(trustedTokensString === '' ? '{}' : trustedTokensString)
+
+            const tokenDeviceId = await secondVerify(code)
 
             trustedTokens[getSessionStorageItem("email")] = tokenDeviceId.trustToken
             localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
