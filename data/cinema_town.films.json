@@ -15,7 +15,7 @@
     }
   },
   "actors": {
-    "654fb582eac6391045e77f29": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654fb582eac6391045e77f29"
@@ -39,9 +39,7 @@
   "time": 103,
   "pg": 15,
   "defaultCost": 300,
-  "production": {
-    "$date": "2023-11-01T23:00:00.000Z"
-  },
+  "production": "KO2023",
   "premier": {
     "$date": "2023-11-23T23:00:00.000Z"
   },
@@ -64,67 +62,67 @@
     }
   },
   "actors": {
-    "654fe9bf7285413e5ade2657": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade2657"
       }
     },
-    "654fe9bf7285413e5ade2658": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade2658"
       }
     },
-    "654fe9bf7285413e5ade2659": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade2659"
       }
     },
-    "654fe9bf7285413e5ade265a": {
+    "3": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade265a"
       }
     },
-    "654fe9bf7285413e5ade265b": {
+    "4": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade265b"
       }
     },
-    "654fe9bf7285413e5ade265c": {
+    "5": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade265c"
       }
     },
-    "654fe9bf7285413e5ade265d": {
+    "6": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade265d"
       }
     },
-    "654fe9bf7285413e5ade265e": {
+    "7": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade265e"
       }
     },
-    "654fe9bf7285413e5ade265f": {
+    "8": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade265f"
       }
     },
-    "654fe9bf7285413e5ade2660": {
+    "9": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade2660"
       }
     },
-    "654fe9bf7285413e5ade2661": {
+    "10": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade2661"
@@ -161,11 +159,9 @@
   "time": 154,
   "pg": 15,
   "defaultCost": 300,
-  "production": {
-    "$date": "2023-11-05T23:00:00.000Z"
-  },
+  "production": "FR2023",
   "premier": {
-    "$date": "2023-12-05T23:00:00.000Z"
+    "$date": "2023-11-25T23:00:00.000Z"
   },
   "_class": "cz.rozek.jan.cinema_town.models.stable.Film"
 },
@@ -186,19 +182,19 @@
     }
   },
   "actors": {
-    "654fea697285413e5ade2664": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654fea697285413e5ade2664"
       }
     },
-    "654fea697285413e5ade2665": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654fea697285413e5ade2665"
       }
     },
-    "654fea697285413e5ade2666": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654fea697285413e5ade2666"
@@ -226,9 +222,7 @@
   "time": 155,
   "pg": 12,
   "defaultCost": 200,
-  "production": {
-    "$date": "2023-10-31T23:00:00.000Z"
-  },
+  "production": "IN2023",
   "premier": {
     "$date": "2023-11-10T23:00:00.000Z"
   },
@@ -251,31 +245,31 @@
     }
   },
   "actors": {
-    "654feb0d7285413e5ade2669": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb0d7285413e5ade2669"
       }
     },
-    "654feb0d7285413e5ade266a": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb0d7285413e5ade266a"
       }
     },
-    "654feb0d7285413e5ade266b": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb0d7285413e5ade266b"
       }
     },
-    "654feb0d7285413e5ade266c": {
+    "3": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb0d7285413e5ade266c"
       }
     },
-    "654feb0d7285413e5ade266d": {
+    "4": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb0d7285413e5ade266d"
@@ -307,9 +301,7 @@
   "time": 134,
   "pg": 13,
   "defaultCost": 300,
-  "production": {
-    "$date": "2023-11-04T23:00:00.000Z"
-  },
+  "production": "FR2023",
   "premier": {
     "$date": "2023-11-21T23:00:00.000Z"
   },
@@ -332,31 +324,31 @@
     }
   },
   "actors": {
-    "654feb817285413e5ade2670": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb817285413e5ade2670"
       }
     },
-    "654feb817285413e5ade2671": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb817285413e5ade2671"
       }
     },
-    "654feb817285413e5ade2672": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb817285413e5ade2672"
       }
     },
-    "654feb817285413e5ade2673": {
+    "3": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb817285413e5ade2673"
       }
     },
-    "654feb817285413e5ade2674": {
+    "4": {
       "$ref": "people",
       "$id": {
         "$oid": "654feb817285413e5ade2674"
@@ -378,9 +370,7 @@
   "time": 98,
   "pg": 15,
   "defaultCost": 399,
-  "production": {
-    "$date": "2023-10-08T22:00:00.000Z"
-  },
+  "production": "CZ2023",
   "premier": {
     "$date": "2023-11-08T23:00:00.000Z"
   },
@@ -403,43 +393,43 @@
     }
   },
   "actors": {
-    "654fec0a7285413e5ade2677": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade2677"
       }
     },
-    "654fec0a7285413e5ade2678": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade2678"
       }
     },
-    "654fec0a7285413e5ade2679": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade2679"
       }
     },
-    "654fec0a7285413e5ade267a": {
+    "3": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade267a"
       }
     },
-    "654fec0a7285413e5ade267b": {
+    "4": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade267b"
       }
     },
-    "654fec0a7285413e5ade267c": {
+    "5": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade267c"
       }
     },
-    "654fec0a7285413e5ade267d": {
+    "6": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade267d"
@@ -461,9 +451,7 @@
   "time": 93,
   "pg": 15,
   "defaultCost": 299,
-  "production": {
-    "$date": "2023-10-05T22:00:00.000Z"
-  },
+  "production": "US2023",
   "premier": {
     "$date": "2023-11-08T23:00:00.000Z"
   },
@@ -486,7 +474,7 @@
     }
   },
   "actors": {
-    "654fec687285413e5ade2680": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec687285413e5ade2680"
@@ -514,9 +502,7 @@
   "time": 77,
   "pg": 3,
   "defaultCost": 150,
-  "production": {
-    "$date": "2023-10-31T23:00:00.000Z"
-  },
+  "production": "BR2023",
   "premier": {
     "$date": "2023-11-08T23:00:00.000Z"
   },
@@ -539,91 +525,91 @@
     }
   },
   "actors": {
-    "654feddf7285413e5ade268e": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade268e"
       }
     },
-    "654feddf7285413e5ade268f": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade268f"
       }
     },
-    "654feddf7285413e5ade2690": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2690"
       }
     },
-    "654feddf7285413e5ade2691": {
+    "3": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2691"
       }
     },
-    "654feddf7285413e5ade2683": {
+    "4": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2683"
       }
     },
-    "654feddf7285413e5ade2684": {
+    "5": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2684"
       }
     },
-    "654feddf7285413e5ade2685": {
+    "6": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2685"
       }
     },
-    "654feddf7285413e5ade2686": {
+    "7": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2686"
       }
     },
-    "654feddf7285413e5ade2687": {
+    "8": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2687"
       }
     },
-    "654feddf7285413e5ade2688": {
+    "9": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2688"
       }
     },
-    "654feddf7285413e5ade2689": {
+    "10": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade2689"
       }
     },
-    "654feddf7285413e5ade268a": {
+    "11": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade268a"
       }
     },
-    "654feddf7285413e5ade268b": {
+    "12": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade268b"
       }
     },
-    "654feddf7285413e5ade268c": {
+    "13": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade268c"
       }
     },
-    "654feddf7285413e5ade268d": {
+    "14": {
       "$ref": "people",
       "$id": {
         "$oid": "654feddf7285413e5ade268d"
@@ -660,9 +646,7 @@
   "time": 105,
   "pg": 12,
   "defaultCost": 399,
-  "production": {
-    "$date": "2023-11-02T23:00:00.000Z"
-  },
+  "production": "US2023",
   "premier": {
     "$date": "2023-11-08T23:00:00.000Z"
   },
@@ -700,9 +684,7 @@
   "time": 105,
   "pg": 3,
   "defaultCost": 105,
-  "production": {
-    "$date": "2023-11-10T23:00:00.000Z"
-  },
+  "production": "AS2023",
   "premier": {
     "$date": "2023-11-10T23:00:00.000Z"
   },
@@ -725,25 +707,25 @@
     }
   },
   "actors": {
-    "654feff97285413e5ade2696": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654feff97285413e5ade2696"
       }
     },
-    "654fe9bf7285413e5ade265d": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654fe9bf7285413e5ade265d"
       }
     },
-    "654feff97285413e5ade2697": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654feff97285413e5ade2697"
       }
     },
-    "654feff97285413e5ade2698": {
+    "3": {
       "$ref": "people",
       "$id": {
         "$oid": "654feff97285413e5ade2698"
@@ -768,9 +750,7 @@
   "time": 105,
   "pg": 12,
   "defaultCost": 298,
-  "production": {
-    "$date": "2023-10-31T23:00:00.000Z"
-  },
+  "production": "US2023",
   "premier": {
     "$date": "2023-11-01T23:00:00.000Z"
   },
@@ -793,43 +773,43 @@
     }
   },
   "actors": {
-    "654ff0727285413e5ade269b": {
+    "0": {
       "$ref": "people",
       "$id": {
         "$oid": "654ff0727285413e5ade269b"
       }
     },
-    "654fec0a7285413e5ade2679": {
+    "1": {
       "$ref": "people",
       "$id": {
         "$oid": "654fec0a7285413e5ade2679"
       }
     },
-    "654ff0727285413e5ade269c": {
+    "2": {
       "$ref": "people",
       "$id": {
         "$oid": "654ff0727285413e5ade269c"
       }
     },
-    "654ff0727285413e5ade269d": {
+    "3": {
       "$ref": "people",
       "$id": {
         "$oid": "654ff0727285413e5ade269d"
       }
     },
-    "654ff0727285413e5ade269e": {
+    "4": {
       "$ref": "people",
       "$id": {
         "$oid": "654ff0727285413e5ade269e"
       }
     },
-    "654ff0727285413e5ade269f": {
+    "5": {
       "$ref": "people",
       "$id": {
         "$oid": "654ff0727285413e5ade269f"
       }
     },
-    "654ff0727285413e5ade26a0": {
+    "6": {
       "$ref": "people",
       "$id": {
         "$oid": "654ff0727285413e5ade26a0"
@@ -851,9 +831,7 @@
   "time": 206,
   "pg": 15,
   "defaultCost": 499,
-  "production": {
-    "$date": "2023-09-30T22:00:00.000Z"
-  },
+  "production": "US2023",
   "premier": {
     "$date": "2023-11-18T23:00:00.000Z"
   },
@@ -891,9 +869,7 @@
   "time": 87,
   "pg": 3,
   "defaultCost": 150,
-  "production": {
-    "$date": "2023-10-03T22:00:00.000Z"
-  },
+  "production": "US2023",
   "premier": {
     "$date": "2023-10-11T22:00:00.000Z"
   },
@@ -989,9 +965,7 @@
   "time": 118,
   "pg": 15,
   "defaultCost": 399,
-  "production": {
-    "$date": "2023-09-10T22:00:00.000Z"
-  },
+  "production": "US2023",
   "premier": {
     "$date": "2023-09-27T22:00:00.000Z"
   },
@@ -1126,9 +1100,7 @@
   "time": 111,
   "pg": 12,
   "defaultCost": 299,
-  "production": {
-    "$date": "2023-09-20T22:00:00.000Z"
-  },
+  "production": "CZ2023",
   "premier": {
     "$date": "2023-09-20T22:00:00.000Z"
   },
