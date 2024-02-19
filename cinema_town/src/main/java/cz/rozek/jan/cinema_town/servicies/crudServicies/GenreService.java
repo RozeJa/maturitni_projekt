@@ -3,8 +3,8 @@ package cz.rozek.jan.cinema_town.servicies.crudServicies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.Genre;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Genre;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.FilmRepository;
 import cz.rozek.jan.cinema_town.repositories.GenreRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;

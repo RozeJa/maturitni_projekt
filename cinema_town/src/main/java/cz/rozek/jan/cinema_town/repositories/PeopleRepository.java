@@ -3,7 +3,7 @@ package cz.rozek.jan.cinema_town.repositories;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import cz.rozek.jan.cinema_town.models.stable.People;
+import cz.rozek.jan.cinema_town.models.primary.People;
 
 public interface PeopleRepository extends MongoRepository<People, String> {
 

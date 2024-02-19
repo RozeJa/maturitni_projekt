@@ -3,7 +3,7 @@ package cz.rozek.jan.cinema_town.servicies.crudServicies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.Permission;
+import cz.rozek.jan.cinema_town.models.primary.Permission;
 import cz.rozek.jan.cinema_town.repositories.PermissionRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;

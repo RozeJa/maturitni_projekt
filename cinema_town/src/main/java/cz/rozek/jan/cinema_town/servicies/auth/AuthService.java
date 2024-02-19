@@ -34,8 +34,8 @@ import org.springframework.stereotype.Service;
 import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.ResetPWCode;
 import cz.rozek.jan.cinema_town.models.dtos.SecondVerificationToken;
-import cz.rozek.jan.cinema_town.models.stable.Role;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Role;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.RoleRepository;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 

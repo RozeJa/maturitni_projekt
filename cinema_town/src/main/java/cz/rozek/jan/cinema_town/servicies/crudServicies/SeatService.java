@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.rozek.jan.cinema_town.models.stable.Seat;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Seat;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.ReservationRepository;
 import cz.rozek.jan.cinema_town.repositories.SeatRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;

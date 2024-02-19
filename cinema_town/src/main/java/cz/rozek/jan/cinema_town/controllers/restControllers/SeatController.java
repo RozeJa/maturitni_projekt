@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cz.rozek.jan.cinema_town.models.stable.Seat;
+import cz.rozek.jan.cinema_town.models.primary.Seat;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.SeatService;
 
 @RestController

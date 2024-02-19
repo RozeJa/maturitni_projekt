@@ -19,11 +19,11 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
-import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
-import cz.rozek.jan.cinema_town.models.stable.Cinema;
-import cz.rozek.jan.cinema_town.models.stable.Hall;
-import cz.rozek.jan.cinema_town.models.stable.Seat;
+import cz.rozek.jan.cinema_town.models.primary.AgeCategory;
+import cz.rozek.jan.cinema_town.models.primary.Cinema;
+import cz.rozek.jan.cinema_town.models.primary.Hall;
+import cz.rozek.jan.cinema_town.models.primary.Reservation;
+import cz.rozek.jan.cinema_town.models.primary.Seat;
 import cz.rozek.jan.cinema_town.repositories.CinemaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,7 +100,7 @@ public class PdfService {
         String datetime = reservation.getProjection().getDateTime().toString().replace("T", " ");
 
         document.add(new Paragraph(String.format(
-                "Rezervace filmového promítání: %s\nMísto promítání: %s \nHala: %s\nDatum a čas konání promátání %s",
+                "Rezervace filmového promítání: %s\nMísto promítání: %s \nSál: %s\nDatum a čas konání promátání %s",
                 filmName, address, hallDes, datetime), font));
 
         Map<String, Float> grupedCategories = groupCategories(reservation);

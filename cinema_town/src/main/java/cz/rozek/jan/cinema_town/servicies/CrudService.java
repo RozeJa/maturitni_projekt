@@ -8,7 +8,7 @@ import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 
 import cz.rozek.jan.cinema_town.models.Entity;
 import cz.rozek.jan.cinema_town.models.ValidationException;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 
@@ -30,11 +30,6 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
     public abstract String createPermissionRequired();
     public abstract String updatePermissionRequired();
     public abstract String deletePermissionRequired();
-
-    // metoda, která ověří přístup, pokud s požadevkem nebyl zaslán přístupový JWT
-    protected boolean verifyNullToken(String requiredActivity) {
-        return false;
-    }
 
     /**
      * metoda získá všechny záznamy
@@ -171,17 +166,13 @@ public abstract class CrudService<E extends Entity, R extends MongoRepository<E,
     public User verifyAccess(String accessJWT, String requiredPermission) throws SecurityException, AuthRequired {
         // pokud přístupový JWT je null prověř, zda i přes to může uživatel provést akci
         if (accessJWT == null) {
-            if (!verifyNullToken(requiredPermission)) {
-                throw new AuthRequired("Access with null token refused");
-            }
+            throw new AuthRequired("Access with null token refused");
             // pokud oprávnění není null ověř zda uživatel má toto oprávnění 
         } else if (requiredPermission != null) {
            return authService.verifyAccess(accessJWT, requiredPermission);
         } else {
             return authService.verifyAccess(accessJWT, "");
         }
-
-        return null;
     }
 
 }

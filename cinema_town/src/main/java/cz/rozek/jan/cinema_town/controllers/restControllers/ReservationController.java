@@ -21,13 +21,13 @@ import com.mongodb.DuplicateKeyException;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.ReservationDTO;
-import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Reservation;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.ReservationService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
-import cz.rozek.jan.cinema_town.servicies.paymentService.IPayment;
+import cz.rozek.jan.cinema_town.servicies.paymentService.PaymentService;
 import cz.rozek.jan.cinema_town.servicies.pdfService.PdfService;
 
 @RestController
@@ -39,12 +39,8 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     private PdfService pdfService;
     @Autowired
     private EmailService emailService; 
-    private final Map<String, IPayment> payments;
-
-    @Autowired
-    public ReservationController(Map<String, IPayment> payments) {
-        this.payments = payments;
-    }
+    @Autowired 
+    private PaymentService paymentService;
 
     // Metoda slouží pro cenzurované načtení rezervací, na konkrétní promítání
     @GetMapping("/censured/{projectionId}")
@@ -61,6 +57,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
         }
     }
     
+    // Metoda musela být deaktivována, není žádoucí přečíst data jako objekt Reservation, o zpracování POST dotazu je postaráno na endpointu /reservate
     @Override
     @PostMapping("/")
     public ResponseEntity<String> post(@RequestBody Reservation data, @RequestHeader Map<String, String> headers) {
@@ -74,34 +71,30 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
     
             // ověř učivatele
             User user = service.verifyAccess(accessJWT, service.createPermissionRequired());
-            
-            // načtisi zpracování platby, které máš použít
-            IPayment paymentMethod = payments.get(data.getPaymentData().get("type"));
-    
-            if (paymentMethod != null) {
-                Reservation reservation = service.reservate(data, accessJWT);
+        
+            // prověď rezervaci
+            Reservation reservation = service.reservate(data, accessJWT);
 
-                try {
-                    paymentMethod.pay(reservation, data.getPaymentData(), accessJWT);
+            // proveď platbu
+            try {
+                paymentService.pay(reservation, data.getPaymentData());
+            } catch (Exception e) {
+                // pokud se platba nepovedla odeber rezervaci
+                service.delete(reservation.getId(), accessJWT);
 
-                    EmailTemplate et = emailService.loadTemplate("header-user-info");
-                    et.replace("[@header]", "Rezervace sedadel na filmové představení " + reservation.getProjection().getFilm().getName());
-                    et.replace("[@user]", reservation.getUser().getEmail());
-                    et.replace("[@important-data]", "Budeme se na vás těšit.");
-                    et.replace("[@info]", "Doufáme, že si představení užijete.");
+                e.printStackTrace();
+                throw new SecurityException("Payment was denite.");
+            }               
+        
+            // zašly lístky na email
+            EmailTemplate et = emailService.loadTemplate("header-user-info");
+            et.replace("[@header]", "Rezervace sedadel na filmové představení " + reservation.getProjection().getFilm().getName());
+            et.replace("[@user]", reservation.getUser().getEmail());
+            et.replace("[@important-data]", "Budeme se na vás těšit.");
+            et.replace("[@info]", "Doufáme, že si představení užijete.");
 
-                    emailService.sendEmail(user.getEmail(), "Vaše rezervace", et, pdfService.generatePdfTickets(reservation));
-                } catch (Exception e) {
-                    
-                    service.delete(reservation.getId(), accessJWT);
-
-                    e.printStackTrace();
-                    throw new SecurityException("Payment was denite.");
-                }
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            
-            throw new ValidationException("Neplatný způsob platby.");
+            emailService.sendEmail(user.getEmail(), "Vaše rezervace", et, pdfService.generatePdfTickets(reservation));
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (AuthRequired e) {
