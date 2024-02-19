@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cz.rozek.jan.cinema_town.models.stable.Cinema;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Cinema;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.CinemaService;

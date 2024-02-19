@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
-import cz.rozek.jan.cinema_town.models.stable.Cinema;
-import cz.rozek.jan.cinema_town.models.stable.City;
-import cz.rozek.jan.cinema_town.models.stable.Hall;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Cinema;
+import cz.rozek.jan.cinema_town.models.primary.City;
+import cz.rozek.jan.cinema_town.models.primary.Hall;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.CinemaRepository;
 import cz.rozek.jan.cinema_town.repositories.CityRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;

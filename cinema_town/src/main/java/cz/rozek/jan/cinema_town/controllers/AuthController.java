@@ -20,16 +20,16 @@ import com.mongodb.DuplicateKeyException;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
 import cz.rozek.jan.cinema_town.models.dtos.TokenDeviceId;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;
 import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
-@org.springframework.web.bind.annotation.RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
-@RequestMapping(path = "/auth")
+@org.springframework.web.bind.annotation.RestController // Díky anotaci bude řída rozpoznána jako RestController
+@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"}) // povolení zdroje dotazů na API
+@RequestMapping(path = "/auth") // určení URI cesty k endpointům
 public class AuthController {
 
     // definice konstanty, pod kterou bude očekávat v headru JWT

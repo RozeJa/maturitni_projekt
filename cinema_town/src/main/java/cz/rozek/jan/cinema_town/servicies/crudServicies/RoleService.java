@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.servicies.auth.SecurityException;
-
 import cz.rozek.jan.cinema_town.models.ValidationException;
-import cz.rozek.jan.cinema_town.models.stable.Role;
+import cz.rozek.jan.cinema_town.models.primary.Role;
 import cz.rozek.jan.cinema_town.repositories.RoleRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthService;

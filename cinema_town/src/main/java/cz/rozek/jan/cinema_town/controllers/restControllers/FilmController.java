@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import cz.rozek.jan.cinema_town.helpers.ImageTypeValidator;
-import cz.rozek.jan.cinema_town.models.stable.Film;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Film;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.UserRepository;
 import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.FilmService;

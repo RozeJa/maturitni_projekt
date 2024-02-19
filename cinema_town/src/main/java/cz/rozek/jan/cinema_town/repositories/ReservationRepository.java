@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import cz.rozek.jan.cinema_town.models.dynamic.Projection;
-import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
-import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
-import cz.rozek.jan.cinema_town.models.stable.Seat;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.AgeCategory;
+import cz.rozek.jan.cinema_town.models.primary.Projection;
+import cz.rozek.jan.cinema_town.models.primary.Reservation;
+import cz.rozek.jan.cinema_town.models.primary.Seat;
+import cz.rozek.jan.cinema_town.models.primary.User;
 
 public interface ReservationRepository extends MongoRepository<Reservation, String> {
     List<Reservation> findByProjection(Projection id);

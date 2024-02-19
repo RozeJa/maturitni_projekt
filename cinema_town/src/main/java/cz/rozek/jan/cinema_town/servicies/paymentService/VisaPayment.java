@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
 
-import cz.rozek.jan.cinema_town.models.dynamic.Reservation;
-import cz.rozek.jan.cinema_town.models.stable.AgeCategory;
+import cz.rozek.jan.cinema_town.models.primary.AgeCategory;
+import cz.rozek.jan.cinema_town.models.primary.Reservation;
 
-@Payment("visa")
+@Payment("visa") // třída bude mapovaná pod stringem 'visa'
 @Component
 public class VisaPayment implements IPayment {
 
@@ -22,7 +22,7 @@ public class VisaPayment implements IPayment {
     }
 
     @Override
-    public double pay(Reservation reservation, Map<String, String> paymentData, String accessJWT) throws Exception {
+    public double pay(Reservation reservation, Map<String, String> paymentData) throws Exception {
         
         String token = paymentData.get("token");
 

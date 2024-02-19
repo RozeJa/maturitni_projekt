@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
-import cz.rozek.jan.cinema_town.models.dynamic.Projection;
-import cz.rozek.jan.cinema_town.models.stable.Hall;
-import cz.rozek.jan.cinema_town.models.stable.User;
+import cz.rozek.jan.cinema_town.models.primary.Hall;
+import cz.rozek.jan.cinema_town.models.primary.Projection;
+import cz.rozek.jan.cinema_town.models.primary.User;
 import cz.rozek.jan.cinema_town.repositories.HallRepository;
 import cz.rozek.jan.cinema_town.repositories.ProjectionRepository;
 import cz.rozek.jan.cinema_town.servicies.CrudService;

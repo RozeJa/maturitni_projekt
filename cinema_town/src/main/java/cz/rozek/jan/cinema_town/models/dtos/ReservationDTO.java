@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.List;
 
 import cz.rozek.jan.cinema_town.models.ValidationException;
-import cz.rozek.jan.cinema_town.models.dynamic.Projection;
-import cz.rozek.jan.cinema_town.models.stable.Seat;
+import cz.rozek.jan.cinema_town.models.primary.Projection;
+import cz.rozek.jan.cinema_town.models.primary.Seat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
