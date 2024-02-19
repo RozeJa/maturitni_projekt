@@ -32,11 +32,11 @@ export enum ModesEndpoints {
     Seat = "api/seats/",
     User = "api/users/"
 }
-
-let onLoading: () => void = () => {
+ 
+export const onLoading: () => void = () => {
     setSessionsStorageItem("loading", "true")
 }
-let onLoad: () => void = () => {
+export const onLoad: () => void = () => {
     setSessionsStorageItem("loading", "false")
 }
 

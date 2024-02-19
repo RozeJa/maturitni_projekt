@@ -84,6 +84,8 @@ const PwChange = () => {
                     onChange={(e: any) => {
                         const { value } = e.target 
 
+                        setRequirementshErr(!pwRegex.test(value))
+
                         setNewPassword(value)
                     }}/>
             </SmartInput>
@@ -95,6 +97,8 @@ const PwChange = () => {
                     value={newPasswordAgain} 
                     onChange={(e: any) => {
                         const { value } = e.target;
+
+                        setNotSameErr(user.password !== value)
 
                         setNewPasswordAgain(value)
                     }}/>

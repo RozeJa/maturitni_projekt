@@ -43,28 +43,29 @@ export const formatDateTime = (date: string[] | Date): string => {
 export const handleErr = (setErr: Function, err: AxiosError, redirect: boolean = false) => {
     const status = err.response?.status
 
-    console.log(typeof err.response?.data);  
-
     let data: string = 'Chybný požadavek, dále nespecifikovaný'
     if (typeof err.response?.data === "string") 
         data = err.response.data
 
+    const okHref = <a href='/'>Ok</a> 
+    const ok = "Ok"
+
     switch (status) {
         case 400:
-            setErr(<DialogErr err='Chybný požadavek' description={data} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
+            setErr(<DialogErr err='Chybný požadavek' description={data} dialogSetter={setErr} okText={redirect ? okHref : ok} />)
             break;
         case 401:
-            setErr(<DialogErr err='Tuto akci nemůžete provést nepřihlášeni.' description={""} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
+            setErr(<DialogErr err='Tuto akci nemůžete provést nepřihlášeni.' description={""} dialogSetter={setErr} okText={redirect ? okHref : ok} />)
             break;
         case 403:
-            setErr(<DialogErr err='Na provedení této akce nemáte dostatečná oprávnění' description={""} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
+            setErr(<DialogErr err='Na provedení této akce nemáte dostatečná oprávnění' description={""} dialogSetter={setErr} okText={redirect ? okHref : ok} />)
             break;
         case 404:
-            setErr(<DialogErr err='Záznam neexistuje nebo ho není možné odebrat.' description={"Je možné, že na datech, která se snažíte odebrat jsou závislá další data."} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
+            setErr(<DialogErr err='Záznam neexistuje nebo ho není možné odebrat.' description={"Je možné, že na datech, která se snažíte odebrat jsou závislá další data."} dialogSetter={setErr} okText={redirect ? okHref : ok} />)
             break;
     
         default:
-            setErr(<DialogErr err='Neočekávaná chyba servru' description={"Obraťte se na podporu"} dialogSetter={setErr} okText={redirect ? <a href='/management/'>Ok</a> : "Ok"} />)
+            setErr(<DialogErr err='Neočekávaná chyba servru' description={"Obraťte se na podporu"} dialogSetter={setErr} okText={redirect ? okHref : ok} />)
             break;
     }
 }

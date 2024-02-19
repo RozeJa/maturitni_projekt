@@ -95,6 +95,8 @@ const PwReset = () => {
                         value={newPassword} 
                         onChange={(e: any) => {
                             const { value } = e.target 
+                            
+                            setRequirementshErr(!pwRegex.test(value))
 
                             setNewPassword(value)
                         }}/>
@@ -107,6 +109,8 @@ const PwReset = () => {
                         value={newPasswordAgain} 
                         onChange={(e: any) => {
                             const { value } = e.target;
+
+                            setNotSameErr(user.password !== value)
 
                             setNewPasswordAgain(value)
                         }}/>

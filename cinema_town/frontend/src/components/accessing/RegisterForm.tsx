@@ -6,17 +6,32 @@ import { getSessionStorageItem } from '../../global_functions/storagesActions'
 import { callbackOnEnter, emailRegex, pwRegex } from '../../global_functions/constantsAndFunction'
 import DialogErr from '../DialogErr'
 
-let user: User = defaultUser
-let passwordAgain: string
-
-const setValue = (e: any) => {
-
-    const { name, value } = e.target
-
-    user = { ...user, [name]: value}
-} 
-
 const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
+
+    const [user, setUser] = useState({...defaultUser})
+    const [passwordAgain, setPasswordAgain] = useState("")
+
+    const setValue = (e: any) => {
+
+        const { name, value } = e.target
+
+        if (name === "email") {
+            if (!emailRegex.test(value)) {
+                setEmailErr('Email není validní.')
+            } else {
+                setEmailErr('')
+            }
+        }
+        if (name === "password") {
+            if (!pwRegex.test(value)) {
+                setPwErr('Heslo není dostatečně silné. (Alespoň 12 znaků, velký a malý znak a číslice jsou požadovány)')
+            } else {
+                setPwErr('')
+            }
+        }
+
+        setUser({ ...user, [name]: value})
+    } 
         
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 
@@ -98,7 +113,13 @@ const RegisterForm = ({ onSuccess }: { onSuccess: Function }) => {
 
                     const { name, value } = e.target 
 
-                    passwordAgain = value
+                    if (user.password !== value) {
+                        setPwAgErr('Hesla se neshodují')
+                    } else {
+                        setPwAgErr('')
+                    }
+
+                    setPasswordAgain(value)
                 }} />
                 <p>{pwAgErr}</p>
 

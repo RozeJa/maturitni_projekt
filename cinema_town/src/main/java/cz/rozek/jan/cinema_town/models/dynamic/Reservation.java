@@ -48,10 +48,13 @@ public class Reservation implements Entity {
     private LocalDateTime reserved = LocalDateTime.now();
     private boolean removed = false;
 
-    // proměná slouží pro archivaci ceny
-    private double totalCost = 0;
+    public boolean canRemove() {
+        LocalDateTime before15 = LocalDateTime.now();
 
-    public Double countPrice() {
+        return before15.minusMinutes(15).isBefore(reserved);
+    }
+
+    public double getTotalCost() {
         double price = 0;
         for (AgeCategory ac : getCodes().values()) {
             price += Math.round(ac.getPriceModificator() * getProjection().getCost());
@@ -59,10 +62,8 @@ public class Reservation implements Entity {
         return price;
     }
 
-    public boolean canRemove() {
-        LocalDateTime before15 = LocalDateTime.now();
-
-        return before15.minusMinutes(15).isBefore(reserved);
+    // aby to nedalo neplechu. Spring se může pokusit nastavit vlastnost totalCost bo existuje getter 
+    public void setTotalCost(double totalCost) {
     }
 
     @Override

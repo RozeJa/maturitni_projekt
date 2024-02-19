@@ -3,7 +3,7 @@ import './FilmDetail.css'
 import { useEffect, useState } from 'react'
 import Film, { defaultFilm } from '../../models/Film'
 import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
-import { handleErr } from '../../global_functions/constantsAndFunction'
+import { handleErr, handleErrRedirect } from '../../global_functions/constantsAndFunction'
 import TicketReservation from '../../components/filmDetail/TicketReservation'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'
 
@@ -27,7 +27,7 @@ const FilmDetail = () => {
                 if (film !== undefined)
                     setFilm(film);
             })
-            .catch(err => handleErr(setErr, err))
+            .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
 

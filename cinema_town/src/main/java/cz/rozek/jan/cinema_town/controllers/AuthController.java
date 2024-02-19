@@ -127,6 +127,9 @@ public class AuthController {
 
             String newActivationCode = authService.resetActivationCode(user);
 
+            if (newActivationCode.isBlank()) 
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
             // načti si template a vyplňho daty
             EmailTemplate et = emailService.loadTemplate("header-user-info");
             et.replace("[@header]", "Aktivujte svůj účet");
@@ -137,10 +140,7 @@ public class AuthController {
             // pošly mu kód na email
             emailService.sendEmail(user.getEmail(), "Náhradní aktivační kód", et);
 
-            if (!newActivationCode.isEmpty())
-                return new ResponseEntity<>(HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {

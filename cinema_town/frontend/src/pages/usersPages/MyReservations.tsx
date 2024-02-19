@@ -3,7 +3,7 @@ import './MyReservations.css'
 import User, { defaultUser } from '../../models/User'
 import Reservation from '../../models/Reservation'
 import { ModesEndpoints, loadData, storeData } from '../../global_functions/ServerAPI'
-import { handleErr } from '../../global_functions/constantsAndFunction'
+import { handleErr, handleErrRedirect } from '../../global_functions/constantsAndFunction'
 import Filter from '../../components/management/Filter'
 import ReservationGroup from '../../components/myReservations/ReservationGroup'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
@@ -36,10 +36,10 @@ const MyReservations = () => {
 
         loadData<User>(ModesEndpoints.User, [userId !== undefined ? userId : ''])
             .then(data => setUser(data[0]))
-            .catch(err => handleErr(setErr, err))
+            .catch(err => handleErrRedirect(setErr, err))
         loadData<Reservation>(ModesEndpoints.Reservation)
             .then(data => setReservations(data))
-            .catch(err => {})
+            .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
     useEffect(() => {
@@ -167,6 +167,9 @@ const MyReservations = () => {
                                     setFsReservations={(rmReservation: Reservation) => setFsReservations([...fsReservations.filter(r => r.id !== rmReservation.id)])}
                                     />
                             })
+                    }
+                    {
+                        Object.keys(groupedReservations).length === 0 ? <h1>Nemáte vytvořené žádné rezervace</h1> : <></>
                     }
                 </div>
             </div>

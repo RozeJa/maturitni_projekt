@@ -10,9 +10,10 @@
 }
 
 .pw-reset-view {
-    background-color: var(--color--grey--light);
+    background-color: var(--color--grey--lightest);
     padding: 3em 1.5em .2em 1.5em;
     border-radius: 15px;
+    width: min-content;
 }
 
 .pw-reset-none {

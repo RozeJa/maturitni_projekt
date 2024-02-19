@@ -14,6 +14,8 @@
 }
 .code-form {
     min-width: 20%;
+    width: min-content;
+    text-align: center;
 }
 
 .code-form > input {

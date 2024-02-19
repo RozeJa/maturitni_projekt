@@ -10,6 +10,7 @@
     padding: 2em;
     border-radius: .5em;
     background-color: #ff000010;
+    width: min-content;
 }
 
 .login-form p {

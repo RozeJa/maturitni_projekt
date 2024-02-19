@@ -160,7 +160,7 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
             et.replace("[@header]", "Zrušení rezervace");
             et.replace("[@text-1]", "Moc se Vám omlouváme, ale nastaly neočekávané změny u filmového předstvení ");
             et.replace("[@text-bold]", reservation.getProjection().getFilm().getName() + " " + reservation.getProjection().getDateTime());
-            et.replace("[@text-2]", ", na které jste si rezervovali místa. Z tohoto důvodu jsme vám odebrali rezervaci. Budeme moc rádi, když se rozhodnete rezervovat si znovu. Děkujeme za pochopení. <br><br>Protože neuchováváme Vaše platební údaje, ohledně návratu částky " + reservation.countPrice() + " Kč se nám ozvěte na tento email.");
+            et.replace("[@text-2]", ", na které jste si rezervovali místa. Z tohoto důvodu jsme vám odebrali rezervaci. Budeme moc rádi, když se rozhodnete rezervovat si znovu. Děkujeme za pochopení. <br><br>Protože neuchováváme Vaše platební údaje, ohledně návratu částky " + reservation.getTotalCost() + " Kč se nám ozvěte na tento email.");
     
             emailService.sendEmail(reservation.getUser().getEmail(), "Vaše rezervace byla zrušena", et);
         }
@@ -173,7 +173,7 @@ public class ProjectionController extends cz.rozek.jan.cinema_town.controllers.R
             et.replace("[@header]", "Zrušení rezervace");
             et.replace("[@text-1]", "Moc se Vám omlouváme, ale z neočekávaného důvodu jsme museli odebrat promítání ");
             et.replace("[@text-bold]", reservation.getProjection().getFilm().getName() + " " + reservation.getProjection().getDateTime());
-            et.replace("[@text-2]", ", na které jste si rezervovali místa. Z tohoto důvodu jsme Vám odebrali rezervaci. Děkujeme za pochopení. <br><br>Protože neuchováváme Vaše platební údaje, ohledně návratu částky " + reservation.countPrice() + " Kč se nám ozvěte na tento email.");
+            et.replace("[@text-2]", ", na které jste si rezervovali místa. Z tohoto důvodu jsme Vám odebrali rezervaci. Děkujeme za pochopení. <br><br>Protože neuchováváme Vaše platební údaje, ohledně návratu částky " + reservation.getTotalCost() + " Kč se nám ozvěte na tento email.");
     
             emailService.sendEmail(reservation.getUser().getEmail(), "Vaše rezervace byla zrušena", et);
         }

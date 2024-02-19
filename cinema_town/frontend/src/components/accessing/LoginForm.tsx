@@ -1,23 +1,23 @@
 import { useState } from 'react'
-import User, { defaultUser } from '../../models/User'
+import { defaultUser } from '../../models/User'
 import './LoginForm.css'
 import { login } from '../../global_functions/ServerAPI'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
 import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { callbackOnEnter } from '../../global_functions/constantsAndFunction'
-
-let user: User = defaultUser
-
-const setValue = (e: any) => {
-
-    const { name, value } = e.target
-
-    user = { ...user, [name]: value}
-} 
+import { callbackOnEnter, emailRegex, pwRegex } from '../../global_functions/constantsAndFunction'
 
 const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActive: Function }) => {
     
+    const [user, setUser] = useState({...defaultUser})
+
+    const setValue = (e: any) => {
+
+        const { name, value } = e.target
+
+        setUser({ ...user, [name]: value})
+    } 
+
     const [emailErr, setEmailErr] = useState('')
     const [pwErr, setPwErr] = useState('') 
     

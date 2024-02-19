@@ -9,7 +9,9 @@
     flex-direction: column;
     padding: 3em 1.5em .2em 1.5em;
     border-radius: 15px;
-    background-color: var(--color--grey--light);
+    background-color: var(--color--grey--lightest);
+    
+    width: min-content;
 }
 
 .pw-change input {

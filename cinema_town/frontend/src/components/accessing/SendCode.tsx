@@ -87,6 +87,8 @@ const SendCode = (data:any) => {
             setCodeErr(data.err)
         } 
     }
+
+    let email = getSessionStorageItem("email").split("@")
     
     return (
         <>
@@ -95,7 +97,7 @@ const SendCode = (data:any) => {
                 style={{display: (isActivated ? "flex" : "none")}}
                 onKeyDown={(event: any) => callbackOnEnter(event, sendRequest)}>
                 
-                <label>{data.label}:</label>
+                <label>{data.label} {data.register ? email[0].substring(0,2) + "..." + email[0].substring(email[0].length - 2, email[0].length) + "@" + email[1]: ''}</label>
                 <input type="text" name='code' onChange={(e: any) => {
                     
                     const { name, value } = e.target                
