@@ -141,8 +141,10 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (SecurityException | AuthRequired e) {
+        }  catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (AuthRequired e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (ImageReadException | IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {

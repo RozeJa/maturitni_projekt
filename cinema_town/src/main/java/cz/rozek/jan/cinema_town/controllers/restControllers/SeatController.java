@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +22,12 @@ import cz.rozek.jan.cinema_town.servicies.crudServicies.SeatService;
 @CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
 @RequestMapping(path = "/api/seats")
 public class SeatController extends cz.rozek.jan.cinema_town.controllers.RestController<Seat, SeatService> {
+
+    @Override
+    @GetMapping("/")
+    public ResponseEntity<String> getAll(@RequestHeader Map<String, String> headers) {
+        return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+    }
     
     @Override
     @PostMapping("/")

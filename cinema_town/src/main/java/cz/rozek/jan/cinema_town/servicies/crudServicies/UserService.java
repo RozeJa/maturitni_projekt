@@ -97,7 +97,8 @@ public class UserService extends CrudService<User, UserRepository> {
                 admins.size() <= 1 && 
                 !entity.getRole().getId().equals(editor.getRole().getId())
                 ) 
-                throw new SecurityException("Last admin cant change his role.");
+                throw new ValidationException("Poslední admin si nemůže změnit roly.");
+
             
             userFromDB.setRole(entity.getRole());
         }
