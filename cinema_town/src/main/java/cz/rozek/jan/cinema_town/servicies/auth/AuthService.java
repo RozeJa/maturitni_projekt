@@ -422,6 +422,9 @@ public class AuthService {
      * @param loginJWT login JWT
      */
     public void logout(String loginJWT) {
+        if (loginJWT == null)
+            return;
+            
         synchronized(loggedIn) {
             loggedIn.remove(loginJWT);
         }
