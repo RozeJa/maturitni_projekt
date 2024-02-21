@@ -6,6 +6,7 @@ import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI';
 import Role, { defaultRole } from '../../../models/Role';
 import SmartInput from '../../../components/SmartInput';
 import { storeDetailData } from './Detail';
+import { log } from 'console';
 
 
 export const validateUser = (data: User): Array<string> => {
@@ -17,7 +18,7 @@ export const validateUser = (data: User): Array<string> => {
     if (!pwRegex.test(data.password)) {
         errs.push('Heslo neodpovídá heslové politice. (Heslo by mělo alespoň obsahovat malé písmeno, velké písmeno a číslici)')
     }
-    if (data.password !== data.password2) {
+    if (data.password !== data.password2 && data.id === null) {
         errs.push('Hesla se neshodují')
     }
 
@@ -88,6 +89,10 @@ const UserDetail = ({
     const handleInputText = (e:any) => {
         const {name, value} = e.target
 
+        console.log(tempData);
+        console.log({... tempData, [name]: value});
+        
+
         setTempData({... tempData, [name]: value})
     }
 
@@ -112,7 +117,7 @@ const UserDetail = ({
                 <input 
                     name={'password'}
                     type={'password'}
-                    value={''}
+                    value={tempData.id === null ? tempData.password : ''}
                     onChange={(e: any) => handleInput(e)}
                     disabled={tempData.id !== null} />
             </SmartInput>
@@ -121,7 +126,7 @@ const UserDetail = ({
                 <input 
                     name={'password2'}
                     type={'password'}
-                    value={''}
+                    value={tempData.id === null ? tempData.password2 : ''}
                     onChange={(e: any) => handleInput(e)}
                     disabled={tempData.id !== null} />
             </SmartInput>
