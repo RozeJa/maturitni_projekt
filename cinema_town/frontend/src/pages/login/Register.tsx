@@ -9,7 +9,7 @@ const Register = () => {
         onSuccess={(pw:string) => setContent(<SendCode password={pw} 
         err='Neplatný aktivační kód'
         submit='Aktivovat'
-        label='Zadejte aktivační kód, který jsme vám poslaly na adresu: '
+        label='Zadejte aktivační kód, který jsme vám poslali na adresu: '
         register={true} />)} />
 
     const [content, setContent] = useState(firstComponent)

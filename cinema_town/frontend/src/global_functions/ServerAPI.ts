@@ -11,7 +11,7 @@ const BASE_URL = window.location.hostname === "localhost" ? 'http://localhost:80
 
 // výčtový typ mapovaný na endpointy 
 export enum ModesEndpoints {
-    AgeCategory = "api/age_categories/",    
+    AgeCategory = "api/age_categories/",
     Cinama = "api/cinemas/",
     CinamaByHall = "api/cinemas/by_hall/",
     City = "api/cities/",
@@ -32,7 +32,7 @@ export enum ModesEndpoints {
     Seat = "api/seats/",
     User = "api/users/"
 }
- 
+
 export const onLoading: () => void = () => {
     setSessionsStorageItem("loading", "true")
 }
@@ -44,7 +44,7 @@ export const onLoad: () => void = () => {
 export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, ids: Array<string> = []): Promise<T[]> => {
     try {
         onLoading()
-        
+
         let data: T[] = []
 
         // načti si config
@@ -53,8 +53,8 @@ export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, 
         if (ids.length > 0) {
             // pokud se jedná o sérii id, načti si postupně data
             for (let i = 0; i < ids.length; i++) {
-                let temp = (await axios.get<T|T[]>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data;
-                
+                let temp = (await axios.get<T | T[]>(BASE_URL + modelEndpoint + `${ids[i]}`, config)).data;
+
                 if (Array.isArray(temp)) {
                     data = [...data, ...temp]
                 } else {
@@ -67,7 +67,7 @@ export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, 
         }
 
         onLoad()
-        return data        
+        return data
     } catch (error) {
         onLoad()
         throw error
@@ -76,51 +76,51 @@ export const loadData = async <T extends Entity>(modelEndpoint: ModesEndpoints, 
 }
 
 // funkce pro uložení dat na server
-export const storeData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<Entity[]> => {
+export const storeData = async <T extends Entity>(modelEndpoint: ModesEndpoints, data: T[]): Promise<Entity[]> => {
     try {
         onLoading()
         let reseavedData: Entity[] = []
-    
+
         let config = await getRequestConfig()
-        
+
         if (config.headers !== undefined)
             config.headers["Content-Type"] = "application/json"
-    
+
         for (let i = 0; i < data.length; i++) {
-         
-            const url = BASE_URL + modelEntpoint
-    
+
+            const url = BASE_URL + modelEndpoint
+
             if (data[i].id === undefined || data[i].id === null) {
                 // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
-                if (modelEntpoint === ModesEndpoints.Film) {
-    
+                if (modelEndpoint === ModesEndpoints.Film) {
+
                     reseavedData.push(await handleFilm(url, data[i], config))
                 } else {
                     // pokud je id undefinited vytváříš záznam
-                    reseavedData.push((await (axios.post<T>(url, data[i], config))).data) 
+                    reseavedData.push((await (axios.post<T>(url, data[i], config))).data)
                 }
             } else {
                 // pokud ukládáš film, tak odstraň vlastnost "file" a importuj její obsah na server
-                if (modelEntpoint === ModesEndpoints.Film) {
+                if (modelEndpoint === ModesEndpoints.Film) {
                     reseavedData.push(await handleFilm(url, data[i], config))
                 } else {
                     // pokud id není undefinited záznam edituješ
-                    reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data) 
+                    reseavedData.push((await (axios.put<T>(url + `${data[i].id}`, data[i], config))).data)
                 }
             }
         }
-    
+
         onLoad()
         return reseavedData
     } catch (error) {
         onLoad()
         throw error
     }
-    
+
 }
 
-const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>): Promise<Film> => {
-    
+const handleFilm = async (url: string, film: any, config: AxiosRequestConfig<any>): Promise<Film> => {
+
     if (film["file"] !== null) {
         // připrav tělo dotazu, pro poslání obrázku na server
         const formData = new FormData();
@@ -137,13 +137,13 @@ const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>
         } else {
             data = (await (axios.put<Film>(url + film.id, film, config))).data
         }
-        
+
         // použi jeho id k doplnění dotazu
         formData.append('film', data.id ? data.id : 'errr');
 
         // získej si token
         const accessToken = await getAccessToken()
-        
+
         // proveď dotaz
         fetch(BASE_URL + ModesEndpoints.Film + 'store-img', {
             method: 'POST',
@@ -152,7 +152,7 @@ const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>
             },
             body: formData
         })
-                
+
         // navrať film
         return data;
     } else {
@@ -162,7 +162,7 @@ const handleFilm = async (url:string, film: any, config: AxiosRequestConfig<any>
         } else {
             return (await (axios.put<Film>(url + film.id, film, config))).data
         }
-        
+
     }
 }
 
@@ -171,13 +171,13 @@ export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints
     try {
         onLoading()
         for (let i = 0; i < data.length; i++) {
-         
+
             // načti si config
             const config = await getRequestConfig()
-    
+
             await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
         }
-    
+
         onLoad()
         return data
     } catch (error) {
@@ -226,9 +226,9 @@ export const reactivateCode = async (email: string) => {
 }
 
 export const activateAccount = async (code: string): Promise<string> => {
-    try {        
+    try {
         onLoading()
-        let resp = (await axios.post<string>(BASE_URL + "auth/activate-account", code)).data  
+        let resp = (await axios.post<string>(BASE_URL + "auth/activate-account", code)).data
         onLoad()
         return resp
     } catch (error) {
@@ -249,7 +249,7 @@ export const secondVerify = async (code: string): Promise<TokenDeviceId> => {
     }
 }
 
-export const login = async (email: string, password: string, trustToken: string): Promise<TokenDeviceId|null> => {
+export const login = async (email: string, password: string, trustToken: string): Promise<TokenDeviceId | null> => {
     try {
         onLoading()
 
@@ -264,12 +264,12 @@ export const login = async (email: string, password: string, trustToken: string)
             email: email,
             password: password,
             role: {}
-        }        
-      
+        }
+
         const res = (await axios.post<TokenDeviceId>(BASE_URL + "auth/login", user, config))
 
-        onLoad()      
-        if (res.status === 200)     
+        onLoad()
+        if (res.status === 200)
             return res.data
         return null
     } catch (error) {
@@ -290,7 +290,7 @@ export const changePw = async (user: User): Promise<boolean> => {
         const config = {
             headers: headers
         }
-      
+
         const res = (await axios.post(BASE_URL + "auth/change-pw", user, config))
 
         onLoad()
@@ -311,7 +311,7 @@ export const resetPwRequest = async (user: User): Promise<boolean> => {
         const config = {
             headers: headers
         }
-      
+
         const res = (await axios.post(BASE_URL + "auth/forgotten-password/reset-code", user, config))
 
         onLoad()
@@ -332,7 +332,7 @@ export const resetPw = async (user: User): Promise<TokenDeviceId> => {
         const config = {
             headers: headers
         }
-      
+
         const res = (await axios.post<TokenDeviceId>(BASE_URL + "auth/forgotten_password/", user, config))
 
         onLoad()
@@ -359,7 +359,7 @@ async function getAccessToken(): Promise<string> {
     try {
         let accessToken: string = (await axios.get<string>(BASE_URL + "auth/token", config)).data
 
-        return accessToken         
+        return accessToken
     } catch (error) {
         logout()
         return ""
@@ -369,7 +369,7 @@ async function getAccessToken(): Promise<string> {
 
 // metoda vytvoří config objekt pro request na api
 async function getRequestConfig(): Promise<AxiosRequestConfig> {
-    
+
     const accessToken = await getAccessToken()
 
     let headers = {
@@ -381,5 +381,5 @@ async function getRequestConfig(): Promise<AxiosRequestConfig> {
     }
 
     return config
-}   
+}
 
