@@ -120,6 +120,9 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
             // zkontroluj přístup 
            service.verifyAccess(headers.get(authorization), service.updatePermissionRequired());
 
+           // ověř zda film s daným id existuje
+           service.readById(filmID, headers.get(authorization));
+
             // získej obrázek
             byte[] data = getImg(file);
     
@@ -140,13 +143,15 @@ public class FilmController extends cz.rozek.jan.cinema_town.controllers.RestCon
                 // Vrácení odpovědi klientovi
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Obrázek se nepodařilo nahrát.", HttpStatus.BAD_REQUEST);
         }  catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (AuthRequired e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (ImageReadException | IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Obrázek se nepodařilo nahrát.", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

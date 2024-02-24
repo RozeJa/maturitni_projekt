@@ -167,7 +167,7 @@ const handleFilm = async (url: string, film: any, config: AxiosRequestConfig<any
 }
 
 // funkce pro odstranění dat
-export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
+export const deleteData = async <T extends Entity>(modelEndpoint: ModesEndpoints, data: T[]): Promise<T[]> => {
     try {
         onLoading()
         for (let i = 0; i < data.length; i++) {
@@ -175,7 +175,7 @@ export const deleteData = async <T extends Entity>(modelEntpoint: ModesEndpoints
             // načti si config
             const config = await getRequestConfig()
 
-            await (axios.delete<T>(BASE_URL + modelEntpoint + `${data[i].id}`, config))
+            await (axios.delete<T>(BASE_URL + modelEndpoint + `${data[i].id}`, config))
         }
 
         onLoad()
