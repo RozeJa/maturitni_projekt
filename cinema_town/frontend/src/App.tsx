@@ -10,7 +10,6 @@ import PwReset from './pages/login/PwReset';
 import PwChange from './pages/login/PwChange';
 import FilmDetail from './pages/usersPages/FilmDetail';
 import MyReservations from './pages/usersPages/MyReservations';
-import MyReservation from './pages/usersPages/MyReservation';
 import Management from './pages/managment/Management';
 import UserDetail, { validateUser } from './pages/managment/details/UserDetail';
 import ProjectionDetail, { validateProjection } from './pages/managment/details/ProjectionDetail';
@@ -128,36 +127,40 @@ function App() {
           {/** Stránky pro rezervování */}
           <Route path='/film/:fimlId' element={ <FilmDetail /> }/>
           <Route path='/my-reservation/:userId' element={ (verifyAccess() ? <MyReservations /> : accessDenite) } />
-          <Route path='/my-reservation/:userId/:reservationId' element={ (verifyAccess() ? <MyReservation /> : accessDenite) } />
           
-          {/** Stránky pro výpis dat */}
-          <Route path='/management' element={ (verifyAccess("projection-create") ? <Management /> : accessDenite) } />
-          <Route path='/management/projections' element={ (verifyAccess("projection-update") ? <ProjectionsSpreadsheet /> : accessDenite) }/>
-          <Route path='/management/cinemas' element={ (verifyAccess("cinema-update") ? <CinemasSpreadsheet /> : accessDenite) }/>
-          <Route path='/management/users' element={ (verifyAccess("user-update") ? <UsersSpreadsheet /> : accessDenite) }/>
-          <Route path='/management/films' element={ (verifyAccess("film-update") ? <FilmsSpreadsheet /> : accessDenite) }/>
-          <Route path='/management/genres' element={ (verifyAccess("genre-update") ? <GenresSpreadsheet /> : accessDenite) }/>
-          <Route path='/management/roles' element={ (verifyAccess("role-update") ? <RolesSpreadsheet /> : accessDenite) }/>
-          <Route path='/management/age_categories' element={ (verifyAccess("role-update") ? <AgeCategoriSpreadsheet /> : accessDenite) }/>
+          <Route path='/management'>
+            <Route path='' element={ (verifyAccess("projection-create") ? <Management /> : accessDenite) } />
 
-          {/** Stránky pro přidávání dat */}
-          <Route path='/management/users/new' element={ (verifyAccess("user-create") ? userDetail : accessDenite) } />
-          <Route path='/management/projections/new' element={ (verifyAccess("projection-create") ? projectionDetail : accessDenite ) }/>
-          <Route path='/management/cinemas/new' element={ (verifyAccess("cinema-create") ? cinemaDetail : accessDenite) }/>
-          <Route path='/management/halls/:cinemaId/new' element={ (verifyAccess("hall-create") ? hallDetail : accessDenite) } />
-          <Route path='/management/genres/new' element={ (verifyAccess("genre-create") ? genreDetail : accessDenite) } />
-          <Route path='/management/films/new' element={ (verifyAccess("film-create") ? filmDetail : accessDenite) } />
-          <Route path='/management/age_categories/new' element={ (verifyAccess("ageCategory-create") ? ageCategoryDetail : accessDenite) } />
+            {/** Stránky pro výpis dat */}
+            <Route path='projections' element={ (verifyAccess("projection-update") ? <ProjectionsSpreadsheet /> : accessDenite) }/>
+            <Route path='cinemas' element={ (verifyAccess("cinema-update") ? <CinemasSpreadsheet /> : accessDenite) }/>
+            <Route path='users' element={ (verifyAccess("user-update") ? <UsersSpreadsheet /> : accessDenite) }/>
+            <Route path='films' element={ (verifyAccess("film-update") ? <FilmsSpreadsheet /> : accessDenite) }/>
+            <Route path='genres' element={ (verifyAccess("genre-update") ? <GenresSpreadsheet /> : accessDenite) }/>
+            <Route path='roles' element={ (verifyAccess("role-update") ? <RolesSpreadsheet /> : accessDenite) }/>
+            <Route path='age_categories' element={ (verifyAccess("role-update") ? <AgeCategoriSpreadsheet /> : accessDenite) }/>
 
-          {/** Stránky pro editaci dat */}
-          <Route path='/management/users/:id' element={ (verifyAccess("user-update") ? userDetail : accessDenite) } />
-          <Route path='/management/projections/:id' element={ (verifyAccess("projection-update") ? projectionDetail : accessDenite) }/>
-          <Route path='/management/cinemas/:id' element={ (verifyAccess("cinema-update") ? cinemaDetail : accessDenite) }/>
-          <Route path='/management/halls/:cinemaId/:id' element={ (verifyAccess("hall-update") ? hallDetail : accessDenite) } />
-          <Route path='/management/genres/:id' element={ (verifyAccess("genre-update") ? genreDetail : accessDenite) } />
-          <Route path='/management/roles/:id' element={ (verifyAccess("role-update") ? roleDetail : accessDenite) } />
-          <Route path='/management/films/:id' element={ (verifyAccess("film-update") ? filmDetail : accessDenite) } />
-          <Route path='/management/age_categories/:id' element={ (verifyAccess("ageCategory-update") ? ageCategoryDetail : accessDenite) } />
+            {/** Stránky pro přidávání dat */}
+            <Route path='users/new' element={ (verifyAccess("user-create") ? userDetail : accessDenite) } />
+            <Route path='projections/new' element={ (verifyAccess("projection-create") ? projectionDetail : accessDenite ) }/>
+            <Route path='cinemas/new' element={ (verifyAccess("cinema-create") ? cinemaDetail : accessDenite) }/>
+            <Route path='halls/:cinemaId/new' element={ (verifyAccess("hall-create") ? hallDetail : accessDenite) } />
+            <Route path='genres/new' element={ (verifyAccess("genre-create") ? genreDetail : accessDenite) } />
+            <Route path='films/new' element={ (verifyAccess("film-create") ? filmDetail : accessDenite) } />
+            <Route path='age_categories/new' element={ (verifyAccess("ageCategory-create") ? ageCategoryDetail : accessDenite) } />
+
+            {/** Stránky pro editaci dat */}
+            <Route path='users/:id' element={ (verifyAccess("user-update") ? userDetail : accessDenite) } />
+            <Route path='projections/:id' element={ (verifyAccess("projection-update") ? projectionDetail : accessDenite) }/>
+            <Route path='cinemas/:id' element={ (verifyAccess("cinema-update") ? cinemaDetail : accessDenite) }/>
+            <Route path='halls/:cinemaId/:id' element={ (verifyAccess("hall-update") ? hallDetail : accessDenite) } />
+            <Route path='genres/:id' element={ (verifyAccess("genre-update") ? genreDetail : accessDenite) } />
+            <Route path='roles/:id' element={ (verifyAccess("role-update") ? roleDetail : accessDenite) } />
+            <Route path='films/:id' element={ (verifyAccess("film-update") ? filmDetail : accessDenite) } />
+            <Route path='age_categories/:id' element={ (verifyAccess("ageCategory-update") ? ageCategoryDetail : accessDenite) } />
+          </Route>
+
+
           
           <Route path='*' element={ <Err />}/>
         </Route>
