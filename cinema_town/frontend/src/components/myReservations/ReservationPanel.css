@@ -32,7 +32,22 @@
     margin-top: 0;
 }
 
-.reservation-panel-header h2 {
+.reservation-panel-header-param {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.reservation-panel-header-param p:first-child, 
+.reservation-panel-header-param h2:first-child {
+    margin-right: .5em;
+}
+
+.reservation-panel-header-param p {
+    padding: 0;
+    margin: 0;
+}
+
+.reservation-panel-header-param h2 {
     padding: 0;
     margin: 0;
 }
@@ -56,4 +71,19 @@
 
 .reservation-panel-info-category {
     padding-left: 1em;
+}
+
+@media only screen and (max-width: 900px) {
+    .reservation-panel {
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .reservation-panel {
+        width: 90%;
+    }
+    .reservation-panel-header-param {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }

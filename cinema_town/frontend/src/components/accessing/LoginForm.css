@@ -63,3 +63,9 @@
 .login-form-confirm > *:hover {
     cursor: pointer;
 }
+
+@media only screen and (max-width: 700px) {
+    .login-motivation {
+        display: none;
+    }
+}

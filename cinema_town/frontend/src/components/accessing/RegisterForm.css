@@ -19,7 +19,7 @@
     color: var(--color--red--bright);
 }
 
-.register-form label, .register-form input {
+.regisformter- label, .register-form input {
     border: none;
     font-size: 1.5em;
     padding: .5em;
@@ -62,4 +62,10 @@
 
 .register-form-confirm > *:hover {
     cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+    .register-motivation {
+        display: none;
+    }
 }

@@ -17,8 +17,10 @@ const ReservationGroup = ({
 
     return (
         <div className='reservation-group'>
-            <div><h2>{presentDate}</h2> <p>Počet rezervací {reservations.length}</p></div>
-            <div className="reservation-group-content">
+            <div className='reservation-group-header'>
+                <h2>{presentDate}</h2> <p>Počet rezervací {reservations.length}</p>
+            </div>
+            <div className='reservation-group-content'>
                 {
                     reservations.map((r,index) => {
                         return <ReservationPanel 

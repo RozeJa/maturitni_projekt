@@ -66,17 +66,34 @@ const ReservationPanel = ({
     return (
         <div className='reservation-panel'>
             <div className="reservation-panel-header">
-                <h2>Rezervace na film <a href={`/film/${reservation.projection.film.id}`}>{reservation.projection.film.name}</a></h2>
+                <div className='reservation-panel-header-param'>
+                    <h2>Rezervace na film </h2>
+                    <h2> <a href={`/film/${reservation.projection.film.id}`}>{reservation.projection.film.name}</a>
+                    </h2>
+                </div>
+
                 {
                     isRemovable(reservation.reserved) ? <button onClick={removeReservation}>Zrušit rezervaci</button> : <></>
                 }
             </div>
             <div className="reservation-panel-info">
-                <p><b>Multikino</b>: {cinema.street} {cinema.houseNumber}, {cinema.city.name}</p>
-                <p><b>Konání představení</b>: {projectionDate}</p>
-                <p><b>Rezervace vytvořena</b>: {rezerved}</p>
-                <p><b>Cena rezervace</b>: {reservation.totalCost} Kč</p>
-                <p><b>Počet lístků</b>: {Object.values(reservation.codes).length}</p>
+                <div className='reservation-panel-header-param'>
+                    <p><b>Multikino:</b></p> 
+                    <p>{cinema.street} {cinema.houseNumber}, {cinema.city.name}</p>
+                </div>
+                <div className='reservation-panel-header-param'>
+                <p><b>Konání představení:</b></p> 
+                    <p>{projectionDate}</p>
+                </div>
+                <div className='reservation-panel-header-param'>
+                    <p><b>Rezervace vytvořena:</b></p> 
+                    <p>{rezerved}</p>
+                </div>
+                <div className='reservation-panel-header-param'>
+                    <p><b>Cena rezervace:</b></p> 
+                    <p>{reservation.totalCost} Kč</p>
+                </div>
+                <p><b>Počet lístků:</b> {Object.values(reservation.codes).length}</p>
                 {
                     Object.keys(tickets).map((ticketCategory, index) => {
                         return <p key={index} className="reservation-panel-info-category"><b>{ticketCategory}</b>: {tickets[ticketCategory]}</p>

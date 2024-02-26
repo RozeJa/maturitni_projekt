@@ -116,3 +116,10 @@
         display: none;
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .film-detail-header {
+        display: flex;
+        justify-content: center;
+    }
+}

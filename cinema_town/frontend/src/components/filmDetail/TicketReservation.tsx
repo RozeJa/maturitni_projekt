@@ -18,9 +18,9 @@ const defSeparedProjections: SeparedProjections = {}
 const defCinemas: Cinema[] = []
 const defProjections: Projection[] = []
 const defAgeCategories: AgeCategory[] = []
-const defAgeCategoriesCount: { [key: string]: number} = {}
+const defAgeCategoriesCount: { [key: string]: number } = {}
 const defReservations: Reservation[] = []
-const defSeatsField: (Seat|undefined)[][] = []
+const defSeatsField: (Seat | undefined)[][] = []
 const defSeats: Seat[] = []
 
 const defCinema: Cinema = defaultCinema
@@ -46,11 +46,11 @@ const TicketReservation = ({
 
     const [seatsField, setSeatsFiel] = useState([...defSeatsField])
     const [selectedSeats, setSelectedSeats] = useState([...defSeats])
-    const [ageCategoriesCount, setAgeCategoriesCount] = useState({...defAgeCategoriesCount})
+    const [ageCategoriesCount, setAgeCategoriesCount] = useState({ ...defAgeCategoriesCount })
 
     const [reservationConfirm, setReservationConfirm] = useState(<></>)
-   
-    useEffect(() => {        
+
+    useEffect(() => {
         loadData<Projection>(ModesEndpoints.ProjectionByFilm, [film.id ? film.id : ""])
             .then(data => setProjections([...data]))
             .catch(err => handleErrRedirect(setErr, err))
@@ -73,9 +73,9 @@ const TicketReservation = ({
             .catch(err => handleErrRedirect(setErr, err))
     }, [projections])
 
-    useEffect(() => {  
+    useEffect(() => {
         ageCategories.forEach(ac => ageCategoriesCount[ac.id !== null ? ac.id : ''] = 0)
-        setAgeCategoriesCount({...ageCategoriesCount})
+        setAgeCategoriesCount({ ...ageCategoriesCount })
     }, [ageCategories])
 
     useEffect(() => {
@@ -106,25 +106,25 @@ const TicketReservation = ({
     }, [selectedProjection])
 
     useEffect(() => {
-        const field: (Seat|undefined)[][] = []
+        const field: (Seat | undefined)[][] = []
 
         // vygenerovat 2D pole  
         Object.values(selectedProjection.hall.seats)
-        .forEach(s => {
-            if (field[s.rowIndex] === undefined) 
-                field[s.rowIndex] = []
+            .forEach(s => {
+                if (field[s.rowIndex] === undefined)
+                    field[s.rowIndex] = []
 
-            const reservedSeat = reservations.find(r => r.seats.find(reservedSeat => reservedSeat.id === s.id)) === undefined
+                const reservedSeat = reservations.find(r => r.seats.find(reservedSeat => reservedSeat.id === s.id)) === undefined
 
-            field[s.rowIndex][s.columnIndex] = s.seat ? {...s, ["seat"]: reservedSeat} : undefined
-        })
+                field[s.rowIndex][s.columnIndex] = s.seat ? { ...s, ["seat"]: reservedSeat } : undefined
+            })
 
         setSeatsFiel([...field])
 
     }, [reservations])
- 
+
     useEffect(() => {
-        
+
         const searchParams = window.location.search;
         const { cid } = queryString.parse(searchParams);
 
@@ -139,13 +139,13 @@ const TicketReservation = ({
         const searchParams = window.location.search;
         const { pid } = queryString.parse(searchParams);
 
-        const projection = projections.find(p => p.id == pid) 
+        const projection = projections.find(p => p.id == pid)
         if (projection !== undefined) {
             setSelectedProjection(projection)
 
             const cinema = cinemas.find(c => Object.values(c.halls).find(h => projection.hall.id === h.id) !== undefined)
-            
-            if (cinema !== undefined) 
+
+            if (cinema !== undefined)
                 setSelectedCinema(cinema)
         }
 
@@ -167,7 +167,7 @@ const TicketReservation = ({
                     <h1>{film.name}</h1>
                     <div>
                         <label>Vyberte kino:</label>
-                        <select 
+                        <select
                             name="selectedCinema"
                             value={selectedCinema.id !== null ? selectedCinema.id : ''}
                             onChange={(e: any) => {
@@ -180,7 +180,7 @@ const TicketReservation = ({
                                 else
                                     setSelectedCinema({ ...defCinema })
 
-                                setSelectedProjection({...defProjection})
+                                setSelectedProjection({ ...defProjection })
                             }}>
                             {cinemas
                                 .map((c, index) => {
@@ -188,7 +188,7 @@ const TicketReservation = ({
 
                                     if (cinemaName.trim() === ", ,")
                                         cinemaName = "Vyberte multikino"
-                                    return  <option key={index} value={c.id ? c.id : ''}>
+                                    return <option key={index} value={c.id ? c.id : ''}>
                                         {cinemaName}
                                     </option>
                                 })}
@@ -203,23 +203,23 @@ const TicketReservation = ({
                     }
 
                     const projections = projectionsByDabTit[index]
-                    .map(p => {
-                        let dateToShow: string = formatDateTime(p.dateTime)
+                        .map(p => {
+                            let dateToShow: string = formatDateTime(p.dateTime)
 
-                        return {
-                            'projection': p,
-                            'date': dateToShow
-                        }
-                    })
-                    .sort((a,b) => -(a.date.localeCompare(b.date)))
-                    .map((p, index) => {
-                        return <div key={index} className={selectedProjection.id === p.projection.id ? 'ticket-reservation-selected-projection' : ''}
-                            onClick={() => {
-                                setSelectedProjection({ ...p.projection })
-                            }}>
-                            {p.date}
-                        </div>
-                    })
+                            return {
+                                'projection': p,
+                                'date': dateToShow
+                            }
+                        })
+                        .sort((a, b) => -(a.date.localeCompare(b.date)))
+                        .map((p, index) => {
+                            return <div key={index} className={selectedProjection.id === p.projection.id ? 'ticket-reservation-selected-projection' : ''}
+                                onClick={() => {
+                                    setSelectedProjection({ ...p.projection })
+                                }}>
+                                {p.date}
+                            </div>
+                        })
 
                     return <div key={index} className='ticket-reservation-film-by-dab'>
                         <h3>{`${dab} ${tit !== "" ? "(Tit: " + tit + ")" : ''}`}</h3>
@@ -239,109 +239,110 @@ const TicketReservation = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {ageCategories.map((ac,index) => {
-  
+                        {ageCategories.map((ac, index) => {
+
                             const inputVal = ac.id !== null ? ageCategoriesCount[ac.id] : 0
 
                             return <tr key={index}>
                                 <td>{ac.name}</td>
                                 <td>{Math.round(ac.priceModificator * selectedProjection.cost)} Kč</td>
                                 <td>
-                                    <input 
-                                        type="number" 
-                                        name={ac.id !== null ? ac.id : ''} 
+                                    <input
+                                        type="number"
+                                        name={ac.id !== null ? ac.id : ''}
                                         value={inputVal}
-                                        onChange={(e:any) => {
+                                        onChange={(e: any) => {
                                             const { name, value } = e.target
 
                                             const count = parseInt(value)
-                                            
+
                                             if (count < ageCategoriesCount[name]) {
-                                                if (count >= 0 && countTickets() - ageCategoriesCount[name] + count >= selectedSeats.length) 
-                                                    setAgeCategoriesCount({...ageCategoriesCount, [name]: count})
-                                                
-                                            } else if (count >= 0)                                                 
-                                                setAgeCategoriesCount({...ageCategoriesCount, [name]: count})
+                                                if (count >= 0 && countTickets() - ageCategoriesCount[name] + count >= selectedSeats.length)
+                                                    setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count })
+
+                                            } else if (count >= 0)
+                                                setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count })
 
                                         }} />
                                 </td>
                                 <td>{Math.round(ac.priceModificator * selectedProjection.cost) * inputVal} Kč</td>
-                            </tr>}
+                            </tr>
+                        }
                         )}
                     </tbody>
                 </table>
-                
-                { seatsField.length !== 0 ? <h3><hr />Zde se nachází promítací plátno<hr /></h3> : <></> }
-                
-                <table>
+
+                {seatsField.length !== 0 ? <h3><hr />Zde se nachází promítací plátno<hr /></h3> : <></>}
+
+                <table >
                     <tbody>
-                    { /**TODO předělat není to komponenta, jsou to data */
-                        seatsField.map((row,index) => {
-                            const rowCells = row.map((seat,index) => {
+                        { /**TODO předělat není to komponenta, jsou to data */
+                            seatsField.map((row, index) => {
+                                const rowCells = row.map((seat, index) => {
 
-                                if (seat === undefined) {
-                                    return <td key={index} >
-                                        <input 
-                                            className='ticket-reservation-non-seat' 
-                                            type="checkbox" 
-                                            disabled
+                                    if (seat === undefined) {
+                                        return <td key={index} >
+                                            <input
+                                                className='ticket-reservation-non-seat'
+                                                type="checkbox"
+                                                disabled
                                             />
-                                    </td>
-                                }
+                                        </td>
+                                    }
 
-                                const isReserved = !seat.seat
-                                const isSelected = selectedSeats.find(s => s.id === seat.id) !== undefined
+                                    const isReserved = !seat.seat
+                                    const isSelected = selectedSeats.find(s => s.id === seat.id) !== undefined
 
-                                return <td key={index}>
-                                    <input 
-                                        key={index}
-                                        className={isReserved ? 'ticket-reservation-unreservable' : isSelected ? 'ticket-reservation-selected' : ''} 
-                                        type="checkbox" 
-                                        checked={isReserved || isSelected} 
-                                        disabled={isReserved} 
-                                        onChange={(e:any) => {
-                                            if (!isReserved) {
-                                                const {checked} = e.target
+                                    return <td key={index}>
+                                        <input
+                                            key={index}
+                                            className={isReserved ? 'ticket-reservation-unreservable' : isSelected ? 'ticket-reservation-selected' : ''}
+                                            type="checkbox"
+                                            checked={isReserved || isSelected}
+                                            disabled={isReserved}
+                                            onChange={(e: any) => {
+                                                if (!isReserved) {
+                                                    const { checked } = e.target
 
-                                                if (checked && selectedSeats.length + 1 <= countTickets()) {
+                                                    if (checked && selectedSeats.length + 1 <= countTickets()) {
                                                         selectedSeats.push(seat)
                                                         setSelectedSeats([...selectedSeats])
-                                                } else {
-                                                    setSelectedSeats([...selectedSeats.filter(s => s.id !== seat.id)])
+                                                    } else {
+                                                        setSelectedSeats([...selectedSeats.filter(s => s.id !== seat.id)])
+                                                    }
                                                 }
-                                            }
-                                        }} />
-                                </td>
-                            })
+                                            }} />
+                                    </td>
+                                })
 
-                            return <tr key={index}>
-                                <td>
-                                    <p>{row.find(s => s !== undefined)?.rowDesignation}</p>
-                                </td>
-                                {rowCells}
-                            </tr>
-                        })
-                    }
+                                return <tr key={index}>
+                                    <td>
+                                        <p>{row.find(s => s !== undefined)?.rowDesignation}</p>
+                                    </td>
+                                    {rowCells}
+                                </tr>
+                            })
+                        }
                     </tbody>
                 </table>
 
                 <div className="ticket-reservation-btns">
                     <button onClick={() => setTicketReservation(<></>)}>Zrušit</button>
-                    <button 
+                    <button
                         className={countTickets() === selectedSeats.length && selectedSeats.length > 0 ? "" : "ticket-reservation-btns-disable"}
                         onClick={() => {
                             if (countTickets() === selectedSeats.length && selectedSeats.length > 0) {
-                                
+
                                 // vyhoď pop up, který od uživatele vezme platební údaje
                                 setReservationConfirm(
-                                    <ReservationConfirm 
+                                    <ReservationConfirm
                                         setReservationConfirm={() => setReservationConfirm(<></>)}
-                                        ageCategories={ageCategories} 
-                                        ageCategoriesCount={ageCategoriesCount} 
+                                        ageCategories={ageCategories}
+                                        ageCategoriesCount={ageCategoriesCount}
                                         seats={selectedSeats}
                                         projection={selectedProjection}
                                         cinema={selectedCinema}
-                                        />
+                                    />
                                 )
                             }
                         }} >
@@ -349,7 +350,7 @@ const TicketReservation = ({
                     </button>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -56,3 +56,16 @@
         margin-top: .2em;
     }
 }
+
+@media only screen and (max-width: 420px) {
+    .day-selection {
+        padding: .8em 0;
+    }
+    .day-selection > div {
+        font-size: .8em;
+        flex-wrap: wrap;
+    }
+    .day-selection > div > div {
+        margin-top: .2em;
+    }
+}

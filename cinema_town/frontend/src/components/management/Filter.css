@@ -7,3 +7,17 @@
     border: none;
     padding: .5em;
 }
+
+
+@media only screen and (max-width: 400px) {
+    .filter {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .filter > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

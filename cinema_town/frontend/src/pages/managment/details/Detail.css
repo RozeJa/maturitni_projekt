@@ -12,6 +12,11 @@
     background-color: var(--color--grey--light);
 
     box-shadow: 0 0 1em #AAAAAA;
+    max-width: 90%;
+}
+
+.detail > h1 {
+    text-align: center;
 }
 
 .detail-body {
@@ -44,6 +49,7 @@
     padding: .7em;
     border: none;
     text-decoration: none;
+    text-align: center;
     border-radius: 5px;
     background-color: var(--color--red--bright);
     color: var(--color--white);

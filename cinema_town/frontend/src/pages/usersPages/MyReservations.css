@@ -70,3 +70,16 @@
 .my-reservations-reservations-header > a:hover {
     background-color: var(--color--red--dark);  
 }
+
+@media only screen and (max-width: 600px) {
+    .my-reservations-header {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    .my-reservations-reservations-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

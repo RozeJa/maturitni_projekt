@@ -23,28 +23,35 @@
     border-radius: 1em;
     overflow: auto;
 }
+
 .ticket-reservation-header {
     align-self: flex-start;
     margin-left: 20%;
     margin-bottom: 2%;
 }
+
 .ticket-reservation table {
     margin-bottom: 2em;
 }
-.ticket-reservation tr > td {
+
+.ticket-reservation tr>td {
     font-weight: bold;
     color: black;
     text-align: center;
     font-size: 1.2em;
-
 }
+
 .ticket-reservation-ticket-table {
     margin-top: 2em;
+    overflow: auto;
 }
+
 .ticket-reservation-ticket-table th {
     font-size: 1.3em;
 }
-.ticket-reservation-ticket-table tr td:first-child, .ticket-reservation-ticket-table th {
+
+.ticket-reservation-ticket-table tr td:first-child,
+.ticket-reservation-ticket-table th {
     padding: 0 .5em;
 }
 
@@ -52,7 +59,8 @@
     width: fit-content;
     background-color: var(--color--grey--medium);
 }
-.ticket-reservation td > input[type="checkbox"] {
+
+.ticket-reservation td>input[type="checkbox"] {
     display: flex;
     width: 2em;
     height: 2em;
@@ -60,8 +68,9 @@
     border: none;
     cursor: pointer;
 }
-.ticket-reservation td > input[type="number"] {
-    
+
+.ticket-reservation td>input[type="number"] {
+
     width: 2em;
     padding: .2em;
     padding-left: .3em;
@@ -70,7 +79,7 @@
     background-color: var(--color--grey--medium);
 }
 
-.ticket-reservation td > p {
+.ticket-reservation td>p {
     width: 2.4em;
     display: flex;
     justify-content: center;
@@ -82,11 +91,12 @@
     font-size: 2.2em;
 }
 
-.ticket-reservation-header label, .ticket-reservation-header select { 
+.ticket-reservation-header label,
+.ticket-reservation-header select {
     font-size: 1.1em;
 }
 
-.ticket-reservation-header > div > label {
+.ticket-reservation-header>div>label {
     margin-right: 1em;
 }
 
@@ -95,15 +105,15 @@
     flex-wrap: wrap;
 }
 
-.ticket-reservation-film-by-dab > h3 {
+.ticket-reservation-film-by-dab>h3 {
     font-size: 1.3em;
 }
 
-.ticket-reservation-film-by-dab > div {
+.ticket-reservation-film-by-dab>div {
     display: flex;
 }
 
-.ticket-reservation-film-by-dab > div > div {
+.ticket-reservation-film-by-dab>div>div {
     background-color: var(--color--red--bright);
     padding: .4em .8em;
     border-radius: 1em;
@@ -151,14 +161,49 @@
     transition-duration: var(--transition-delay--long);
     cursor: pointer;
 }
+
 .ticket-reservation-btns button:hover {
     background-color: var(--color--red--dark);
 }
+
 .ticket-reservation-btns .ticket-reservation-btns-disable {
     background-color: var(--color--grey--light);
     color: black;
     cursor: not-allowed;
 }
+
 .ticket-reservation-btns .ticket-reservation-btns-disable:hover {
     background-color: var(--color--grey--light);
+}
+
+
+@media only screen and (max-width: 600px) {
+    .ticket-reservation {
+        width: 100%;
+        height: 100%;
+    }
+
+    .ticket-reservation-header {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-self: center;
+        margin-left: 0;
+    }
+
+    .ticket-reservation-header>div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .ticket-reservation td>input[type="checkbox"] {
+        display: flex;
+        width: 1em;
+        height: 1em;
+        padding: .1em;
+        border: none;
+        cursor: pointer;
+    }
 }
