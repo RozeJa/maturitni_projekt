@@ -80,3 +80,23 @@
 .reservation-confirm-btns .reservation-confirm-btns-disable:hover {
     background-color: var(--color--grey--light);
 }
+
+@media only screen and (max-width: 600px) {
+    .reservation-confirm {
+        width: 100%;
+        height: 100%;
+    }
+
+    .reservation-confirm > table td, .reservation-confirm > table th {
+        text-align: center;
+        font-size: 1em;
+        padding: .2em .4em;
+    }
+    .reservation-confirm-payment {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        text-align: center;
+    }
+}

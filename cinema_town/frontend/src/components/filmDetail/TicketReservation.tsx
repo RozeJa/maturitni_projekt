@@ -274,57 +274,62 @@ const TicketReservation = ({
 
                 {seatsField.length !== 0 ? <h3><hr />Zde se nachází promítací plátno<hr /></h3> : <></>}
 
-                <table >
-                    <tbody>
-                        { /**TODO předělat není to komponenta, jsou to data */
-                            seatsField.map((row, index) => {
-                                const rowCells = row.map((seat, index) => {
 
-                                    if (seat === undefined) {
-                                        return <td key={index} >
-                                            <input
-                                                className='ticket-reservation-non-seat'
-                                                type="checkbox"
-                                                disabled
-                                            />
-                                        </td>
-                                    }
+                <div className="ticket-reservation-seat-container">
+                    <div className="ticket-reservation-seat-container2">
+                        <table >
+                            <tbody>
+                                { /**TODO předělat není to komponenta, jsou to data */
+                                    seatsField.map((row, index) => {
+                                        const rowCells = row.map((seat, index) => {
 
-                                    const isReserved = !seat.seat
-                                    const isSelected = selectedSeats.find(s => s.id === seat.id) !== undefined
+                                            if (seat === undefined) {
+                                                return <td key={index} >
+                                                    <input
+                                                        className='ticket-reservation-non-seat'
+                                                        type="checkbox"
+                                                        disabled
+                                                    />
+                                                </td>
+                                            }
 
-                                    return <td key={index}>
-                                        <input
-                                            key={index}
-                                            className={isReserved ? 'ticket-reservation-unreservable' : isSelected ? 'ticket-reservation-selected' : ''}
-                                            type="checkbox"
-                                            checked={isReserved || isSelected}
-                                            disabled={isReserved}
-                                            onChange={(e: any) => {
-                                                if (!isReserved) {
-                                                    const { checked } = e.target
+                                            const isReserved = !seat.seat
+                                            const isSelected = selectedSeats.find(s => s.id === seat.id) !== undefined
 
-                                                    if (checked && selectedSeats.length + 1 <= countTickets()) {
-                                                        selectedSeats.push(seat)
-                                                        setSelectedSeats([...selectedSeats])
-                                                    } else {
-                                                        setSelectedSeats([...selectedSeats.filter(s => s.id !== seat.id)])
-                                                    }
-                                                }
-                                            }} />
-                                    </td>
-                                })
+                                            return <td key={index}>
+                                                <input
+                                                    key={index}
+                                                    className={isReserved ? 'ticket-reservation-unreservable' : isSelected ? 'ticket-reservation-selected' : ''}
+                                                    type="checkbox"
+                                                    checked={isReserved || isSelected}
+                                                    disabled={isReserved}
+                                                    onChange={(e: any) => {
+                                                        if (!isReserved) {
+                                                            const { checked } = e.target
 
-                                return <tr key={index}>
-                                    <td>
-                                        <p>{row.find(s => s !== undefined)?.rowDesignation}</p>
-                                    </td>
-                                    {rowCells}
-                                </tr>
-                            })
-                        }
-                    </tbody>
-                </table>
+                                                            if (checked && selectedSeats.length + 1 <= countTickets()) {
+                                                                selectedSeats.push(seat)
+                                                                setSelectedSeats([...selectedSeats])
+                                                            } else {
+                                                                setSelectedSeats([...selectedSeats.filter(s => s.id !== seat.id)])
+                                                            }
+                                                        }
+                                                    }} />
+                                            </td>
+                                        })
+
+                                        return <tr key={index}>
+                                            <td>
+                                                <p>{row.find(s => s !== undefined)?.rowDesignation}</p>
+                                            </td>
+                                            {rowCells}
+                                        </tr>
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
                 <div className="ticket-reservation-btns">
                     <button onClick={() => setTicketReservation(<></>)}>Zrušit</button>

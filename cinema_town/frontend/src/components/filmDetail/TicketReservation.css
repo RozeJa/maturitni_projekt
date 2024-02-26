@@ -176,6 +176,22 @@
     background-color: var(--color--grey--light);
 }
 
+.ticket-reservation-seat-container {
+    display: flex;
+    width: 100%;
+}
+
+.ticket-reservation-seat-container2 {
+    display: block;
+    width: 100%;
+    flex-direction: column;
+    align-self: center;
+    overflow-x: scroll;
+}
+
+.ticket-reservation-seat-container2 table {
+    margin: auto;
+}
 
 @media only screen and (max-width: 600px) {
     .ticket-reservation {

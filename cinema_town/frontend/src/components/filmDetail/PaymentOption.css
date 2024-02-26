@@ -21,7 +21,13 @@
 }
 
 .payment-option > input {
-    height: 1em;
-    width: 1em;
+    height: 1.5em;
+    width: 1.5em;
     cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .payment-option {
+        margin: 0 .5em;
+    }
 }

@@ -40,7 +40,7 @@
     height: 65vh;
     padding-bottom: 6vh;
 }
-.film-detail-trailer    iframe {
+.film-detail-trailer iframe {
     position: 'absolute';
     top: 0;
     left: 0;
@@ -121,5 +121,9 @@
     .film-detail-header {
         display: flex;
         justify-content: center;
+    }
+    .film-detail-trailer {
+        width: 100%;
+        padding-bottom: 6vh;
     }
 }

@@ -16,3 +16,10 @@
 .visa-payment input:focus {
     outline: none;
 }
+
+@media only screen and (max-width: 600px) {
+    .visa-payment {
+        margin: 0 .5em;
+        text-align: center;
+    }
+}
