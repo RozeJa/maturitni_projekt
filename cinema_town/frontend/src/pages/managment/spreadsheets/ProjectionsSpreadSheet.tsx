@@ -140,7 +140,6 @@ const ProjectionsSpreadsheet = () => {
 
                     const address = `${cinema?.city.name}, ${cinema?.street}, ${cinema?.houseNumber}`
                     const seats = Object.values(d.hall.seats).filter(s => s.seat).length
-                    const reserved = reservations.filter(r => r.projection.id === d.id).length
                     
                     let date = ''
                     let time = ''
@@ -161,7 +160,6 @@ const ProjectionsSpreadsheet = () => {
                                 <p><b>Multikino</b> {address}</p>
                                 <p><b>Datum:</b> {date}</p>
                                 <p><b>Čas:</b> {time}</p>
-                                <p><b>Počet volných míst</b> {seats - reserved}</p>
                                 <p><b>Míst celkem</b> {seats}</p>
                             </>
                         </Tile>

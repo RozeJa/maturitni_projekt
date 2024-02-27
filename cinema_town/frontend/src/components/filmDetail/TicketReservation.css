@@ -181,12 +181,16 @@
     width: 100%;
 }
 
+.ticket-reservation-seat-container2::-webkit-scrollbar {
+    display: none;
+}
 .ticket-reservation-seat-container2 {
     display: block;
     width: 100%;
     flex-direction: column;
     align-self: center;
     overflow-x: scroll;
+    scrollbar-width: none;
 }
 
 .ticket-reservation-seat-container2 table {
