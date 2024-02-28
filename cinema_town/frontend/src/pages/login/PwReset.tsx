@@ -109,11 +109,8 @@ const PwReset = () => {
                         value={newPasswordAgain} 
                         onChange={(e: any) => {
                             const { value } = e.target;
-
-                            const diferent = user.password !== value
-                            console.log(diferent);
                             
-                            setNotSameErr(diferent)
+                            setNotSameErr(newPassword !== value)
 
                             setNewPasswordAgain(value)
                         }}/>
