@@ -60,47 +60,47 @@ const FilmDetail = () => {
                 <div className="film-detail-description-stats">
                     <div>
                         <div className="film-detail-description-data-stat">
-                            <p>Žánry</p>
+                            <p><b>Žánry</b></p>
                             <p>{Object.values(film.genres).map(g => g.name).join(', ')}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Režije</p>
+                            <p><b>Režije</b></p>
                             <p>{`${film.director.surname} ${film.director.name}`}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Hrají</p>
+                            <p><b>Hrají</b></p>
                             <p>{Object.values(film.actors ? film.actors : {}).map(a => `${a.surname} ${a.name}`).join(', ')}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Původní znění</p>
+                            <p><b>Původní znění</b></p>
                             <p>{film.original}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Promítáme v dabingu</p>
+                            <p><b>Promítáme v dabingu</b></p>
                             <p>{film.dabings.join(', ')}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Promítáme s titulkami</p>
+                            <p><b>Promítáme s titulkami</b></p>
                             <p>{film.titles.length > 0 ? film.titles.join(', ') : "Bez titulků"}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Délka filmu</p>
+                            <p><b>Délka filmu</b></p>
                             <p>{film.time} min</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Věkové omezení</p>
+                            <p><b>Věkové omezení</b></p>
                             <p>{film.pg}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Délka (v min.)</p>
+                            <p><b>Délka (v min.)</b></p>
                             <p>{film.time}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Produkce</p>
+                            <p><b>Produkce</b></p>
                             <p>{film.production}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p>Premiéra</p>
+                            <p><b>Premiéra</b></p>
                             <p>{(film.premier instanceof Date ? '' : film.premier.join(".   "))}</p>
                         </div>
                     </div>
