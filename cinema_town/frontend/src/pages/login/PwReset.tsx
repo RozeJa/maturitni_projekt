@@ -110,7 +110,7 @@ const PwReset = () => {
                         onChange={(e: any) => {
                             const { value } = e.target;
 
-                            setNotSameErr(user.password === value)
+                            setNotSameErr(user.password !== value)
 
                             setNewPasswordAgain(value)
                         }}/>
