@@ -78,6 +78,10 @@ public class EmailService  {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text.getText(), true);
+            
+            // Nastavení unikátního Message-ID
+            String messageId = "Message-ID-" + System.currentTimeMillis();
+            message.setHeader("Message-ID", messageId);
 
             if (attachmentPath != null) {
                 // Attach the file
