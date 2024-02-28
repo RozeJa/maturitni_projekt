@@ -93,7 +93,7 @@ public class ReservationController extends cz.rozek.jan.cinema_town.controllers.
             et.replace("[@important-data]", "Budeme se na vás těšit.");
             et.replace("[@info]", "Doufáme, že si představení užijete.");
 
-            emailService.sendEmail(user.getEmail(), "Vaše rezervace", et, pdfService.generatePdfTickets(reservation));
+            emailService.sendEmail(user.getEmail(), "Vaše rezervace " + reservation.getId(), et, pdfService.generatePdfTickets(reservation));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (SecurityException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
