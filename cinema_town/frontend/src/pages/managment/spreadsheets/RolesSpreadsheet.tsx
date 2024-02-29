@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import Tile from '../../../components/management/Tile'
 import Filter from '../../../components/management/Filter'
 import { handleErr } from '../../../global_functions/constantsAndFunction'
+import RemoveConfirm from '../../../components/management/RemoveConfirm'
 
 const defData: Role[] = []
 const RolesSpreadsheet = () => {
@@ -15,6 +16,7 @@ const RolesSpreadsheet = () => {
     const [data, setData] = useState([...defData])
     const [filtredData, setFiltredData] = useState([...defData])
 
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
     const [err, setErr] = useState(<></>)
 
     useEffect(() => {
@@ -47,6 +49,7 @@ const RolesSpreadsheet = () => {
     return (
         <div className='sp'>
             {err}
+            {removeConfirm}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <p className='sp-header-title'>Správa rolí</p>
@@ -58,7 +61,7 @@ const RolesSpreadsheet = () => {
                             header={d.name} 
                             onClick={()=>navigate(`/management/roles/${d.id}`)}
                             actions={
-                                <input type='button' value='Odebrat' onClick={() => remove(d)} />
+                                <input type='button' value='Odebrat' onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => remove(d)} />)} />
                             }
                             >
                             <p><b>Přidělených oprávnění </b>{Object.values(d.permissions !== null ? d.permissions : {}).length}

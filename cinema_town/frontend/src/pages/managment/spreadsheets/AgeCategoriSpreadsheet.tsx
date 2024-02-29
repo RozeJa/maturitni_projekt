@@ -6,6 +6,7 @@ import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/
 import { handleErr } from '../../../global_functions/constantsAndFunction'
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
+import RemoveConfirm from '../../../components/management/RemoveConfirm'
 
 const defData: AgeCategory[] = []
 const AgeCategoriSpreadsheet = () => {
@@ -14,6 +15,7 @@ const AgeCategoriSpreadsheet = () => {
     const [data, setData] = useState([...defData])
     const [filtredData, setFiltredData] = useState([...defData])
     
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
     const [err, setErr] = useState(<></>)
 
     useEffect(() => {
@@ -49,6 +51,7 @@ const AgeCategoriSpreadsheet = () => {
     return (
         <div className='sp'>
             {err}
+            {removeConfirm}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <p className='sp-header-title'>Správa cenových/věkových kategoriích</p>
@@ -60,7 +63,7 @@ const AgeCategoriSpreadsheet = () => {
                             header={d.name} 
                             onClick={()=>navigate(`/management/age_categories/${d.id}`)}
                             actions={
-                                <input type='button' value='Odebrat' onClick={() => remove(d)} />
+                                <input type='button' value='Odebrat' onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => remove(d)} />)} />
                             }
                             >
                             <p><b/>Cenový koeficient:<b/> {d.priceModificator}</p>

@@ -51,9 +51,11 @@ const LoginForm = ({ onSuccess, isNotActive }: { onSuccess: Function, isNotActiv
         } catch (error) {
             console.log(error)
             
-            if (error instanceof AxiosError && error.status === 400) {
+            if (error instanceof AxiosError && error.response?.status === 400) {
                 sessionStorage.setItem('email', user.email)
                 isNotActive(user.password)
+                console.log("asda");
+                
             } else {
                 setEmailErr('Zkontrolujte email')
                 setPwErr('Zkontrolujte heslo')

@@ -8,6 +8,7 @@ import Filter from '../../components/management/Filter'
 import ReservationGroup from '../../components/myReservations/ReservationGroup'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
+import RemoveConfirm from '../../components/management/RemoveConfirm'
 
 type ReservationGroup = { 
     [key: string] : Reservation[]
@@ -21,6 +22,7 @@ const defGrouped: ReservationGroup = {}
 const MyReservations = () => {
 
     const [err, setErr] = useState(<></>)
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
 
     const [user, setUser] = useState({...defUser})
     const [reservations, setReservations] = useState([...defReservations])
@@ -108,6 +110,7 @@ const MyReservations = () => {
     return (
         <div className='my-reservations'>
             {err}
+            {removeConfirm}
             <div className="my-reservations-header">
                 <div className="my-reservations-header-left">
                     <h1>Ahoj, {user.email}</h1>
@@ -131,14 +134,14 @@ const MyReservations = () => {
                         {user.subscriber ? "Odhlásit se od odběru" : "Přihlásit se k odběru"}
                     </button>
                     {
-                        trustToDevice ? <button onClick={() => {
-
-                            delete trustedTokens[user.email]
-                            localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
-                            setUser({...user})
-                        }}>
-                            Přestat důvěřovat
-                        </button> : <></>
+                        trustToDevice ? 
+                            <button onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => {
+                                delete trustedTokens[user.email]
+                                localStorage.setItem("trustedTokens", JSON.stringify(trustedTokens)) 
+                                setUser({...user})
+                            }} />)}>
+                                Přestat důvěřovat
+                            </button> : <></>
                     }
                 </div>
             </div>

@@ -8,6 +8,7 @@ import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
 import Reservation from '../../../models/Reservation'
 import { handleErr } from '../../../global_functions/constantsAndFunction'
+import RemoveConfirm from '../../../components/management/RemoveConfirm'
 
 const defProjections: Projection[] = []
 const defCinemas: Cinema[] = []
@@ -27,6 +28,7 @@ const ProjectionsSpreadsheet = () => {
     const [lastEvent, setLastEvent] = useState(defAny)
     
     const [showArchived, setShowArchived] = useState(false)
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
     const [err, setErr] = useState(<></>)
 
     useEffect(() => {
@@ -105,6 +107,7 @@ const ProjectionsSpreadsheet = () => {
     return (
         <div className='projection-sp'>
             {err}
+            {removeConfirm}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <div className="projection-header-filter-cinema">
@@ -153,7 +156,7 @@ const ProjectionsSpreadsheet = () => {
                             header={d.film.name} 
                             onClick={()=>navigate(`/management/projections/${d.id}`)}
                             actions={
-                                <input type='button' value='Odebrat' onClick={() => remove(d)} />
+                                <input type='button' value='Odebrat' onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => remove(d)} />)} />
                             }
                             >
                             <>

@@ -4,6 +4,7 @@ import Reservation from '../../models/Reservation'
 import './ReservationPanel.css'
 import Cinema, { defaultCinema } from '../../models/Cinema'
 import { formatDateTime } from '../../global_functions/constantsAndFunction'
+import RemoveConfirm from '../management/RemoveConfirm'
 
 const ReservationPanel = ({
         reservation,
@@ -14,6 +15,7 @@ const ReservationPanel = ({
     }) => {
 
     const [cinema, setCinema] = useState({...defaultCinema})
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
     
     useEffect(() => {
         const hallId = reservation.projection.hall.id !== null ? reservation.projection.hall.id : ""
@@ -21,9 +23,7 @@ const ReservationPanel = ({
             .then(data => {                
                 setCinema({...data[0]})
             })
-            .catch(err => {
-                console.log("problem");
-            })
+            .catch(err => {})
     }, [])
 
     let rezerved = formatDateTime(reservation.reserved)
@@ -65,6 +65,7 @@ const ReservationPanel = ({
 
     return (
         <div className='reservation-panel'>
+            {removeConfirm}
             <div className="reservation-panel-header">
                 <div className='reservation-panel-header-param'>
                     <h2>Rezervace na film </h2>
@@ -73,7 +74,7 @@ const ReservationPanel = ({
                 </div>
 
                 {
-                    isRemovable(reservation.reserved) ? <button onClick={removeReservation}>Zrušit rezervaci</button> : <></>
+                    isRemovable(reservation.reserved) ? <button onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => removeReservation()} />)}>Zrušit rezervaci</button> : <></>
                 }
             </div>
             <div className="reservation-panel-info">

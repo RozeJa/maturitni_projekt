@@ -7,6 +7,7 @@ import { ModesEndpoints, deleteData, loadData } from '../../../global_functions/
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
 import { handleErr } from '../../../global_functions/constantsAndFunction'
+import RemoveConfirm from '../../../components/management/RemoveConfirm'
 
 const defCinemas: Cinema[] = []
 
@@ -16,6 +17,7 @@ const CinemasSpreadsheet = () => {
     const [cinemas, setCinemas] = useState([...defCinemas])
     const [filtredCinemas, setFiltredCinemas] = useState([...defCinemas])
 
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
     const [err, setErr] = useState(<></>)
     
     useEffect(() => {
@@ -63,6 +65,7 @@ const CinemasSpreadsheet = () => {
     return (
         <div className='sp'>
             {err}
+            {removeConfirm}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <p className='sp-header-title'>Správa multikin</p>
@@ -75,7 +78,7 @@ const CinemasSpreadsheet = () => {
                             header={adress} 
                             onClick={()=>navigate(`/management/cinemas/${d.id}`)}
                             actions={
-                                <input type='button' value='Odebrat' onClick={() => remove(d)} />
+                                <input type='button' value='Odebrat' onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => remove(d)} />)} />
                             }
                             >
                             <>

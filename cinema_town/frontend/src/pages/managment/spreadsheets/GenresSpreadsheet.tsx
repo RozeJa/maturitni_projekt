@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
 import { handleErr } from '../../../global_functions/constantsAndFunction'
+import RemoveConfirm from '../../../components/management/RemoveConfirm'
 
 const defData: Genre[] = []
 const GenresSpreadsheet = () => {
@@ -15,6 +16,7 @@ const GenresSpreadsheet = () => {
     const [data, setData] = useState(defData)
     const [filtredData, setFiltredData] = useState([...defData])
 
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
     const [err, setErr] = useState(<></>)
 
     useEffect(() => {
@@ -50,6 +52,7 @@ const GenresSpreadsheet = () => {
     return (
         <div className='sp'>
             {err}
+            {removeConfirm}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <p className='sp-header-title'>Správa žánrů</p>
@@ -61,7 +64,7 @@ const GenresSpreadsheet = () => {
                             header={d.name} 
                             onClick={()=>navigate(`/management/genres/${d.id}`)}
                             actions={
-                                <input type='button' value='Odebrat' onClick={() => remove(d)} />
+                                <input type='button' value='Odebrat' onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => remove(d)} />)} />
                             }
                             >
                             <></>

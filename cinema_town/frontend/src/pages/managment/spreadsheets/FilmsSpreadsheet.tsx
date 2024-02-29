@@ -8,6 +8,7 @@ import Genre, {defaultGerne} from '../../../models/Genre'
 import Filter from '../../../components/management/Filter'
 import Tile from '../../../components/management/Tile'
 import { handleErr } from '../../../global_functions/constantsAndFunction'
+import RemoveConfirm from '../../../components/management/RemoveConfirm'
 
 const defFilms: Film[] = []
 const defGenres: Genre[] = []
@@ -23,6 +24,7 @@ const FilmsSpreadsheet = () => {
 
     const [lastValue, setLastValue] = useState('')
 
+    const [removeConfirm, setRemoveConfirm] = useState(<></>)
     const [err, setErr] = useState(<></>)
     
     useEffect(() => {
@@ -92,6 +94,7 @@ const FilmsSpreadsheet = () => {
     return (        
         <div className='sp'>
             {err}
+            {removeConfirm}
             <div className="sp-header">
                 <Filter filter={filter} />
                 <p className='sp-header-title'>Správa filmů</p>
@@ -122,7 +125,7 @@ const FilmsSpreadsheet = () => {
                             header={d.name} 
                             onClick={()=>navigate(`/management/films/${d.id}`)}
                             actions={
-                                <input type='button' value='Odebrat' onClick={() => remove(d)} />
+                                <input type='button' value='Odebrat' onClick={() => setRemoveConfirm(<RemoveConfirm close={() => setRemoveConfirm(<></>)} callBack={() => remove(d)} />)} />
                             }
                             >
                             <>
