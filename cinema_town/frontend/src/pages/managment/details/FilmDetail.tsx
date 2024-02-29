@@ -141,7 +141,7 @@ const FilmDetail = ({
     useEffect(() => {
         if (file !== null) {
             setTempData({... tempData, ["picture"]: file["name"]})
-            caseFile(file)
+            caseFile({... tempData, ["picture"]: file["name"], ["file"]: file})
         }
     }, [file])
 

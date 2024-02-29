@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import Film from '../models/Film';
+import Film, { defaultFilm } from '../models/Film';
 import User from '../models/User';
 import { TokenDeviceId } from '../models/TokenDeviceId';
 import { getSessionStorageItem, setSessionsStorageItem } from './storagesActions';
@@ -33,10 +33,10 @@ export enum ModesEndpoints {
     User = "api/users/"
 }
 
-let cashedFile: any
+let cashedFilm: Film = {...defaultFilm}
 
-export const caseFile:(file: any) => void = (file: any) => {
-    cashedFile = file
+export const caseFile:(film: Film) => void = (film: Film) => {
+    cashedFilm = film
 }
 
 export const onLoading: () => void = () => {
@@ -127,17 +127,17 @@ export const storeData = async <T extends Entity>(modelEndpoint: ModesEndpoints,
 
 const handleFilm = async (url: string, film: any, config: AxiosRequestConfig<any>): Promise<Film> => {
     
-    console.log(cashedFile);
+    console.log(cashedFilm);
 
-    if (cashedFile !== null) {
+    if (cashedFilm.file !== null && cashedFilm.name === film.name) {
 
         // připrav tělo dotazu, pro poslání obrázku na server
         const formData = new FormData();
-        formData.append('file', cashedFile);
+        formData.append('file', cashedFilm.file);
         formData.append('picture', film.picture);
 
         // z filmu smaž prop file
-        cashedFile = null
+        cashedFilm = {...defaultFilm}
 
         let data
         // ulož film
