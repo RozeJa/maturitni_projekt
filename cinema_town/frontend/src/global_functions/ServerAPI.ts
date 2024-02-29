@@ -33,6 +33,12 @@ export enum ModesEndpoints {
     User = "api/users/"
 }
 
+let cashedFile: any
+
+export const caseFile:(file: any) => void = (file: any) => {
+    cashedFile = file
+}
+
 export const onLoading: () => void = () => {
     setSessionsStorageItem("loading", "true")
 }
@@ -120,15 +126,18 @@ export const storeData = async <T extends Entity>(modelEndpoint: ModesEndpoints,
 }
 
 const handleFilm = async (url: string, film: any, config: AxiosRequestConfig<any>): Promise<Film> => {
+    
+    console.log(cashedFile);
 
-    if (film["file"] !== null) {
+    if (cashedFile !== null) {
+
         // připrav tělo dotazu, pro poslání obrázku na server
         const formData = new FormData();
-        formData.append('file', film["file"]);
+        formData.append('file', cashedFile);
         formData.append('picture', film.picture);
 
         // z filmu smaž prop file
-        delete film["file"]
+        cashedFile = null
 
         let data
         // ulož film

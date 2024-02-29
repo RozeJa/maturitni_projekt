@@ -71,7 +71,7 @@ const ProjectionDetail = ({
         loadData<Film>(ModesEndpoints.Film)
             .then(data => {
                 data.unshift({ ...defaultFilm })
-                setFilms(data)
+                setFilms(data.sort((a,b) => a.name.localeCompare(b.name)))
             })
             .catch(err => handleErrRedirect(setErr, err))
     }, [])

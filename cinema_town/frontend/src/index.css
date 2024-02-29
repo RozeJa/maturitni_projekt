@@ -73,3 +73,9 @@ textarea.custom-background {
 textarea.custom-background:focus {
   background-color: #fff;
 }
+
+@media screen and (max-width: 400px) {
+  main {
+      overflow: auto;
+  }
+}

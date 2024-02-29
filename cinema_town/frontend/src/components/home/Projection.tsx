@@ -49,8 +49,8 @@ const Projection = ({
                         <p><b>Věkové omezení:</b> {film.pg}+</p>
                         <p><b>Délka filmu:</b> {film.time} min.</p>
                         <p><b>Žánry: </b>{film.genres.map(g => g.name).join(", ")}</p>
-                        <p><b>Režisér:</b> {`${film.director.surname} ${film.director.name}`}</p>
-                        <p><b>Herci:</b> {Object.values(film.actors ? film.actors : {} ).map((a,i,arr) => `${a.surname} ${a.name}${i < (arr.length - 1) ? ", " : ""}`)}</p>
+                        <p><b>Režisér:</b> {`${film.director.name} ${film.director.surname}`}</p>
+                        <p><b>Herci:</b> {Object.values(film.actors ? film.actors : {} ).map((a,i,arr) => `${a.name} ${a.surname}${i < (arr.length - 1) ? ", " : ""}`)}</p>
                     </div>
                 </div>
             </div>

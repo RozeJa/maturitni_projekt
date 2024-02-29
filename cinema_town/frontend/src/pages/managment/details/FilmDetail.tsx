@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import Film, { defaultFilm } from '../../../models/Film'
 import './FilmDetail.css'
 import People, { defaultPeople } from '../../../models/People'
-import { ModesEndpoints, loadData } from '../../../global_functions/ServerAPI'
+import { ModesEndpoints, caseFile, loadData } from '../../../global_functions/ServerAPI'
 import PeopleInput from '../../../components/management/filmDetail/PeopleInput'
 import Genre, { defaultGerne } from '../../../models/Genre'
 import { formatDate, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 import SmartInput from '../../../components/SmartInput'
 import BeautifulInput from '../../../components/BeautifulInput'
 import { storeDetailData } from './Detail'
+import { getSessionStorageItem } from '../../../global_functions/storagesActions'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -62,7 +63,7 @@ const FilmDetail = ({
         storeDetailData(tempData)
     }, [data])
     useEffect(() => {
-        storeDetailData(tempData)
+        storeDetailData(tempData)        
     }, [tempData])
 
     const [peoples, setPeoples] = useState(defPeoples)
@@ -138,8 +139,10 @@ const FilmDetail = ({
         setTempData({... tempData})
     }, [dabings])
     useEffect(() => {
-        if (file !== null)
-            setTempData({... tempData, ["file"]: file, ["picture"]: file["name"]})
+        if (file !== null) {
+            setTempData({... tempData, ["picture"]: file["name"]})
+            caseFile(file)
+        }
     }, [file])
 
     const handleNumberChange = (e: any) => {
@@ -190,7 +193,7 @@ const FilmDetail = ({
                             newActors[key] = p
                                     
                             if (newActors[(Object.keys(actors).length-1).toString()].surname !== '') {
-                                newActors[Object.keys(actors).length.toString()] = { id: null, name: '', surname: ''}
+                                newActors[Object.keys(actors).length.toString()] = { id: Object.keys(actors).length.toString(), name: '', surname: ''}
                                 setActors({ ...newActors})
                             } else {
                                 setActors(newActors)
@@ -340,7 +343,9 @@ const FilmDetail = ({
             </BeautifulInput>
 
             <BeautifulInput label={`Obrázek ${(tempData.picture !== '' ? 'je vložen na servru' : '')}`}>
-                <input type="file" onChange={(e: any) => setFile(e.target.files[0])} accept="image/jpeg, image/png, image/jpg" />
+                <input type="file" onChange={(e: any) => {
+                        setFile(e.target.files[0])
+                    }} accept="image/jpeg, image/png, image/jpg" />
             </BeautifulInput>
             
             <SmartInput label={'Trailer (jen jeho YouTobe id)'}>

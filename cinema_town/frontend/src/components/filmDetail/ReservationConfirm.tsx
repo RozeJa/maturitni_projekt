@@ -8,7 +8,7 @@ import './ReservationConfirm.css'
 import PaymentOption from './PaymentOption'
 import VisaPayment from './payments/VisaPayment'
 import PaymentInformations from './payments/PaymentInformations'
-import { ModesEndpoints, onLoading, storeData } from '../../global_functions/ServerAPI'
+import { ModesEndpoints, onLoad, onLoading, storeData } from '../../global_functions/ServerAPI'
 import ReservationDTO from '../../models/ReservationDTO'
 import { useNavigate } from 'react-router-dom'
 import DialogErr from '../DialogErr'
@@ -123,6 +123,7 @@ const ReservationConfirm = ({
                     setErr(<DialogErr description='Platba neproběhla. Rezervace nebyla dokončena.' err='Rezervace se nezdařila' dialogSetter={setErr} okText="Ok"/>)
                 })
         }
+        onLoad()
     }
     
     return (

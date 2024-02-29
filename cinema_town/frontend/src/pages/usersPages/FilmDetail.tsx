@@ -6,12 +6,14 @@ import { ModesEndpoints, loadData } from '../../global_functions/ServerAPI'
 import { handleErr, handleErrRedirect } from '../../global_functions/constantsAndFunction'
 import TicketReservation from '../../components/filmDetail/TicketReservation'
 import { getSessionStorageItem } from '../../global_functions/storagesActions'
+import Projection from '../../models/Projection'
 
 const defFilm: Film = defaultFilm
 
 const FilmDetail = () => {
 
     const [film, setFilm] = useState({...defFilm})
+    const [countOfProjections, setCountOfProjections] = useState(0)
 
     const [err, setErr] = useState(<></>)
     const [ticketReservation, setTicketReservation] = useState(<></>)
@@ -28,8 +30,12 @@ const FilmDetail = () => {
                     setFilm(film);
             })
             .catch(err => handleErrRedirect(setErr, err))
+        loadData<Projection>(ModesEndpoints.ProjectionByFilm, [fimlId ? fimlId : 'undefined'])
+            .then(data => {
+                setCountOfProjections(data.length)
+            })
+            .catch(err => handleErrRedirect(setErr, err))
     }, [])
-
 
     return (
         <div className='film-detail'>
@@ -38,8 +44,12 @@ const FilmDetail = () => {
 
             <div className="film-detail-header">
                 <h1>{film.name}</h1>
-                <button
+                <button 
+                    className={countOfProjections === 0 ? 'film-detail-header-deactivate' : 'film-detail-header-button'}
                     onClick={() => {
+                        if (countOfProjections === 0)
+                            return
+
                         if (getSessionStorageItem('loginToken') !== '') {
                             return setTicketReservation(<TicketReservation setTicketReservation={setTicketReservation} film={film} setErr={setErr} />)
                         } else {

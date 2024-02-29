@@ -46,3 +46,16 @@
 .pw-change-err {
     color: var(--color--red--bright);
 }
+
+@media screen and (max-width: 400px) {
+    .pw-change {
+        width: auto;
+        padding: 3em .3em .2em .3em;
+    }
+
+    .pw-change input {
+        width: 95%;
+        font-size: 1.5em;
+        padding: .2em;
+    }
+}

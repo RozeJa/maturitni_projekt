@@ -20,7 +20,7 @@
     font-size: 2.5em;
     color: white;
 }
-.film-detail-header button {
+.film-detail-header-button {
     border: none;
     outline: none;
     font-size: 1.5em;
@@ -31,10 +31,22 @@
     cursor: pointer;
     transition-duration: var(--transition-delay--short);
 }
-.film-detail-header button:hover {
+.film-detail-header-button:hover {
     box-shadow: .2em .2em .2em var(--color--red--dark);
 }
-
+.film-detail-header-deactivate {
+    border: none;
+    outline: none;
+    font-size: 1.5em;
+    padding: .5em;
+    border-radius: .5em;
+    background-color: var(--color--grey--light);
+    color: black;
+    cursor: not-allowed;
+}
+.film-detail-header-deactivate:hover {
+    box-shadow: none;
+}
 .film-detail-trailer {
     width: 65vw;
     height: 65vh;

@@ -195,6 +195,7 @@ const TicketReservation = ({
                         </select>
                     </div>
                 </div>
+                <h2>Zvolte promítání:</h2>
                 {Object.keys(projectionsByDabTit).map(index => {
                     const dab = index.split(';')[0]
                     let tit = ''
