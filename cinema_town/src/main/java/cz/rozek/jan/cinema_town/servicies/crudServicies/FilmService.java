@@ -77,8 +77,8 @@ public class FilmService extends CrudService<Film, FilmRepository> {
             People p = peopleRepository.findByNameAndSurname(people.getName(), people.getSurname());
             if (p == null) {
                 // TODO kontrola člověka
-                People newPeople = peopleRepository.save(entity.getActors().get(p.getId()));
-                addedToDB.put(p.getId(), newPeople);
+                People newPeople = peopleRepository.save(entity.getActors().get(people.getId()));
+                addedToDB.put(people.getId(), newPeople);
             }
         }
 
