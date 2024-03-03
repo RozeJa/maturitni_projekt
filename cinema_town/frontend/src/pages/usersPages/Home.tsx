@@ -50,19 +50,7 @@ const Home = () => {
         const groups: { [key: string]: Projection[][] } = {}
         const sections = {...defSections}
 
-        filtredProjections.filter(p => {
-            if (p.dateTime instanceof(Date))
-                return true
-
-            const date = new Date()
-            date.setDate(date.getDate() + 13)
-
-            const term = new Date(parseInt(p.dateTime[0]), parseInt(p.dateTime[1])-1, parseInt(p.dateTime[2]))
-
-            const utcDiference = new Date(date.getTime() - term.getTime())
-
-            return utcDiference.getDate() <= 14 && utcDiference.getMonth() === 0
-        }).forEach(p => {
+        filtredProjections.forEach(p => {
             if (!(p.dateTime instanceof Date)) {
                 
                 if (groups[`${p.dateTime[1]}#${p.dateTime[2]}`] === undefined) {
@@ -120,6 +108,19 @@ const Home = () => {
     const loadProjections = async () => {
         try {
             const projections = (await loadData<Projection>(ModesEndpoints.Projection))
+            .filter(p => {
+                if (p.dateTime instanceof(Date))
+                    return true
+    
+                const date = new Date()
+                date.setDate(date.getDate() + 13)
+    
+                const term = new Date(parseInt(p.dateTime[0]), parseInt(p.dateTime[1])-1, parseInt(p.dateTime[2]))
+    
+                const utcDiference = new Date(date.getTime() - term.getTime())
+    
+                return utcDiference.getDate() <= 14 && utcDiference.getMonth() === 0
+            })
             
             setProjections(projections)
         } catch (err) {
