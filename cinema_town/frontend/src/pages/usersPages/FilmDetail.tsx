@@ -79,7 +79,7 @@ const FilmDetail = () => {
                         </div>
                         <div className="film-detail-description-data-stat">
                             <p><b>Hrají</b></p>
-                            <p>{Object.values(film.actors ? film.actors : {}).map(a => `${a.surname} ${a.name}`).join(', ')}</p>
+                            <p>{Object.values(film.actors ? film.actors : {}).map(a => `${a.name} ${a.surname}`).join(', ')}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
                             <p><b>Původní znění</b></p>
