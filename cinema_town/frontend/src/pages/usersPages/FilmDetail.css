@@ -107,7 +107,7 @@
     align-items: center;
     justify-content: center;
 }
-.film-detail-description-img  img {
+.film-detail-description-img img {
     width: 20vw;
     height: auto;
     border-radius: 2em;
@@ -126,6 +126,10 @@
     }
     .film-detail-description-img {
         display: none;
+    }
+    .film-detail-description-img img {
+        width: 90%;
+        border-radius: 2em;
     }
 }
 
