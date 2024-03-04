@@ -78,7 +78,7 @@ const ProjectionDetail = ({
 
     useEffect(() => {
         if (selectedCinema.id !== null) {
-            const halls = Object.values(selectedCinema.halls)
+            const halls = Object.values(selectedCinema.halls).sort((a,b) => a.designation.localeCompare(b.designation))
             halls.unshift(defaultHall)
 
             setHallsSelect(

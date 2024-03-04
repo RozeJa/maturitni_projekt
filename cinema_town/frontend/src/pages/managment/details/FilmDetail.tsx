@@ -9,7 +9,6 @@ import { formatDate, handleErrRedirect } from '../../../global_functions/constan
 import SmartInput from '../../../components/SmartInput'
 import BeautifulInput from '../../../components/BeautifulInput'
 import { storeDetailData } from './Detail'
-import { getSessionStorageItem } from '../../../global_functions/storagesActions'
 
 export const validateFilm = (data: Film): Array<string> => {
     let errs: Array<string> = []
@@ -18,6 +17,10 @@ export const validateFilm = (data: Film): Array<string> => {
         errs.push("Název filmu nesmí být nevyplněný.")
     if (data.original.trim() === '')
         errs.push("Původní dabing nesmí být nevyplněný.")
+    if (data.original.length > 3) 
+        errs.push("Původní znění musí být uvedeno jako zkratka (max 3 písmena).")
+    if (data.dabings.length === 0) 
+        errs.push("Film musí mít zadaný alespoň jeden dabing.")
     if (data.trailer !== '') {
         if (data.trailer.split("http").length > 1 || data.trailer.split("www").length > 1 || data.trailer.split("youtube").length > 1 || data.trailer.split("v=").length > 1) 
             errs.push("Trailer nemá být url adresa na video stačí pouze jeho id. Id nalednete na 'v='. Př: URL - https://www.youtube.com/watch?v=158aKdnWr7s Id - 158aKdnWr7s")

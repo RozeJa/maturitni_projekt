@@ -263,7 +263,8 @@ const TicketReservation = ({
 
                                             } else if (count >= 0)
                                                 setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count })
-
+                                            else 
+                                                setAgeCategoriesCount({ ...ageCategoriesCount, [name]: 0 })
                                         }} />
                                 </td>
                                 <td>{Math.round(ac.priceModificator * selectedProjection.cost) * inputVal} Kč</td>

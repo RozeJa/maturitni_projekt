@@ -13,8 +13,8 @@ export const validateHall = (data: Hall): Array<string> => {
 
     if (data.designation.trim() === '')
         errs.push("Film musí obsahovat nějaký popis.")
-    if (data.rows < 1 || data.columns < 1) 
-        errs.push("Sál musí obsahovat nějaká sedadla.")
+    if (data.rows < 2 || data.columns < 2) 
+        errs.push("Sál musí obsahovat nějaká sedadla. Minimální povolená velikost sálu je 2x2.")
     if (Object.values(data.seats).filter(s => s.seat).length < (data.rows * data.columns / 2 - 1))
         errs.push("Prosím upravte rozložení sálu. Aktuálně obsahuje příliš mnoho prázdných míst. (uličky mezi řadami jsou samozřejmostí a není třeba je vykreslovat).")
 
@@ -147,8 +147,8 @@ const HallDetail = () => {
         try {
             const { name, value } = event.target
     
-            if (value <= 2) {
-                setHall({ ...hall, [name]: 2})
+            if (value <= 0) {
+                setHall({ ...hall, [name]: 0})
             } else {
                 setHall({ ...hall, [name]:  parseInt(value)})
             }

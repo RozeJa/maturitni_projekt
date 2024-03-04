@@ -102,10 +102,6 @@ const FilmDetail = () => {
                             <p>{film.pg}</p>
                         </div>
                         <div className="film-detail-description-data-stat">
-                            <p><b>Délka (v min.)</b></p>
-                            <p>{film.time}</p>
-                        </div>
-                        <div className="film-detail-description-data-stat">
                             <p><b>Produkce</b></p>
                             <p>{film.production}</p>
                         </div>

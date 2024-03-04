@@ -91,6 +91,8 @@ public class Film implements Entity {
                 throw new ValidationException("Původní znění není vyplněno.");
             if (original.length() > 3) 
                 throw new ValidationException("Původní znění musí být uvedeno jako zkratka (max 3 písmena).");
+            if (dabings.isEmpty())
+                throw new ValidationException("Film musí mít zadaný alespoň jeden dabing");
             if (production.isBlank()) 
                 throw new ValidationException("Produkce musí být vyplněna");
             if (director == null)
