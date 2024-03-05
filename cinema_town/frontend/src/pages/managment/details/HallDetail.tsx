@@ -7,6 +7,7 @@ import Cinema from '../../../models/Cinema'
 import { ModesEndpoints, loadData, storeData } from '../../../global_functions/ServerAPI'
 import { handleErr, handleErrRedirect } from '../../../global_functions/constantsAndFunction'
 import SmartInput from '../../../components/SmartInput'
+import DialogErr from '../../../components/DialogErr'
 
 export const validateHall = (data: Hall): Array<string> => {
     let errs: Array<string> = []
@@ -32,9 +33,13 @@ const HallDetail = () => {
         
         let newValueField: Seat[][] = []
 
+        if (hall.rows === 0 || hall.columns === 0)
+            return newValueField;
+
         for (let i = 0; i < hall.rows; i++) {
             let row = []
             for (let j = 0; j < hall.columns; j++) {
+
                 let seat: Seat = {
                     id: null,
                     rowDesignation: '',
@@ -96,6 +101,16 @@ const HallDetail = () => {
     }
 
     const store = () => {
+        let errs: Array<string> = validateHall(hall)
+        if (errs.length > 0) {
+            let errLog: string = ''
+
+            errs.forEach((err) => errLog += ` ${err}`);
+
+            setErr(<DialogErr err='Chybně vyplněný formulář' description={errLog} dialogSetter={setErr} okText={'Ok'} />)
+            return
+        }
+
         const seats: { [key: string]: Seat } = {}
         if (Object.keys(hall.seats).length === 0) {
             valueField.forEach((row, rowIndex) => {
@@ -146,13 +161,15 @@ const HallDetail = () => {
     const handleInputNumber = (event: any) => {
         try {
             const { name, value } = event.target
-    
-            if (value <= 0) {
+
+            const data = parseInt(value, 10)
+
+            if (data <= 0 || isNaN(data)) {
                 setHall({ ...hall, [name]: 0})
             } else {
-                setHall({ ...hall, [name]:  parseInt(value)})
+                setHall({ ...hall, [name]: data})
             }
-            
+
         } catch (error) {
             setHall({ ...hall})
         }

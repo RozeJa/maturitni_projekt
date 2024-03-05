@@ -255,7 +255,7 @@ const TicketReservation = ({
                                         onChange={(e: any) => {
                                             const { name, value } = e.target
 
-                                            const count = parseInt(value)
+                                            const count = parseInt(value, 10)
 
                                             if (count < ageCategoriesCount[name]) {
                                                 if (count >= 0 && countTickets() - ageCategoriesCount[name] + count >= selectedSeats.length)

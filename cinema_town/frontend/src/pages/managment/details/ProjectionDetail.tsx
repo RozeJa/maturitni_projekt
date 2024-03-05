@@ -64,7 +64,7 @@ const ProjectionDetail = ({
         loadData<Cinema>(ModesEndpoints.Cinama)
             .then(data => {
                 data.unshift({ ...defaultCinema })
-                setCinemas(data)
+                setCinemas(data.sort((a,b) => a.city.name.localeCompare(b.city.name)))
             })
             .catch(err => handleErrRedirect(setErr, err))
 
