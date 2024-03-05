@@ -16,8 +16,6 @@ export const validateHall = (data: Hall): Array<string> => {
         errs.push("Film musí obsahovat nějaký popis.")
     if (data.rows < 2 || data.columns < 2) 
         errs.push("Sál musí obsahovat nějaká sedadla. Minimální povolená velikost sálu je 2x2.")
-    if (Object.values(data.seats).filter(s => s.seat).length < (data.rows * data.columns / 2 - 1))
-        errs.push("Prosím upravte rozložení sálu. Aktuálně obsahuje příliš mnoho prázdných míst. (uličky mezi řadami jsou samozřejmostí a není třeba je vykreslovat).")
 
     return errs
 }
