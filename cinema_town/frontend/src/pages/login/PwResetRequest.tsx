@@ -19,9 +19,9 @@ const PwResetRequest = () => {
         resetPwRequest(user).then((ok) => {
             if (ok)
                 navigate(`/pw-reset/${user.email}`)
-            else setErr("V tuto chvíly není možné vyžádat obnovu hesla tohoto účtu. Zkuste to zkusit za nějaký čas, nebo se obraťtě na podporu.")
+            else setErr("V tuto chvíli není možné vyžádat obnovu hesla tohoto účtu. Zkuste to zkusit za nějaký čas, nebo se obraťte na podporu.")
         })
-        .catch(err => setErr("V tuto chvíly není možné vyžádat obnovu hesla tohoto účtu. Zkuste to zkusit za nějaký čas, nebo se obraťtě na podporu."))
+        .catch(err => setErr("V tuto chvíli není možné vyžádat obnovu hesla tohoto účtu. Zkuste to zkusit za nějaký čas, nebo se obraťte na podporu."))
     }
 
     return (
