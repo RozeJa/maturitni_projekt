@@ -70,13 +70,13 @@ public class FilmService extends CrudService<Film, FilmRepository> {
         return super.update(id, entity, accessJWT);
     }
 
-    private void pushPeoplesToDB(Film entity) {
+    private void pushPeoplesToDB(Film entity) throws ValidationException {
         // projeď režiséra a herce, pokud tam je nějaký, který nemá id, tak ho přidej do db a objektu přidej id
         Map<String, People> addedToDB = new HashMap<>();
         for (People people : entity.getActors().values()) {
             People p = peopleRepository.findByNameAndSurname(people.getName(), people.getSurname());
             if (p == null) {
-                // TODO kontrola člověka
+                people.validate();
                 people.setId(null);
                 People newPeople = peopleRepository.save(people);
                 addedToDB.put(newPeople.getId(), newPeople);
@@ -92,12 +92,12 @@ public class FilmService extends CrudService<Film, FilmRepository> {
         if (entity.getDirector().getId() != null) {
             o = peopleRepository.findByNameAndSurname(entity.getDirector().getName(), entity.getDirector().getSurname());
             if (o == null) {
-                // TODO kontrola člověka
+                entity.getDirector().validate();
                 People newPeople = peopleRepository.save(entity.getDirector());
                 entity.setDirector(newPeople);
             }
         } else {
-            // TODO kontrola člověka
+            entity.getDirector().validate();
             People newPeople = peopleRepository.save(entity.getDirector());
             entity.setDirector(newPeople);
         }

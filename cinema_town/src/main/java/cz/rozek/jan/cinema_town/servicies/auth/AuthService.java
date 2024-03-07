@@ -65,7 +65,7 @@ public class AuthService {
     private Set<String> loggedIn = new HashSet<>();
 
     // mapa kde jsou pod aktivačnímy kódy mapováni id neaktivovaní uživatelé
-    private Map<String, String> inactiveUsers = new HashMap<>();
+    private Map<String, User> inactiveUsers = new HashMap<>();
 
     // mapa uživatelů, kteří čekají na zadání druhé fáze přihlášení
     // mapa je ve stylu userID => token
@@ -172,6 +172,9 @@ public class AuthService {
 
         User newUser = new User();
 
+        if (!inactiveUsers.values().stream().filter(u -> u.getEmail().equals(user.getEmail())).findFirst().isEmpty()) 
+            throw new SecurityException("Duplicated email.");
+
         // přidej uživateli roli
         Role role = roleRepository.findByName("user");
         newUser.setRole(role);
@@ -185,10 +188,8 @@ public class AuthService {
 
         // vygeneruj pro něj jednorázový aktivační kód
         String activationCode = RandomStringGenerator.generateRandomString(false, 10);
-        // načti si uživatele
-        newUser = userRepository.save(newUser);
 
-        inactiveUsers.put(activationCode, newUser.getId());
+        inactiveUsers.put(activationCode, newUser);
 
         return activationCode;
     }
@@ -204,19 +205,16 @@ public class AuthService {
     public synchronized String activateUser(String activationCode) throws SecurityException, JoseException {
 
         // zjisti zda pod aktivačním kódem někoho máš
-        String expectedUserID = inactiveUsers.get(activationCode);
-        if (expectedUserID != null) {
-
-            User user = userRepository.findById(expectedUserID).get();
+        User user = inactiveUsers.get(activationCode);
+        if (user != null) {
 
             // pokud je, aktivuj ho
-            user.setActive(true);
+            user.setActive(true);            
+            // ulož změny
+            user = userRepository.save(user);
 
             // vygeneruj uživateli token pro důvěru zařízení
             String trustToken = generateTrustToken(user);
-
-            // ulož změny
-            userRepository.save(user);
 
             // odeber aktivovaného uživatele z mapy pro neaktivované
             inactiveUsers.remove(activationCode);
@@ -239,7 +237,7 @@ public class AuthService {
     public synchronized String resetActivationCode(User user) throws SecurityException, InterruptedException {
 
         // pokud účet ještě není aktivovaný, vygeneruj nový token
-        User loaded = userRepository.findByEmail(user.getEmail());
+        User loaded = inactiveUsers.values().stream().filter(u -> u.getEmail().equals(user.getEmail())).findFirst().get();
         if (loaded.isActive())
             return "";
 
@@ -247,17 +245,17 @@ public class AuthService {
         String newActivationCode = "";
         synchronized(inactiveUsers) {
             for (String activationCode : inactiveUsers.keySet()) {
-                if (inactiveUsers.get(activationCode).equals(loaded.getId())) {
-                    newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
+                if (inactiveUsers.get(activationCode).equals(loaded)) {
+                    newActivationCode = RandomStringGenerator.generateRandomString(false, 10);
                     oldActivationCode = activationCode;
                     break;
                 }
             }
     
-            newActivationCode = RandomStringGenerator.generateRandomString(true, 10);
+            newActivationCode = RandomStringGenerator.generateRandomString(false, 10);
     
             inactiveUsers.remove(oldActivationCode);
-            inactiveUsers.put(newActivationCode, loaded.getId());
+            inactiveUsers.put(newActivationCode, loaded);
         }
 
         Thread.sleep(2000);
@@ -380,8 +378,11 @@ public class AuthService {
             userFromDB = userRepository.findByEmail(user.getEmail());
          else userFromDB = userRepository.findById(user.getId()).get();
 
-        if (userFromDB == null)
-            return false;
+        if (userFromDB == null) {
+            if (BCrypt.checkpw(user.getPassword(), inactiveUsers.values().stream().filter(u -> u.getEmail().equals(user.getEmail())).findFirst().get().getPassword()))
+                throw new NotActiveException();
+            else return false;
+        }
 
         if (!userFromDB.isActive())
             throw new NotActiveException();
