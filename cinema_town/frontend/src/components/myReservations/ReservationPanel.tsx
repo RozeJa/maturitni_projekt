@@ -26,8 +26,10 @@ const ReservationPanel = ({
             .catch(err => {})
     }, [])
 
-    let rezerved = formatDateTime(reservation.reserved)
-    let projectionDate = formatDateTime(reservation.projection.dateTime)
+    let rezervedArr = formatDateTime(reservation.reserved).split("\.")
+    let rezerved = `${rezervedArr[1].trim()}. ${rezervedArr[0]}. ${rezervedArr[2]}`
+    let projectionDateArr = formatDateTime(reservation.projection.dateTime).split("\.")
+    let projectionDate = `${projectionDateArr[1].trim()}. ${projectionDateArr[0]}. ${projectionDateArr[2]}`
 
     const tickets: { [key: string]: number} = {}
 

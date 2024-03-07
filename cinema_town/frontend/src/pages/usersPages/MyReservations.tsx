@@ -9,6 +9,7 @@ import ReservationGroup from '../../components/myReservations/ReservationGroup'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { getLocalStorageItem } from '../../global_functions/storagesActions'
 import RemoveConfirm from '../../components/management/RemoveConfirm'
+import Cinema from '../../models/Cinema'
 
 type ReservationGroup = { 
     [key: string] : Reservation[]
@@ -16,6 +17,7 @@ type ReservationGroup = {
 
 const defUser: User = defaultUser
 const defReservations: Reservation[] = []
+const defCinemas: Cinema[] = []
 
 const defGrouped: ReservationGroup = {}
 
@@ -30,6 +32,8 @@ const MyReservations = () => {
     const [fsReservations, setFsReservations] = useState([...defReservations])
     const [groupedReservations, setGroupedReservations] = useState({...defGrouped})
 
+    const [cinemas, setCinemas] = useState({...defCinemas})
+
     const navigate = useNavigate()
 
     const { userId } = useParams<string>()
@@ -41,6 +45,9 @@ const MyReservations = () => {
             .catch(err => handleErrRedirect(setErr, err))
         loadData<Reservation>(ModesEndpoints.Reservation)
             .then(data => setReservations(data))
+            .catch(err => handleErrRedirect(setErr, err))
+        loadData<Cinema>(ModesEndpoints.Cinama, [])
+            .then(data => setCinemas([...data]))
             .catch(err => handleErrRedirect(setErr, err))
     }, [])
 
@@ -81,15 +88,15 @@ const MyReservations = () => {
         const newData = reservations.filter(r => {
                 let date = ''
                 let time = ''
+                let dateTime = ''
 
                 if (!(r.projection.dateTime instanceof Date)) {
                     date = `${r.projection.dateTime[2]}.${r.projection.dateTime[1]}.${r.projection.dateTime[0]}`
                     time = `${r.projection.dateTime[3]}:${r.projection.dateTime[4]}`
+                    dateTime = date + " " + time
                 }
 
-                console.log(date);
-                console.log(time);
-                
+                let filtredCinemas = cinemas.filter(c => c.city.name.toLowerCase().split(patern).length > 1 || c.city.name.toLowerCase() === patern)
 
                 return (
                     r.projection.film.name.toLowerCase() === patern ||
@@ -97,7 +104,10 @@ const MyReservations = () => {
                     date === patern ||
                     date.split(patern).length > 1 ||
                     time === patern ||
-                    time.split(patern).length > 1
+                    time.split(patern).length > 1 ||
+                    dateTime === patern ||
+                    dateTime.split(patern).length > 1 ||
+                    filtredCinemas.find(c => Object.values(c.halls).find(h => h.id === r.projection.hall.id) !== undefined) !== undefined
                 )
             })      
 
