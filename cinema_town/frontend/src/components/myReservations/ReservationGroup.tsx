@@ -22,7 +22,7 @@ const ReservationGroup = ({
             </div>
             <div className='reservation-group-content'>
                 {
-                    reservations.map((r,index) => {
+                    reservations.sort((a,b) => a.projection.film.name.localeCompare(b.projection.film.name)).map((r,index) => {
                         return <ReservationPanel 
                             key={index}
                             reservation={r}
