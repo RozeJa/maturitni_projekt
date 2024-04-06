@@ -52,12 +52,13 @@ const Home = () => {
 
         filtredProjections.forEach(p => {
             if (!(p.dateTime instanceof Date)) {
+                let day = `${p.dateTime[2]}`
                 
-                if (groups[`${p.dateTime[1]}#${p.dateTime[2]}`] === undefined) {
-                    sections[parseInt(p.dateTime[2])] = '#' + p.dateTime[2]
-                    groups[`${p.dateTime[1]}#${p.dateTime[2]}`] = [[p]]
+                if (groups[`${p.dateTime[1]}#${day.padStart(2, "0")}`] === undefined) {
+                    sections[parseInt(p.dateTime[2])] = '#' + day.padStart(2, "0")
+                    groups[`${p.dateTime[1]}#${day.padStart(2, "0")}`] = [[p]]
                 } else {
-                    groups[`${p.dateTime[1]}#${p.dateTime[2]}`].map(arr => {
+                    groups[`${p.dateTime[1]}#${day.padStart(2, "0")}`].map(arr => {
                         if (arr[0].film.id === p.film.id)
                             arr.push(p)
                         return arr
