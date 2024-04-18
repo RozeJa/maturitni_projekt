@@ -21,7 +21,7 @@ const ProjectionGroup = ({
     date.setDate(day);    
 
     return (
-        <div id={day.toLocaleString()} className='projection-group'>
+        <div id={day.toLocaleString().padStart(2, "0")} className='projection-group'>
             <h2>{daysInWeek[date.getDay()]} {day}.{month} <div></div></h2>
             {
                 projections.sort((a,b) => a[0].film.name.localeCompare(b[0].film.name))
