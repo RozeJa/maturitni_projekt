@@ -53,16 +53,18 @@ const Home = () => {
         filtredProjections.forEach(p => {
             if (!(p.dateTime instanceof Date)) {
                 let day = `${p.dateTime[2]}`
+                let key = `${p.dateTime[1]}#${day.padStart(2, "0")}`
                 
-                if (groups[`${p.dateTime[1]}#${day.padStart(2, "0")}`] === undefined) {
+                if (groups[key] === undefined) {
                     sections[parseInt(p.dateTime[2])] = '#' + day.padStart(2, "0")
-                    groups[`${p.dateTime[1]}#${day.padStart(2, "0")}`] = [[p]]
-                } else {
-                    groups[`${p.dateTime[1]}#${day.padStart(2, "0")}`].map(arr => {
-                        if (arr[0].film.id === p.film.id)
-                            arr.push(p)
-                        return arr
-                    })
+                    groups[key] = [[p]]
+                } else {        
+                    
+                    if (groups[key].find(projections => projections[0].film.id === p.film.id) !== undefined) 
+                        groups[key].map(arr => arr.push(p))                        
+                     else 
+                        groups[key].push([p])
+                    
                 }
             }
         })
