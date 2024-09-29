@@ -18,7 +18,7 @@ import cz.rozek.jan.cinema_town.servicies.auth.AuthRequired;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.HallService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"})
 @RequestMapping(path = "/api/halls")
 public class HallController extends cz.rozek.jan.cinema_town.controllers.RestController<Hall, HallService> {
     

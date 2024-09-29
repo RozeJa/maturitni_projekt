@@ -18,7 +18,7 @@ import cz.rozek.jan.cinema_town.models.primary.Permission;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.PermissionService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"})
 @RequestMapping(path = "/api/permissions")
 public class PermissionController extends cz.rozek.jan.cinema_town.controllers.RestController<Permission, PermissionService> {
     

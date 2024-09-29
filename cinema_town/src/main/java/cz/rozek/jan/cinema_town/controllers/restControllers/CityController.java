@@ -18,7 +18,7 @@ import cz.rozek.jan.cinema_town.models.primary.City;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.CityService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"})
 @RequestMapping(path = "/api/cities")
 public class CityController extends cz.rozek.jan.cinema_town.controllers.RestController<City, CityService> {
         

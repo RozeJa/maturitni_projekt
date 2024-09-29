@@ -28,7 +28,7 @@ import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @org.springframework.web.bind.annotation.RestController // Díky anotaci bude řída rozpoznána jako RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"}) // povolení zdroje dotazů na API
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"}) // povolení zdroje dotazů na API
 @RequestMapping(path = "/auth") // určení URI cesty k endpointům
 public class AuthController {
 

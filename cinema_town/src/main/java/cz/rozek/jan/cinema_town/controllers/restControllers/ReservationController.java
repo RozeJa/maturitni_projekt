@@ -31,7 +31,7 @@ import cz.rozek.jan.cinema_town.servicies.paymentService.PaymentService;
 import cz.rozek.jan.cinema_town.servicies.pdfService.PdfService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"})
 @RequestMapping(path = "/api/reservations")
 public class ReservationController extends cz.rozek.jan.cinema_town.controllers.RestController<Reservation, ReservationService> {
     

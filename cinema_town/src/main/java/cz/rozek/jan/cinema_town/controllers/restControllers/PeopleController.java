@@ -8,7 +8,7 @@ import cz.rozek.jan.cinema_town.models.primary.People;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.PeopleService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"})
 @RequestMapping(path = "/api/people")
 public class PeopleController extends cz.rozek.jan.cinema_town.controllers.RestController<People, PeopleService> {
 

@@ -8,7 +8,7 @@ import cz.rozek.jan.cinema_town.models.primary.Genre;
 import cz.rozek.jan.cinema_town.servicies.crudServicies.GenreService;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"})
 @RequestMapping(path = "/api/genres")
 public class GenreController extends cz.rozek.jan.cinema_town.controllers.RestController<Genre, GenreService> {
     

@@ -25,7 +25,7 @@ import cz.rozek.jan.cinema_town.servicies.emailSending.EmailService;
 import cz.rozek.jan.cinema_town.servicies.emailSending.EmailTemplate;
 
 @RestController
-@CrossOrigin(origins = {"https://www.mp.home-lab.rozekja.fun", "*"})
+@CrossOrigin(origins = {"https://www.mp.rozekja.fun", "*"})
 @RequestMapping(path = "/api/cinemas")
 public class CinemaController extends cz.rozek.jan.cinema_town.controllers.RestController<Cinema, CinemaService> {
     
