@@ -18,7 +18,7 @@ public class VisaPayment implements IPayment {
 
     @Autowired
     VisaPayment() {
-        Stripe.apiKey = "sk_test_51OYl1pGYcwjrKZZT3keEujLTIgtjb1Lz4GFc5R9LhCCVEvZBZBR1hPy3NqrzrB4CmYJr5DfSplhUAlflwla8BcA300eAaL3T9d";
+        Stripe.apiKey = "API_KEY"; 
     }
 
     @Override
