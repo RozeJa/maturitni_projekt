@@ -325,14 +325,19 @@ const TicketReservation = ({
                                                         if (!isReserved) {
                                                             const { checked } = e.target
 
+                                                            const defaultInsertCategory = findDefailtInsertCategory()
+                                                            const defaultInsertCategoryId = defaultInsertCategory.id !== null ? defaultInsertCategory.id : '';
+                                                            
                                                             if (checked && selectedSeats.length + 1 > countTickets()) {
-                                                                const defaultInsertCategory = findDefailtInsertCategory()
 
                                                                 setAgeCategoriesCount({... ageCategoriesCount, [defaultInsertCategory.id != null ? defaultInsertCategory.id : '']: (ageCategoriesCount[defaultInsertCategory.id != null ? defaultInsertCategory.id : ''] + 1)})
 
                                                                 selectedSeats.push(seat)
                                                                 setSelectedSeats([...selectedSeats])
                                                             } else if (!checked) {
+
+                                                                setAgeCategoriesCount({... ageCategoriesCount, [defaultInsertCategoryId]: Math.max((ageCategoriesCount[defaultInsertCategoryId] - 1), 0)})
+
                                                                 setSelectedSeats([...selectedSeats.filter(s => s.id !== seat.id)])
                                                             } else {
                                                                 selectedSeats.push(seat)
