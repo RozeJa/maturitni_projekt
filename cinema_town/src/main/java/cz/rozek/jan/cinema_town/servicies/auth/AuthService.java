@@ -177,7 +177,7 @@ public class AuthService {
 
         // přidej uživateli roli
         Role role = roleRepository.findByName("user");
-        newUser.setRole(role);
+        user.setRole(role);
         
         // zvaliduj uživatele
         user.validate();
@@ -185,6 +185,7 @@ public class AuthService {
         // změň heslo na hash
         newUser.setEmail(user.getEmail());
         newUser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+        newUser.setRole(role);
 
         // vygeneruj pro něj jednorázový aktivační kód
         String activationCode = RandomStringGenerator.generateRandomString(false, 10);

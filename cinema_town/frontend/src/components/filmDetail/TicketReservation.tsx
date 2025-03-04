@@ -159,6 +159,10 @@ const TicketReservation = ({
         return sum
     }
 
+    const findDefailtInsertCategory = () => {
+        return ageCategories.sort((a,b) => b.priceModificator - a.priceModificator)[0]
+    }
+
     return (
         <div className='ticket-reservation-dialog'>
             {reservationConfirm}
@@ -254,12 +258,39 @@ const TicketReservation = ({
                                         value={inputVal}
                                         onChange={(e: any) => {
                                             const { name, value } = e.target
-
                                             const count = parseInt(value, 10)
+
+                                            const defaultInsertCategory = findDefailtInsertCategory()
+                                            const defaultInsertCategoryId: string = defaultInsertCategory.id != null ? defaultInsertCategory.id : ''
+
+                                            if (defaultInsertCategory.id === name) {
+                                                if (count >= ageCategoriesCount[name]) {
+                                                    setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count })
+                                                } else if (count >= 0 && countTickets() - ageCategoriesCount[name] + count >= selectedSeats.length) {
+                                                    setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count })
+                                                } 
+                                            } else {
+                                                // zvyšuju
+                                                if (count > ageCategoriesCount[name]) {
+                                                    // uber co můžeš z defaultu
+                                                    const newDafaultCount = Math.max(0, ageCategoriesCount[defaultInsertCategoryId] + ageCategoriesCount[name] - count)
+
+                                                    setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count , [defaultInsertCategoryId]: newDafaultCount })
+                                                // snižuju
+                                                } else if (count >= 0) {
+                                                    const addToDefault = ageCategoriesCount[name] - count
+
+                                                    setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count , [defaultInsertCategoryId]: ageCategoriesCount[defaultInsertCategoryId] + addToDefault })
+                                                }
+                                            }
+
 
                                             if (count < ageCategoriesCount[name]) {
                                                 if (count >= 0 && countTickets() - ageCategoriesCount[name] + count >= selectedSeats.length)
                                                     setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count })
+                                                else if (count >= 0) {
+
+                                                }
 
                                             } else if (count >= 0)
                                                 setAgeCategoriesCount({ ...ageCategoriesCount, [name]: count })
@@ -309,12 +340,14 @@ const TicketReservation = ({
                                                         if (!isReserved) {
                                                             const { checked } = e.target
 
-                                                            if (checked && selectedSeats.length + 1 <= countTickets()) {
-                                                                selectedSeats.push(seat)
-                                                                setSelectedSeats([...selectedSeats])
-                                                            } else {
-                                                                setSelectedSeats([...selectedSeats.filter(s => s.id !== seat.id)])
+                                                            if (checked && selectedSeats.length + 1 > countTickets()) {
+                                                                const defaultInsertCategory = findDefailtInsertCategory()
+
+                                                                setAgeCategoriesCount({... ageCategoriesCount, [defaultInsertCategory.id != null ? defaultInsertCategory.id : '']: (ageCategoriesCount[defaultInsertCategory.id != null ? defaultInsertCategory.id : ''] + 1)})
                                                             }
+
+                                                            selectedSeats.push(seat)
+                                                            setSelectedSeats([...selectedSeats])
                                                         }
                                                     }} />
                                             </td>

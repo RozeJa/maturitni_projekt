@@ -2,16 +2,17 @@ POST http://localhost:8080/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "rozekja20@zaci.spse.cz",
-    "password": "heslo"
+    "email": "ciname.t0wn@gmail.com",
+    "password": "Qwertzuiop123",
+    "password2": "Qwertzuiop123"
 }
 ###
 POST  http://localhost:8080/auth/reset-activation-code HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "rozekja20@zaci.spse.cz",
-    "password": "heslo"
+    "email": "ciname.t0wn@gmail.com",
+    "password": "Qwertzuiop123"
 }
 
 ###

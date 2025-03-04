@@ -143,8 +143,13 @@ public class PdfService {
             table.addCell(cell4);
         }
 
+        int totalTickets = 0;
+        for (float f : grupedCategories.values()) {
+            totalTickets += f;
+        }
+
         cell1 = new PdfPCell(mkPhrase("Celkem"));
-        cell2 = new PdfPCell(mkPhrase(String.valueOf(grupedCategories.values().stream().count())));
+        cell2 = new PdfPCell(mkPhrase(String.valueOf(totalTickets)));   
         cell3 = new PdfPCell(mkPhrase(""));
         cell4 = new PdfPCell(mkPhrase(String.valueOf(totalCost)));
 
