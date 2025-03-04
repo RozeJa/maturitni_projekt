@@ -1,7 +1,7 @@
 ## tento konfig nebyl odskousen
 
 # Stage 1: Kompilace aplikace s plným JDK
-FROM maven:3-openjdk-17 as java-build
+FROM maven:3-openjdk-17 AS java-build
 WORKDIR /app
 COPY . .
 RUN mvn package -DskipTests
